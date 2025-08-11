@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
   }),
   
   // Базовый путь для GitHub Pages (если репозиторий не username.github.io)
-  basePath: isProd ? `/${'360-viewer'}` : '',
-  assetPrefix: isProd ? `/${'360-viewer'}/` : '',
+  basePath: isProd ? `/${repoName}` : '',
+  assetPrefix: isProd ? `/${repoName}/` : '',
   
   // Отключаем ESLint для продакшен сборки
   eslint: {
