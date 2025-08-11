@@ -5,9 +5,9 @@ import { getHouse, HOUSES } from '../../../../data/houses';
 import PanoramaViewer from '@/components/PanoramaViewer';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {

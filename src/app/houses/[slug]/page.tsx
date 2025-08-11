@@ -1,18 +1,22 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { getHouse, HOUSES } from '../../../data/houses';
-import { DESIGN_COLLECTIONS, calculatePrice } from '../../../data/design-collections';
 import DesignCollectionSelector from '../../../components/DesignCollectionSelector';
 import InteriorDesignSelector from '../../../components/InteriorDesignSelector';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import Breadcrumb from '../../../components/Breadcrumb';
+import Button from '../../../components/Button';
+import VirtualTourPreview from '../../../components/VirtualTourPreview';
+
+import SimpleImageModal from '../../../components/SimpleImageModal';
+
 
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -35,23 +39,12 @@ export default async function HousePage({ params }: PageProps) {
       <Header variant="transparent" />
 
       {/* Breadcrumbs */}
-      <div className="bg-slate-700 bg-opacity-90  ">
-        <div className="max-w-7xl mx-auto  sm:px-6 lg:px-8 py-4">
-          <nav className="flex" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-4">
-              <li>
-                <Link href="/" className="text-gray-500 text-2xl hover:text-gray-700 font-bold">View all models</Link>
-              </li>
-              <li>
-                <span className="text-gray-400">/</span>
-              </li>
-              <li>
-                <span className="text-gray-900 font-bold text-2xl">{house.name}</span>
-              </li>
-            </ol>
-          </nav>
-        </div>
-      </div>
+      <Breadcrumb 
+        items={[
+          { label: 'Seattle models', href: '/' },
+          { label: house.name }
+        ]} 
+      />
 
       {/* Hero Section */}
       <section className="bg-slate-700 bg-opacity-80 backdrop-blur-sm py-2">
@@ -91,15 +84,19 @@ export default async function HousePage({ params }: PageProps) {
                 
  
                   <div className="flex space-x-4">
-                    <Link 
+                    <Button 
                       href={`/houses/${house.id}/tour`}
-                      className="bg-gray-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold flex items-center"
+                      variant="secondary"
+                      size="lg"
                     >
                       Virtual Tour
-                    </Link>
-                    <button className="bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors text-lg font-semibold">
-                       Get a Quote
-                    </button>
+                    </Button>
+                    <Button 
+                      variant="slate"
+                      size="lg"
+                    >
+                      Get a Quote
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -150,20 +147,38 @@ export default async function HousePage({ params }: PageProps) {
                <div className="bg-gray-50 p-4 font-semibold text-gray-800 border-r">Front Elevation</div>
                   
                 
-              
               <div className="p-4 border-r">
-                <div className="aspect-video rounded flex items-center justify-center">
-                  <img src="/Walnut/walnut_color/walnut-good.jpg" alt="Good Package" className="w-full h-full object-contain rounded" />
+                <div className="aspect-video rounded flex items-center justify-center re 
+             lative">
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_color/walnut-good.jpg" 
+                    alt="Good Package - Walnut Model Front Elevation" 
+                    className="w-full h-full object-contain"
+                    width={400}
+                    height={300}
+                  />
                 </div>
               </div>
               <div className="p-4">
-                <div className="aspect-video  rounded flex items-center justify-center">
-                  <img src="/Walnut/walnut_color/walnut-better.jpg" alt="Better Package" className="w-full h-full object-contain rounded" />
+                <div className="aspect-video rounded flex items-center justify-center relative">
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_color/walnut-better.jpg" 
+                    alt="Better Package - Walnut Model Front Elevation" 
+                    className="w-full h-full object-contain"
+                    width={400}
+                    height={300}
+                  />
                 </div>
               </div>
               <div className="p-4">
-                <div className="aspect-video  rounded flex items-center justify-center">
-                  <img src="/Walnut/walnut_color/walnut-best.jpg" alt="Best Package" className="w-full h-full object-contain rounded" />
+                <div className="aspect-video rounded flex items-center justify-center relative">
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_color/walnut-best.jpg" 
+                    alt="Best Package - Walnut Model Front Elevation" 
+                    className="w-full h-full object-contain"
+                    width={400}
+                    height={300}
+                  />
                 </div>
               </div>
             </div>
@@ -174,13 +189,31 @@ export default async function HousePage({ params }: PageProps) {
               <div className="grid grid-cols-4">
                 <div className="bg-gray-50 p-4 font-semibold text-gray-800 border-r">Floor Plan (1st Floor)</div>
                 <div className="p-4 text-center border-r">
-                  <img src="/Walnut/walnut_scena/Walnut-good-1.jpg" alt="Good Floor Plan 1st Floor" className="w-full h-32 object-contain rounded" />
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_scena/Walnut-good-1.jpg" 
+                    alt="Good Package - Floor Plan 1st Floor" 
+                    className="w-full h-32 object-contain"
+                    width={300}
+                    height={200}
+                  />
                 </div>
                 <div className="p-4 text-center border-r">
-                  <img src="/Walnut/walnut_scena/Walnut-better-1.jpg" alt="Better Floor Plan 1st Floor" className="w-full h-32 object-contain rounded" />
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_scena/Walnut-better-1.jpg" 
+                    alt="Better Package - Floor Plan 1st Floor" 
+                    className="w-full h-32 object-contain"
+                    width={300}
+                    height={200}
+                  />
                 </div>
                 <div className="p-4 text-center">
-                  <img src="/Walnut/walnut_scena/Walnut-best-1.jpg" alt="Best Floor Plan 1st Floor" className="w-full h-32 object-contain rounded" />
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_scena/Walnut-best-1.jpg" 
+                    alt="Best Package - Floor Plan 1st Floor" 
+                    className="w-full h-32 object-contain"
+                    width={300}
+                    height={200}
+                  />
                 </div>
               </div>
 
@@ -188,13 +221,31 @@ export default async function HousePage({ params }: PageProps) {
               <div className="grid grid-cols-4">
                 <div className="bg-gray-50 p-4 font-semibold text-gray-800 border-r">Floor Plan (2nd Floor)</div>
                 <div className="p-4 text-center border-r">
-                  <img src="/Walnut/walnut_scena/Walnut-good-2.jpg" alt="Good Floor Plan 2nd Floor" className="w-full h-32 object-contain rounded" />
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_scena/Walnut-good-2.jpg" 
+                    alt="Good Package - Floor Plan 2nd Floor" 
+                    className="w-full h-32 object-contain"
+                    width={300}
+                    height={200}
+                  />
                 </div>
                 <div className="p-4 text-center border-r">
-                  <img src="/Walnut/walnut_scena/Walnut-better-2.jpg" alt="Better Floor Plan 2nd Floor" className="w-full h-32 object-contain rounded" />
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_scena/Walnut-better-2.jpg" 
+                    alt="Better Package - Floor Plan 2nd Floor" 
+                    className="w-full h-32 object-contain"
+                    width={300}
+                    height={200}
+                  />
                 </div>
                 <div className="p-4 text-center">
-                  <img src="/Walnut/walnut_scena/Walnut-best-2.jpg" alt="Best Floor Plan 2nd Floor" className="w-full h-32 object-contain rounded" />
+                  <SimpleImageModal 
+                    src="/Walnut/walnut_scena/Walnut-best-2.jpg" 
+                    alt="Best Package - Floor Plan 2nd Floor" 
+                    className="w-full h-32 object-contain"
+                    width={300}
+                    height={200}
+                  />
                 </div>
               </div>
 
@@ -369,40 +420,10 @@ export default async function HousePage({ params }: PageProps) {
      
 
           {/* 360° Tour Preview */}
-          <div className="max-w-4xl mx-auto">
-            <div className="aspect-video bg-gray-900 rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
-                 style={{
-                   backgroundImage: `url('/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg')`,
-                   backgroundSize: 'cover',
-                   backgroundPosition: 'center',
-                   backgroundRepeat: 'no-repeat'
-                 }}>
-              <Link href={`/houses/${house.id}/tour`}>
-                {/* Dark overlay for better text visibility */}
-                <div className="absolute inset-0 bg-bl bg-opacity-40"></div>
-                
-             
-                
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity">
-                  <div className="w-32 h-32 bg-slate-700 bg-opacity-50 rounded-full flex items-center justify-center backdrop-blur-sm border-4 border-white border-opacity-30 shadow-2xl">
-                    <div className="w-0 h-0 border-l-12 border-l-white border-t-6 border-t-transparent border-b-6 border-b-transparent ml-2" style={{
-                      borderLeftWidth: '20px',
-                      borderTopWidth: '12px',
-                      borderBottomWidth: '12px'
-                    }}></div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-            
-            {/* Preview Info */}
-            <div className="mt-4 text-center">
-              <p className="text-gray-300 text-sm">
-                Preview: Entry room of {house.name} • Click to explore all rooms: Entry, Kitchen, Bedroom, Bathroom, Living Room
-              </p>
-            </div>
-          </div>
+          <VirtualTourPreview 
+            houseId={house.id}
+            houseName={house.name}
+          />
         </div>
       </section>
 
@@ -489,7 +510,7 @@ export default async function HousePage({ params }: PageProps) {
               <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
               <p className="text-xl text-gray-300 mb-8">
                 The RG ProBuilders team is ready to help you EVERY step of the way. Reach out to us today. 
-                We'll start making your life easier from the very first phone call.
+                We&apos;ll start making your life easier from the very first phone call.
               </p>
               
               <div className="mb-8">

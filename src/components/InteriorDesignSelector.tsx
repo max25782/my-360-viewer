@@ -17,7 +17,7 @@ export default function InteriorDesignSelector({ houseName }: InteriorDesignSele
   // Reset image index when room changes, but keep room when style changes
   useEffect(() => {
     setCurrentImageIndex(0);
-  }, [currentRoomIndex, selectedInterior]);
+  }, [currentRoomIndex]);
 
   useEffect(() => {
     setMounted(true);
@@ -127,11 +127,8 @@ export default function InteriorDesignSelector({ houseName }: InteriorDesignSele
     { path: '/Walnut/walnut_color/interior-colors-4-768x384.jpg', interior: 'luxury' }
   ];
 
-  // Use absolute URLs only after mounting to avoid hydration mismatch
+  // Use relative paths for images (Next.js handles them properly)
   const getImageUrl = (path: string) => {
-    if (mounted && typeof window !== 'undefined') {
-      return `${window.location.origin}${path}`;
-    }
     return path;
   };
 
@@ -169,7 +166,7 @@ export default function InteriorDesignSelector({ houseName }: InteriorDesignSele
       {/* Room Carousel */}
       <div className="rounded-lg overflow-hidden shadow-lg relative">
         <div 
-          className="aspect-video relative"
+          className="aspect-video relative group"
           style={{
             backgroundImage: `url('${getImageUrl(currentImage)}')`,
             backgroundSize: 'cover',
@@ -177,7 +174,13 @@ export default function InteriorDesignSelector({ houseName }: InteriorDesignSele
             backgroundRepeat: 'no-repeat'
           }}
         >
-       
+          {/* Background overlay for contrast */}
+          <div className="absolute inset-0  bg-opacity-20"></div>
+
+          {/* Room and Image Info */}
+          <div className="absolute top-4 right-4 bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+            {currentRoom.name} ({currentImageIndex + 1}/{currentRoomImages.length})
+          </div>
 
           {/* Navigation Arrows */}
           <button

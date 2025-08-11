@@ -14,7 +14,7 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
   return (
     <header className={`${baseClasses} ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-6">
+        <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
               <Image 
@@ -27,7 +27,7 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
               />
             </Link>
           </div>
-          <nav className="hidden md:flex space-x-10">
+          <nav className="hidden md:flex text-2xl space-x-10">
             <Link href="/" className="text-gray-900 hover:text-gray-900">Catalog</Link>
             <a href="#about" className="text-gray-900 hover:text-gray-900">About</a>
             <a href="#contact" className="text-gray-900 hover:text-gray-900">Contact</a>

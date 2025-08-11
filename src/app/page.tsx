@@ -1,8 +1,9 @@
-import Image from "next/image";
+
 import Link from "next/link";
 import { HOUSES } from "../data/houses";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Button from "../components/Button";
 
 export default function Home() {
   return (
@@ -70,12 +71,14 @@ export default function Home() {
                 </div>
               </div>
 
-              <Link 
+              <Button 
                 href="/houses/walnut/tour"
-                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                variant="primary"
+                size="md"
+                className="shadow-lg"
               >
-                🎭 Start Virtual Tour
-              </Link>
+                Start Virtual Tour
+              </Button>
             </div>
             
             <div className="mt-12 lg:mt-0">
@@ -196,18 +199,24 @@ export default function Home() {
           </h2>
           <p className="text-xl text-blue-100 mb-8">
             Our team is ready to help you EVERY step of the way. Contact us today. 
-            We'll start making your life easier from the very first call.
+            We&apos;ll start making your life easier from the very first call.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-50 transition-colors shadow-lg">
+            <Button 
+              variant="primary"
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-50 shadow-lg"
+            >
               📞 GET A QUOTE
-            </button>
-            <Link 
+            </Button>
+            <Button 
               href="/houses/walnut/tour"
-              className="bg-green-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-lg"
+              variant="green"
+              size="lg"
+              className="shadow-lg"
             >
               🎭 VIRTUAL TOUR
-            </Link>
+            </Button>
           </div>
           
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-blue-100">
