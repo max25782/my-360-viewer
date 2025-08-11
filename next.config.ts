@@ -1,20 +1,21 @@
 import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === 'production';
+const isGitHubPages = process.env.GITHUB_ACTIONS === 'true' || process.env.DEPLOY_TARGET === 'github-pages';
 const repoName = 'my-360-viewer'; // Замените на имя вашего репозитория
 
 const nextConfig: NextConfig = {
-  // Настройки для GitHub Pages (только в продакшене)
-  ...(isProd && {
+  // Настройки для GitHub Pages (только для GitHub Pages)
+  ...(isGitHubPages && {
     output: 'export',
     trailingSlash: true,
     skipTrailingSlashRedirect: true,
     distDir: 'out',
   }),
-  
-  // Базовый путь для GitHub Pages (если репозиторий не username.github.io)
-  basePath: isProd ? `/${repoName}` : '',
-  assetPrefix: isProd ? `/${repoName}/` : '',
+
+  // Базовый путь только для GitHub Pages
+  basePath: isGitHubPages ? `/${repoName}` : '',
+  assetPrefix: isGitHubPages ? `/${repoName}/` : '',
   
   // Отключаем ESLint для продакшен сборки
   eslint: {
@@ -22,7 +23,7 @@ const nextConfig: NextConfig = {
   },
   
   images: {
-    unoptimized: isProd, // Отключаем оптимизацию только в продакшене
+    unoptimized: isGitHubPages, // Отключаем оптимизацию только для GitHub Pages
     remotePatterns: [
       {
         protocol: 'http',
@@ -38,8 +39,8 @@ const nextConfig: NextConfig = {
     ],
   },
   
-  // Редиректы работают только в dev режиме
-  ...(!isProd && {
+  // Редиректы работают только в dev режиме и для Vercel
+  ...(!isGitHubPages && {
     async redirects() {
       return [
         { source: '/360', destination: '/view-360', permanent: false },
