@@ -34,3 +34,58 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
+
+/* Критические INP оптимизации */
+.psv-container {
+  contain: layout style paint !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important; /* Принудительный GPU слой */
+}
+
+.psv-canvas {
+  contain: layout style paint !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important;
+  pointer-events: auto !important; /* Быстрые pointer события */
+}
+
+/* Быстрые hover эффекты для маркеров */
+.psv-link-marker {
+  contain: layout style paint !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important;
+  transition: transform 0.1s ease-out !important; /* Быстрые переходы */
+  cursor: pointer !important;
+}
+
+.psv-link-marker:hover {
+  transform: translateZ(0) scale(1.1) !important; /* Мгновенный hover */
+}
+
+/* Оптимизация для всех интерактивных элементов */
+button, a, [role="button"] {
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0);
+  cursor: pointer;
+  touch-action: manipulation; /* Быстрые touch события */
+}
+
+/* Passive event listeners через CSS */
+* {
+  touch-action: manipulation; /* Убирает 300ms delay на мобильных */
+}
+
+/* Оптимизация для PhotoSphere Viewer navbar */
+.psv-navbar {
+  contain: layout style paint !important;
+  will-change: auto !important;
+  transform: translateZ(0) !important;
+}
+
+.psv-button {
+  contain: layout style paint !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important;
+  transition: opacity 0.1s ease !important; /* Быстрые переходы */
+}

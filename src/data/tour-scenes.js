@@ -15,7 +15,7 @@ export const HOUSE_TOURS = {
       thumbnail: '/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg',
       yaw: 180,
       pitch: 0,
-      zoom: 0,
+      zoom: 50,
       links: [
         { to: 'walnut_kitchen', yaw: 170, pitch: 0 },
         { to: 'walnut_bedroom', yaw: 140, pitch: 0 },
@@ -36,7 +36,7 @@ export const HOUSE_TOURS = {
       thumbnail: '/Walnut/3D/guest/thumbnail-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv.jpg',
       yaw: 180,
       pitch: 0,
-      zoom: 10,
+      zoom: 50,
       links: [
         { to: 'walnut_entry', yaw: 340, pitch: 0 },
         { to: 'walnut_guest', yaw: 300, pitch: 90 }
@@ -56,7 +56,7 @@ export const HOUSE_TOURS = {
       thumbnail: '/Walnut/3D/bedroom/thumbnail-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx.jpg',
       yaw: 180,
       pitch: 0,
-      zoom: 10,
+      zoom: 50,
       links: [
         { to: 'walnut_bathroom', yaw: 130, pitch: 0 },
         { to: 'walnut_entry', yaw: 65, pitch: 0 },
@@ -94,7 +94,7 @@ export const HOUSE_TOURS = {
         bottom: '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_d.jpg'   // 
       },
       thumbnail: '/Walnut/3D/guest/thumbnail-o8SXj0LmsF6PhRITmClCImTbnliyiuuw.jpg',
-      yaw: 0,
+      yaw: 180,
       pitch: 0,
       zoom: 50,
       links: [
