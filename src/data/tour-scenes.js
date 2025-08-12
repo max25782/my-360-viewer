@@ -1,3 +1,36 @@
+// Room type icons for navigation
+export const ROOM_ICONS = {
+  entry: '🚪', // door icon for entry
+  kitchen: '🍳', // cooking icon for kitchen
+  bedroom: '🛏️', // bed icon for bedroom
+  bathroom: '🚿', // shower icon for bathroom
+  guest: '🛋️', // sofa icon for living room/guest room
+  living: '📺', // TV icon for living room
+  office: '💻', // laptop icon for office
+  main: '🏠', // house icon for main room
+  bedroom1: '🛏️' // bed icon for bedroom1
+};
+
+// Function to get room type from scene key
+export const getRoomType = (sceneKey) => {
+  if (sceneKey.includes('entry')) return 'entry';
+  if (sceneKey.includes('kitchen')) return 'kitchen';
+  if (sceneKey.includes('bedroom')) return 'bedroom';
+  if (sceneKey.includes('bathroom')) return 'bathroom';
+  if (sceneKey.includes('guest')) return 'guest';
+  if (sceneKey.includes('living')) return 'living';
+  if (sceneKey.includes('office')) return 'office';
+  if (sceneKey.includes('main')) return 'main';
+  if (sceneKey.includes('bedroom1')) return 'bedroom1';
+  return 'main'; // default fallback
+};
+
+// Get icon for a room
+export const getRoomIcon = (sceneKey) => {
+  const roomType = getRoomType(sceneKey);
+  return ROOM_ICONS[roomType] || ROOM_ICONS.main;
+};
+
 // Tour scenes organized by house for scalability
 export const HOUSE_TOURS = {
   walnut: [

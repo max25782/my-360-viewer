@@ -1,5 +1,78 @@
 @import "tailwindcss";
 
+/* LeagueSpartan Font Family */
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'LeagueSpartan';
+  src: url('/fonts/LeagueSpartan-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -8,7 +81,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'LeagueSpartan', ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -31,9 +104,24 @@ body {
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'LeagueSpartan', ui-sans-serif, system-ui, sans-serif;
   min-height: 100vh;
 }
+
+/* Применяем LeagueSpartan ко всем текстовым элементам */
+h1, h2, h3, h4, h5, h6,
+p, span, div, a, button,
+.text-sm, .text-base, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl {
+  font-family: 'LeagueSpartan', ui-sans-serif, system-ui, sans-serif !important;
+}
+
+/* Специальные весы для заголовков */
+h1 { font-weight: 700; } /* Bold */
+h2 { font-weight: 600; } /* SemiBold */
+h3 { font-weight: 500; } /* Medium */
+h4 { font-weight: 400; } /* Regular */
+h5 { font-weight: 400; } /* Regular */
+h6 { font-weight: 400; } /* Regular */
 
 /* Критические INP оптимизации */
 .psv-container {
@@ -49,17 +137,67 @@ body {
   pointer-events: auto !important; /* Быстрые pointer события */
 }
 
-/* Быстрые hover эффекты для маркеров */
+/* Стили для новых маркеров с иконками комнат (без фона и границ) */
+.psv-room-marker {
+  contain: layout style paint !important;
+  will-change: transform !important;
+  transform: translateZ(0) !important;
+  transition: transform 0.15s ease-out !important;
+  cursor: pointer !important;
+}
+
+.psv-room-marker:hover {
+  transform: translateZ(0) scale(1.2) !important;
+}
+
+.psv-room-marker .room-marker:hover {
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.7)) !important;
+}
+
+/* Адаптивные размеры маркеров для мобильных устройств */
+@media (max-width: 768px) {
+  .psv-room-marker .room-marker {
+    width: 60px !important;
+    height: 70px !important;
+  }
+  
+  .psv-room-marker .room-marker > div:first-child {
+    font-size: 36px !important;
+  }
+  
+  .psv-room-marker .room-marker > div:last-child {
+    font-size: 12px !important;
+    max-width: 58px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .psv-room-marker .room-marker {
+    width: 70px !important;
+    height: 80px !important;
+  }
+  
+  .psv-room-marker .room-marker > div:first-child {
+    font-size: 40px !important;
+  }
+  
+  .psv-room-marker .room-marker > div:last-child {
+    font-size: 13px !important;
+    max-width: 68px !important;
+  }
+}
+
+/* Обратная совместимость для старых маркеров */
 .psv-link-marker {
   contain: layout style paint !important;
   will-change: transform !important;
   transform: translateZ(0) !important;
-  transition: transform 0.1s ease-out !important; /* Быстрые переходы */
+  transition: transform 0.1s ease-out !important;
   cursor: pointer !important;
 }
 
 .psv-link-marker:hover {
-  transform: translateZ(0) scale(1.1) !important; /* Мгновенный hover */
+  transform: translateZ(0) scale(1.1) !important;
 }
 
 /* Оптимизация для всех интерактивных элементов */

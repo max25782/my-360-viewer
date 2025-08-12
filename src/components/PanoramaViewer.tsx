@@ -13,7 +13,7 @@ interface PanoramaViewerProps {
   houseId: string;
 }
 
-import { getHouseTour, getScene } from '../data/tour-scenes';
+import { getHouseTour, getScene, getRoomIcon } from '../data/tour-scenes';
 
 export default function PanoramaViewer({ houseId }: PanoramaViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,17 +34,53 @@ export default function PanoramaViewer({ houseId }: PanoramaViewerProps) {
   // Helper: degrees -> radians if needed
   const toRad = (val: number) => (Math.abs(val) > Math.PI * 2 ? (val * Math.PI) / 180 : val);
 
-  // Helper: build markers for scene links
+  // Helper: build markers for scene links with room icons
   const buildMarkers = (links: any[] = [], house: string) =>
-    links.map((l, idx) => ({
-      id: `link-${l.to}-${idx}`,
-      position: { yaw: toRad(l.yaw || 0), pitch: toRad(l.pitch || 0) },
-      tooltip: findScene(l.to, house)?.title || l.to,
-      html: '<div style="width:18px;height:18px;border-radius:50%;background:#00bcd4;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>',
-      anchor: 'center' as const,
-      className: 'psv-link-marker',
-      data: { to: l.to },
-    }));
+    links.map((l, idx) => {
+      const targetScene = findScene(l.to, house);
+      const roomIcon = getRoomIcon(l.to);
+      const roomTitle = targetScene?.title || l.to;
+      
+      return {
+        id: `link-${l.to}-${idx}`,
+        position: { yaw: toRad(l.yaw || 0), pitch: toRad(l.pitch || 0) },
+        tooltip: roomTitle,
+        html: `
+          <div class="room-marker" style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+          ">
+            <div style="
+              font-size: 32px;
+              line-height: 1;
+              margin-bottom: 2px;
+            ">${roomIcon}</div>
+            <div style="
+              font-size: 11px;
+              font-weight: bold;
+              color: white;
+              text-align: center;
+              max-width: 48px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            ">${roomTitle.split(' - ')[1] || roomTitle}</div>
+          </div>
+        `,
+        anchor: 'center' as const,
+        className: 'psv-room-marker',
+        data: { to: l.to },
+      };
+    });
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -174,10 +210,10 @@ export default function PanoramaViewer({ houseId }: PanoramaViewerProps) {
       
       {/* Мгновенный CSS-only LCP placeholder */}
       {!isViewerReady && (
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-100 via-orange-50 to-amber-200 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-500 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-20 h-20 mx-auto mb-6 bg-orange-200 rounded-full flex items-center justify-center">
-              <svg className="w-10 h-10 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+            <div className="w-20 h-20 mx-auto mb-6 bg-slate-400 rounded-full flex items-center justify-center">
+              <svg className="w-10 h-10 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
               </svg>
             </div>
@@ -190,9 +226,9 @@ export default function PanoramaViewer({ houseId }: PanoramaViewerProps) {
             
             {/* Простой CSS spinner */}
             <div className="flex items-center justify-center space-x-2">
-              <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-              <div className="w-3 h-3 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-              <div className="w-3 h-3 bg-orange-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              <div className="w-3 h-3 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+              <div className="w-3 h-3 bg-slate-700 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+              <div className="w-3 h-3 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
             </div>
           </div>
         </div>
