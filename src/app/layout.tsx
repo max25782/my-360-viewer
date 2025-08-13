@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ReduxProvider from "../providers/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "RG Pro Builders - 360° Virtual Tours",
@@ -18,7 +19,9 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/LeagueSpartan-Bold.ttf" as="font" type="font/truetype" crossOrigin="anonymous" />
       </head>
       <body className="antialiased font-sans">
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );

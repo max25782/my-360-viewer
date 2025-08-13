@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getHouse, HOUSES } from '../../../data/houses';
-import DesignCollectionSelector from '../../../components/DesignCollectionSelector';
-import InteriorDesignSelector from '../../../components/InteriorDesignSelector';
+import DesignCollectionSelectorRedux from '../../../components/DesignCollectionSelectorRedux';
+import InteriorDesignSelectorRedux from '../../../components/InteriorDesignSelectorRedux';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
@@ -118,10 +118,10 @@ export default async function HousePage({ params }: PageProps) {
           {/* Design Collection Showcase */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
             {/* Exterior View */}
-            <DesignCollectionSelector houseName={house.name} />
+            <DesignCollectionSelectorRedux houseName={house.name} />
 
             {/* Interior View */}
-            <InteriorDesignSelector houseName={house.name} />
+            <InteriorDesignSelectorRedux houseName={house.name} />
           </div>
 
           {/* Good/Better/Best Comparison Table - Exact RG Style */}

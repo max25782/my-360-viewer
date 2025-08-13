@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getHouse, HOUSES } from '../../../../data/houses';
-import PanoramaViewer from '@/components/PanoramaViewer';
+import PanoramaViewerRedux from '@/components/PanoramaViewerRedux';
 
 interface PageProps {
   params: Promise<{
@@ -58,7 +58,7 @@ export default async function HouseTourPage({ params }: PageProps) {
 
       {/* 360° Viewer - Full Screen */}
       <div className="h-screen w-full">
-        <PanoramaViewer houseId={house.id} />
+        <PanoramaViewerRedux houseId={house.id} />
       </div>
     </div>
   );
