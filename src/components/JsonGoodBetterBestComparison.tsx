@@ -80,7 +80,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
           <SimpleImageModal 
             src={imagePaths.goodExterior} 
             alt={`Good Package - ${house.name} Front Elevation`} 
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain min-h-[200px] min-w-[300px]"
             width={400}
             height={300}
           />
@@ -195,7 +195,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   }
 
   return (
-    <div className="bg-slate-500 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
+    <div className="bg-slate-500 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden min-h-[600px]">
       {/* Headers */}
       <div className="grid grid-cols-4">
         <div className="bg-stone-600 text-white text-center py-4 px-6"></div>

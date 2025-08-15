@@ -1,5 +1,6 @@
 import { House } from '../data/houses';
 import Button from './Button';
+import Image from 'next/image';
 
 interface HeroSectionProps {
   house: House;
@@ -12,13 +13,17 @@ export default function HeroSection({ house }: HeroSectionProps) {
         <div className="">
           <div 
             className="relative w-full h-screen rounded-lg overflow-hidden shadow-xl"
-            style={{
-              backgroundImage: `url('${house.images.hero}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
-            }}
           >
+            <Image
+              src={house.images.hero}
+              alt={`${house.name} exterior`}
+              fill
+              priority
+              fetchPriority="high"
+              sizes="100vw"
+              quality={70}
+              className="object-cover"
+            />
             {/* Overlay Content */}
             <div className="absolute inset-0">
               <div className="absolute top-1/2 left-8 transform -translate-y-1/2 max-w-lg">

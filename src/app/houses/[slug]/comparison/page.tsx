@@ -14,7 +14,7 @@ interface ComparisonPageProps {
   };
 }
 
-export default function ComparisonPage({ params }: ComparisonPageProps) {
+export default async function ComparisonPage({ params }: ComparisonPageProps) {
   const house = HOUSES.find(h => h.id === params.slug);
 
   if (!house) {

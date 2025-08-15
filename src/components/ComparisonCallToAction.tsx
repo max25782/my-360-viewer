@@ -68,7 +68,7 @@ export default function ComparisonCallToAction({ house }: ComparisonCallToAction
           {/* CTA Button */}
           <Link
             href={`/houses/${house.id}/comparison`}
-            className="inline-flex items-center bg-gradient-to-r from-slate-600 to-slate-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-slate-900 hover:to-slate-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className="inline-flex items-center bg-gradient-to-r from-slate-600 to-slate-900 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-slate-900 hover:to-slate-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 min-h-[60px] min-w-[280px] justify-center"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2z" />
