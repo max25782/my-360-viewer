@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import panoramaReducer from './slices/panoramaSlice';
-import designReducer from './slices/designSlice';
 import uiReducer from './slices/uiSlice';
+import universalReducer from './slices/universalSlice';
 
 export const store = configureStore({
   reducer: {
     panorama: panoramaReducer,
-    design: designReducer,
     ui: uiReducer,
+    universal: universalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

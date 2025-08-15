@@ -4,12 +4,13 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
 import HeroSection from '../../../components/HeroSection';
-import DesignPackagesSection from '../../../components/DesignPackagesSection';
-import TakeALookAround from '../../../components/TakeALookAround';
+import DesignPackagesSectionRedux from '../../../components/DesignPackagesSectionRedux';
+import TakeALookAroundUniversal from '../../../components/TakeALookAroundUniversal';
 import TechnicalSpecifications from '../../../components/TechnicalSpecifications';
 import ModelFeatures from '../../../components/ModelFeatures';
 import GetStartedToday from '../../../components/GetStartedToday';
 import ExploreModels from '../../../components/ExploreModels';
+import UniversalTourLinks from '../../../components/UniversalTourLinks';
 
 interface PageProps {
   params: Promise<{
@@ -48,22 +49,24 @@ export default async function HousePage({ params }: PageProps) {
       <HeroSection house={house} />
 
       {/* Design Packages Section */}
-      <DesignPackagesSection house={house} />
+      <DesignPackagesSectionRedux house={house} />
 
       {/* Take a Look Around Section */}
-      <TakeALookAround house={house} />
+      <TakeALookAroundUniversal house={house} />
+
+    
 
       {/* Technical Specifications */}
-      <TechnicalSpecifications house={house} />
+      {/* <TechnicalSpecifications house={house} /> */}
 
       {/* Model Features */}
-      <ModelFeatures house={house} />
+      {/* <ModelFeatures house={house} /> */}
 
       {/* Get Started Today CTA */}
-      <GetStartedToday house={house} />
+      {/* <GetStartedToday house={house} /> */}
 
       {/* Explore Other Models */}
-      <ExploreModels currentHouse={house} allHouses={HOUSES} />
+      {/* <ExploreModels currentHouse={house} allHouses={HOUSES} /> */}
 
       {/* Footer */}
       <Footer />

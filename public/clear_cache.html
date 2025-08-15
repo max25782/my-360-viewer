@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Redux Cache</title>
+</head>
+<body>
+    <h1>🧹 Clear Redux Cache</h1>
+    <button onclick="clearAllCache()">Clear All Cache</button>
+    <div id="result"></div>
+
+    <script>
+        function clearAllCache() {
+            try {
+                // Очищаем localStorage
+                localStorage.clear();
+                
+                // Очищаем sessionStorage
+                sessionStorage.clear();
+                
+                // Очищаем IndexedDB если есть
+                if ('indexedDB' in window) {
+                    indexedDB.databases().then(databases => {
+                        databases.forEach(db => {
+                            indexedDB.deleteDatabase(db.name);
+                        });
+                    });
+                }
+                
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: green;">✅ Все кэши очищены!</p>' +
+                    '<p>Обновите страницу проекта для применения изменений.</p>';
+                    
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: red;">❌ Ошибка: ' + error.message + '</p>';
+            }
+        }
+        
+        // Автоматически очищаем при загрузке
+        window.onload = function() {
+            clearAllCache();
+        }
+    </script>
+</body>
+</html>

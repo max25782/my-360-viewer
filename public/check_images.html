@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Check Rotated Images</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .image-container { margin: 20px 0; border: 1px solid #ccc; padding: 10px; }
+        .image-container h3 { margin: 0 0 10px 0; }
+        .images { display: flex; gap: 20px; flex-wrap: wrap; }
+        .image-box { text-align: center; }
+        .image-box img { max-width: 200px; max-height: 200px; border: 1px solid #ddd; }
+        .reload-btn { background: #007bff; color: white; border: none; padding: 10px 20px; cursor: pointer; margin: 10px 0; }
+        .reload-btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Check Rotated Images for Walnut</h1>
+    <button class="reload-btn" onclick="reloadAllImages()">🔄 Force Reload All Images</button>
+    
+    <div class="image-container">
+        <h3>Entry Room - Up & Down</h3>
+        <div class="images">
+            <div class="image-box">
+                <h4>Up (u.jpg)</h4>
+                <img id="entry-up" src="/assets/walnut/360/entry/u.jpg" alt="Entry Up">
+                <p>Should be rotated 180°</p>
+            </div>
+            <div class="image-box">
+                <h4>Down (d.jpg)</h4>
+                <img id="entry-down" src="/assets/walnut/360/entry/d.jpg" alt="Entry Down">
+                <p>Should be rotated 180°</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <h3>Kitchen Room - Up & Down</h3>
+        <div class="images">
+            <div class="image-box">
+                <h4>Up (u.jpg)</h4>
+                <img id="kitchen-up" src="/assets/walnut/360/kitchen/u.jpg" alt="Kitchen Up">
+                <p>Should be rotated 180°</p>
+            </div>
+            <div class="image-box">
+                <h4>Down (d.jpg)</h4>
+                <img id="kitchen-down" src="/assets/walnut/360/kitchen/d.jpg" alt="Kitchen Down">
+                <p>Should be rotated 180°</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <h3>Bathroom Room - Down</h3>
+        <div class="images">
+            <div class="image-box">
+                <h4>Down (d.jpg)</h4>
+                <img id="bathroom-down" src="/assets/walnut/360/bathroom/d.jpg" alt="Bathroom Down">
+                <p>Should be rotated 180°</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function reloadAllImages() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                const originalSrc = img.src.split('?')[0]; // Remove any existing cache-busting params
+                img.src = originalSrc + '?t=' + Date.now(); // Add cache-busting timestamp
+            });
+            console.log('All images reloaded with cache-busting');
+        }
+
+        // Add error handling
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                this.style.border = '2px solid red';
+                this.alt = 'Failed to load: ' + this.src;
+            };
+            
+            img.onload = function() {
+                this.style.border = '2px solid green';
+                console.log('Loaded:', this.src);
+            };
+        });
+    </script>
+</body>
+</html>

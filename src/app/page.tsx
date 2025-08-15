@@ -4,6 +4,7 @@ import { HOUSES } from "../data/houses";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
+import { formatCurrency } from "../utils/formatters";
 
 export default function Home() {
   return (
@@ -136,7 +137,7 @@ export default function Home() {
                     <h3 className="text-xl font-bold text-gray-900">{house.name}</h3>
                     <div className="text-right">
                       <div className="text-lg font-bold text-green-600">
-                        ${house.priceRange.good.toLocaleString()}
+                        {formatCurrency(house.priceRange.good)}
                       </div>
                       <div className="text-xs text-gray-500">starting price</div>
                     </div>

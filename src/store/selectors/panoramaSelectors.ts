@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '../index';
-import { getHouseTour, getScene } from '../../data/tour-scenes';
 
 // Base selectors
 export const selectPanoramaState = (state: RootState) => state.panorama;
@@ -39,27 +38,7 @@ export const selectError = createSelector(
 );
 
 // Complex selectors with data dependencies
-export const selectHouseScenes = createSelector(
-  [selectCurrentHouseId],
-  (houseId) => houseId ? getHouseTour(houseId) : []
-);
-
-export const selectCurrentScene = createSelector(
-  [selectCurrentSceneKey, selectCurrentHouseId],
-  (sceneKey, houseId) => {
-    if (!sceneKey || !houseId) return null;
-    return getScene(sceneKey, houseId);
-  }
-);
-
-export const selectInitialScene = createSelector(
-  [selectHouseScenes],
-  (scenes) => scenes.length > 0 ? scenes[0] : null
-);
-
-export const selectActiveScene = createSelector(
-  [selectCurrentScene, selectInitialScene],
-  (currentScene, initialScene) => currentScene || initialScene
-);
+// Note: Tour data selectors removed - now handled by universalSelectors with JSON
+// PanoramaViewerRedux uses local state with getTour360Config() instead
 
 // Removed selectViewerNeedsReset - viewer state is now handled with refs

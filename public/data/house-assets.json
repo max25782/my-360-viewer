@@ -1,0 +1,272 @@
+{
+  "assetConfig": {
+    "pathTemplates": {
+      "hero": "/assets/{houseId}/hero.jpg",
+      "exterior": "/assets/{houseId}/exterior/dp{dp}.jpg",
+      "interior": "/assets/{houseId}/interior/{room}/pk{pk}.jpg",
+      "comparison": "/assets/{houseId}/comparison/{type}-{variant}.jpg",
+      "tour360": {
+        "thumbnail": "/assets/{houseId}/360/{room}/thumbnail.jpg",
+        "preview": "/assets/{houseId}/360/{room}/preview.jpg",
+        "tiles": {
+          "front": "/assets/{houseId}/360/{room}/f.jpg",
+          "back": "/assets/{houseId}/360/{room}/b.jpg",
+          "left": "/assets/{houseId}/360/{room}/l.jpg",
+          "right": "/assets/{houseId}/360/{room}/r.jpg",
+          "up": "/assets/{houseId}/360/{room}/u.jpg",
+          "down": "/assets/{houseId}/360/{room}/d.jpg"
+        }
+      },
+      "textures": {
+        "exterior": "/assets/texture/exterior/thumb{id}.jpg",
+        "interior": "/assets/texture/interior/colors{id}.jpg"
+      }
+    },
+    "rooms": ["living", "kitchen", "bedroom", "bathroom"],
+    "designPackages": {
+      "heritage": { "dp": 1, "pk": 1 },
+      "haven": { "dp": 2, "pk": 2 },
+      "serenity": { "dp": 3, "pk": 3 },
+      "luxe": { "dp": 4, "pk": 4 },
+      "sunset": { "dp": 5, "pk": 5 }
+    },
+    "comparisonTypes": ["good", "better", "best"],
+    "comparisonVariants": ["exterior", "plan1", "plan2"]
+  },
+  "houses": {
+    "walnut": {
+      "name": "Walnut",
+      "maxDP": 5,
+      "maxPK": 5,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "guest", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {
+          "entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": true,
+              "down": true
+            }
+          },
+          "guest": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": true,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": true,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": true,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
+      "specialPaths": {},
+      "fallbacks": {
+        "dp6": "dp5",
+        "pk6": "pk5"
+      }
+    },
+    "laurel": {
+      "name": "Laurel",
+      "maxDP": 3,
+      "maxPK": 3,
+      "availableRooms": ["living", "kitchen", "bedroom"],
+      "tour360Rooms": [],
+      "specialPaths": {
+        "hero": "/assets/laurel/laurel-thumb.jpg"
+      },
+      "fallbacks": {
+        "dp4": "dp3",
+        "dp5": "dp3",
+        "pk4": "pk3",
+        "pk5": "pk3",
+        "bathroom": "bedroom"
+      }
+    },
+    "tamarack": {
+      "name": "Tamarack",
+      "maxDP": 3,
+      "maxPK": 3,
+      "availableRooms": ["living", "kitchen", "bedroom"],
+      "tour360Rooms": [],
+      "specialPaths": {
+        "hero": "/assets/tamarack/tamarack-hero.jpg"
+      },
+      "fallbacks": {
+        "dp4": "dp3",
+        "dp5": "dp3",
+        "pk4": "pk3",
+        "pk5": "pk3",
+        "bathroom": "bedroom"
+      }
+    },
+    "ponderosa": {
+      "name": "Ponderosa",
+      "maxDP": 3,
+      "maxPK": 3,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp4": "dp3",
+        "dp5": "dp3",
+        "pk4": "pk3",
+        "pk5": "pk3"
+      }
+    },
+    "pine": {
+      "name": "Pine",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "oak": {
+      "name": "Oak",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "juniper": {
+      "name": "Juniper",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["kitchen", "bedroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4",
+        "living": "bedroom",
+        "bathroom": "bedroom"
+      }
+    },
+    "birch": {
+      "name": "Birch",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "cypress": {
+      "name": "Cypress",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "hemlock": {
+      "name": "Hemlock",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "spruce": {
+      "name": "Spruce",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "sage": {
+      "name": "Sage",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    },
+    "sapling": {
+      "name": "Sapling",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360Rooms": [],
+      "specialPaths": {},
+      "fallbacks": {
+        "dp5": "dp4",
+        "pk5": "pk4"
+      }
+    }
+  }
+}

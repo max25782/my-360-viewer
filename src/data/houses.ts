@@ -52,16 +52,17 @@ export const HOUSES: House[] = [
       best: 280000
     },
     images: {
-      hero: '/assets/Walnut/walnut-hero.jpg',
+      hero: '/assets/Walnut/hero.jpg',
       gallery: [
-        '/houses/walnut/kitchen-1.jpg',
-        '/houses/walnut/living-1.jpg',
-        '/houses/walnut/bedroom-1.jpg',
-        '/houses/walnut/bathroom-1.jpg'
+        '/assets/Walnut/interior/kitchen/pk1.jpg',
+        '/assets/Walnut/interior/living/pk1.jpg',
+        '/assets/Walnut/interior/bedroom/pk1.jpg',
+        '/assets/Walnut/interior/bathroom/pk1.jpg'
       ],
       floorPlans: [
-        '/houses/walnut/floor-plan-1.jpg',
-        '/houses/walnut/floor-plan-2.jpg'
+        '/assets/Walnut/comparison/good-plan1.jpg',
+        '/assets/Walnut/comparison/better-plan1.jpg',
+        '/assets/Walnut/comparison/best-plan1.jpg'
       ]
     },
     specifications: {
