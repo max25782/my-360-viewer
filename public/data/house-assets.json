@@ -39,6 +39,85 @@
       "maxDP": 5,
       "maxPK": 5,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "comparison": {
+        "features": {
+          "Outdoor Space": {
+            "good": "✗",
+            "better": "210 SF",
+            "best": "210 SF"
+          },
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet", 
+            "best": "9 Feet"
+          },
+          "Kitchen": {
+            "good": "Kitchenette",
+            "better": "Full Kitchen with Upper Cabs",
+            "best": "Full Kitchen with Upper Cabs"
+          },
+          "Kitchen Island": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Garbage Disposal": {
+            "good": "✗",
+            "better": "✗", 
+            "best": "✓"
+          },
+          "Vanity": {
+            "good": "Pedestal Sink",
+            "better": "Built-in Vanity w/ Single Sink",
+            "best": "Built-in Vanity w/ Single Sink"
+          },
+          "Shower": {
+            "good": "Tub/Shower Unit",
+            "better": "Shower Unit",
+            "best": "Tile Shower"
+          },
+          "Bathroom Accessories": {
+            "good": "✗",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Exterior Siding": {
+            "good": "Hardie Lap",
+            "better": "Hardie Lap and Board & Batten",
+            "best": "Hardie Lap and Board & Batten"
+          },
+          "Flooring": {
+            "good": "Builder Grade LVP or Laminate",
+            "better": "Upgraded LVP or Laminate",
+            "best": "Designer Series LVP or Laminate and Tile"
+          },
+          "Feature Lighting": {
+            "good": "Downlighting, Interior and Exterior Fixtures",
+            "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+            "best": "Premium Fixtures from Rejuvenation"
+          },
+          "Mini-Split HVAC": {
+            "good": "Living Area",
+            "better": "Living Area and Primary Bedroom",
+            "best": "Living Area and All Bedrooms"
+          },
+          "Tank Water Heater": {
+            "good": "✓",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Electric Fireplace": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Available Design Collection": {
+            "good": "Dark & Light",
+            "better": "Heritage, Haven and Sunset",
+            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+          }
+        }
+      },
       "tour360": {
         "rooms": ["entry", "guest", "kitchen", "bedroom", "bathroom"],
         "availableFiles": {

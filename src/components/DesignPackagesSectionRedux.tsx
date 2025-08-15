@@ -6,7 +6,7 @@
 
 import { House } from '../data/houses';
 import UniversalDesignSelectorRedux from './UniversalDesignSelectorRedux';
-import NewGoodBetterBestComparison from './NewGoodBetterBestComparison';
+import ComparisonCallToAction from './ComparisonCallToAction';
 
 interface DesignPackagesSectionReduxProps {
   house: House;
@@ -42,8 +42,8 @@ export default function DesignPackagesSectionRedux({ house }: DesignPackagesSect
           />
         </div>
 
-        {/* Good/Better/Best Comparison Table */}
-        <NewGoodBetterBestComparison house={house} />
+        {/* Package Comparison Call-to-Action */}
+        <ComparisonCallToAction house={house} />
       </div>
     </section>
   );

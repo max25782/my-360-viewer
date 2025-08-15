@@ -31,6 +31,13 @@ interface HouseConfig {
   maxDP: number;
   maxPK: number;
   availableRooms: string[];
+  comparison?: {
+    features: Record<string, {
+      good: string;
+      better: string;
+      best: string;
+    }>;
+  };
   tour360?: {
     rooms: string[];
     availableFiles: Record<string, {
@@ -341,4 +348,24 @@ export async function is360FileAvailable(
   
   // For tile files
   return roomConfig.tiles[fileType];
+}
+
+/**
+ * Get comparison features for a house from JSON
+ */
+export async function getComparisonFeatures(houseId: string): Promise<Record<string, { good: string; better: string; best: string; }> | null> {
+  try {
+    const config = await loadAssetConfig();
+    const houseConfig = config.houses[houseId];
+    
+    if (!houseConfig?.comparison?.features) {
+      console.warn(`No comparison features found for house: ${houseId}`);
+      return null;
+    }
+    
+    return houseConfig.comparison.features;
+  } catch (error) {
+    console.error('Failed to get comparison features:', error);
+    return null;
+  }
 }

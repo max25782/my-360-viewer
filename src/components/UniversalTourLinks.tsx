@@ -72,6 +72,12 @@ export default function UniversalTourLinks({
         >
           🌐 Virtual Tour
         </Link>
+        <Link 
+          href={`/houses/${houseId}/comparison`}
+          className="inline-flex items-center px-6 py-3 bg-white bg-opacity-20 text-white border border-white border-opacity-30 rounded-lg hover:bg-opacity-30 transition-all font-medium"
+        >
+          📊 Compare Packages
+        </Link>
       </div>
     );
   }
@@ -109,6 +115,12 @@ export default function UniversalTourLinks({
             className="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all font-medium shadow-lg"
           >
             🌐 Virtual Tour
+          </Link>
+          <Link 
+            href={`/houses/${houseId}/comparison`}
+            className="inline-flex items-center px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all font-medium shadow-lg"
+          >
+            📊 Compare Packages
           </Link>
         </div>
       </div>
