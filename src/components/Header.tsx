@@ -9,7 +9,7 @@ interface HeaderProps {
 export default function Header({ variant = 'default', className = '' }: HeaderProps) {
   const baseClasses = variant === 'transparent' 
     ? 'bg-slate-400 bg-opacity-90 backdrop-blur-sm shadow-sm'
-    : 'bg-white bg-opacity-90 backdrop-blur-sm shadow-sm';
+    : 'bg-slate-500 bg-opacity-90 backdrop-blur-sm shadow-sm';
 
   return (
     <header className={`${baseClasses} ${className}`}>

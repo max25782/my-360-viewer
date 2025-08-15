@@ -181,7 +181,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   // Loading state
   if (isLoading) {
     return (
-      <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
+      <div className="bg-slate-700 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
         <div className="p-8 text-center">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-300 rounded mb-4"></div>
@@ -195,7 +195,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   }
 
   return (
-    <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
+    <div className="bg-slate-500 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
       {/* Headers */}
       <div className="grid grid-cols-4">
         <div className="bg-stone-600 text-white text-center py-4 px-6"></div>
@@ -217,7 +217,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       <div className="divide-y">
         {comparisonItems.map((item, index) => (
           <div key={index} className="grid grid-cols-4">
-            <div className="bg-gray-50 p-4 font-semibold text-gray-800 border-r">
+            <div className="bg-slate-400 p-4 font-semibold text-gray-800 border-r">
               {item.label}
             </div>
             <div className={`p-4 text-center ${index < comparisonItems.length - 1 ? 'border-r' : ''}`}>
