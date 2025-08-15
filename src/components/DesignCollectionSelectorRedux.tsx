@@ -15,16 +15,17 @@ import {
 
 interface DesignCollectionSelectorProps {
   houseName: string;
+  houseId: string;
 }
 
-export default function DesignCollectionSelectorRedux({ houseName }: DesignCollectionSelectorProps) {
+export default function DesignCollectionSelectorRedux({ houseName, houseId }: DesignCollectionSelectorProps) {
   const dispatch = useAppDispatch();
   
   // Redux selectors with automatic memoization
   const selectedCollection = useAppSelector(selectSelectedCollection);
   const isMounted = useAppSelector(selectIsMounted);
-  const currentCollectionImage = useAppSelector(selectCurrentCollectionImage);
-  const thumbnailData = useAppSelector(selectCollectionThumbnails);
+  const currentCollectionImage = useAppSelector(selectCurrentCollectionImage(houseId));
+  const thumbnailData = useAppSelector(selectCollectionThumbnails(houseId));
 
   useEffect(() => {
     dispatch(setMounted(true));

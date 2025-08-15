@@ -8,7 +8,7 @@ const HOUSE_DATA = {
     id: 'walnut',
     title: 'Walnut ADU',
     shortDescription: 'Modern Accessory Dwelling Unit',
-    imageUrl: '/Walnut/walnut-hero.jpg',
+    imageUrl: '/assets/Walnut/walnut-hero.jpg',
     specifications: [
       { label: 'Bedrooms', value: '2' },
       { label: 'Bathrooms', value: '1' },

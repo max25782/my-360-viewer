@@ -1,0 +1,69 @@
+import { House } from '../data/houses';
+import Button from './Button';
+
+interface HeroSectionProps {
+  house: House;
+}
+
+export default function HeroSection({ house }: HeroSectionProps) {
+  return (
+    <section className="bg-slate-700 bg-opacity-80 backdrop-blur-sm py-2">
+      <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="">
+          <div 
+            className="relative w-full h-screen rounded-lg overflow-hidden shadow-xl"
+            style={{
+              backgroundImage: `url('${house.images.hero}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            {/* Overlay Content */}
+            <div className="absolute inset-0">
+              <div className="absolute top-1/2 left-8 transform -translate-y-1/2 max-w-lg">
+                <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                  {house.name}
+                </h1>
+                <p className="text-xl text-gray mb-8 leading-relaxed drop-shadow-lg">
+                  {house.description}
+                </p>
+                
+                <div className="grid grid-cols-3 gap-6 mb-8">
+                  <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
+                    <span className="block text-3xl font-bold text-white">{house.sqft}</span>
+                    <span className="block text-sm text-gray-200">Sq. Ft.</span>
+                  </div>
+                  <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
+                    <span className="block text-3xl font-bold text-white">{house.bedrooms}</span>
+                    <span className="block text-sm text-gray-200">Bedrooms</span>
+                  </div>
+                  <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
+                    <span className="block text-3xl font-bold text-white">{house.bathrooms}</span>
+                    <span className="block text-sm text-gray-200">Bathrooms</span>
+                  </div>
+                </div>
+
+                <div className="flex space-x-4">
+                  <Button 
+                    href={`/houses/${house.id}/tour`}
+                    variant="secondary"
+                    size="lg"
+                  >
+                    Virtual Tour
+                  </Button>
+                  <Button 
+                    variant="slate"
+                    size="lg"
+                  >
+                    Get a Quote
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

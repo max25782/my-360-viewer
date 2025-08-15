@@ -52,7 +52,7 @@ export const HOUSES: House[] = [
       best: 280000
     },
     images: {
-      hero: '/houses/walnut/hero.jpg',
+      hero: '/assets/Walnut/walnut-hero.jpg',
       gallery: [
         '/houses/walnut/kitchen-1.jpg',
         '/houses/walnut/living-1.jpg',
@@ -95,7 +95,7 @@ export const HOUSES: House[] = [
       best: 220000
     },
     images: {
-      hero: '/houses/laurel/hero.jpg',
+              hero: '/assets/laurel/laurel-thumb.jpg',
       gallery: [
         '/houses/laurel/kitchen-1.jpg',
         '/houses/laurel/living-1.jpg',
@@ -136,7 +136,7 @@ export const HOUSES: House[] = [
       best: 170000
     },
     images: {
-      hero: '/houses/tamarack/hero.jpg',
+      hero: '/assets/tamarack/tamarack-hero.jpg',
       gallery: [
         '/houses/tamarack/kitchen-1.jpg',
         '/houses/tamarack/living-1.jpg',
@@ -177,7 +177,7 @@ export const HOUSES: House[] = [
       best: 185000
     },
     images: {
-      hero: '/houses/ponderosa/hero.jpg',
+      hero: '/assets/ponderosa/ADU-Hero-Ponderosa.jpg',
       gallery: [
         '/houses/ponderosa/kitchen-1.jpg',
         '/houses/ponderosa/living-1.jpg',
@@ -218,7 +218,7 @@ export const HOUSES: House[] = [
       best: 165000
     },
     images: {
-      hero: '/houses/pine/hero.jpg',
+      hero: '/houses/pine/ADU-Hero-Pine.jpg',
       gallery: [
         '/houses/pine/kitchen-1.jpg',
         '/houses/pine/office-1.jpg',
@@ -278,6 +278,318 @@ export const HOUSES: House[] = [
       exteriorSiding: 'Hardie Lap and Board & Batten',
       flooring: 'Upgraded LVP or Laminate',
       hvac: 'Mini-Split Living Area and Bedroom'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'birch',
+    name: 'Birch',
+    sqft: 1056,
+    bedrooms: 2,
+    bathrooms: 1.5,
+    description: 'The Birch model offers modern living with two bedrooms and an open great room concept, perfect for contemporary lifestyles.',
+    features: [
+      'Open great room concept',
+      'Two bedrooms',
+      'Modern kitchen design',
+      'Efficient layout',
+      'Contemporary styling'
+    ],
+    designCollections: ['heritage', 'haven', 'serenity', 'luxe'],
+    priceRange: {
+      good: 150000,
+      better: 180000,
+      best: 220000
+    },
+    images: {
+      hero: '/assets/birch/ADU-Hero-Birch.jpg',
+      gallery: [
+        '/assets/birch/interior/KITCHEN/Birch_Sapling-Kitchen-DP1.jpg',
+        '/assets/birch/interior/LIV/Birch_Sapling-Living-DP1.jpg',
+        '/assets/birch/interior/BEDROOM/Birch_Sapling-Bedroom-DP1.jpg',
+        '/assets/birch/interior/BATHROOM/Birch_Sapling-Bathroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/birch/good and plans/birch-good-1.jpg',
+        '/assets/birch/good and plans/birch-better-1.jpg',
+        '/assets/birch/good and plans/birch-best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "30'x36'",
+      ceilingHeight: '8-9 Feet',
+      kitchenType: 'Full Kitchen with Upper Cabinets',
+      bathroomType: 'Shower Unit, Built-in Vanity',
+      exteriorSiding: 'Hardie Lap and Board & Batten',
+      flooring: 'Upgraded LVP or Laminate',
+      hvac: 'Mini-Split Living Area and Primary Bedroom'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'hemlock',
+    name: 'Hemlock',
+    sqft: 357,
+    bedrooms: 1,
+    bathrooms: 1,
+    description: 'The Hemlock is our most compact model, perfect for minimalist living or as a guest house.',
+    features: [
+      'Ultra-compact design',
+      'Single bedroom',
+      'Efficient use of space',
+      'Perfect for guests',
+      'Affordable option'
+    ],
+    designCollections: ['heritage', 'haven'],
+    priceRange: {
+      good: 95000,
+      better: 115000,
+      best: 140000
+    },
+    images: {
+      hero: '/assets/hemlock/ADU-Hero-Hemlock.jpg',
+      gallery: [
+        '/assets/hemlock/interior/KITCHEN/Hemlock-Kitchen-DP1.jpg',
+        '/assets/hemlock/interior/BEDROOM/Hemlock-Bedroom-DP1.jpg',
+        '/assets/hemlock/interior/BATHROOM/Hemlock-Bathroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/hemlock/good and plans/hemlock-good-1.jpg',
+        '/assets/hemlock/good and plans/hemlock-better-1.jpg',
+        '/assets/hemlock/good and plans/hemlock-best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "20'x18'",
+      ceilingHeight: '8 Feet',
+      kitchenType: 'Kitchenette',
+      bathroomType: 'Shower Unit',
+      exteriorSiding: 'Hardie Lap',
+      flooring: 'Builder Grade LVP',
+      hvac: 'Mini-Split Living Area'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'juniper',
+    name: 'Juniper',
+    sqft: 644,
+    bedrooms: 1,
+    bathrooms: 1,
+    description: 'The Juniper combines compact living with modern amenities, featuring a great room and single bedroom.',
+    features: [
+      'Great room design',
+      'Single bedroom',
+      'Modern amenities',
+      'Compact yet comfortable',
+      'Open layout'
+    ],
+    designCollections: ['heritage', 'haven', 'serenity'],
+    priceRange: {
+      good: 125000,
+      better: 150000,
+      best: 185000
+    },
+    images: {
+      hero: '/assets/juniper/ADU-Hero-Juniper.jpg',
+      gallery: [
+        '/assets/juniper/interior/KITCHEN/Juniper-Kitchen-DP1.jpg',
+        '/assets/juniper/interior/BEDROOM/Juniper-Bedroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/juniper/good and plans/juniper-good-1.jpg',
+        '/assets/juniper/good and plans/Juniper-Better-1.jpg',
+        '/assets/juniper/good and plans/Juniper-Best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "26'x25'",
+      ceilingHeight: '8 Feet',
+      kitchenType: 'Kitchenette',
+      bathroomType: 'Shower Unit',
+      exteriorSiding: 'Hardie Lap',
+      flooring: 'Builder Grade LVP',
+      hvac: 'Mini-Split Living Area'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'oak',
+    name: 'Oak',
+    sqft: 1200,
+    bedrooms: 2,
+    bathrooms: 2,
+    description: 'The Oak model provides spacious two-bedroom, two-bathroom living with premium finishes.',
+    features: [
+      'Two full bathrooms',
+      'Spacious bedrooms',
+      'Premium finishes',
+      'Open concept',
+      'High-end design'
+    ],
+    designCollections: ['heritage', 'haven', 'serenity', 'luxe'],
+    priceRange: {
+      good: 175000,
+      better: 215000,
+      best: 265000
+    },
+    images: {
+      hero: '/assets/Oak/oak2.png',
+      gallery: [
+        '/assets/Oak/interior/Oak-Kitchen-DP1.jpg',
+        '/assets/Oak/interior/Oak-Living-DP1.jpg',
+        '/assets/Oak/interior/Oak-Bedroom-DP1.jpg',
+        '/assets/Oak/interior/Oak-Bathroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/Oak/good and plans/oak-good-1.jpg',
+        '/assets/Oak/good and plans/oak-better-1.jpg',
+        '/assets/Oak/good and plans/oak-best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "34'x36'",
+      ceilingHeight: '9 Feet',
+      kitchenType: 'Full Kitchen with Upper Cabinets',
+      bathroomType: 'Tile Shower, Built-in Vanity',
+      exteriorSiding: 'Hardie Lap and Board & Batten',
+      flooring: 'Designer Series LVP or Laminate and Tile',
+      hvac: 'Mini-Split All Bedrooms'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'sage',
+    name: 'Sage',
+    sqft: 800,
+    bedrooms: 2,
+    bathrooms: 1,
+    description: 'The Sage model maximizes space efficiency with two bedrooms in a thoughtfully designed layout.',
+    features: [
+      'Two bedrooms',
+      'Space efficient design',
+      'Thoughtful layout',
+      'Great for families',
+      'Affordable living'
+    ],
+    designCollections: ['heritage', 'haven', 'sunset'],
+    priceRange: {
+      good: 135000,
+      better: 165000,
+      best: 200000
+    },
+    images: {
+      hero: '/assets/sage/ADU-Hero-Sage.jpg',
+      gallery: [
+        '/assets/sage/interior/Sage-Kitchen-DP1.jpg',
+        '/assets/sage/interior/Sage-Living-DP1.jpg',
+        '/assets/sage/interior/Sage-Bedroom-DP1.jpg',
+        '/assets/sage/interior/Sage-Bathroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/sage/good and plans/sage-good-1.jpg',
+        '/assets/sage/good and plans/sage-better-1.jpg',
+        '/assets/sage/good and plans/sage-best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "28'x29'",
+      ceilingHeight: '8 Feet',
+      kitchenType: 'Full Kitchen',
+      bathroomType: 'Tub/Shower Unit',
+      exteriorSiding: 'Hardie Lap',
+      flooring: 'Upgraded LVP or Laminate',
+      hvac: 'Mini-Split Living Area'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'sapling',
+    name: 'Sapling',
+    sqft: 644,
+    bedrooms: 1,
+    bathrooms: 1,
+    description: 'The Sapling offers modern compact living with all the essentials in a beautifully designed package.',
+    features: [
+      'Compact modern design',
+      'Single bedroom',
+      'Efficient layout',
+      'Modern amenities',
+      'Perfect starter home'
+    ],
+    designCollections: ['heritage', 'haven'],
+    priceRange: {
+      good: 120000,
+      better: 145000,
+      best: 175000
+    },
+    images: {
+      hero: '/assets/sapling/3-Sapling-644.png',
+      gallery: [
+        '/assets/sapling/interior/Sapling-Kitchen-DP1.jpg',
+        '/assets/sapling/interior/Sapling-Living-DP1.jpg',
+        '/assets/sapling/interior/Sapling-Bedroom-DP1.jpg',
+        '/assets/sapling/interior/Sapling-Bathroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/sapling/good and plans/sapling-good-1.jpg',
+        '/assets/sapling/good and plans/sapling-better-1.jpg',
+        '/assets/sapling/good and plans/sapling-best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "26'x25'",
+      ceilingHeight: '8 Feet',
+      kitchenType: 'Kitchenette',
+      bathroomType: 'Shower Unit',
+      exteriorSiding: 'Hardie Lap',
+      flooring: 'Builder Grade LVP',
+      hvac: 'Mini-Split Living Area'
+    },
+    tour360Available: true
+  },
+  {
+    id: 'spruce',
+    name: 'Spruce',
+    sqft: 800,
+    bedrooms: 2,
+    bathrooms: 1,
+    description: 'The Spruce model provides comfortable two-bedroom living with modern conveniences.',
+    features: [
+      'Two bedrooms',
+      'Modern conveniences',
+      'Comfortable living',
+      'Efficient design',
+      'Great value'
+    ],
+    designCollections: ['heritage', 'haven', 'sunset'],
+    priceRange: {
+      good: 140000,
+      better: 170000,
+      best: 205000
+    },
+    images: {
+      hero: '/assets/spruce/ADU-Hero-Spruce-1.jpg',
+      gallery: [
+        '/assets/spruce/interior/Spruce-Kitchen-DP1.jpg',
+        '/assets/spruce/interior/Spruce-Living-DP1.jpg',
+        '/assets/spruce/interior/Spruce-Bedroom-DP1.jpg',
+        '/assets/spruce/interior/Spruce-Bathroom-DP1.jpg'
+      ],
+      floorPlans: [
+        '/assets/spruce/good and plans/spruce-good-1.jpg',
+        '/assets/spruce/good and plans/spruce-better-1.jpg',
+        '/assets/spruce/good and plans/spruce-best-1.jpg'
+      ]
+    },
+    specifications: {
+      dimensions: "28'x29'",
+      ceilingHeight: '8 Feet',
+      kitchenType: 'Full Kitchen',
+      bathroomType: 'Tub/Shower Unit',
+      exteriorSiding: 'Hardie Lap',
+      flooring: 'Upgraded LVP or Laminate',
+      hvac: 'Mini-Split Living Area'
     },
     tour360Available: true
   }

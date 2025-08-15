@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getHouseTour } from '../data/tour-scenes';
 
 interface VirtualTourPreviewProps {
   houseId: string;
@@ -9,14 +10,28 @@ interface VirtualTourPreviewProps {
 export default function VirtualTourPreview({ 
   houseId, 
   houseName, 
-  previewImage = '/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg' 
+  previewImage 
 }: VirtualTourPreviewProps) {
+  // Get dynamic preview image based on house tour
+  const getPreviewImage = () => {
+    if (previewImage) return previewImage;
+    
+    const houseTour = getHouseTour(houseId);
+    if (houseTour && houseTour.length > 0) {
+      return houseTour[0].thumbnail; // Use first scene's thumbnail as preview
+    }
+    
+    // Fallback to Walnut if no tour found
+    return '/assets/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg';
+  };
+
+  const dynamicPreviewImage = getPreviewImage();
   return (
     <div className="max-w-6xl mx-auto">
       <div 
         className="aspect-video  rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
         style={{
-          backgroundImage: `url('${previewImage}')`,
+          backgroundImage: `url('${dynamicPreviewImage}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'

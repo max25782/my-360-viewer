@@ -28,9 +28,10 @@ import {
 
 interface InteriorDesignSelectorProps {
   houseName: string;
+  houseId: string;
 }
 
-export default function InteriorDesignSelectorRedux({ houseName }: InteriorDesignSelectorProps) {
+export default function InteriorDesignSelectorRedux({ houseName, houseId }: InteriorDesignSelectorProps) {
   const dispatch = useAppDispatch();
   
   // Redux selectors with automatic memoization
@@ -38,13 +39,13 @@ export default function InteriorDesignSelectorRedux({ houseName }: InteriorDesig
   const currentRoomIndex = useAppSelector(selectCurrentRoomIndex);
   const currentImageIndex = useAppSelector(selectCurrentImageIndex);
   const isMounted = useAppSelector(selectIsMounted);
-  const currentStyleRooms = useAppSelector(selectCurrentStyleRooms);
-  const currentRoom = useAppSelector(selectCurrentRoom);
-  const currentRoomImages = useAppSelector(selectCurrentRoomImages);
-  const currentImage = useAppSelector(selectCurrentImage);
+  const currentStyleRooms = useAppSelector(selectCurrentStyleRooms(houseId));
+  const currentRoom = useAppSelector(selectCurrentRoom(houseId));
+  const currentRoomImages = useAppSelector(selectCurrentRoomImages(houseId));
+  const currentImage = useAppSelector(selectCurrentImage(houseId));
   const currentPackage = useAppSelector(selectCurrentPackage);
-  const interiorThumbnails = useAppSelector(selectInteriorThumbnails);
-  const canNavigateNext = useAppSelector(selectCanNavigateNext);
+  const interiorThumbnails = useAppSelector(selectInteriorThumbnails(houseId));
+  const canNavigateNext = useAppSelector(selectCanNavigateNext(houseId));
   const canNavigatePrev = useAppSelector(selectCanNavigatePrev);
 
   useEffect(() => {

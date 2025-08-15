@@ -31,6 +31,26 @@ export const getRoomIcon = (sceneKey) => {
   return ROOM_ICONS[roomType] || ROOM_ICONS.main;
 };
 
+// Function to generate tour scenes for houses with standard structure
+const generateStandardHouseTour = (houseId, houseName, rooms) => {
+  return rooms.map(room => ({
+    key: `${houseId}_${room.name}`,
+    title: `${houseName} - ${room.displayName}`,
+    panorama: {
+      front:  `/assets/${houseId}/3D/${room.name}/${room.tileId}_f.jpg`,
+      back:   `/assets/${houseId}/3D/${room.name}/${room.tileId}_b.jpg`,
+      left:   `/assets/${houseId}/3D/${room.name}/${room.tileId}_l.jpg`,
+      right:  `/assets/${houseId}/3D/${room.name}/${room.tileId}_r.jpg`,
+      top:    `/assets/${houseId}/3D/${room.name}/${room.tileId}_u.jpg`,
+      bottom: `/assets/${houseId}/3D/${room.name}/${room.tileId}_d.jpg`
+    },
+    thumbnail: `/assets/${houseId}/3D/${room.name}/${room.thumbnailId}.jpg`,
+    yaw: room.yaw || 180,
+    pitch: room.pitch || 0,
+    connections: room.connections || []
+  }));
+};
+
 // Tour scenes organized by house for scalability
 export const HOUSE_TOURS = {
   walnut: [
@@ -38,14 +58,14 @@ export const HOUSE_TOURS = {
       key: 'walnut_entry',
       title: 'Walnut - Entry',
       panorama: {
-        front:  '/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_f.jpg',
-        back:   '/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_b.jpg',
-        left:   '/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_l.jpg',
-        right:  '/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_r.jpg',
-        top:    '/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_u.jpg',
-        bottom: '/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_d.jpg'
+        front:  '/assets/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_f.jpg',
+        back:   '/assets/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_b.jpg',
+        left:   '/assets/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_l.jpg',
+        right:  '/assets/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_r.jpg',
+        top:    '/assets/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_u.jpg',
+        bottom: '/assets/Walnut/3D/entry/tile-6dVVbXRCmpoOHxg1TKM03JbQHh4fFcOM_d.jpg'
       },
-      thumbnail: '/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg',
+      thumbnail: '/assets/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg',
       yaw: 180,
       pitch: 0,
       zoom: 50,
@@ -59,14 +79,14 @@ export const HOUSE_TOURS = {
       key: 'walnut_kitchen',
       title: 'Walnut - Kitchen',
       panorama: {
-        front:  '/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_f.jpg',
-        back:   '/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_b.jpg',
-        left:   '/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_l.jpg',
-        right:  '/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_r.jpg',
-        top:    '/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_u.jpg',
-        bottom: '/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_d.jpg'
+        front:  '/assets/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_f.jpg',
+        back:   '/assets/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_b.jpg',
+        left:   '/assets/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_l.jpg',
+        right:  '/assets/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_r.jpg',
+        top:    '/assets/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_u.jpg',
+        bottom: '/assets/Walnut/3D/kitchen/tile-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv_d.jpg'
       },
-      thumbnail: '/Walnut/3D/guest/thumbnail-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv.jpg',
+      thumbnail: '/assets/Walnut/3D/guest/thumbnail-4ad1SWI2jvYdZW8fEOY48go5qHjVbTxv.jpg',
       yaw: 180,
       pitch: 0,
       zoom: 50,
@@ -79,14 +99,14 @@ export const HOUSE_TOURS = {
       key: 'walnut_bedroom',
       title: 'Walnut - Bedroom',
       panorama: {
-        front:  '/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_f.jpg',
-        back:   '/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_b.jpg',
-        left:   '/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_l.jpg',
-        right:  '/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_r.jpg',
-        top:    '/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_u.jpg',
-        bottom: '/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_d.jpg'
+        front:  '/assets/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_f.jpg',
+        back:   '/assets/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_b.jpg',
+        left:   '/assets/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_l.jpg',
+        right:  '/assets/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_r.jpg',
+        top:    '/assets/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_u.jpg',
+        bottom: '/assets/Walnut/3D/bedroom/tile-o8SXj0LmsF6PhRITmClCImTbnliyiuuw_d.jpg'
       },
-      thumbnail: '/Walnut/3D/bedroom/thumbnail-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx.jpg',
+      thumbnail: '/assets/Walnut/3D/bedroom/thumbnail-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx.jpg',
       yaw: 180,
       pitch: 0,
       zoom: 50,
@@ -100,14 +120,14 @@ export const HOUSE_TOURS = {
       key: 'walnut_bathroom',
       title: 'Walnut - Bathroom',
       panorama: {
-        front:  '/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_f.jpg',
-        back:   '/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_b.jpg',
-        left:   '/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_l.jpg',
-        right:  '/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_r.jpg',
-        top:    '/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_u.jpg',  // 
-        bottom: '/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_d.jpg'   // 
+        front:  '/assets/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_f.jpg',
+        back:   '/assets/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_b.jpg',
+        left:   '/assets/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_l.jpg',
+        right:  '/assets/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_r.jpg',
+        top:    '/assets/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_u.jpg',  // 
+        bottom: '/assets/Walnut/3D/bathroom/tile-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx_d.jpg'   // 
       },
-      thumbnail: '/Walnut/3D/bedroom/thumbnail-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx.jpg',
+      thumbnail: '/assets/Walnut/3D/bedroom/thumbnail-1IRmen05MEL5jxwq01bnLCP6V0FuCTQx.jpg',
       yaw: 0,
       pitch: 0,
       zoom: 50,
@@ -119,14 +139,14 @@ export const HOUSE_TOURS = {
       key: 'walnut_guest',
       title: 'Walnut - Living Room',
       panorama: {
-        front:  '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_f.jpg',
-        back:   '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_b.jpg',
-        left:   '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_l.jpg',
-        right:  '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_r.jpg',
-        top:    '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_u.jpg',  // 
-        bottom: '/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_d.jpg'   // 
+        front:  '/assets/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_f.jpg',
+        back:   '/assets/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_b.jpg',
+        left:   '/assets/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_l.jpg',
+        right:  '/assets/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_r.jpg',
+        top:    '/assets/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_u.jpg',  // 
+        bottom: '/assets/Walnut/3D/guest/tile-qwc9E691mj83t8TKcLx5erIxLUnmEEt0_d.jpg'   // 
       },
-      thumbnail: '/Walnut/3D/guest/thumbnail-o8SXj0LmsF6PhRITmClCImTbnliyiuuw.jpg',
+      thumbnail: '/assets/Walnut/3D/guest/thumbnail-o8SXj0LmsF6PhRITmClCImTbnliyiuuw.jpg',
       yaw: 180,
       pitch: 0,
       zoom: 50,
@@ -236,7 +256,188 @@ export const HOUSE_TOURS = {
       zoom: 50,
       links: []
     }
-  ]
+  ],
+
+  // Generate tours for new houses using standard structure
+  birch: generateStandardHouseTour('birch', 'Birch', [
+    {
+      name: 'bathroom',
+      displayName: 'Bathroom',
+      tileId: 'tile-2OKruEH0Poai2Tb0kXbzv4OmmBlnL5g0',
+      thumbnailId: 'thumbnail-2OKruEH0Poai2Tb0kXbzv4OmmBlnL5g0'
+    },
+    {
+      name: 'bedroom',
+      displayName: 'Bedroom',
+      tileId: 'tile-vnCiCkC54s2MiPrgoytuP6nvr0y3mOLI',
+      thumbnailId: 'thumbnail-vnCiCkC54s2MiPrgoytuP6nvr0y3mOLI'
+    },
+    {
+      name: 'great room',
+      displayName: 'Great Room',
+      tileId: 'tile-3HkIjs4H2kOfqsyuT05fB54hmxpzNcxA',
+      thumbnailId: 'thumbnail-3HkIjs4H2kOfqsyuT05fB54hmxpzNcxA'
+    },
+    {
+      name: 'hallaway',
+      displayName: 'Hallway',
+      tileId: 'tile-AFm1rqHKhwjobyvGbEzYiQtmDiJ6zFBq',
+      thumbnailId: 'thumbnail-AFm1rqHKhwjobyvGbEzYiQtmDiJ6zFBq'
+    },
+    {
+      name: 'kitchen',
+      displayName: 'Kitchen',
+      tileId: 'tile-BooykEwqpre5F005WcB9jn66ZXBGmGbV',
+      thumbnailId: 'thumbnail-BooykEwqpre5F005WcB9jn66ZXBGmGbV'
+    }
+  ]),
+
+  cypress: generateStandardHouseTour('cypress', 'Cypress', [
+    {
+      name: 'bathroom',
+      displayName: 'Bathroom',
+      tileId: 'tile-vph6tVSOmA6PQmO2KQnnTGaTe2oMVeLO',
+      thumbnailId: 'thumbnail-vph6tVSOmA6PQmO2KQnnTGaTe2oMVeLO'
+    },
+    {
+      name: 'bedroom',
+      displayName: 'Bedroom',
+      tileId: 'tile-2oemcGI6aaB9gH39gavweyuvMePiUOaV',
+      thumbnailId: 'thumbnail-2oemcGI6aaB9gH39gavweyuvMePiUOaV'
+    },
+    {
+      name: 'kitchen',
+      displayName: 'Kitchen',
+      tileId: 'tile-gYQSaJPFa6fxZlRiwMMFKeqimqNy1l7O',
+      thumbnailId: 'thumbnail-gYQSaJPFa6fxZlRiwMMFKeqimqNy1l7O'
+    },
+    {
+      name: 'living',
+      displayName: 'Living Room',
+      tileId: 'tile-Wh3JUVE6C2sjGIEd9k41EoHHtX1eaJ31',
+      thumbnailId: 'thumbnail-Wh3JUVE6C2sjGIEd9k41EoHHtX1eaJ31'
+    }
+  ]),
+
+  hemlock: generateStandardHouseTour('hemlock', 'Hemlock', [
+    {
+      name: 'bathroom',
+      displayName: 'Bathroom',
+      tileId: 'tile-PAaQkfHYaPcC0Ch0x8pyl3d2fRoZ4rgN',
+      thumbnailId: 'thumbnail-PAaQkfHYaPcC0Ch0x8pyl3d2fRoZ4rgN'
+    },
+    {
+      name: 'bedroom',
+      displayName: 'Bedroom',
+      tileId: 'tile-FfzpCCYf0xAbcl4S7rcGVAls7QZdaZAA',
+      thumbnailId: 'thumbnail-FfzpCCYf0xAbcl4S7rcGVAls7QZdaZAA'
+    },
+    {
+      name: 'kitchen',
+      displayName: 'Kitchen',
+      tileId: 'tile-mU6tjJTRZGF2PtDgg2nKy2Sqp1HXCNKg',
+      thumbnailId: 'thumbnail-mU6tjJTRZGF2PtDgg2nKy2Sqp1HXCNKg'
+    }
+  ]),
+
+  juniper: generateStandardHouseTour('juniper', 'Juniper', [
+    {
+      name: 'bathroom',
+      displayName: 'Bathroom',
+      tileId: 'tile-Hp19Z3Ng8pURxsOwd8xtvNMnOak9u81Y',
+      thumbnailId: 'thumbnail-Hp19Z3Ng8pURxsOwd8xtvNMnOak9u81Y'
+    },
+    {
+      name: 'bedroom',
+      displayName: 'Bedroom',
+      tileId: 'tile-51bVTHD6yDO7M3JfuW7g96hFq9al5TL1',
+      thumbnailId: 'thumbnail-51bVTHD6yDO7M3JfuW7g96hFq9al5TL1'
+    },
+    {
+      name: 'great room',
+      displayName: 'Great Room',
+      tileId: 'tile-IpI4ODRi64LGNieQvKJ0QiPKDHsvalOC',
+      thumbnailId: 'thumbnail-IpI4ODRi64LGNieQvKJ0QiPKDHsvalOC'
+    }
+  ]),
+
+  laurel: generateStandardHouseTour('laurel', 'Laurel', [
+    {
+      name: 'bathroom',
+      displayName: 'Bathroom',
+      tileId: 'tile-JKk3zTZTXrYqyfuqTWrBYOLSRl92Mnf7',
+      thumbnailId: 'thumbnail-JKk3zTZTXrYqyfuqTWrBYOLSRl92Mnf7'
+    },
+    {
+      name: 'bathroom2',
+      displayName: 'Bathroom 2',
+      tileId: 'tile-RBzuWs6QwIXWRubpSKJRb7dAoPyNolAc',
+      thumbnailId: 'thumbnail-RBzuWs6QwIXWRubpSKJRb7dAoPyNolAc'
+    },
+    {
+      name: 'bedroom',
+      displayName: 'Bedroom',
+      tileId: 'tile-pE19XXkAAekbeAP11Pd86DLJOQgDRkOv',
+      thumbnailId: 'thumbnail-pE19XXkAAekbeAP11Pd86DLJOQgDRkOv'
+    },
+    {
+      name: 'bedroom2',
+      displayName: 'Bedroom 2',
+      tileId: 'tile-80vcXwiIlGJM9WsIxpMaD2UNnk3mT2V5',
+      thumbnailId: 'thumbnail-80vcXwiIlGJM9WsIxpMaD2UNnk3mT2V5'
+    },
+    {
+      name: 'kitchen',
+      displayName: 'Kitchen',
+      tileId: 'tile-j5HgjyQDHcYv8tfnXAPfdRYmqj4soSEg',
+      thumbnailId: 'thumbnail-j5HgjyQDHcYv8tfnXAPfdRYmqj4soSEg'
+    },
+    {
+      name: 'living',
+      displayName: 'Living Room',
+      tileId: 'tile-P5LjNnjR6GKLnfViTPnxYxpAypCMjZks',
+      thumbnailId: 'thumbnail-P5LjNnjR6GKLnfViTPnxYxpAypCMjZks'
+    }
+  ]),
+
+  Oak: generateStandardHouseTour('Oak', 'Oak', [
+    {
+      name: 'bathroom',
+      displayName: 'Bathroom',
+      tileId: 'tile-qzTNuDEIStGpFDynMdNAok7X8VLSX4be',
+      thumbnailId: 'thumbnail-qzTNuDEIStGpFDynMdNAok7X8VLSX4be'
+    },
+    {
+      name: 'bedroom',
+      displayName: 'Bedroom',
+      tileId: 'tile-rWE18EXCIYh7TAfgYs0KEdH5F19uSmcV',
+      thumbnailId: 'thumbnail-rWE18EXCIYh7TAfgYs0KEdH5F19uSmcV'
+    },
+    {
+      name: 'entry',
+      displayName: 'Entry',
+      tileId: 'tile-B2KUd6t217JGJ2cdPNMPpqgc5OBSTF5G',
+      thumbnailId: 'thumbnail-B2KUd6t217JGJ2cdPNMPpqgc5OBSTF5G'
+    },
+    {
+      name: 'full view to entry',
+      displayName: 'Full View to Entry',
+      tileId: 'tile-Dw6JL1B3D4hTogpGir02hLTrCl40b8Mz',
+      thumbnailId: 'thumbnail-Dw6JL1B3D4hTogpGir02hLTrCl40b8Mz'
+    },
+    {
+      name: 'kitchen',
+      displayName: 'Kitchen',
+      tileId: 'tile-Xiz3oAMUsPtR7P6BtItHXYs4SnbLobjM',
+      thumbnailId: 'thumbnail-Xiz3oAMUsPtR7P6BtItHXYs4SnbLobjM'
+    },
+    {
+      name: 'living',
+      displayName: 'Living Room',
+      tileId: 'tile-ZZREvoG32HLyC1hxfQvfHceE0dUYV2T2',
+      thumbnailId: 'thumbnail-ZZREvoG32HLyC1hxfQvfHceE0dUYV2T2'
+    }
+  ])
 };
 
 // Legacy SCENES export for backward compatibility
