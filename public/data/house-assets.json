@@ -191,50 +191,460 @@
     },
     "laurel": {
       "name": "Laurel",
-      "maxDP": 3,
-      "maxPK": 3,
-      "availableRooms": ["living", "kitchen", "bedroom"],
-      "tour360Rooms": [],
-      "specialPaths": {
-        "hero": "/assets/laurel/laurel-thumb.jpg"
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["bathroom","bathroom2","bedroom","bedroom2","kitchen","living"],
+        "comparison": {
+        "features": {
+          "Outdoor Space": {
+            "good": "✗",
+            "better": "210 SF",
+            "best": "210 SF"
+          },
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet", 
+            "best": "9 Feet"
+          },
+          "Kitchen": {
+            "good": "Kitchenette",
+            "better": "Full Kitchen with Upper Cabs",
+            "best": "Full Kitchen with Upper Cabs"
+          },
+          "Kitchen Island": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Garbage Disposal": {
+            "good": "✗",
+            "better": "✗", 
+            "best": "✓"
+          },
+          "Vanity": {
+            "good": "Pedestal Sink",
+            "better": "Built-in Vanity w/ Single Sink",
+            "best": "Built-in Vanity w/ Single Sink"
+          },
+          "Shower": {
+            "good": "Tub/Shower Unit",
+            "better": "Shower Unit",
+            "best": "Tile Shower"
+          },
+          "Bathroom Accessories": {
+            "good": "✗",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Exterior Siding": {
+            "good": "Hardie Lap",
+            "better": "Hardie Lap and Board & Batten",
+            "best": "Hardie Lap and Board & Batten"
+          },
+          "Flooring": {
+            "good": "Builder Grade LVP or Laminate",
+            "better": "Upgraded LVP or Laminate",
+            "best": "Designer Series LVP or Laminate and Tile"
+          },
+          "Feature Lighting": {
+            "good": "Downlighting, Interior and Exterior Fixtures",
+            "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+            "best": "Premium Fixtures from Rejuvenation"
+          },
+          "Mini-Split HVAC": {
+            "good": "Living Area",
+            "better": "Living Area and Primary Bedroom",
+            "best": "Living Area and All Bedrooms"
+          },
+          "Tank Water Heater": {
+            "good": "✓",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Electric Fireplace": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Available Design Collection": {
+            "good": "Dark & Light",
+            "better": "Heritage, Haven and Sunset",
+            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+          }
+        }
       },
+      "tour360Rooms": {
+        "rooms":["bathroom","bathroom2","bedroom","bedroom2","kitchen","living"],
+        "availableFiles": {
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+         "bathroom2": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom2": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+          
+        }
+      },
+    
       "fallbacks": {
         "dp4": "dp3",
-        "dp5": "dp3",
+        "dp5": "dp4",
         "pk4": "pk3",
-        "pk5": "pk3",
-        "bathroom": "bedroom"
+        "pk5": "pk4"
       }
     },
     "tamarack": {
       "name": "Tamarack",
-      "maxDP": 3,
-      "maxPK": 3,
-      "availableRooms": ["living", "kitchen", "bedroom"],
-      "tour360Rooms": [],
-      "specialPaths": {
-        "hero": "/assets/tamarack/tamarack-hero.jpg"
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+           "comparison": {
+        "features": {
+          "Outdoor Space": {
+            "good": "✗",
+            "better": "210 SF",
+            "best": "210 SF"
+          },
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet", 
+            "best": "9 Feet"
+          },
+          "Kitchen": {
+            "good": "Kitchenette",
+            "better": "Full Kitchen with Upper Cabs",
+            "best": "Full Kitchen with Upper Cabs"
+          },
+          "Kitchen Island": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Garbage Disposal": {
+            "good": "✗",
+            "better": "✗", 
+            "best": "✓"
+          },
+          "Vanity": {
+            "good": "Pedestal Sink",
+            "better": "Built-in Vanity w/ Single Sink",
+            "best": "Built-in Vanity w/ Single Sink"
+          },
+          "Shower": {
+            "good": "Tub/Shower Unit",
+            "better": "Shower Unit",
+            "best": "Tile Shower"
+          },
+          "Bathroom Accessories": {
+            "good": "✗",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Exterior Siding": {
+            "good": "Hardie Lap",
+            "better": "Hardie Lap and Board & Batten",
+            "best": "Hardie Lap and Board & Batten"
+          },
+          "Flooring": {
+            "good": "Builder Grade LVP or Laminate",
+            "better": "Upgraded LVP or Laminate",
+            "best": "Designer Series LVP or Laminate and Tile"
+          },
+          "Feature Lighting": {
+            "good": "Downlighting, Interior and Exterior Fixtures",
+            "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+            "best": "Premium Fixtures from Rejuvenation"
+          },
+          "Mini-Split HVAC": {
+            "good": "Living Area",
+            "better": "Living Area and Primary Bedroom",
+            "best": "Living Area and All Bedrooms"
+          },
+          "Tank Water Heater": {
+            "good": "✓",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Electric Fireplace": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Available Design Collection": {
+            "good": "Dark & Light",
+            "better": "Heritage, Haven and Sunset",
+            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+          }
+        }
       },
+      "tour360Rooms": {
+        "rooms":["living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
+    
       "fallbacks": {
         "dp4": "dp3",
-        "dp5": "dp3",
-        "pk4": "pk3",
-        "pk5": "pk3",
-        "bathroom": "bedroom"
+        "pk4": "pk3"
       }
     },
     "ponderosa": {
       "name": "Ponderosa",
-      "maxDP": 3,
-      "maxPK": 3,
+      "maxDP": 4,
+      "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
-      "specialPaths": {},
+           "comparison": {
+        "features": {
+          "Outdoor Space": {
+            "good": "✗",
+            "better": "210 SF",
+            "best": "210 SF"
+          },
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet", 
+            "best": "9 Feet"
+          },
+          "Kitchen": {
+            "good": "Kitchenette",
+            "better": "Full Kitchen with Upper Cabs",
+            "best": "Full Kitchen with Upper Cabs"
+          },
+          "Kitchen Island": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Garbage Disposal": {
+            "good": "✗",
+            "better": "✗", 
+            "best": "✓"
+          },
+          "Vanity": {
+            "good": "Pedestal Sink",
+            "better": "Built-in Vanity w/ Single Sink",
+            "best": "Built-in Vanity w/ Single Sink"
+          },
+          "Shower": {
+            "good": "Tub/Shower Unit",
+            "better": "Shower Unit",
+            "best": "Tile Shower"
+          },
+          "Bathroom Accessories": {
+            "good": "✗",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Exterior Siding": {
+            "good": "Hardie Lap",
+            "better": "Hardie Lap and Board & Batten",
+            "best": "Hardie Lap and Board & Batten"
+          },
+          "Flooring": {
+            "good": "Builder Grade LVP or Laminate",
+            "better": "Upgraded LVP or Laminate",
+            "best": "Designer Series LVP or Laminate and Tile"
+          },
+          "Feature Lighting": {
+            "good": "Downlighting, Interior and Exterior Fixtures",
+            "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+            "best": "Premium Fixtures from Rejuvenation"
+          },
+          "Mini-Split HVAC": {
+            "good": "Living Area",
+            "better": "Living Area and Primary Bedroom",
+            "best": "Living Area and All Bedrooms"
+          },
+          "Tank Water Heater": {
+            "good": "✓",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Electric Fireplace": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Available Design Collection": {
+            "good": "Dark & Light",
+            "better": "Heritage, Haven and Sunset",
+            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+          }
+        }
+      },
+     "tour360Rooms": {
+        "rooms":["living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
+    
       "fallbacks": {
         "dp4": "dp3",
-        "dp5": "dp3",
-        "pk4": "pk3",
-        "pk5": "pk3"
+
+        "pk4": "pk3"
+      
       }
     },
     "pine": {
@@ -242,7 +652,138 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
+           "comparison": {
+        "features": {
+          "Outdoor Space": {
+            "good": "✗",
+            "better": "210 SF",
+            "best": "210 SF"
+          },
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet", 
+            "best": "9 Feet"
+          },
+          "Kitchen": {
+            "good": "Kitchenette",
+            "better": "Full Kitchen with Upper Cabs",
+            "best": "Full Kitchen with Upper Cabs"
+          },
+          "Kitchen Island": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Garbage Disposal": {
+            "good": "✗",
+            "better": "✗", 
+            "best": "✓"
+          },
+          "Vanity": {
+            "good": "Pedestal Sink",
+            "better": "Built-in Vanity w/ Single Sink",
+            "best": "Built-in Vanity w/ Single Sink"
+          },
+          "Shower": {
+            "good": "Tub/Shower Unit",
+            "better": "Shower Unit",
+            "best": "Tile Shower"
+          },
+          "Bathroom Accessories": {
+            "good": "✗",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Exterior Siding": {
+            "good": "Hardie Lap",
+            "better": "Hardie Lap and Board & Batten",
+            "best": "Hardie Lap and Board & Batten"
+          },
+          "Flooring": {
+            "good": "Builder Grade LVP or Laminate",
+            "better": "Upgraded LVP or Laminate",
+            "best": "Designer Series LVP or Laminate and Tile"
+          },
+          "Feature Lighting": {
+            "good": "Downlighting, Interior and Exterior Fixtures",
+            "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+            "best": "Premium Fixtures from Rejuvenation"
+          },
+          "Mini-Split HVAC": {
+            "good": "Living Area",
+            "better": "Living Area and Primary Bedroom",
+            "best": "Living Area and All Bedrooms"
+          },
+          "Tank Water Heater": {
+            "good": "✓",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Electric Fireplace": {
+            "good": "✗",
+            "better": "✗",
+            "best": "✓"
+          },
+          "Available Design Collection": {
+            "good": "Dark & Light",
+            "better": "Heritage, Haven and Sunset",
+            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+          }
+        }
+      },
+      "tour360Rooms": {
+        "rooms":["living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "specialPaths": {},
       "fallbacks": {
         "dp5": "dp4",
