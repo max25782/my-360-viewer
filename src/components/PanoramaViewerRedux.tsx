@@ -30,6 +30,9 @@ import {
 import { hasTour360, getTour360Config } from '../utils/universalAssets';
 import { assetPaths } from '../utils/assetPaths';
 import { checkWebPSupport } from '../utils/webpSupport';
+import { useServiceWorker } from '../hooks/useServiceWorker';
+import { usePerformanceMetrics } from '../hooks/usePerformanceMetrics';
+import { usePreviews } from '../hooks/usePreviews';
 
 interface PanoramaViewerProps {
   houseId: string;
@@ -53,6 +56,11 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [currentScene, setCurrentScene] = useState<any>(null);
   const [supportsWebP, setSupportsWebP] = useState<boolean>(false);
+  
+  // Performance and Service Worker hooks
+  const { preloadRooms: preloadRoomsSW, isReady: swReady } = useServiceWorker();
+  const { measure360Scene, markRoomPreloaded, logPerformanceReport } = usePerformanceMetrics();
+  const { getTilePreview } = usePreviews();
 
   // Helper: degrees -> radians if needed
   const toRad = useCallback((val: number) => (Math.abs(val) > Math.PI * 2 ? (val * Math.PI) / 180 : val), []);
@@ -253,6 +261,9 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       return;
     }
     
+    // Start performance measurement
+    const perfMeasure = measure360Scene(sceneKey);
+    
     dispatch(setLoading(true));
     
     try {
@@ -284,6 +295,9 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
         transition: false // Remove transition to avoid jumps
       });
       
+      // Mark scene as ready for performance metrics
+      perfMeasure.markSceneReady();
+      
       // Update local and Redux state
       setCurrentScene(scene);
       dispatch(updatePosition({ yaw: targetYaw, pitch: targetPitch, zoom: targetZoom }));
@@ -298,6 +312,15 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       if (scene.links && scene.links.length > 0) {
         requestIdleCallback(() => {
           preloadNextRooms(scene.links);
+          
+          // Also preload via Service Worker if available
+          if (swReady) {
+            const linkedRooms = scene.links.map(link => link.to.split('_').pop()).filter(Boolean);
+            preloadRoomsSW(houseId, linkedRooms as string[], supportsWebP ? 'webp' : 'jpg')
+              .then(() => {
+                linkedRooms.forEach(room => markRoomPreloaded(room!));
+              });
+          }
         }, { timeout: 2000 });
       }
       
@@ -306,7 +329,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       console.error('Failed to change scene:', error);
       dispatch(setError(`Failed to change scene: ${error}`));
     }
-  }, [houseId, dispatch, toRad, buildMarkers, getSceneFromRoom, preloadNextRooms]);
+  }, [houseId, dispatch, toRad, buildMarkers, getSceneFromRoom, preloadNextRooms, measure360Scene, swReady, preloadRoomsSW, supportsWebP, markRoomPreloaded]);
 
   // Initialize house when houseId changes
   useEffect(() => {
@@ -473,6 +496,22 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       {/* Instant CSS-only LCP placeholder [[memory:5988045]] */}
       {!isViewerReady && (
         <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-500 flex items-center justify-center">
+          {/* Preview blur background if available */}
+          {currentScene && (() => {
+            const roomName = currentScene.key?.split('_').pop();
+            const preview = roomName ? getTilePreview(houseId, roomName, 'f') : null;
+            return preview ? (
+              <div 
+                className="absolute inset-0 opacity-30"
+                style={{
+                  backgroundImage: `url(${preview})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'blur(20px) brightness(1.2)'
+                }}
+              />
+            ) : null;
+          })()}
           <div className="text-center">
             <div className="w-20 h-20 mx-auto mb-6 bg-slate-400 rounded-full flex items-center justify-center">
               <svg className="w-10 h-10 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
@@ -501,6 +540,17 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
         ref={containerRef}
         className={`w-full h-full ${!isViewerReady ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}
       />
+      
+      {/* Performance Metrics Button - Only in development */}
+      {process.env.NODE_ENV === 'development' && isViewerReady && (
+        <button
+          onClick={logPerformanceReport}
+          className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-sm hover:bg-black/90 transition-colors"
+          title="Show performance metrics"
+        >
+          📊 Metrics
+        </button>
+      )}
     </div>
   );
 }

@@ -134,7 +134,14 @@ export default function UniversalDesignSelectorRedux({
 
   return (
     <div className="space-y-4">
-
+      {/* Title */}
+      <h3 className={`text-xl font-semibold text-center ${
+        type === 'exterior' ? 'text-gray-900' : 'text-white drop-shadow-lg'
+      }`}>
+        {type === 'exterior' ? 'Exterior Options' : 'Interior Finishes'}
+      </h3>
+      
+   
 
       {/* Main Image Display */}
       <div className="rounded-lg overflow-hidden shadow-lg">
@@ -147,17 +154,73 @@ export default function UniversalDesignSelectorRedux({
             backgroundRepeat: 'no-repeat'
           }}
         >
+          {/* Room Navigation Arrows */}
+          {type === 'interior' && rooms.length > 1 && (
+            <>
+              {/* Left Arrow */}
+              <button 
+                onClick={() => {
+                  const currentIndex = rooms.indexOf(selectedRoom);
+                  const prevIndex = (currentIndex - 1 + rooms.length) % rooms.length;
+                  handleRoomChange(rooms[prevIndex]);
+                }}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="h-8 w-8 text-gray-800" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+
+              {/* Right Arrow */}
+              <button 
+                onClick={() => {
+                  const currentIndex = rooms.indexOf(selectedRoom);
+                  const nextIndex = (currentIndex + 1) % rooms.length;
+                  handleRoomChange(rooms[nextIndex]);
+                }}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className="h-8 w-8 text-gray-800" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Current Room Label */}
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white/50 px-4 py-2 rounded-full z-10">
+                <span className="text-gray-800 text-sm font-semibold">
+                  {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)}
+                </span>
+              </div>
+            </>
+          )}
+
           {/* Photo Navigation Dots (Interior multiple photos) */}
           {type === 'interior' && currentPhotos.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
               {currentPhotos.map((_: string, index: number) => (
                 <button
                   key={index}
                   onClick={() => handlePhotoIndexChange(index)}
-                  className={`w-3 h-3 rounded-full transition-opacity ${
-                    index === currentPhotoIndex ? 'bg-white' : 'bg-white bg-opacity-50'
+                  className={`transition-all ${
+                    index === currentPhotoIndex 
+                      ? 'w-3 h-3 bg-white rounded-full shadow-lg' 
+                      : 'w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-80'
                   }`}
-                />
+                  title={index === 0 ? 'Основной цвет' : `Вариант ${index}`}
+                >
+                </button>
               ))}
             </div>
           )}

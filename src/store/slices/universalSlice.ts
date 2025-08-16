@@ -125,7 +125,7 @@ export const loadDesignImage = createAsyncThunk(
         const imagePath = await getAssetPath('exterior', houseId, { dp: packageData.dp });
         photos.push(imagePath);
       } else {
-        // Загружаем основное фото
+        // Загружаем основное фото из interior папки дома
         try {
           const mainPhoto = await getAssetPath('interior', houseId, { room, pk: packageData.pk });
           photos.push(mainPhoto);
