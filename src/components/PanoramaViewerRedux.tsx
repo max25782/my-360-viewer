@@ -29,6 +29,7 @@ import {
 // Universal system imports
 import { hasTour360, getTour360Config } from '../utils/universalAssets';
 import { assetPaths } from '../utils/assetPaths';
+import { checkWebPSupport } from '../utils/webpSupport';
 
 interface PanoramaViewerProps {
   houseId: string;
@@ -51,6 +52,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   const [tour360Config, setTour360Config] = useState<any>(null);
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
   const [currentScene, setCurrentScene] = useState<any>(null);
+  const [supportsWebP, setSupportsWebP] = useState<boolean>(false);
 
   // Helper: degrees -> radians if needed
   const toRad = useCallback((val: number) => (Math.abs(val) > Math.PI * 2 ? (val * Math.PI) / 180 : val), []);
@@ -109,24 +111,29 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
     const links = createLinksForRoom(roomName, roomIndex);
     
+    // Выбираем tiles в зависимости от поддержки WebP
+    const tiles = supportsWebP && tour360Paths.tilesWebP ? tour360Paths.tilesWebP : tour360Paths.tiles;
+    
     console.log(`🔧 Creating scene for ${roomName}:`, {
       roomName,
       roomIndex,
       actualHouseId,
       linksCount: links.length,
-      links
+      links,
+      usingWebP: supportsWebP && !!tour360Paths.tilesWebP,
+      tilesFormat: supportsWebP && tour360Paths.tilesWebP ? 'WebP' : 'JPEG'
     });
     
     return {
       key: `${houseId}_${roomName}`,
       title: `${houseId.charAt(0).toUpperCase() + houseId.slice(1)} - ${roomName.charAt(0).toUpperCase() + roomName.slice(1)}`,
       panorama: {
-        front: tour360Paths.tiles.front,
-        back: tour360Paths.tiles.back,
-        left: tour360Paths.tiles.left,
-        right: tour360Paths.tiles.right,
-        top: tour360Paths.tiles.up,
-        bottom: tour360Paths.tiles.down
+        front: tiles.front,
+        back: tiles.back,
+        left: tiles.left,
+        right: tiles.right,
+        top: tiles.up,
+        bottom: tiles.down
       },
       thumbnail: tour360Paths.thumbnail,
       yaw: 180,
@@ -134,7 +141,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       zoom: 50,
       links
     };
-  }, [houseId, getActualHouseDirectory, createLinksForRoom]);
+  }, [houseId, getActualHouseDirectory, createLinksForRoom, supportsWebP]);
 
   // Get room icon based on room name
   const getRoomIcon = useCallback((roomKey: string) => {
@@ -164,6 +171,28 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     
     return createSceneFromRoom(roomName, roomIndex);
   }, [tour360Config, createSceneFromRoom]);
+
+  // Preload images for next rooms
+  const preloadNextRooms = useCallback((links: any[]) => {
+    if (!links || links.length === 0) return;
+    
+    links.forEach(link => {
+      const roomName = link.to.split('_').pop();
+      if (!roomName) return;
+      
+      const actualHouseId = getActualHouseDirectory(houseId);
+      const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
+      const tiles = supportsWebP && tour360Paths.tilesWebP ? tour360Paths.tilesWebP : tour360Paths.tiles;
+      
+      // Предзагружаем изображения в фоне
+      Object.values(tiles).forEach((url: any) => {
+        const img = new Image();
+        img.src = url;
+      });
+      
+      console.log(`📥 Preloading ${supportsWebP ? 'WebP' : 'JPEG'} tiles for room: ${roomName}`);
+    });
+  }, [houseId, supportsWebP, getActualHouseDirectory]);
 
   // Helper: build markers for scene links with room icons
   const buildMarkers = useCallback((links: any[] = [], house: string) =>
@@ -265,12 +294,19 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       currentMarkers.clearMarkers();
       currentMarkers.setMarkers(buildMarkers(scene.links, houseId));
       
+      // Preload images for linked rooms in background
+      if (scene.links && scene.links.length > 0) {
+        requestIdleCallback(() => {
+          preloadNextRooms(scene.links);
+        }, { timeout: 2000 });
+      }
+      
       dispatch(setLoading(false));
     } catch (error) {
       console.error('Failed to change scene:', error);
       dispatch(setError(`Failed to change scene: ${error}`));
     }
-  }, [houseId, dispatch, toRad, buildMarkers, getSceneFromRoom]);
+  }, [houseId, dispatch, toRad, buildMarkers, getSceneFromRoom, preloadNextRooms]);
 
   // Initialize house when houseId changes
   useEffect(() => {
@@ -383,6 +419,14 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     };
   }, [dispatch]);
 
+  // Check WebP support
+  useEffect(() => {
+    checkWebPSupport().then(supported => {
+      setSupportsWebP(supported);
+      console.log(`🖼️ WebP support: ${supported ? 'Да ✅' : 'Нет ❌'}`);
+    });
+  }, []);
+
   // Load 360° configuration from JSON
   useEffect(() => {
     async function loadTour360Config() {
@@ -413,8 +457,15 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       setCurrentRoomIndex(0);
       dispatch(setHouse(houseId));
       dispatch(setScene(firstScene.key));
+      
+      // Preload next rooms after first scene is ready
+      if (firstScene.links && firstScene.links.length > 0) {
+        setTimeout(() => {
+          preloadNextRooms(firstScene.links);
+        }, 1000);
+      }
     }
-  }, [tour360Config, currentScene, houseId, dispatch]); // Removed createSceneFromRoom from deps
+  }, [tour360Config, currentScene, houseId, dispatch, createSceneFromRoom, preloadNextRooms]);
 
   return (
     <div className="relative w-full h-full">

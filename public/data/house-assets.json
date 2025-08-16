@@ -15,6 +15,14 @@
           "right": "/assets/{houseId}/360/{room}/r.jpg",
           "up": "/assets/{houseId}/360/{room}/u.jpg",
           "down": "/assets/{houseId}/360/{room}/d.jpg"
+        },
+        "tilesWebP": {
+          "front": "/assets/{houseId}/360/{room}/f.webp",
+          "back": "/assets/{houseId}/360/{room}/b.webp",
+          "left": "/assets/{houseId}/360/{room}/l.webp",
+          "right": "/assets/{houseId}/360/{room}/r.webp",
+          "up": "/assets/{houseId}/360/{room}/u.webp",
+          "down": "/assets/{houseId}/360/{room}/d.webp"
         }
       },
       "textures": {
