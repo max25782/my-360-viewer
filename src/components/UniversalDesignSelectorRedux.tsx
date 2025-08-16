@@ -143,11 +143,12 @@ export default function UniversalDesignSelectorRedux({
       
    
 
-      {/* Main Image Display */}
+      {/* Main Image Display - LCP Optimized */}
       <div className="rounded-lg overflow-hidden shadow-lg">
         <div 
           className={`aspect-video relative ${isImageLoading ? 'animate-pulse bg-gray-300' : ''}`}
           style={{
+            minHeight: '360px', // Prevent CLS
             backgroundImage: currentImage ? `url('${getImageUrl(currentImage)}')` : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center',

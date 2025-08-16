@@ -221,7 +221,7 @@ export const usePerformanceMetrics = () => {
     console.log(`  Tiles loaded: ${summary.panorama.tileLoadCount}`);
     
     console.log('\n🎯 Score:');
-    const score = this.calculatePerformanceScore(summary);
+    const score = calculatePerformanceScore(summary);
     console.log(`  Overall: ${score}/100 ${score >= 90 ? '🏆 Excellent!' : score >= 75 ? '✅ Good' : score >= 50 ? '⚠️ Needs work' : '❌ Poor'}`);
     console.log('========================\n');
   }, [getMetricsSummary]);

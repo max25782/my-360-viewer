@@ -1,4 +1,4 @@
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 
 interface GetStartedTodayProps {
   house: House;

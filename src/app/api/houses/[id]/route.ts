@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getHouse } from '../../../../data/houses';
+import { getHouse } from '../../../../hooks/useHouses';
 
 interface RouteParams {
   params: Promise<{
@@ -10,7 +10,7 @@ interface RouteParams {
 export async function GET(request: Request, { params }: RouteParams) {
   try {
     const resolvedParams = await params;
-    const house = getHouse(resolvedParams.id);
+    const house = await getHouse(resolvedParams.id);
     
     if (!house) {
       return NextResponse.json(

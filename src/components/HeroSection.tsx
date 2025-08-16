@@ -1,4 +1,4 @@
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 import Button from './Button';
 import Image from 'next/image';
 
@@ -36,16 +36,16 @@ export default function HeroSection({ house }: HeroSectionProps) {
                 
                 <div className="grid grid-cols-3 gap-6 mb-8">
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-white">{house.sqft}</span>
-                    <span className="block text-sm text-gray-200">Sq. Ft.</span>
+                    <span className="block text-3xl font-bold text-white">{house.availableRooms.length}</span>
+                    <span className="block text-sm text-gray-200">Rooms</span>
                   </div>
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-white">{house.bedrooms}</span>
-                    <span className="block text-sm text-gray-200">Bedrooms</span>
+                    <span className="block text-3xl font-bold text-white">{house.maxDP}</span>
+                    <span className="block text-sm text-gray-200">Design Packages</span>
                   </div>
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-white">{house.bathrooms}</span>
-                    <span className="block text-sm text-gray-200">Bathrooms</span>
+                    <span className="block text-3xl font-bold text-white">{house.maxPK}</span>
+                    <span className="block text-sm text-gray-200">Interior Packages</span>
                   </div>
                 </div>
 

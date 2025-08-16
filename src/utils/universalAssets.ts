@@ -73,7 +73,12 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
   if (assetData) return assetData;
   
   try {
-    const response = await fetch('/data/house-assets.json');
+    // Используем window.location для построения абсолютного URL
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    const response = await fetch(`${baseUrl}/data/house-assets.json`);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
     assetData = await response.json();
     return assetData!;
   } catch (error) {
@@ -82,7 +87,7 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
     return {
       assetConfig: {
         pathTemplates: {
-          hero: '/assets/{houseId}/hero.jpg',
+          hero: '/assets/{houseId}/hero.webp',
           exterior: '/assets/{houseId}/exterior/dp{dp}.jpg',
           interior: '/assets/{houseId}/interior/{room}/pk{pk}.jpg',
           comparison: '/assets/{houseId}/comparison/{type}-{variant}.jpg',
@@ -156,36 +161,43 @@ export async function getAssetPath(
     textureId?: number;
     tour360Type?: 'thumbnail' | 'preview' | 'tiles';
     tileDirection?: 'front' | 'back' | 'left' | 'right' | 'up' | 'down';
+    format?: 'jpg' | 'webp'; // Новый параметр
   } = {}
 ): Promise<string> {
   const config = await loadAssetConfig();
   const houseConfig = config.houses[houseId];
   
-  // Check for special paths first
-  if (type === 'hero' && houseConfig?.specialPaths?.hero) {
-    return houseConfig.specialPaths.hero;
-  }
-  
   let template = '';
-  const variables: Record<string, string | number> = { houseId };
+  const variables: Record<string, string | number> = { 
+    houseId,
+    format: options.format || 'jpg' // По умолчанию JPG
+  };
+  
+  // Проверяем специальные пути
+  if (type === 'hero' && houseConfig?.specialPaths?.hero) {
+    template = houseConfig.specialPaths.hero;
+    console.log(`Using special path for ${houseId}:`, template);
+    return replacePath(template, variables);
+  }
   
   switch (type) {
     case 'hero':
       template = config.assetConfig.pathTemplates.hero;
+      console.log(`Using default hero template for ${houseId}:`, template);
       break;
       
     case 'exterior':
       template = config.assetConfig.pathTemplates.exterior;
       let dp = options.dp || 1;
       
-      // Apply fallbacks
+      // Применяем fallbacks
       if (houseConfig) {
         const maxDP = houseConfig.maxDP;
         if (dp > maxDP) {
           dp = maxDP;
         }
         
-        // Check specific fallbacks
+        // Проверяем специфические fallbacks
         const fallbackKey = `dp${options.dp}`;
         if (houseConfig.fallbacks?.[fallbackKey]) {
           const fallbackDP = houseConfig.fallbacks[fallbackKey];
@@ -202,12 +214,12 @@ export async function getAssetPath(
       let pk = options.pk || 1;
       
       if (houseConfig) {
-        // Apply room fallbacks
+        // Применяем fallbacks для комнат
         if (!houseConfig.availableRooms.includes(room) && houseConfig.fallbacks?.[room]) {
           room = houseConfig.fallbacks[room];
         }
         
-        // Apply PK fallbacks
+        // Применяем PK fallbacks
         const maxPK = houseConfig.maxPK;
         if (pk > maxPK) {
           pk = maxPK;
@@ -236,8 +248,10 @@ export async function getAssetPath(
       
       if (tour360Type === 'tiles' && options.tileDirection) {
         template = tour360Templates.tiles[options.tileDirection] || tour360Templates.thumbnail;
-      } else {
+      } else if (tour360Type === 'thumbnail' || tour360Type === 'preview') {
         template = tour360Templates[tour360Type] || tour360Templates.thumbnail;
+      } else {
+        template = tour360Templates.thumbnail;
       }
       
       variables.room = options.room || 'living';
@@ -250,7 +264,9 @@ export async function getAssetPath(
       break;
   }
   
-  return replacePath(template, variables);
+  const finalPath = replacePath(template, variables);
+  console.log(`Final asset path for ${houseId} (${type}):`, finalPath);
+  return finalPath;
 }
 
 /**

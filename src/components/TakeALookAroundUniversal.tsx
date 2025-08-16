@@ -3,7 +3,7 @@
  * Сохраняет старый CSS и дизайн, но использует новую JSON-driven архитектуру
  */
 
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 import VirtualTourPreviewUniversal from './VirtualTourPreviewUniversal';
 
 interface TakeALookAroundUniversalProps {

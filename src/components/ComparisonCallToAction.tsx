@@ -4,7 +4,7 @@
  */
 
 import Link from 'next/link';
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 
 interface ComparisonCallToActionProps {
   house: House;
@@ -13,22 +13,22 @@ interface ComparisonCallToActionProps {
 export default function ComparisonCallToAction({ house }: ComparisonCallToActionProps) {
   return (
     <div className="bg-slate-600 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
-      {/* Header with Package Prices */}
+      {/* Header with Package Options */}
       <div className="grid grid-cols-4">
         <div className="bg-slate-800 text-white text-center py-4 px-6">
           <h3 className="text-lg font-bold">Package Options</h3>
         </div>
         <div className="bg-slate-800 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">GOOD</h3>
-          <p className="text-sm opacity-90">${house.priceRange.good.toLocaleString()}</p>
+          <h3 className="text-xl font-bold">HERITAGE</h3>
+          <p className="text-sm opacity-90">DP1 / PK1</p>
         </div>
         <div className="bg-slate-900 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">BETTER</h3>
-          <p className="text-sm opacity-90">${house.priceRange.better.toLocaleString()}</p>
+          <h3 className="text-xl font-bold">HAVEN</h3>
+          <p className="text-sm opacity-90">DP2 / PK2</p>
         </div>
         <div className="bg-slate-950 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">BEST</h3>
-          <p className="text-sm opacity-90">${house.priceRange.best.toLocaleString()}</p>
+          <h3 className="text-xl font-bold">LUXE</h3>
+          <p className="text-sm opacity-90">DP{house.maxDP} / PK{house.maxPK}</p>
         </div>
       </div>
 
@@ -46,21 +46,21 @@ export default function ComparisonCallToAction({ house }: ComparisonCallToAction
           {/* Features Preview */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div className="bg-slate-400 p-4 rounded-lg">
-              <div className="text-stone-600 font-semibold mb-2">Essential Features</div>
+              <div className="text-stone-600 font-semibold mb-2">Heritage Package</div>
               <div className="text-sm text-gray-600">
-                Basic finishes, standard appliances, essential functionality
+                Essential finishes and features - DP1/PK1 configuration
               </div>
             </div>
             <div className="bg-slate-400 p-4 rounded-lg">
-              <div className="text-stone-700 font-semibold mb-2">Enhanced Comfort</div>
+              <div className="text-stone-700 font-semibold mb-2">Haven Package</div>
               <div className="text-sm text-gray-600">
-                Upgraded finishes, better appliances, additional features
+                Enhanced comfort and upgraded finishes - DP2/PK2 configuration
               </div>
             </div>
             <div className="bg-slate-400 p-4 rounded-lg">
-              <div className="text-stone-800 font-semibold mb-2">Premium Experience</div>
+              <div className="text-stone-800 font-semibold mb-2">Luxe Package</div>
               <div className="text-sm text-gray-600">
-                Luxury finishes, premium appliances, all upgrades included
+                Premium experience with top-tier finishes - DP{house.maxDP}/PK{house.maxPK} configuration
               </div>
             </div>
           </div>

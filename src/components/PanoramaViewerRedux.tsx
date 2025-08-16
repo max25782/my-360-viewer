@@ -87,29 +87,38 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     const links: any[] = [];
     const rooms = tour360Config.rooms;
     
-    console.log(`🔧 Creating links for ${currentRoom}:`, {
-      currentRoom,
-      currentIndex,
-      allRooms: rooms,
-      roomsCount: rooms.length
-    });
-    
-    // Add links to other rooms (skip current room)
-    rooms.forEach((room: string, index: number) => {
-      if (room !== currentRoom) {
-        // Calculate yaw based on room position (spread rooms around 360°)
-        const yawOffset = (index - currentIndex) * (360 / rooms.length);
-        const link = {
-          to: `${houseId}_${room}`,
-          yaw: (180 + yawOffset) % 360,
-          pitch: 0
-        };
-        links.push(link);
-        console.log(`➕ Added link:`, link);
+    // Для домов с 2 комнатами - связываем их друг с другом
+    if (rooms.length === 2) {
+      const otherRoom = rooms.find((r: string) => r !== currentRoom);
+      if (otherRoom) {
+        links.push({
+          to: `${houseId}_${otherRoom}`,
+          yaw: 180,
+          pitch: 0,
+          label: otherRoom.charAt(0).toUpperCase() + otherRoom.slice(1).replace(/\s+/g, ' ')
+        });
       }
-    });
+    } 
+    // Для домов с 3+ комнатами - показываем все остальные комнаты
+    else {
+      rooms.forEach((room: string, index: number) => {
+        if (room !== currentRoom) {
+          // Распределяем ссылки по кругу
+          const angleStep = 360 / (rooms.length - 1);
+          const linkIndex = links.length;
+          const yaw = angleStep * linkIndex;
+          
+          links.push({
+            to: `${houseId}_${room}`,
+            yaw: yaw,
+            pitch: 0,
+            label: room.charAt(0).toUpperCase() + room.slice(1).replace(/\s+/g, ' ')
+          });
+        }
+      });
+    }
     
-    console.log(`✅ Created ${links.length} links for ${currentRoom}`);
+    console.log(`✅ Created ${links.length} links for ${currentRoom}:`, links);
     return links;
   }, [tour360Config, houseId]);
 
@@ -119,8 +128,16 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
     const links = createLinksForRoom(roomName, roomIndex);
     
-    // Выбираем tiles в зависимости от поддержки WebP
-    const tiles = supportsWebP && tour360Paths.tilesWebP ? tour360Paths.tilesWebP : tour360Paths.tiles;
+    // Выбираем формат изображений в зависимости от поддержки WebP
+    const format = supportsWebP ? '.webp' : '.jpg';
+    const tiles = {
+      front: tour360Paths.tiles.front.replace('.jpg', format),
+      back: tour360Paths.tiles.back.replace('.jpg', format),
+      left: tour360Paths.tiles.left.replace('.jpg', format),
+      right: tour360Paths.tiles.right.replace('.jpg', format),
+      up: tour360Paths.tiles.up.replace('.jpg', format),
+      down: tour360Paths.tiles.down.replace('.jpg', format)
+    };
     
     console.log(`🔧 Creating scene for ${roomName}:`, {
       roomName,
@@ -128,8 +145,8 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       actualHouseId,
       linksCount: links.length,
       links,
-      usingWebP: supportsWebP && !!tour360Paths.tilesWebP,
-      tilesFormat: supportsWebP && tour360Paths.tilesWebP ? 'WebP' : 'JPEG'
+      usingWebP: supportsWebP,
+      tilesFormat: supportsWebP ? 'WebP' : 'JPEG'
     });
     
     return {
@@ -153,7 +170,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
 
   // Get room icon based on room name
   const getRoomIcon = useCallback((roomKey: string) => {
-    const roomName = roomKey.split('_').pop() || '';
+    const roomName = roomKey.split('_').pop()?.toLowerCase() || '';
     const iconMap: { [key: string]: string } = {
       entry: '🚪',
       kitchen: '🍳',
@@ -161,7 +178,12 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       bathroom: '🚿',
       living: '🛋️',
       guest: '🛋️',
-      dining: '🍽️'
+      dining: '🍽️',
+      'great room': '🏡',
+      'bathroom2': '🚿',
+      'bedroom2': '🛏️',
+      'full view to entry': '👁️',
+      badroom: '🛏️' // typo in some house data
     };
     return iconMap[roomName] || '🏠';
   }, []);
@@ -190,7 +212,15 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       
       const actualHouseId = getActualHouseDirectory(houseId);
       const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
-      const tiles = supportsWebP && tour360Paths.tilesWebP ? tour360Paths.tilesWebP : tour360Paths.tiles;
+      const format = supportsWebP ? '.webp' : '.jpg';
+      const tiles = {
+        front: tour360Paths.tiles.front.replace('.jpg', format),
+        back: tour360Paths.tiles.back.replace('.jpg', format),
+        left: tour360Paths.tiles.left.replace('.jpg', format),
+        right: tour360Paths.tiles.right.replace('.jpg', format),
+        up: tour360Paths.tiles.up.replace('.jpg', format),
+        down: tour360Paths.tiles.down.replace('.jpg', format)
+      };
       
       // Предзагружаем изображения в фоне
       Object.values(tiles).forEach((url: any) => {
@@ -205,50 +235,50 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   // Helper: build markers for scene links with room icons
   const buildMarkers = useCallback((links: any[] = [], house: string) =>
     links.map((l, idx) => {
-      const targetScene = getSceneFromRoom(l.to);
+      const roomLabel = l.label || l.to.split('_').pop() || 'Room';
       const roomIcon = getRoomIcon(l.to);
-      const roomTitle = targetScene?.title || l.to;
       
       return {
         id: `link-${l.to}-${idx}`,
         position: { yaw: toRad(l.yaw || 0), pitch: toRad(l.pitch || 0) },
-        tooltip: roomTitle,
+        tooltip: roomLabel,
         html: `
           <div class="room-marker" style="
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 50px;
-            height: 60px;
+            width: auto;
+            min-width: 60px;
+            padding: 8px 12px;
             cursor: pointer;
             transition: all 0.2s ease;
             user-select: none;
             filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
           ">
             <div style="
-              font-size: 32px;
+              font-size: 28px;
               line-height: 1;
-              margin-bottom: 2px;
+              margin-bottom: 4px;
             ">${roomIcon}</div>
             <div style="
-              font-size: 11px;
+              font-size: 13px;
               font-weight: bold;
               color: white;
               text-align: center;
-              max-width: 48px;
               white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
               text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            ">${roomTitle.split(' - ')[1] || roomTitle}</div>
+            ">${roomLabel}</div>
           </div>
         `,
         anchor: 'center' as const,
         className: 'psv-room-marker',
         data: { to: l.to },
       };
-    }), [toRad, getSceneFromRoom, getRoomIcon]);
+    }), [toRad, getRoomIcon]);
 
   // Scene change handler with Redux optimization
   const changeScene = useCallback(async (sceneKey: string, viewerInstance?: Viewer, markersInstance?: MarkersPlugin) => {

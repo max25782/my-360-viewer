@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
-import { HOUSES } from '../../../data/houses';
+import { getAllHouses } from '../../../hooks/useHouses';
 
 export async function GET() {
   try {
+    const houses = await getAllHouses();
     return NextResponse.json({
       success: true,
-      data: HOUSES,
-      total: HOUSES.length,
+      data: houses,
+      total: houses.length,
       timestamp: new Date().toISOString()
     });
   } catch (error) {

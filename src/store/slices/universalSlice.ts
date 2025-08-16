@@ -75,9 +75,8 @@ export const loadHouseAssets = createAsyncThunk(
       }
 
       // Загружаем данные параллельно
-      const [exteriorPackages, interiorPackages, availableRooms, tour360Available] = await Promise.all([
-        getAvailableDesignPackages(houseId, 'exterior'),
-        getAvailableDesignPackages(houseId, 'interior'),
+      const [designPackages, availableRooms, tour360Available] = await Promise.all([
+        getAvailableDesignPackages(houseId),
         getAvailableRooms(houseId),
         hasTour360(houseId)
       ]);
@@ -89,8 +88,8 @@ export const loadHouseAssets = createAsyncThunk(
 
       const houseAssets: HouseAssets = {
         houseId,
-        exteriorPackages,
-        interiorPackages,
+        exteriorPackages: designPackages,
+        interiorPackages: designPackages,
         availableRooms,
         tour360Available,
         tour360Config,
@@ -104,6 +103,12 @@ export const loadHouseAssets = createAsyncThunk(
     }
   }
 );
+
+// Утилита для проверки поддержки WebP
+const isWebPSupported = (() => {
+  const canvas = typeof document !== 'undefined' ? document.createElement('canvas') : null;
+  return canvas && canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+})();
 
 export const loadDesignImage = createAsyncThunk(
   'universal/loadDesignImage',
@@ -122,29 +127,72 @@ export const loadDesignImage = createAsyncThunk(
       const photos: string[] = [];
       
       if (type === 'exterior') {
-        const imagePath = await getAssetPath('exterior', houseId, { dp: packageData.dp });
-        photos.push(imagePath);
+        try {
+          const imagePath = await getAssetPath('exterior', houseId, { 
+            dp: packageData.dp, 
+            format: isWebPSupported ? 'webp' : 'jpg' 
+          });
+          photos.push(imagePath);
+        } catch (e) {
+          console.log(`Exterior photo not found for dp${packageData.dp}`);
+        }
       } else {
         // Загружаем основное фото из interior папки дома
         try {
-          const mainPhoto = await getAssetPath('interior', houseId, { room, pk: packageData.pk });
+          const mainPhoto = await getAssetPath('interior', houseId, { 
+            room, 
+            pk: packageData.pk,
+            format: isWebPSupported ? 'webp' : 'jpg'
+          });
           photos.push(mainPhoto);
         } catch (e) {
           console.log(`Main photo not found for pk${packageData.pk}`);
         }
         
-        // Проверяем дополнительное фото асинхронно
-        const additionalPhotoPath = `/assets/${houseId}/interior/${room}/pk${packageData.pk}.1.jpg`;
+        // Проверяем дополнительное фото
+        const additionalPhotoFormats = isWebPSupported 
+          ? [`/assets/${houseId}/interior/${room}/pk${packageData.pk}.1.webp`, `/assets/${houseId}/interior/${room}/pk${packageData.pk}.1.jpg`]
+          : [`/assets/${houseId}/interior/${room}/pk${packageData.pk}.1.jpg`, `/assets/${houseId}/interior/${room}/pk${packageData.pk}.1.webp`];
         
-        // Создаем промис для проверки дополнительного фото
-        const checkAdditionalPhoto = new Promise<string | null>((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(additionalPhotoPath);
-          img.onerror = () => resolve(null);
-          img.src = additionalPhotoPath;
-        });
+        // Создаем промис для проверки дополнительного фото с использованием fetch
+        const checkAdditionalPhoto = async () => {
+          // Проверяем, есть ли вообще основное изображение с таким pk
+          const mainPhotoFormats = isWebPSupported 
+            ? [`/assets/${houseId}/interior/${room}/pk${packageData.pk}.webp`, `/assets/${houseId}/interior/${room}/pk${packageData.pk}.jpg`]
+            : [`/assets/${houseId}/interior/${room}/pk${packageData.pk}.jpg`, `/assets/${houseId}/interior/${room}/pk${packageData.pk}.webp`];
+          
+          let mainPhotoExists = false;
+          for (const photoPath of mainPhotoFormats) {
+            try {
+              const response = await fetch(photoPath, { method: 'HEAD' });
+              if (response.ok) {
+                mainPhotoExists = true;
+                break;
+              }
+            } catch {
+              // Продолжаем поиск следующего формата
+            }
+          }
+          
+          if (!mainPhotoExists) {
+            console.log(`No main photo found for pk${packageData.pk} in ${room}`);
+            return null;
+          }
+
+          for (const photoPath of additionalPhotoFormats) {
+            try {
+              const response = await fetch(photoPath, { method: 'HEAD' });
+              if (response.ok) {
+                return photoPath;
+              }
+            } catch {
+              // Продолжаем поиск следующего формата
+            }
+          }
+          return null;
+        };
         
-        const additionalPhoto = await checkAdditionalPhoto;
+        const additionalPhoto = await checkAdditionalPhoto();
         if (additionalPhoto) {
           photos.push(additionalPhoto);
         }
@@ -154,7 +202,7 @@ export const loadDesignImage = createAsyncThunk(
         houseId,
         type,
         room,
-        packageIndex: type === 'exterior' ? packageData.dp - 1 : packageData.pk - 1,
+        packageIndex: type === 'exterior' ? (packageData.dp || 1) - 1 : (packageData.pk || 1) - 1,
         photos,
         mainImage: photos[0] || ''
       };

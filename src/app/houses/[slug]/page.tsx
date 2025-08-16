@@ -1,5 +1,7 @@
-import { notFound } from 'next/navigation';
-import { getHouse, HOUSES } from '../../../data/houses';
+'use client';
+
+import { useParams, notFound } from 'next/navigation';
+import { useHouse, useHouses } from '../../../hooks/useHouses';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
@@ -10,25 +12,25 @@ import TechnicalSpecifications from '../../../components/TechnicalSpecifications
 import ModelFeatures from '../../../components/ModelFeatures';
 import GetStartedToday from '../../../components/GetStartedToday';
 import ExploreModels from '../../../components/ExploreModels';
-import UniversalTourLinks from '../../../components/UniversalTourLinks';
 
-interface PageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
+export default function HousePage() {
+  const params = useParams();
+  const houseId = params?.slug as string;
+  const { house, loading, error } = useHouse(houseId);
+  const { houses } = useHouses();
 
-export async function generateStaticParams() {
-  return HOUSES.map((house) => ({
-    slug: house.id,
-  }));
-}
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-bold text-gray-900 mb-4">Loading House...</div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
 
-export default async function HousePage({ params }: PageProps) {
-  const resolvedParams = await params;
-  const house = getHouse(resolvedParams.slug);
-  
-  if (!house) {
+  if (error || !house) {
     notFound();
   }
 
@@ -54,19 +56,17 @@ export default async function HousePage({ params }: PageProps) {
       {/* Take a Look Around Section */}
       <TakeALookAroundUniversal house={house} />
 
-    
-
       {/* Technical Specifications */}
-      {/* <TechnicalSpecifications house={house} /> */}
+      <TechnicalSpecifications house={house} />
 
       {/* Model Features */}
-      {/* <ModelFeatures house={house} /> */}
+      <ModelFeatures house={house} />
 
       {/* Get Started Today CTA */}
-      {/* <GetStartedToday house={house} /> */}
+      <GetStartedToday house={house} />
 
       {/* Explore Other Models */}
-      {/* <ExploreModels currentHouse={house} allHouses={HOUSES} /> */}
+      <ExploreModels currentHouse={house} allHouses={houses} />
 
       {/* Footer */}
       <Footer />

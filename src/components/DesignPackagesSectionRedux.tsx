@@ -4,7 +4,7 @@
  * Optimized for 30+ houses with caching and memoized selectors
  */
 
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 import UniversalDesignSelectorRedux from './UniversalDesignSelectorRedux';
 import ComparisonCallToAction from './ComparisonCallToAction';
 

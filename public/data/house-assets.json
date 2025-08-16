@@ -1,20 +1,20 @@
 {
   "assetConfig": {
     "pathTemplates": {
-      "hero": "/assets/{houseId}/hero.jpg",
-      "exterior": "/assets/{houseId}/exterior/dp{dp}.jpg",
-      "interior": "/assets/{houseId}/interior/{room}/pk{pk}.jpg",
-      "comparison": "/assets/{houseId}/comparison/{type}-{variant}.jpg",
+      "hero": "/assets/{houseId}/hero.{format}",
+      "exterior": "/assets/{houseId}/exterior/dp{dp}.{format}",
+      "interior": "/assets/{houseId}/interior/{room}/pk{pk}.{format}",
+      "comparison": "/assets/{houseId}/comparison/{type}-{variant}.{format}",
       "tour360": {
-        "thumbnail": "/assets/{houseId}/360/{room}/thumbnail.jpg",
-        "preview": "/assets/{houseId}/360/{room}/preview.jpg",
+        "thumbnail": "/assets/{houseId}/360/{room}/thumbnail.{format}",
+        "preview": "/assets/{houseId}/360/{room}/preview.{format}",
         "tiles": {
-          "front": "/assets/{houseId}/360/{room}/f.jpg",
-          "back": "/assets/{houseId}/360/{room}/b.jpg",
-          "left": "/assets/{houseId}/360/{room}/l.jpg",
-          "right": "/assets/{houseId}/360/{room}/r.jpg",
-          "up": "/assets/{houseId}/360/{room}/u.jpg",
-          "down": "/assets/{houseId}/360/{room}/d.jpg"
+          "front": "/assets/{houseId}/360/{room}/f.{format}",
+          "back": "/assets/{houseId}/360/{room}/b.{format}",
+          "left": "/assets/{houseId}/360/{room}/l.{format}",
+          "right": "/assets/{houseId}/360/{room}/r.{format}",
+          "up": "/assets/{houseId}/360/{room}/u.{format}",
+          "down": "/assets/{houseId}/360/{room}/d.{format}"
         },
         "tilesWebP": {
           "front": "/assets/{houseId}/360/{room}/f.webp",
@@ -26,8 +26,8 @@
         }
       },
       "textures": {
-        "exterior": "/assets/texture/exterior/thumb{id}.jpg",
-        "interior": "/assets/texture/interior/colors{id}.jpg"
+        "exterior": "/assets/texture/exterior/thumb{id}.{format}",
+        "interior": "/assets/texture/interior/colors{id}.{format}"
       }
     },
     "rooms": ["living", "kitchen", "bedroom", "bathroom"],
@@ -190,19 +190,14 @@
             }
           }
         }
-      },
-      "specialPaths": {},
-      "fallbacks": {
-        "dp6": "dp5",
-        "pk6": "pk5"
       }
     },
     "laurel": {
       "name": "Laurel",
       "maxDP": 4,
       "maxPK": 4,
-      "availableRooms": ["bathroom","bathroom2","bedroom","bedroom2","kitchen","living"],
-        "comparison": {
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "comparison": {
         "features": {
           "Outdoor Space": {
             "good": "✗",
@@ -281,10 +276,10 @@
           }
         }
       },
-      "tour360Rooms": {
-        "rooms":["bathroom","bathroom2","bedroom","bedroom2","kitchen","living"],
+      "tour360": {
+        "rooms": ["living", "kitchen", "bedroom", "bathroom", "bathroom2", "bedroom2"],
         "availableFiles": {
-          "bathroom": {
+             "living": {
             "thumbnail": true,
             "preview": true,
             "tiles": {
@@ -296,7 +291,7 @@
               "down": true
             }
           },
-         "bathroom2": {
+          "kitchen": {
             "thumbnail": true,
             "preview": true,
             "tiles": {
@@ -309,6 +304,30 @@
             }
           },
           "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom2": {
             "thumbnail": true,
             "preview": true,
             "tiles": {
@@ -331,48 +350,18 @@
               "up": false,
               "down": true
             }
-          },
-          "kitchen": {
-            "thumbnail": true,
-            "preview": true,
-            "tiles": {
-              "front": true,
-              "back": true,
-              "left": true,
-              "right": true,
-              "up": false,
-              "down": true
-            }
-          },
-          "living": {
-            "thumbnail": true,
-            "preview": true,
-            "tiles": {
-              "front": true,
-              "back": true,
-              "left": true,
-              "right": true,
-              "up": false,
-              "down": true
-            }
           }
-          
+       
         }
-      },
-    
-      "fallbacks": {
-        "dp4": "dp3",
-        "dp5": "dp4",
-        "pk4": "pk3",
-        "pk5": "pk4"
       }
+ 
     },
     "tamarack": {
       "name": "Tamarack",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-           "comparison": {
+      "comparison": {
         "features": {
           "Outdoor Space": {
             "good": "✗",
@@ -451,8 +440,8 @@
           }
         }
       },
-      "tour360Rooms": {
-        "rooms":["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["kitchen", "living", "bedroom","bathroom" ],
         "availableFiles": {
           "living": {
             "thumbnail": true,
@@ -503,11 +492,6 @@
             }
           }
         }
-      },
-    
-      "fallbacks": {
-        "dp4": "dp3",
-        "pk4": "pk3"
       }
     },
     "ponderosa": {
@@ -515,7 +499,7 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-           "comparison": {
+      "comparison": {
         "features": {
           "Outdoor Space": {
             "good": "✗",
@@ -594,8 +578,8 @@
           }
         }
       },
-     "tour360Rooms": {
-        "rooms":["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["living","kitchen","bedroom","bathroom"    ],
         "availableFiles": {
           "living": {
             "thumbnail": true,
@@ -647,12 +631,12 @@
           }
         }
       },
-    
+      "specialPaths": {
+       
+      },
       "fallbacks": {
-        "dp4": "dp3",
-
-        "pk4": "pk3"
-      
+        "dp5": "dp4",
+        "pk5": "pk4"
       }
     },
     "pine": {
@@ -660,7 +644,7 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-           "comparison": {
+      "comparison": {
         "features": {
           "Outdoor Space": {
             "good": "✗",
@@ -739,8 +723,8 @@
           }
         }
       },
-      "tour360Rooms": {
-        "rooms":["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["bathroom", "bedroom", "kitchen", "living"],
         "availableFiles": {
           "living": {
             "thumbnail": true,
@@ -802,8 +786,84 @@
       "name": "Oak",
       "maxDP": 4,
       "maxPK": 4,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "entry"],
+      "tour360": {
+        "rooms": ["living", "kitchen", "bedroom", "bathroom", "bathroom2", "bedroom2"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "full view to entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "specialPaths": {},
       "fallbacks": {
         "dp5": "dp4",
@@ -814,8 +874,60 @@
       "name": "Juniper",
       "maxDP": 4,
       "maxPK": 4,
-      "availableRooms": ["kitchen", "bedroom"],
-      "tour360Rooms": [],
+      "availableRooms": ["bathroom", "bedroom", "great room"],
+      "tour360": {
+        "rooms": ["bathroom", "bedroom", "great room"],
+        "availableFiles": {
+          "entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "badroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "specialPaths": {},
       "fallbacks": {
         "dp5": "dp4",
@@ -828,8 +940,60 @@
       "name": "Birch",
       "maxDP": 4,
       "maxPK": 4,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
+      "availableRooms": ["bathroom", "bedroom", "great room", "hallaway", "kitchen"],
+      "tour360": {
+        "rooms": ["bathroom", "bedroom", "great room", "hallaway", "kitchen"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "specialPaths": {},
       "fallbacks": {
         "dp5": "dp4",
@@ -841,7 +1005,59 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
+      "tour360": {
+        "rooms": ["bathroom", "bedroom", "kitchen", "living"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "specialPaths": {},
       "fallbacks": {
         "dp5": "dp4",
@@ -853,7 +1069,59 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
+      "tour360": {
+        "rooms": ["bathroom", "bedroom", "kitchen", "living"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "specialPaths": {},
       "fallbacks": {
         "dp5": "dp4",
@@ -865,8 +1133,59 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
-      "specialPaths": {},
+      "tour360": {
+        "rooms": ["bathroom", "bedroom", "kitchen", "living"],
+        "availableFiles": {
+          "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "fallbacks": {
         "dp5": "dp4",
         "pk5": "pk4"
@@ -877,8 +1196,59 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
-      "specialPaths": {},
+      "tour360": {
+        "rooms": ["entry", "kitchen", "badroom", "bathroom"],
+        "availableFiles": {
+          "entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "badroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "fallbacks": {
         "dp5": "dp4",
         "pk5": "pk4"
@@ -889,8 +1259,71 @@
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
-      "tour360Rooms": [],
-      "specialPaths": {},
+      "tour360": {
+        "rooms": ["entry", "full view to entry", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {
+          "entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "full view to entry": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "kitchen": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bedroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+          "bathroom": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          }
+        }
+      },
       "fallbacks": {
         "dp5": "dp4",
         "pk5": "pk4"

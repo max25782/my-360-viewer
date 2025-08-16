@@ -29,7 +29,7 @@ export function useServiceWorker() {
         }
       };
 
-      status.controller.postMessage({
+      status.controller?.postMessage({
         type: 'PRELOAD_ROOMS',
         houseId,
         rooms,
@@ -52,7 +52,7 @@ export function useServiceWorker() {
         }
       };
 
-      status.controller.postMessage({
+      status.controller?.postMessage({
         type: 'CLEAR_OLD_CACHE'
       }, [channel.port2]);
     });

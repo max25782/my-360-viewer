@@ -6,7 +6,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 import { assetPaths } from '../utils/assetPaths';
 import { getComparisonFeatures } from '../utils/universalAssets';
 import SimpleImageModal from './SimpleImageModal';
@@ -134,30 +134,24 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
           />
         )
       },
-      // Basic house info (always same)
+      // Basic house info (from JSON config)
       {
-        label: 'Living Space',
-        good: `${house.sqft} SF`,
-        better: `${house.sqft} SF`,
-        best: `${house.sqft} SF`
+        label: 'Available Rooms',
+        good: `${house.availableRooms.length} Rooms`,
+        better: `${house.availableRooms.length} Rooms`,
+        best: `${house.availableRooms.length} Rooms`
       },
       {
-        label: 'Overall Dimensions',
-        good: house.specifications.dimensions,
-        better: house.specifications.dimensions,
-        best: house.specifications.dimensions
+        label: 'Design Options',
+        good: `DP1-DP${house.maxDP} / PK1-PK${house.maxPK}`,
+        better: `DP1-DP${house.maxDP} / PK1-PK${house.maxPK}`,
+        best: `DP1-DP${house.maxDP} / PK1-PK${house.maxPK}`
       },
       {
-        label: 'Bedrooms',
-        good: `${house.bedrooms} Bedrooms`,
-        better: `${house.bedrooms} Bedrooms`,
-        best: `${house.bedrooms} Bedrooms`
-      },
-      {
-        label: 'Bathrooms',
-        good: `${house.bathrooms} Bathrooms`,
-        better: `${house.bathrooms} Bathrooms`,
-        best: `${house.bathrooms} Bathrooms`
+        label: 'Room Types',
+        good: house.availableRooms.slice(0, 3).join(', ') + (house.availableRooms.length > 3 ? '...' : ''),
+        better: house.availableRooms.slice(0, 3).join(', ') + (house.availableRooms.length > 3 ? '...' : ''),
+        best: house.availableRooms.slice(0, 3).join(', ') + (house.availableRooms.length > 3 ? '...' : '')
       }
     ];
 
@@ -200,16 +194,16 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       <div className="grid grid-cols-4">
         <div className="bg-stone-600 text-white text-center py-4 px-6"></div>
         <div className="bg-stone-600 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">GOOD</h3>
-          <p className="text-sm opacity-90">${formatPrice(house.priceRange.good)}</p>
+          <h3 className="text-xl font-bold">HERITAGE</h3>
+          <p className="text-sm opacity-90">DP1 / PK1</p>
         </div>
         <div className="bg-stone-700 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">BETTER</h3>
-          <p className="text-sm opacity-90">${formatPrice(house.priceRange.better)}</p>
+          <h3 className="text-xl font-bold">HAVEN</h3>
+          <p className="text-sm opacity-90">DP2 / PK2</p>
         </div>
         <div className="bg-stone-800 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">BEST</h3>
-          <p className="text-sm opacity-90">${formatPrice(house.priceRange.best)}</p>
+          <h3 className="text-xl font-bold">LUXE</h3>
+          <p className="text-sm opacity-90">DP{house.maxDP} / PK{house.maxPK}</p>
         </div>
       </div>
       

@@ -4,7 +4,7 @@
  */
 
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { RootState } from '../index';
 
 // Base selectors
 const selectUniversalState = (state: RootState) => state.universal;

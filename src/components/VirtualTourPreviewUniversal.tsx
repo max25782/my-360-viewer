@@ -99,6 +99,7 @@ export default function VirtualTourPreviewUniversal({
       <div 
         className="aspect-video rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
         style={{
+          minHeight: '360px', // Prevent CLS
           backgroundImage: `url('${dynamicPreviewImage}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',

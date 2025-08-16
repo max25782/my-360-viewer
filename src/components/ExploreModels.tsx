@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { House } from '../data/houses';
+import { House } from '../hooks/useHouses';
 
 interface ExploreModelsProps {
   currentHouse: House;
@@ -31,9 +31,9 @@ export default function ExploreModels({ currentHouse, allHouses }: ExploreModels
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{house.name}</h3>
                   <div className="space-y-1 text-sm text-gray-600">
-                    <div>{house.sqft} Sq. Ft.</div>
-                    <div>{house.bedrooms} Bedrooms</div>
-                    <div>{house.bathrooms} Bathrooms</div>
+                    <div>{house.availableRooms.length} Available Rooms</div>
+                    <div>DP1-DP{house.maxDP} Design Packages</div>
+                    <div>PK1-PK{house.maxPK} Interior Options</div>
                   </div>
                 </div>
               </div>
