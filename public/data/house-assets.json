@@ -1068,22 +1068,10 @@
       "name": "Hemlock",
       "maxDP": 4,
       "maxPK": 4,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "availableRooms": [ "kitchen", "bedroom", "bathroom"],
       "tour360": {
-        "rooms": ["bathroom", "bedroom", "kitchen", "living"],
+        "rooms": [ "kitchen","bathroom", "bedroom"],
         "availableFiles": {
-          "living": {
-            "thumbnail": true,
-            "preview": true,
-            "tiles": {
-              "front": true,
-              "back": true,
-              "left": true,
-              "right": true,
-              "up": false,
-              "down": true
-            }
-          },
           "kitchen": {
             "thumbnail": true,
             "preview": true,
