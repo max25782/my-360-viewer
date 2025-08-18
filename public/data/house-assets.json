@@ -915,8 +915,8 @@
   },
       "tour360": {
         "rooms": [
-          "living",
           "kitchen",
+          "living",
           "bedroom",
           "bathroom"
         ],
@@ -977,53 +977,30 @@
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 120,
+              "yaw": 265,
               "pitch": 0
             },
             "bathroom": {
-              "yaw": 240,
+              "yaw": 250,
               "pitch": 0
             }
           },
           "kitchen": {
             "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bathroom": {
               "yaw": 240,
               "pitch": 0
             }
           },
           "bedroom": {
             "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 240,
+              "yaw": 300,
               "pitch": 0
             }
+          
           },
           "bathroom": {
             "living": {
               "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 240,
               "pitch": 0
             }
           }

@@ -57,25 +57,30 @@ export default function TechnicalSpecifications({ house }: TechnicalSpecificatio
         <div className="mt-12">
           <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">Available Room Layouts</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {house.availableRooms.map((room, index) => (
-              <div key={`${room}-${index}`} className="bg-white p-4 rounded-lg shadow-md text-center">
-                <div className="text-2xl mb-2">
-                  {room === 'living' && '🛋️'}
-                  {room === 'kitchen' && '🍳'}
-                  {room === 'bedroom' && '🛏️'}
-                  {room === 'bathroom' && '🚿'}
-                  {room === 'entry' && '🚪'}
-                  {room === 'dining' && '🍽️'}
-                  {!['living', 'kitchen', 'bedroom', 'bathroom', 'entry', 'dining'].includes(room) && '🏠'}
+            {house.availableRooms.map((room, index) => {
+              // Подсчитываем, сколько комнат такого типа встретилось до текущего индекса
+              const roomNumber = house.availableRooms.filter((r, i) => r === room && i <= index).length;
+              const uniqueKey = `${room}-${roomNumber}`;
+              
+              return (
+                <div key={uniqueKey} className="bg-white p-4 rounded-lg shadow-md text-center">
+                  <div className="text-2xl mb-2">
+                    {room === 'living' && '🛋️'}
+                    {room === 'kitchen' && '🍳'}
+                    {room === 'bedroom' && '🛏️'}
+                    {room === 'bathroom' && '🚿'}
+                    {room === 'entry' && '🚪'}
+                    {room === 'dining' && '🍽️'}
+                    {!['living', 'kitchen', 'bedroom', 'bathroom', 'entry', 'dining'].includes(room) && '🏠'}
+                  </div>
+                  <div className="font-medium text-gray-900 capitalize">
+                    {room}
+                    {/* Показываем номер, если это не первая комната данного типа */}
+                    {house.availableRooms.indexOf(room) !== index && ` ${roomNumber}`}
+                  </div>
                 </div>
-                <div className="font-medium text-gray-900 capitalize">
-                  {room}
-                  {/* Показываем номер, если это не первая комната данного типа */}
-                  {house.availableRooms.indexOf(room) !== index && 
-                   ` ${house.availableRooms.filter((r, i) => r === room && i <= index).length}`}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
