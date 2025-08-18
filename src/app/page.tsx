@@ -103,8 +103,7 @@ export default function Home() {
                   <div className="flex justify-between items-start mb-3">
                     <h3 className="text-xl font-bold text-gray-900">{house.name}</h3>
                     <div className="text-right">
-                      <div className="text-sm text-gray-500">Max DP: {house.maxDP}</div>
-                      <div className="text-sm text-gray-500">Max PK: {house.maxPK}</div>
+                     
                     </div>
                   </div>
                   
@@ -114,9 +113,11 @@ export default function Home() {
                   <div className="mb-4">
                     <div className="text-xs text-gray-500 mb-2">Available Rooms:</div>
                     <div className="flex flex-wrap gap-1">
-                      {house.availableRooms.slice(0, 4).map((room) => (
-                        <span key={room} className="bg-gray-100 px-2 py-1 rounded text-xs">
+                      {house.availableRooms.slice(0, 4).map((room, index) => (
+                        <span key={`${room}-${index}`} className="bg-gray-100 px-2 py-1 rounded text-xs">
                           {room.charAt(0).toUpperCase() + room.slice(1)}
+                          {house.availableRooms.indexOf(room) !== index && 
+                           ` ${house.availableRooms.filter((r, i) => r === room && i <= index).length}`}
                         </span>
                       ))}
                       {house.availableRooms.length > 4 && (

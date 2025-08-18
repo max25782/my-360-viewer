@@ -86,7 +86,7 @@ export default function TechnicalSpecifications({ house }: TechnicalSpecificatio
             <div className="text-center">
               <div className="bg-blue-100 p-4 rounded-lg mb-4">
                 <h4 className="font-bold text-blue-800">Heritage Package</h4>
-                <p className="text-sm text-blue-600 mt-2">DP1 / PK1</p>
+                {/* <p className="text-sm text-blue-600 mt-2">DP1 / PK1</p> */}
               </div>
               <p className="text-sm text-gray-600">Essential finishes and features for comfortable living</p>
             </div>

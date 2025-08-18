@@ -511,89 +511,41 @@
         "markerPositions": {
           "living": {
             "kitchen": {
-              "yaw": 0,
+              "yaw": 300,
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 72,
+              "yaw": 30,
               "pitch": 0
             },
-            "bathroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
+          
             "bedroom2": {
-              "yaw": 288,
+              "yaw": 60,
               "pitch": 0
             }
           },
           "kitchen": {
             "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 72,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+              "yaw": 120,
               "pitch": 0
             }
           },
           "bedroom": {
             "living": {
-              "yaw": 0,
+              "yaw": 285,
               "pitch": 0
             },
-            "kitchen": {
-              "yaw": 72,
-              "pitch": 0
-            },
+          
             "bathroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+              "yaw":215,
               "pitch": 0
             }
+          
+           
           },
           "bathroom": {
-            "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 72,
-              "pitch": 0
-            },
             "bedroom": {
               "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
               "pitch": 0
             }
           },
@@ -621,23 +573,11 @@
           },
           "bedroom2": {
             "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 72,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 216,
+              "yaw": 87,
               "pitch": 0
             },
             "bathroom2": {
-              "yaw": 288,
+              "yaw": 282,
               "pitch": 0
             }
           }
