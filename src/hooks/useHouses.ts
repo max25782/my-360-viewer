@@ -56,7 +56,7 @@ export function useHouses() {
             const house: House = {
             id: houseId,
             name: houseConfig.name,
-            description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms.length} rooms`,
+            description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
             maxDP: houseConfig.maxDP,
             maxPK: houseConfig.maxPK,
             availableRooms: houseConfig.availableRooms,
@@ -85,7 +85,7 @@ export function useHouses() {
             const house: House = {
               id: houseId,
               name: houseConfig.name,
-              description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms.length} rooms`,
+              description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
               maxDP: houseConfig.maxDP,
               maxPK: houseConfig.maxPK,
               availableRooms: houseConfig.availableRooms,
@@ -147,7 +147,7 @@ export function getHouse(houseId: string): Promise<House | null> {
       const house: House = {
         id: houseId,
         name: houseConfig.name,
-                      description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms.length} rooms`,
+                      description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
         maxDP: houseConfig.maxDP,
         maxPK: houseConfig.maxPK,
         availableRooms: houseConfig.availableRooms,
@@ -180,7 +180,7 @@ export async function getAllHouses(): Promise<House[]> {
       const house: House = {
         id: houseId,
         name: houseConfig.name,
-                      description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms.length} rooms`,
+                      description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
         maxDP: houseConfig.maxDP,
         maxPK: houseConfig.maxPK,
         availableRooms: houseConfig.availableRooms,

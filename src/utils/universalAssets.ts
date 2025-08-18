@@ -28,6 +28,7 @@ interface AssetConfig {
 
 interface HouseConfig {
   name: string;
+  description?: string;
   maxDP: number;
   maxPK: number;
   availableRooms: string[];
@@ -52,6 +53,7 @@ interface HouseConfig {
         down: boolean;
       };
     }>;
+    markerPositions?: Record<string, Record<string, { yaw: number; pitch: number }>>;
   };
   tour360Rooms?: string[]; // Legacy support
   specialPaths?: Record<string, string>;
@@ -323,8 +325,8 @@ export async function getTour360Config(houseId: string) {
   if (houseConfig?.tour360) {
     return {
       rooms: houseConfig.tour360.rooms,
-      availableFiles: houseConfig.tour360.availableFiles,
-      markerPositions: houseConfig.tour360.markerPositions,
+      availableFiles: houseConfig.tour360.availableFiles || {},
+      markerPositions: houseConfig.tour360.markerPositions || {},
       legacy: false
     };
   }
@@ -334,6 +336,7 @@ export async function getTour360Config(houseId: string) {
     return {
       rooms: houseConfig.tour360Rooms,
       availableFiles: {},
+      markerPositions: {},
       legacy: true
     };
   }
@@ -356,7 +359,20 @@ export async function is360FileAvailable(
     return true;
   }
   
-  const roomConfig = config.availableFiles[room];
+  const availableFiles = config.availableFiles as Record<string, {
+    thumbnail: boolean;
+    preview: boolean;
+    tiles: {
+      front: boolean;
+      back: boolean;
+      left: boolean;
+      right: boolean;
+      up: boolean;
+      down: boolean;
+    };
+  }>;
+  
+  const roomConfig = availableFiles[room];
   if (!roomConfig) return false;
   
   if (fileType === 'thumbnail' || fileType === 'preview') {
