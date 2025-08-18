@@ -1235,6 +1235,7 @@
     },
     "oak": {
       "name": "Oak",
+      "description":"Explore our Oak model, a spacious one-bedroom, one-bath home with a dedicated office and optional garage, covered porch, and patio. Designed for versatility and comfort, Oak provides plenty of room to live, work, and unwind.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -1242,16 +1243,137 @@
         "kitchen",
         "bedroom",
         "bathroom",
+        "bathroom",
         "entry"
+        
       ],
+      "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "1139 SF",
+        "better": "1139 SF",
+        "best": "1139 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "52 SF",
+        "best": "98 SF"
+      },
+      "Overall Dimensions": {
+        "good": "34’-6”x33’",
+        "better": "34’-6”x37’-6”",
+        "best": "49’x42’"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom & Office",
+        "better": "1 Bedroom & Office",
+        "best": "1 Bedroom & Office"
+      },
+      "Bathrooms": {
+        "good": "2 Bathrooms",
+        "better": "2 Bathrooms",
+        "best": "2 Bathrooms"
+      },
+      "Garage": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks"
+      },
+      "Shower": {
+        "good": "Tub/Shower Units",
+        "better": "Shower Units",
+        "best": "Tile Showers"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Luxury Vinyl Plank and Carpet",
+        "better": "LVP or Laminate",
+        "best": "LVP or Laminate and Tile"
+      },
+      "Porch & Patio": {
+        "good": "✗",
+        "better": "Covered Porch",
+        "best": "Covered Porch & Covered Patio"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area, Bedroom and Office"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
       "tour360": {
         "rooms": [
+          "entry",
           "living",
           "kitchen",
           "bedroom",
-          "bathroom",
-          "bathroom2",
-          "bedroom2"
+          "full view to entry",
+          "bathroom"
         ],
         "availableFiles": {
           "living": {
@@ -1330,23 +1452,16 @@
         "markerPositions": {
           "living": {
             "kitchen": {
-              "yaw": 0,
+              "yaw": 180,
               "pitch": 0
             },
-            "bedroom": {
-              "yaw": 72,
+            "entry": {
+              "yaw": 150,
               "pitch": 0
             },
-            "bathroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+          
+            "full view to entry": {
+              "yaw": 200,
               "pitch": 0
             }
           },
@@ -1355,108 +1470,70 @@
               "yaw": 0,
               "pitch": 0
             },
-            "bedroom": {
-              "yaw": 72,
+           
+            "full view to entry": {
+              "yaw": 320,
               "pitch": 0
             },
-            "bathroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+            "entry": {
+              "yaw": 45,
               "pitch": 0
             }
+           
           },
           "bedroom": {
-            "living": {
-              "yaw": 0,
+            "entry": {
+              "yaw": 255,
               "pitch": 0
             },
-            "kitchen": {
-              "yaw": 72,
-              "pitch": 0
-            },
+          
             "bathroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+              "yaw": 80,
               "pitch": 0
             }
           },
           "bathroom": {
-            "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 72,
-              "pitch": 0
-            },
+         
             "bedroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+              "yaw": 340,
               "pitch": 0
             }
           },
-          "bathroom2": {
+          "entry": {
             "living": {
-              "yaw": 0,
+              "yaw": 180,
               "pitch": 0
             },
             "kitchen": {
-              "yaw": 72,
+              "yaw": 165,
               "pitch": 0
             },
             "bedroom": {
               "yaw": 144,
               "pitch": 0
             },
-            "bathroom": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+    
+            "full view to entry": {
+              "yaw": 195,
               "pitch": 0
             }
           },
-          "bedroom2": {
+          "full view to entry": {
             "living": {
-              "yaw": 0,
+              "yaw": 120,
               "pitch": 0
             },
             "kitchen": {
-              "yaw": 72,
+              "yaw": 245,
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 144,
+              "yaw": 187,
               "pitch": 0
             },
-            "bathroom": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bathroom2": {
-              "yaw": 288,
+        
+            "entry": {
+              "yaw": 180,
               "pitch": 0
             }
           }
