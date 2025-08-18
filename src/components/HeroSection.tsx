@@ -52,7 +52,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
                 </div>
                 <div className=" mb-8">
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-1xl font-bold text-white">he Walnut Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.</span>
+                    <span className="block text-1xl font-bold text-white">{house.description}</span>
                   </div>
                 </div>
 

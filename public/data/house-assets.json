@@ -72,6 +72,7 @@
   "houses": {
     "walnut": {
       "name": "Walnut",
+      "description": "he Walnut Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
       "maxDP": 5,
       "maxPK": 5,
       "availableRooms": [
