@@ -9,7 +9,8 @@ interface HeroSectionProps {
 export default function HeroSection({ house }: HeroSectionProps) {
   const bedroomCount = house.availableRooms.filter(room => room === 'bedroom').length;
   const bathroomCount = house.availableRooms.filter(room => room === 'bathroom').length;
-  const livingSpace = house.comparison?.features?.["living space"]?.good || "N/A";
+  const livingSpace = house.comparison?.features?.["Living Space"]?.good || "N/A";
+  const description = house.description || "";
   
   return (
     <section className="bg-slate-700 bg-opacity-80 backdrop-blur-sm py-2">
@@ -31,7 +32,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
             {/* Overlay Content */}
             <div className="absolute inset-0">
               <div className="absolute top-1/2 left-8 transform -translate-y-1/2 max-w-lg">
-                <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
+                <h1 className="text-8xl font-bold text-white mb-4 drop-shadow-lg">
                   {house.name}
                 </h1>
                
@@ -52,7 +53,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
                 </div>
                 <div className=" mb-8">
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-1xl font-bold text-white">{house.description}</span>
+                    <span className="block text-1xl font-bold text-white">{description}</span>
                   </div>
                 </div>
 

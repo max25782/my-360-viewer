@@ -91,7 +91,7 @@
             "best": "210 SF"
           },
          
-          "living space": {
+          "Living Space": {
             "good": "1521 SF",
             "better": "1521 SF",
             "best": "1521 SF"
@@ -311,37 +311,59 @@
     },
     "laurel": {
       "name": "Laurel",
+      "description": "The Laurel Legacy Series ADU offers 1056 square feet of versatile living space, featuring two bedrooms, one and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
         "living",
         "kitchen",
         "bedroom",
+        "bedroom",
         "bathroom"
       ],
       "comparison": {
         "features": {
-          "Outdoor Space": {
+          "Living Space": {
             "good": "1056 SF",
             "better": "1056 SF",
             "best": "1056 SF"
           },
-          "Ceiling Height": {
-            "good": "8 Feet",
-            "better": "9 Feet",
-            "best": "9 Feet"
+          "Outdoor Space": {
+            "good": "\u2717",
+            "better": "30 SF",
+            "best": "260 SF"
+          },
+          "Overall Dimensions": {
+            "good": "46'x26'",
+            "better": "46'x26'",
+            "best": "46'x26'"
+          },
+          "Bedrooms": {
+            "good": "2 Bedrooms",
+            "better": "2 Bedrooms",
+            "best": "2 Bedrooms"
+          },
+          "Bathrooms": {
+            "good": "1 Bathroom and 1 Powder Room",
+            "better": "1 Bathroom and 1 Powder Room",
+            "best": "1 Bathroom and 1 Powder Room"
           },
           "Kitchen": {
             "good": "Kitchenette",
             "better": "Full Kitchen with Upper Cabs",
             "best": "Full Kitchen with Upper Cabs"
           },
-          "Kitchen Island": {
+          "Kitchen Peninsula": {
             "good": "\u2717",
             "better": "\u2717",
             "best": "\u2713"
           },
-          "Garbage Disposal": {
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet",
+            "best": "9 Feet"
+          },
+          "Vaulted Ceiling": {
             "good": "\u2717",
             "better": "\u2717",
             "best": "\u2713"
@@ -349,7 +371,7 @@
           "Vanity": {
             "good": "Pedestal Sink",
             "better": "Built-in Vanity w/ Single Sink",
-            "best": "Built-in Vanity w/ Single Sink"
+            "best": "Built-in Vanity w/ Two Sinks"
           },
           "Shower": {
             "good": "Tub/Shower Unit",
@@ -363,8 +385,8 @@
           },
           "Exterior Siding": {
             "good": "Hardie Lap",
-            "better": "Hardie Lap and Board & Batten",
-            "best": "Hardie Lap and Board & Batten"
+            "better": "Hardie Lap and Shingle",
+            "best": "Hardie Lap, Shingle and Stone Cladding"
           },
           "Flooring": {
             "good": "Builder Grade LVP or Laminate",
@@ -378,12 +400,17 @@
           },
           "Mini-Split HVAC": {
             "good": "Living Area",
-            "better": "Living Area and Primary Bedroom",
-            "best": "Living Area and All Bedrooms"
+            "better": "Living Area and 1 Bedroom",
+            "best": "Living Area and 2 Bedrooms"
           },
           "Tank Water Heater": {
             "good": "\u2713",
             "better": "\u2713",
+            "best": "\u2713"
+          },
+          "Garbage Disposal": {
+            "good": "\u2717",
+            "better": "\u2717",
             "best": "\u2713"
           },
           "Electric Fireplace": {
@@ -393,8 +420,8 @@
           },
           "Available Design Collection": {
             "good": "Dark & Light",
-            "better": "Heritage, Haven and Sunset",
-            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+            "better": "Heritage, Haven and Serenity",
+            "best": "Heritage, Haven, Serenity and Luxe"
           }
         }
       },
