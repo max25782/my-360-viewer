@@ -54,31 +54,8 @@ export default function ComparisonPage() {
         <JsonGoodBetterBestComparison house={house} />
       </div>
 
-      {/* Call to Action */}
-      <div className="bg-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            Ready to Build Your Dream Home?
-          </h2>
-          <p className="text-lg text-gray-600 mb-8">
-            Contact us today to discuss your project and get a personalized quote.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              Get Quote
-            </Link>
-            <Link
-              href={`/houses/${house.id}/tour`}
-              className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
-            >
-              🎭 Take Virtual Tour
-            </Link>
-          </div>
-        </div>
-      </div>
+     
+      
     </div>
   );
 }
