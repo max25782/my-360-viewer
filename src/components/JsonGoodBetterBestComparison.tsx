@@ -10,7 +10,7 @@ import { House } from '../hooks/useHouses';
 import { assetPaths } from '../utils/assetPaths';
 import { getComparisonFeatures } from '../utils/universalAssets';
 import SimpleImageModal from './SimpleImageModal';
-import { formatPrice } from '../utils/formatters';
+
 
 interface JsonGoodBetterBestComparisonProps {
   house: House;
@@ -47,13 +47,26 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
 
   // Universal image paths using standardized structure
   const getImagePaths = () => {
+    // Используем WebP формат для современных браузеров
+    const format = 'webp'; // Можно сделать динамическим определением поддержки WebP
+    
+    // Функция для создания пути с поддержкой WebP
+    const getComparisonPath = (type: 'good' | 'better' | 'best', variant: 'exterior' | 'plan1' | 'plan2') => {
+      const basePath = assetPaths.comparison(house.id, type, variant);
+      return basePath.replace('.jpg', `.${format}`);
+    };
+    
     return {
-      goodExterior: assetPaths.comparison(house.id, 'good', 'exterior'),
-      betterExterior: assetPaths.comparison(house.id, 'better', 'exterior'),
-      bestExterior: assetPaths.comparison(house.id, 'best', 'exterior'),
-      goodPlan1: assetPaths.comparison(house.id, 'good', 'plan1'),
-      betterPlan1: assetPaths.comparison(house.id, 'better', 'plan1'),
-      bestPlan1: assetPaths.comparison(house.id, 'best', 'plan1'),
+      goodExterior: getComparisonPath('good', 'exterior'),
+      betterExterior: getComparisonPath('better', 'exterior'),
+      bestExterior: getComparisonPath('best', 'exterior'),
+      goodPlan1: getComparisonPath('good', 'plan1'),
+      betterPlan1: getComparisonPath('better', 'plan1'),
+      bestPlan1: getComparisonPath('best', 'plan1'),
+      // Добавляем план 2 (специально для Walnut)
+      goodPlan2: getComparisonPath('good', 'plan2'),
+      betterPlan2: getComparisonPath('better', 'plan2'),
+      bestPlan2: getComparisonPath('best', 'plan2'),
     };
   };
 
@@ -72,6 +85,11 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
 
   // Build comparison items dynamically
   const buildComparisonItems = (): ComparisonItem[] => {
+    // Проверка, что house.availableRooms - это массив
+    const availableRooms = Array.isArray(house.availableRooms) ? house.availableRooms : [];
+    const bedroomCount = availableRooms.filter(room => room === 'bedroom').length;
+    const bathroomCount = availableRooms.filter(room => room === 'bathroom').length;
+
     const items: ComparisonItem[] = [
       // Fixed items (images and basic house data)
       {
@@ -80,7 +98,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
           <SimpleImageModal 
             src={imagePaths.goodExterior} 
             alt={`Good Package - ${house.name} Front Elevation`} 
-            className="w-full h-full object-contain min-h-[200px] min-w-[300px]"
+            className="w-full h-full object-contain"
             width={400}
             height={300}
           />
@@ -105,11 +123,11 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         )
       },
       {
-        label: 'Floor Plan',
+        label: 'Floor Plan 1',
         good: (
           <SimpleImageModal 
             src={imagePaths.goodPlan1} 
-            alt={`Good Package - ${house.name} Floor Plan`} 
+            alt={`Good Package - ${house.name} Floor Plan 1`} 
             className="w-full h-32 object-contain"
             width={300}
             height={200}
@@ -118,7 +136,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         better: (
           <SimpleImageModal 
             src={imagePaths.betterPlan1} 
-            alt={`Better Package - ${house.name} Floor Plan`} 
+            alt={`Better Package - ${house.name} Floor Plan 1`} 
             className="w-full h-32 object-contain"
             width={300}
             height={200}
@@ -127,32 +145,59 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         best: (
           <SimpleImageModal 
             src={imagePaths.bestPlan1} 
-            alt={`Best Package - ${house.name} Floor Plan`} 
+            alt={`Best Package - ${house.name} Floor Plan 1`} 
             className="w-full h-32 object-contain"
             width={300}
             height={200}
           />
         )
       },
+      // Добавляем второй план (только для Walnut)
+      ...(house.id === 'walnut' ? [{
+        label: 'Floor Plan 2',
+        good: (
+          <SimpleImageModal 
+            src={imagePaths.goodPlan2} 
+            alt={`Good Package - ${house.name} Floor Plan 2`} 
+            className="w-full h-32 object-contain"
+            width={300}
+            height={200}
+          />
+        ),
+        better: (
+          <SimpleImageModal 
+            src={imagePaths.betterPlan2} 
+            alt={`Better Package - ${house.name} Floor Plan 2`} 
+            className="w-full h-32 object-contain"
+            width={300}
+            height={200}
+          />
+        ),
+        best: (
+          <SimpleImageModal 
+            src={imagePaths.bestPlan2} 
+            alt={`Best Package - ${house.name} Floor Plan 2`} 
+            className="w-full h-32 object-contain"
+            width={300}
+            height={200}
+          />
+        )
+      }] : []),
       // Basic house info (from JSON config)
-      {
-        label: 'Available Rooms',
-        good: `${house.availableRooms.length} Rooms`,
-        better: `${house.availableRooms.length} Rooms`,
-        best: `${house.availableRooms.length} Rooms`
+          {
+        label: 'Bedrooms',
+        good: `${bedroomCount} Bedrooms`,
+        better: `${bedroomCount} Bedrooms`,
+        best: `${bedroomCount} Bedrooms`
       },
       {
-        label: 'Design Options',
-        good: `DP1-DP${house.maxDP} / PK1-PK${house.maxPK}`,
-        better: `DP1-DP${house.maxDP} / PK1-PK${house.maxPK}`,
-        best: `DP1-DP${house.maxDP} / PK1-PK${house.maxPK}`
+        label: 'Bathrooms',
+        good: `${bathroomCount} Bathrooms`,
+        better: `${bathroomCount} Bathrooms`,
+        best: `${bathroomCount} Bathrooms`
       },
-      {
-        label: 'Room Types',
-        good: house.availableRooms.slice(0, 3).join(', ') + (house.availableRooms.length > 3 ? '...' : ''),
-        better: house.availableRooms.slice(0, 3).join(', ') + (house.availableRooms.length > 3 ? '...' : ''),
-        best: house.availableRooms.slice(0, 3).join(', ') + (house.availableRooms.length > 3 ? '...' : '')
-      }
+  
+      
     ];
 
     // Add dynamic features from JSON
@@ -195,15 +240,15 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         <div className="bg-stone-600 text-white text-center py-4 px-6"></div>
         <div className="bg-stone-600 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">HERITAGE</h3>
-          <p className="text-sm opacity-90">DP1 / PK1</p>
+         
         </div>
         <div className="bg-stone-700 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">HAVEN</h3>
-          <p className="text-sm opacity-90">DP2 / PK2</p>
+      
         </div>
         <div className="bg-stone-800 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">LUXE</h3>
-          <p className="text-sm opacity-90">DP{house.maxDP} / PK{house.maxPK}</p>
+          
         </div>
       </div>
       

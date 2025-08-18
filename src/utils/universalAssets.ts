@@ -324,6 +324,7 @@ export async function getTour360Config(houseId: string) {
     return {
       rooms: houseConfig.tour360.rooms,
       availableFiles: houseConfig.tour360.availableFiles,
+      markerPositions: houseConfig.tour360.markerPositions,
       legacy: false
     };
   }

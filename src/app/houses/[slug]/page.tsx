@@ -57,16 +57,16 @@ export default function HousePage() {
       <TakeALookAroundUniversal house={house} />
 
       {/* Technical Specifications */}
-      <TechnicalSpecifications house={house} />
+      {/* <TechnicalSpecifications house={house} /> */}
 
       {/* Model Features */}
-      <ModelFeatures house={house} />
+      {/* <ModelFeatures house={house} /> */}
 
       {/* Get Started Today CTA */}
-      <GetStartedToday house={house} />
+      {/* <GetStartedToday house={house} /> */}
 
       {/* Explore Other Models */}
-      <ExploreModels currentHouse={house} allHouses={houses} />
+      {/* <ExploreModels currentHouse={house} allHouses={houses} /> */}
 
       {/* Footer */}
       <Footer />

@@ -165,7 +165,7 @@ export default function UniversalDesignSelectorRedux({
                   const prevIndex = (currentIndex - 1 + rooms.length) % rooms.length;
                   handleRoomChange(rooms[prevIndex]);
                 }}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
               >
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
@@ -185,7 +185,7 @@ export default function UniversalDesignSelectorRedux({
                   const nextIndex = (currentIndex + 1) % rooms.length;
                   handleRoomChange(rooms[nextIndex]);
                 }}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
+                className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
               >
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 

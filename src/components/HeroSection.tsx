@@ -7,6 +7,10 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ house }: HeroSectionProps) {
+  const bedroomCount = house.availableRooms.filter(room => room === 'bedroom').length;
+  const bathroomCount = house.availableRooms.filter(room => room === 'bathroom').length;
+  const livingSpace = house.comparison?.features?.["living space"]?.good || "N/A";
+  
   return (
     <section className="bg-slate-700 bg-opacity-80 backdrop-blur-sm py-2">
       <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,22 +34,25 @@ export default function HeroSection({ house }: HeroSectionProps) {
                 <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
                   {house.name}
                 </h1>
-                <p className="text-xl text-gray mb-8 leading-relaxed drop-shadow-lg">
-                  {house.description}
-                </p>
+               
                 
                 <div className="grid grid-cols-3 gap-6 mb-8">
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-white">{house.availableRooms.length}</span>
+                    <span className="block text-3xl font-bold text-white">{bedroomCount}</span>
                     <span className="block text-sm text-gray-200">Rooms</span>
                   </div>
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-white">{house.maxDP}</span>
-                    <span className="block text-sm text-gray-200">Design Packages</span>
+                    <span className="block text-3xl font-bold text-white">{bathroomCount}</span>
+                    <span className="block text-sm text-gray-200">Bathrooms</span>
                   </div>
                   <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-white">{house.maxPK}</span>
-                    <span className="block text-sm text-gray-200">Interior Packages</span>
+                    <span className="block text-3xl font-bold text-white">{livingSpace}</span>
+                    <span className="block text-sm text-gray-200">Living Space</span>
+                  </div>
+                </div>
+                <div className=" mb-8">
+                  <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
+                    <span className="block text-1xl font-bold text-white">he Walnut Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.</span>
                   </div>
                 </div>
 

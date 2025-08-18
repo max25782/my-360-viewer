@@ -20,15 +20,15 @@ export default function ComparisonCallToAction({ house }: ComparisonCallToAction
         </div>
         <div className="bg-slate-800 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">HERITAGE</h3>
-          <p className="text-sm opacity-90">DP1 / PK1</p>
+        
         </div>
         <div className="bg-slate-900 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">HAVEN</h3>
-          <p className="text-sm opacity-90">DP2 / PK2</p>
+         
         </div>
         <div className="bg-slate-950 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">LUXE</h3>
-          <p className="text-sm opacity-90">DP{house.maxDP} / PK{house.maxPK}</p>
+         
         </div>
       </div>
 
@@ -48,19 +48,19 @@ export default function ComparisonCallToAction({ house }: ComparisonCallToAction
             <div className="bg-slate-400 p-4 rounded-lg">
               <div className="text-stone-600 font-semibold mb-2">Heritage Package</div>
               <div className="text-sm text-gray-600">
-                Essential finishes and features - DP1/PK1 configuration
+                Essential finishes and features - configuration
               </div>
             </div>
             <div className="bg-slate-400 p-4 rounded-lg">
               <div className="text-stone-700 font-semibold mb-2">Haven Package</div>
               <div className="text-sm text-gray-600">
-                Enhanced comfort and upgraded finishes - DP2/PK2 configuration
+                Enhanced comfort and upgraded finishes - configuration
               </div>
             </div>
             <div className="bg-slate-400 p-4 rounded-lg">
               <div className="text-stone-800 font-semibold mb-2">Luxe Package</div>
               <div className="text-sm text-gray-600">
-                Premium experience with top-tier finishes - DP{house.maxDP}/PK{house.maxPK} configuration
+                Premium experience with top-tier finishes - configuration
               </div>
             </div>
           </div>

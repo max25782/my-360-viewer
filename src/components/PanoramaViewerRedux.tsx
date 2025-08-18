@@ -87,38 +87,47 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     const links: any[] = [];
     const rooms = tour360Config.rooms;
     
-    // Для домов с 2 комнатами - связываем их друг с другом
-    if (rooms.length === 2) {
-      const otherRoom = rooms.find((r: string) => r !== currentRoom);
-      if (otherRoom) {
-        links.push({
-          to: `${houseId}_${otherRoom}`,
-          yaw: 180,
-          pitch: 0,
-          label: otherRoom.charAt(0).toUpperCase() + otherRoom.slice(1).replace(/\s+/g, ' ')
-        });
-      }
-    } 
-    // Для домов с 3+ комнатами - показываем все остальные комнаты
-    else {
-      rooms.forEach((room: string, index: number) => {
+    // Проверяем есть ли настройки позиций маркеров для этого дома
+    const markerPositions = tour360Config.markerPositions?.[currentRoom];
+    
+    // Добавим отладочную информацию
+    console.log(`🔍 Debug markerPositions for ${houseId}/${currentRoom}:`, markerPositions);
+    console.log(`🔍 Full tour360Config:`, JSON.stringify(tour360Config, null, 2));
+    
+    // Если есть настройки markerPositions, используем только комнаты из них
+    if (markerPositions) {
+      // Создаем ссылки только для комнат, указанных в markerPositions
+      Object.entries(markerPositions).forEach(([room, position]) => {
+        const typedPosition = position as { yaw: number, pitch: number };
         if (room !== currentRoom) {
-          // Распределяем ссылки по кругу
-          const angleStep = 360 / (rooms.length - 1);
-          const linkIndex = links.length;
-          const yaw = angleStep * linkIndex;
+          links.push({
+            to: `${houseId}_${room}`,
+            yaw: typedPosition.yaw,
+            pitch: typedPosition.pitch,
+            label: room.charAt(0).toUpperCase() + room.slice(1).replace(/\s+/g, ' ')
+          });
+        }
+      });
+    } else {
+      // Если нет настроек, используем все комнаты как раньше
+      rooms.forEach((room: string) => {
+        if (room !== currentRoom) {
+          const position = {
+            yaw: rooms.length === 2 ? 180 : (360 / (rooms.length - 1)) * links.length,
+            pitch: 0
+          };
           
           links.push({
             to: `${houseId}_${room}`,
-            yaw: yaw,
-            pitch: 0,
+            yaw: position.yaw,
+            pitch: position.pitch,
             label: room.charAt(0).toUpperCase() + room.slice(1).replace(/\s+/g, ' ')
           });
         }
       });
     }
     
-    console.log(`✅ Created ${links.length} links for ${currentRoom}:`, links);
+    console.log(`✅ Created ${links.length} links for ${currentRoom}:`, links.map(l => l.to.split('_')[1]));
     return links;
   }, [tour360Config, houseId]);
 
@@ -286,6 +295,8 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     const currentViewer = viewerInstance || viewerRef.current;
     const currentMarkers = markersInstance || markersPluginRef.current;
     
+    console.log(`🚪 Changing scene to: ${sceneKey}`);
+    
     if (!currentViewer || !currentMarkers) {
       console.warn('Viewer or markers plugin not available for scene change');
       return;
@@ -336,6 +347,9 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       // Update markers with additional yield
       await new Promise(resolve => setTimeout(resolve, 0));
       currentMarkers.clearMarkers();
+      
+      console.log(`🔄 Setting markers for ${sceneKey}, links:`, scene.links.map(l => l.to.split('_')[1]));
+      
       currentMarkers.setMarkers(buildMarkers(scene.links, houseId));
       
       // Preload images for linked rooms in background

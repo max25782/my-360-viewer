@@ -21,10 +21,10 @@ export default function TechnicalSpecifications({ house }: TechnicalSpecificatio
                 <dt className="text-gray-600">Model Name:</dt>
                 <dd className="font-medium text-gray-900">{house.name}</dd>
               </div>
-              <div className="flex justify-between">
+              {/* <div className="flex justify-between">
                 <dt className="text-gray-600">Available Rooms:</dt>
                 <dd className="font-medium text-gray-900">{house.availableRooms.length} rooms</dd>
-              </div>
+              </div> */}
               <div className="flex justify-between">
                 <dt className="text-gray-600">Room Types:</dt>
                 <dd className="font-medium text-gray-900">{house.availableRooms.join(', ')}</dd>
@@ -57,8 +57,8 @@ export default function TechnicalSpecifications({ house }: TechnicalSpecificatio
         <div className="mt-12">
           <h3 className="text-lg font-semibold text-gray-900 mb-6 text-center">Available Room Layouts</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {house.availableRooms.map((room) => (
-              <div key={room} className="bg-white p-4 rounded-lg shadow-md text-center">
+            {house.availableRooms.map((room, index) => (
+              <div key={`${room}-${index}`} className="bg-white p-4 rounded-lg shadow-md text-center">
                 <div className="text-2xl mb-2">
                   {room === 'living' && '🛋️'}
                   {room === 'kitchen' && '🍳'}
@@ -68,7 +68,12 @@ export default function TechnicalSpecifications({ house }: TechnicalSpecificatio
                   {room === 'dining' && '🍽️'}
                   {!['living', 'kitchen', 'bedroom', 'bathroom', 'entry', 'dining'].includes(room) && '🏠'}
                 </div>
-                <div className="font-medium text-gray-900 capitalize">{room}</div>
+                <div className="font-medium text-gray-900 capitalize">
+                  {room}
+                  {/* Показываем номер, если это не первая комната данного типа */}
+                  {house.availableRooms.indexOf(room) !== index && 
+                   ` ${house.availableRooms.filter((r, i) => r === room && i <= index).length}`}
+                </div>
               </div>
             ))}
           </div>
