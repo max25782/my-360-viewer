@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useHouses } from "../hooks/useHouses";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Button from "../components/Button";
-import { formatCurrency } from "../utils/formatters";
+
 
 export default function Home() {
   const { houses, loading, error } = useHouses();
@@ -94,9 +93,9 @@ export default function Home() {
                   )}
                   
                   {/* Rooms Count Badge */}
-                  <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  {/* <div className="absolute top-4 right-4 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
                     {house.availableRooms.length} Rooms
-                  </div>
+                  </div> */}
                 </div>
                 
                 <div className="p-6">
@@ -113,18 +112,18 @@ export default function Home() {
                   <div className="mb-4">
                     <div className="text-xs text-gray-500 mb-2">Available Rooms:</div>
                     <div className="flex flex-wrap gap-1">
-                      {house.availableRooms.slice(0, 4).map((room, index) => (
-                        <span key={`${room}-${index}`} className="bg-gray-100 px-2 py-1 rounded text-xs">
-                          {room.charAt(0).toUpperCase() + room.slice(1)}
-                          {house.availableRooms.indexOf(room) !== index && 
-                           ` ${house.availableRooms.filter((r, i) => r === room && i <= index).length}`}
-                        </span>
-                      ))}
-                      {house.availableRooms.length > 4 && (
-                        <span className="bg-gray-100 px-2 py-1 rounded text-xs">
-                          +{house.availableRooms.length - 4} more
-                        </span>
-                      )}
+                                            <span className="bg-gray-100 px-2 py-1 rounded text-xs">
+                        {house.availableRooms.filter(room => room === 'bedroom').length} Bedrooms
+                      </span>
+                      <span className="bg-gray-100 px-2 py-1 rounded text-xs">
+                        {house.availableRooms.filter(room => room === 'bathroom').length} Bathrooms
+                      </span>
+                      <span className="bg-gray-100 px-2 py-1 rounded text-xs">
+                        {house.availableRooms.filter(room => room === 'living').length} Living
+                      </span>
+                      <span className="bg-gray-100 px-2 py-1 rounded text-xs">
+                        {house.availableRooms.filter(room => room === 'kitchen').length} Kitchen
+                      </span>                      
                     </div>
                   </div>
 

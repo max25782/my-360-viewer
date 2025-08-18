@@ -586,6 +586,7 @@
     },
     "tamarack": {
       "name": "Tamarack",
+      "description": "Our Tamarack model is a streamlined one-bedroom, one-bath design with optional porch and patio. It’s everything you need in a space that feels just right.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -596,15 +597,30 @@
       ],
       "comparison": {
         "features": {
+          "Living Space": {
+            "good": "683 SF",
+            "better": "683 SF",
+            "best": "683 SF"
+          },
           "Outdoor Space": {
             "good": "\u2717",
-            "better": "210 SF",
-            "best": "210 SF"
+            "better": "266 SF",
+            "best": "266 SF"
           },
-          "Ceiling Height": {
-            "good": "8 Feet",
-            "better": "9 Feet",
-            "best": "9 Feet"
+          "Overall Dimensions": {
+            "good": "21'-6\"x33'",
+            "better": "21'-6\"x42'-8\"",
+            "best": "21'-6\"x42'-8\""
+          },
+          "Bedrooms": {
+            "good": "1 Bedroom",
+            "better": "1 Bedroom",
+            "best": "1 Bedroom"
+          },
+          "Bathrooms": {
+            "good": "1 Bathroom",
+            "better": "1 Bathroom",
+            "best": "1 Bathroom"
           },
           "Kitchen": {
             "good": "Kitchenette",
@@ -614,12 +630,17 @@
           "Kitchen Island": {
             "good": "\u2717",
             "better": "\u2717",
-            "best": "\u2713"
+            "best": "\u2717"
           },
-          "Garbage Disposal": {
+          "Ceiling Height": {
+            "good": "8 Feet",
+            "better": "9 Feet",
+            "best": "9 Feet"
+          },
+          "Vaulted Ceiling": {
             "good": "\u2717",
             "better": "\u2717",
-            "best": "\u2713"
+            "best": "\u2717"
           },
           "Vanity": {
             "good": "Pedestal Sink",
@@ -668,15 +689,15 @@
           },
           "Available Design Collection": {
             "good": "Dark & Light",
-            "better": "Heritage, Haven and Sunset",
-            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+            "better": "Heritage, Haven and Serenity",
+            "best": "Heritage, Haven, Serenity and Luxe"
           }
         }
       },
       "tour360": {
         "rooms": [
-          "kitchen",
           "living",
+          "kitchen",
           "bedroom",
           "bathroom"
         ],
@@ -733,57 +754,38 @@
         "markerPositions": {
           "kitchen": {
             "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 240,
+              "yaw": 180,
               "pitch": 0
             }
+         
+         
           },
           "living": {
             "kitchen": {
-              "yaw": 0,
+              "yaw": 90,
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 240,
+              "yaw": 320,
               "pitch": 0
             }
+         
           },
           "bedroom": {
-            "kitchen": {
-              "yaw": 0,
-              "pitch": 0
-            },
+        
             "living": {
-              "yaw": 120,
+              "yaw": 50,
               "pitch": 0
             },
             "bathroom": {
-              "yaw": 240,
+              "yaw": 260,
               "pitch": 0
             }
           },
           "bathroom": {
-            "kitchen": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "living": {
-              "yaw": 120,
-              "pitch": 0
-            },
+         
             "bedroom": {
-              "yaw": 240,
+              "yaw": 110,
               "pitch": 0
             }
           }
@@ -792,98 +794,125 @@
     },
     "ponderosa": {
       "name": "Ponderosa",
+      "description": "Explore our Ponderosa model, a thoughtfully designed home featuring two bedrooms, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Ponderosa offers the perfect blend of comfort, flexibility, and functional living space",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
         "living",
         "kitchen",
         "bedroom",
+        "bedroom",
         "bathroom"
       ],
-      "comparison": {
-        "features": {
-          "Outdoor Space": {
-            "good": "\u2717",
-            "better": "210 SF",
-            "best": "210 SF"
-          },
-          "Ceiling Height": {
-            "good": "8 Feet",
-            "better": "9 Feet",
-            "best": "9 Feet"
-          },
-          "Garage": {
-            "good": "\u2717",
-            "better": "\u2717",
-            "best": "\u2713"
-          },
-          "Kitchen": {
-            "good": "Kitchenette",
-            "better": "Full Kitchen with Upper Cabs",
-            "best": "Full Kitchen with Upper Cabs"
-          },
-          "Kitchen Island": {
-            "good": "\u2717",
-            "better": "\u2717",
-            "best": "\u2713"
-          },
-          "Garbage Disposal": {
-            "good": "\u2717",
-            "better": "\u2717",
-            "best": "\u2713"
-          },
-          "Vanity": {
-            "good": "Pedestal Sink",
-            "better": "Built-in Vanity w/ Single Sink",
-            "best": "Built-in Vanity w/ Single Sink"
-          },
-          "Shower": {
-            "good": "Tub/Shower Unit",
-            "better": "Shower Unit",
-            "best": "Tile Shower"
-          },
-          "Bathroom Accessories": {
-            "good": "\u2717",
-            "better": "\u2713",
-            "best": "\u2713"
-          },
-          "Exterior Siding": {
-            "good": "Hardie Lap",
-            "better": "Hardie Lap and Board & Batten",
-            "best": "Hardie Lap and Board & Batten"
-          },
-          "Flooring": {
-            "good": "Builder Grade LVP or Laminate",
-            "better": "Upgraded LVP or Laminate",
-            "best": "Designer Series LVP or Laminate and Tile"
-          },
-          "Feature Lighting": {
-            "good": "Downlighting, Interior and Exterior Fixtures",
-            "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
-            "best": "Premium Fixtures from Rejuvenation"
-          },
-          "Mini-Split HVAC": {
-            "good": "Living Area",
-            "better": "Living Area and Primary Bedroom",
-            "best": "Living Area and All Bedrooms"
-          },
-          "Tank Water Heater": {
-            "good": "\u2713",
-            "better": "\u2713",
-            "best": "\u2713"
-          },
-          "Electric Fireplace": {
-            "good": "\u2717",
-            "better": "\u2717",
-            "best": "\u2713"
-          },
-          "Available Design Collection": {
-            "good": "Dark & Light",
-            "better": "Heritage, Haven and Sunset",
-            "best": "Heritage, Haven, Serenity, Luxe & Sunset"
-          }
-        }
+     "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "763 SF",
+        "better": "763 SF",
+        "best": "763 SF"
       },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "130 SF",
+        "best": "130 SF"
+      },
+      "Overall Dimensions": {
+        "good": "30’x30’-6”",
+        "better": "30’x34’-6”",
+        "best": "30’x34’-6”"
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms and 1 Office",
+        "better": "2 Bedrooms and 1 Office",
+        "best": "2 Bedrooms and 1 Office"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper and Pantry Cabs"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Porch & Patio": {
+        "good": "✗",
+        "better": "Covered Porch & Covered Patio",
+        "best": "Covered Porch & Covered Patio"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area and 2 Bedrooms"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
       "tour360": {
         "rooms": [
           "living",

@@ -128,27 +128,27 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
           <SimpleImageModal 
             src={imagePaths.goodPlan1} 
             alt={`Good Package - ${house.name} Floor Plan 1`} 
-            className="w-full h-32 object-contain"
-            width={300}
-            height={200}
+            className="w-full h-full object-contain"
+            width={400}
+            height={300}
           />
         ),
         better: (
           <SimpleImageModal 
             src={imagePaths.betterPlan1} 
             alt={`Better Package - ${house.name} Floor Plan 1`} 
-            className="w-full h-32 object-contain"
-            width={300}
-            height={200}
+            className="w-full h-full object-contain"
+            width={400}
+            height={300}
           />
         ),
         best: (
           <SimpleImageModal 
             src={imagePaths.bestPlan1} 
             alt={`Best Package - ${house.name} Floor Plan 1`} 
-            className="w-full h-32 object-contain"
-            width={300}
-            height={200}
+            className="w-full h-full object-contain"
+            width={400}
+            height={300}
           />
         )
       },

@@ -30,10 +30,10 @@ export default function ComparisonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-900">
       {/* Header */}
-      <div className="bg-blue-600 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-slate-700 text-white py-8">
+        <div className="max-w-7xl  mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">{house.name} - Package Comparison</h1>
@@ -41,7 +41,7 @@ export default function ComparisonPage() {
             </div>
             <Link
               href={`/houses/${house.id}`}
-              className="bg-white text-blue-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              className="bg-slate-800 text-white px-6 py-2 rounded-lg hover:bg-slate-700 transition-colors font-medium"
             >
               ← Back to {house.name}
             </Link>
@@ -50,7 +50,7 @@ export default function ComparisonPage() {
       </div>
 
       {/* Comparison Table */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-slate-900">
         <JsonGoodBetterBestComparison house={house} />
       </div>
 

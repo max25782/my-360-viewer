@@ -8,10 +8,8 @@ import Breadcrumb from '../../../components/Breadcrumb';
 import HeroSection from '../../../components/HeroSection';
 import DesignPackagesSectionRedux from '../../../components/DesignPackagesSectionRedux';
 import TakeALookAroundUniversal from '../../../components/TakeALookAroundUniversal';
-import TechnicalSpecifications from '../../../components/TechnicalSpecifications';
-import ModelFeatures from '../../../components/ModelFeatures';
-import GetStartedToday from '../../../components/GetStartedToday';
-import ExploreModels from '../../../components/ExploreModels';
+
+
 
 export default function HousePage() {
   const params = useParams();
