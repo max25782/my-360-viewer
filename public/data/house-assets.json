@@ -1755,6 +1755,7 @@
     },
     "birch": {
       "name": "Birch",
+      "description": "Explore our Birch model, a spacious one-bedroom, one-bath design with an optional covered porch and patio. With a thoughtful layout and room to breathe, Birch offers the perfect blend of comfort, style, and indoor-outdoor living.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -1764,12 +1765,125 @@
         "hallaway",
         "kitchen"
       ],
+      "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "800 SF",
+        "better": "800 SF",
+        "best": "800 SF"
+      },
+      "Outdoor Space": {
+        "good": "136 SF",
+        "better": "231 SF",
+        "best": "231 SF"
+      },
+      "Overall Dimensions": {
+        "good": "40'x23'",
+        "better": "40'x29'",
+        "best": "40'x29'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom & 1 Office",
+        "better": "1 Bedroom & 1 Office",
+        "best": "1 Bedroom & 1 Office"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "LVP or Laminate",
+        "better": "LVP or Laminate",
+        "best": "LVP or Laminate and Tile"
+      },
+      "Porch & Patio": {
+        "good": "Covered Patio",
+        "better": "Covered Porch & Patio",
+        "best": "Covered Porch & Patio"
+      },
+      "Soffit": {
+        "good": "Smart-Side",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fan, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Heritage & Haven",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    },
       "tour360": {
         "rooms": [
+          "great room",
           "bathroom",
           "bedroom",
-          "great room",
-          "hallaway",
+          "hallway",
           "kitchen"
         ],
         "availableFiles": {
@@ -1832,7 +1946,7 @@
               "yaw": 90,
               "pitch": 0
             },
-            "hallaway": {
+            "hallway": {
               "yaw": 180,
               "pitch": 0
             },
@@ -1920,7 +2034,8 @@
         "dp5": "dp4",
         "pk5": "pk4"
       }
-    },
+    }
+  },
     "cypress": {
       "name": "Cypress",
       "maxDP": 4,
