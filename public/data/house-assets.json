@@ -2022,6 +2022,7 @@
     },
     "cypress": {
       "name": "Cypress",
+      "description": "Explore our Cypress model, a spacious and versatile home offering up to 1,296 sq. ft. of thoughtfully designed living space. With a dedicated office and an optional garage, Cypress provides the perfect balance of functionality, comfort, and room to grow.",      
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2030,12 +2031,73 @@
         "bedroom",
         "bathroom"
       ],
+      "comparison": {
+    "features": {
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Porch & Patio": {
+        "good": "✗",
+        "better": "Covered Porch and Uncovered Patio",
+        "best": "Covered Porch and Covered Patio"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area, Bedroom and Office"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
       "tour360": {
         "rooms": [
-          "bathroom",
-          "bedroom",
+          "living",
           "kitchen",
-          "living"
+          "bathroom",
+          "bedroom"
+          
+          
         ],
         "availableFiles": {
           "living": {
@@ -2090,39 +2152,27 @@
         "markerPositions": {
           "bathroom": {
             "bedroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "living": {
-              "yaw": 240,
+              "yaw": 70,
               "pitch": 0
             }
+           
+        
           },
           "bedroom": {
             "bathroom": {
-              "yaw": 0,
+              "yaw": 130,
               "pitch": 0
             },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
+          
             "living": {
-              "yaw": 240,
+              "yaw": 180,
               "pitch": 0
             }
           },
           "kitchen": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
+           
             "bedroom": {
-              "yaw": 120,
+              "yaw": 210,
               "pitch": 0
             },
             "living": {
@@ -2131,16 +2181,13 @@
             }
           },
           "living": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
+        
             "bedroom": {
-              "yaw": 120,
+              "yaw": 240,
               "pitch": 0
             },
             "kitchen": {
-              "yaw": 240,
+              "yaw": 200,
               "pitch": 0
             }
           }
