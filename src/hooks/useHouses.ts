@@ -21,7 +21,7 @@ export interface House {
   };
   tour360?: {
     rooms: string[];
-    availableFiles: Record<string, any>;
+    availableFiles: Record<string, unknown>;
   };
   comparison?: {
     features: Record<string, {

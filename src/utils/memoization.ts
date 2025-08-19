@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 // Memoization utilities for performance optimization
 
-export function useStableCallback<T extends (...args: any[]) => any>(
+export function useStableCallback<T extends (...args: unknown[]) => unknown>(
   callback: T,
   deps: React.DependencyList
 ): T {
@@ -62,7 +62,7 @@ class LRUCache<K, V> {
 
 // Global cache instances
 export const imageUrlCache = new LRUCache<string, string>(200);
-export const sceneDataCache = new LRUCache<string, any>(50);
+export const sceneDataCache = new LRUCache<string, unknown>(50);
 
 // Memoized image URL generator
 export function getMemoizedImageUrl(path: string, mounted: boolean): string {
@@ -82,7 +82,7 @@ export function getMemoizedImageUrl(path: string, mounted: boolean): string {
 }
 
 // Throttle function for performance-critical operations
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
@@ -108,7 +108,7 @@ export function throttle<T extends (...args: any[]) => any>(
 }
 
 // Debounce function for user input handling
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {

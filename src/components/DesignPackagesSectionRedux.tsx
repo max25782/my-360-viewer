@@ -30,14 +30,12 @@ export default function DesignPackagesSectionRedux({ house }: DesignPackagesSect
           {/* Exterior View */}
           <UniversalDesignSelectorRedux 
             houseId={house.id}
-            houseName={house.name}
             type="exterior"
           />
 
           {/* Interior View */}
           <UniversalDesignSelectorRedux 
             houseId={house.id}
-            houseName={house.name}
             type="interior"
           />
         </div>

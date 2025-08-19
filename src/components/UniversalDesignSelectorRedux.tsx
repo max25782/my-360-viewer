@@ -20,7 +20,6 @@ import { useState } from 'react';
 
 interface UniversalDesignSelectorReduxProps {
   houseId: string;
-  houseName: string;
   type: 'exterior' | 'interior';
 }
 
@@ -52,11 +51,10 @@ const INTERIOR_TEXTURES = [
   }
 ];
 
-const INTERIOR_ROOMS = ['kitchen', 'bedroom', 'bathroom', 'living'];
+
 
 export default function UniversalDesignSelectorRedux({ 
   houseId, 
-  houseName, 
   type 
 }: UniversalDesignSelectorReduxProps) {
   const [selectedTexture, setSelectedTexture] = useState(1);
@@ -436,7 +434,7 @@ export default function UniversalDesignSelectorRedux({
       
       {/* Package Thumbnails - Lazy Loading */}
       <div className="flex justify-center space-x-6">
-        {thumbnails.map((thumb: any) => (
+        {thumbnails.map((thumb: { package: { id: string; name: string }; index: number; thumbnailPath: string }) => (
           <div key={`${thumb.package.id}-${thumb.index}`} className="text-center">
             <button 
               onClick={() => handlePackageChange(thumb.index)}

@@ -46,7 +46,7 @@ export const usePerformanceMetrics = () => {
     try {
       const fidObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          const fid = (entry as any).processingStart - entry.startTime;
+          const fid = (entry as PerformanceEventTiming).processingStart - entry.startTime;
           webVitalsRef.current.fid = fid;
           console.log('🖱️ FID:', fid.toFixed(2) + 'ms',
             fid < 100 ? '✅ Good' : fid < 300 ? '⚠️ Needs improvement' : '❌ Poor');
@@ -61,8 +61,8 @@ export const usePerformanceMetrics = () => {
       let clsValue = 0;
       const clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (!(entry as any).hadRecentInput) {
-            clsValue += (entry as any).value;
+          if (!(entry as PerformanceEntry & { hadRecentInput: boolean }).hadRecentInput) {
+            clsValue += (entry as PerformanceEntry & { value: number }).value;
             webVitalsRef.current.cls = clsValue;
           }
         }
@@ -91,7 +91,7 @@ export const usePerformanceMetrics = () => {
       let worstINP = 0;
       const inpObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (entry.entryType === 'event' && (entry as any).interactionId) {
+          if (entry.entryType === 'event' && (entry as PerformanceEntry & { interactionId?: number }).interactionId) {
             const inp = entry.duration;
             if (inp > worstINP) {
               worstINP = inp;

@@ -21,7 +21,12 @@ interface HouseAssets {
   interiorPackages: DesignPackage[];
   availableRooms: string[];
   tour360Available: boolean;
-  tour360Config: any;
+  tour360Config: {
+    rooms: string[];
+    availableFiles: Record<string, unknown>;
+    markerPositions: Record<string, Record<string, { yaw: number; pitch: number }>>;
+    legacy: boolean;
+  } | null;
   lastUpdated: number;
 }
 

@@ -586,7 +586,7 @@
     },
     "tamarack": {
       "name": "The Nest",
-      "description": "Our Tamarack model is a streamlined one-bedroom, one-bath design with optional porch and patio. It’s everything you need in a space that feels just right.",
+      "description": "Our Tamarack model is a streamlined one-bedroom, one-bath design with optional porch and patio. It's everything you need in a space that feels just right.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -817,9 +817,9 @@
         "best": "130 SF"
       },
       "Overall Dimensions": {
-        "good": "30’x30’-6”",
-        "better": "30’x34’-6”",
-        "best": "30’x34’-6”"
+        "good": "30'x30'-6\"",
+        "better": "30'x34'-6\"",
+        "best": "30'x34'-6\" "
       },
       "Bedrooms": {
         "good": "2 Bedrooms and 1 Office",
@@ -1033,9 +1033,9 @@
         "best": "112 SF"
       },
       "Overall Dimensions": {
-        "good": "30’x20’",
-        "better": "30’x24’",
-        "best": "30’x29’-6”"
+        "good": "30'x20'",
+        "better": "30'x24'",
+        "best": "30'x29'-6\""
       },
       "Bedrooms": {
         "good": "1 Bedroom",
@@ -1245,8 +1245,8 @@
         
       ],
       "comparison": {
-    "features": {
-      "Living Space": {
+        "features": {
+          "Living Space": {
         "good": "1139 SF",
         "better": "1139 SF",
         "best": "1139 SF"
@@ -1257,9 +1257,9 @@
         "best": "98 SF"
       },
       "Overall Dimensions": {
-        "good": "34’-6”x33’",
-        "better": "34’-6”x37’-6”",
-        "best": "49’x42’"
+        "good": "34'-6\"x33'",
+        "better": "34'-6\"x37'-6\"",
+        "best": "49'x42'"
       },
       "Bedrooms": {
         "good": "1 Bedroom & Office",
@@ -1361,8 +1361,9 @@
         "better": "Heritage, Haven and Serenity",
         "best": "Heritage, Haven, Serenity and Luxe"
       }
-    }
-  },
+        }
+      },
+
       "tour360": {
         "rooms": [
           "entry",
@@ -1766,8 +1767,8 @@
         "kitchen"
       ],
       "comparison": {
-    "features": {
-      "Living Space": {
+        "features": {
+          "Living Space": {
         "good": "800 SF",
         "better": "800 SF",
         "best": "800 SF"
@@ -1877,17 +1878,30 @@
         "better": "Heritage, Haven and Serenity",
         "best": "Heritage, Haven, Serenity and Luxe"
       }
-    },
+        }
+      },
       "tour360": {
         "rooms": [
           "great room",
           "bathroom",
           "bedroom",
-          "hallway",
+          "hallaway",
           "kitchen"
         ],
         "availableFiles": {
           "living": {
+            "thumbnail": true,
+            "preview": true,
+            "tiles": {
+              "front": true,
+              "back": true,
+              "left": true,
+              "right": true,
+              "up": false,
+              "down": true
+            }
+          },
+           "hallaway": {
             "thumbnail": true,
             "preview": true,
             "tiles": {
@@ -1938,48 +1952,26 @@
         },
         "markerPositions": {
           "bathroom": {
-            "bedroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "great room": {
-              "yaw": 90,
-              "pitch": 0
-            },
-            "hallway": {
-              "yaw": 180,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 270,
+         
+           
+            "hallaway": {
+              "yaw":0,
               "pitch": 0
             }
+          
           },
           "bedroom": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "great room": {
-              "yaw": 90,
-              "pitch": 0
-            },
+          
             "hallaway": {
-              "yaw": 180,
-              "pitch": 0
-            },
-            "kitchen": {
               "yaw": 270,
               "pitch": 0
             }
+         
           },
           "great room": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
+           
             "bedroom": {
-              "yaw": 90,
+              "yaw": 188,
               "pitch": 0
             },
             "hallaway": {
@@ -1993,11 +1985,11 @@
           },
           "hallaway": {
             "bathroom": {
-              "yaw": 0,
+              "yaw": 50,
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 90,
+              "yaw": 355,
               "pitch": 0
             },
             "great room": {
@@ -2005,25 +1997,18 @@
               "pitch": 0
             },
             "kitchen": {
-              "yaw": 270,
+              "yaw": 150,
               "pitch": 0
             }
           },
           "kitchen": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 90,
-              "pitch": 0
-            },
+         
             "great room": {
               "yaw": 180,
               "pitch": 0
             },
             "hallaway": {
-              "yaw": 270,
+              "yaw": 150,
               "pitch": 0
             }
           }
@@ -2034,8 +2019,7 @@
         "dp5": "dp4",
         "pk5": "pk4"
       }
-    }
-  },
+    },
     "cypress": {
       "name": "Cypress",
       "maxDP": 4,

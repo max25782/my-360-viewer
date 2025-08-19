@@ -52,9 +52,23 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   // Instead, we manage scenes locally using tour360Config
 
   // Universal system state
-  const [tour360Config, setTour360Config] = useState<any>(null);
+  const [tour360Config, setTour360Config] = useState<{
+    rooms: string[];
+    availableFiles: Record<string, unknown>;
+    markerPositions: Record<string, Record<string, { yaw: number; pitch: number }>>;
+    legacy: boolean;
+  } | null>(null);
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
-  const [currentScene, setCurrentScene] = useState<any>(null);
+  const [currentScene, setCurrentScene] = useState<{
+    key: string;
+    title: string;
+    panorama: { front: string; back: string; left: string; right: string; top: string; bottom: string };
+    thumbnail: string;
+    yaw: number;
+    pitch: number;
+    zoom: number;
+    links: Array<{ to: string; yaw: number; pitch: number; label: string }>;
+  } | null>(null);
   const [supportsWebP, setSupportsWebP] = useState<boolean>(false);
   
   // Performance and Service Worker hooks
@@ -84,7 +98,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       return [];
     }
     
-    const links: any[] = [];
+    const links: Array<{ to: string; yaw: number; pitch: number; label: string }> = [];
     const rooms = tour360Config.rooms;
     
     // Проверяем есть ли настройки позиций маркеров для этого дома
@@ -212,7 +226,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   }, [tour360Config, createSceneFromRoom]);
 
   // Preload images for next rooms
-  const preloadNextRooms = useCallback((links: any[]) => {
+  const preloadNextRooms = useCallback((links: Array<{ to: string; yaw: number; pitch: number; label: string }>) => {
     if (!links || links.length === 0) return;
     
     links.forEach(link => {
@@ -232,7 +246,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       };
       
       // Предзагружаем изображения в фоне
-      Object.values(tiles).forEach((url: any) => {
+      Object.values(tiles).forEach((url: string) => {
         const img = new Image();
         img.src = url;
       });
@@ -242,7 +256,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   }, [houseId, supportsWebP, getActualHouseDirectory]);
 
   // Helper: build markers for scene links with room icons
-  const buildMarkers = useCallback((links: any[] = [], house: string) =>
+  const buildMarkers = useCallback((links: Array<{ to: string; yaw: number; pitch: number; label: string }> = [], house: string) =>
     links.map((l, idx) => {
       const roomLabel = l.label || l.to.split('_').pop() || 'Room';
       const roomIcon = getRoomIcon(l.to);
@@ -443,7 +457,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
           const pitch = typeof currentScene.pitch === 'number' ? toRad(currentScene.pitch) : 0;
           newViewer.rotate({ yaw, pitch });
           
-          const z = currentScene.zoom ?? currentScene.fov;
+          const z = currentScene.zoom;
           if (typeof z === 'number') {
             try {
               (newViewer as any).zoom(z);
