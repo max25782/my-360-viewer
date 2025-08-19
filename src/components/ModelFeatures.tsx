@@ -17,8 +17,9 @@ export default function ModelFeatures({ house }: ModelFeaturesProps) {
     'Customizable Interior Finishes'
   ];
 
-  // Добавляем функции на основе доступных комнат
-  house.availableRooms.forEach(room => {
+  // Добавляем функции на основе уникальных типов комнат
+  const uniqueRoomTypes = [...new Set(house.availableRooms)];
+  uniqueRoomTypes.forEach(room => {
     switch(room) {
       case 'kitchen':
         features.push('Full Kitchen Layout');

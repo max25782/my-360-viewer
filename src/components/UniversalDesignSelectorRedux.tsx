@@ -126,13 +126,52 @@ export default function UniversalDesignSelectorRedux({
     }
   };
 
-  // Use house-specific rooms for interior
-  const interiorRooms = type === 'interior' 
-    ? rooms.filter(room => ['kitchen', 'bedroom', 'bathroom', 'living'].includes(room))
-    : [];
+  // Get actual interior rooms from file system structure
+  const [actualInteriorRooms, setActualInteriorRooms] = useState<string[]>([]);
+  
+  useEffect(() => {
+    if (type === 'interior') {
+      // Get rooms from actual file structure instead of availableRooms
+      const getActualInteriorRooms = async () => {
+        const possibleRooms = ['kitchen', 'bedroom', 'bathroom', 'living', 'great room'];
+        const existingRooms: string[] = [];
+        
+        for (const room of possibleRooms) {
+          try {
+            // Check if pk1.webp exists for this room
+            const response = await fetch(`/assets/${houseId}/interior/${room}/pk1.webp`, { method: 'HEAD' });
+            if (response.ok) {
+              existingRooms.push(room);
+            } else {
+              // Fallback to .jpg
+              const jpgResponse = await fetch(`/assets/${houseId}/interior/${room}/pk1.jpg`, { method: 'HEAD' });
+              if (jpgResponse.ok) {
+                existingRooms.push(room);
+              }
+            }
+          } catch (error) {
+            // Room doesn't exist, skip
+          }
+        }
+        
+        setActualInteriorRooms(existingRooms);
+      };
+      
+      getActualInteriorRooms();
+    }
+  }, [houseId, type]);
+
+  const interiorRooms = actualInteriorRooms;
 
   // State for current room index
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
+  
+  // Reset room index when interiorRooms changes
+  useEffect(() => {
+    if (interiorRooms.length > 0 && currentRoomIndex >= interiorRooms.length) {
+      setCurrentRoomIndex(0);
+    }
+  }, [interiorRooms, currentRoomIndex]);
 
   const handleTextureChange = async (textureId: number) => {
     setSelectedTexture(textureId);
@@ -153,12 +192,16 @@ export default function UniversalDesignSelectorRedux({
   };
 
   const handleRoomChange = (direction: 'next' | 'prev') => {
+    if (interiorRooms.length === 0) return;
+    
     const newIndex = direction === 'next' 
       ? (currentRoomIndex + 1) % interiorRooms.length
       : (currentRoomIndex - 1 + interiorRooms.length) % interiorRooms.length;
     
     setCurrentRoomIndex(newIndex);
     const currentRoom = interiorRooms[newIndex];
+    
+    if (!currentRoom) return;
     
     // Обновляем выбранную комнату в Redux
     dispatch(setSelectedRoom({ houseId, room: currentRoom }));
@@ -181,12 +224,30 @@ export default function UniversalDesignSelectorRedux({
   };
 
   const renderRoomNavigation = () => {
-    if (type === 'interior') {
+    if (type === 'interior' && interiorRooms.length > 0) {
+      const currentRoom = interiorRooms[currentRoomIndex];
+      
+      // Защита от undefined/null
+      if (!currentRoom) {
+        return (
+          <div className="flex items-center space-x-4">
+            <div className="text-sm font-medium text-white drop-shadow-lg">
+              Loading rooms...
+            </div>
+          </div>
+        );
+      }
+      
       return (
         <div className="flex items-center space-x-4">
           <div className="text-sm font-medium text-white drop-shadow-lg">
-            {interiorRooms[currentRoomIndex].charAt(0).toUpperCase() + interiorRooms[currentRoomIndex].slice(1)}
+            {currentRoom.charAt(0).toUpperCase() + currentRoom.slice(1)}
           </div>
+          {interiorRooms.length > 1 && (
+            <div className="text-xs text-white/70">
+              ({currentRoomIndex + 1} of {interiorRooms.length})
+            </div>
+          )}
         </div>
       );
     }
@@ -229,7 +290,7 @@ export default function UniversalDesignSelectorRedux({
         <div 
           className={`aspect-video relative overflow-hidden ${
             isImageLoading 
-              ? 'animate-pulse bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200' 
+              ? ' bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200' 
               : 'bg-gray-100'
           }`}
           style={{
