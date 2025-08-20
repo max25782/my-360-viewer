@@ -16,7 +16,7 @@ export default function TourPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-900 mb-4">Loading Tour...</div>
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
         </div>
       </div>
     );
@@ -33,7 +33,7 @@ export default function TourPage() {
         <div className="flex justify-between items-center">
           <Link 
             href={`/houses/${house.id}`}
-            className="flex items-center text-white hover:text-gray-300 transition-colors"
+            className="flex items-center text-white"
           >
             <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -48,7 +48,7 @@ export default function TourPage() {
           
           <Link 
             href="/"
-            className="text-white hover:text-gray-300 transition-colors"
+            className="text-white"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

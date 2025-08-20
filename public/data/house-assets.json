@@ -1755,7 +1755,7 @@
       }
     },
     "birch": {
-      "name": "Birch",
+      "name": "The Oasis",
       "description": "Explore our Birch model, a spacious one-bedroom, one-bath design with an optional covered porch and patio. With a thoughtful layout and room to breathe, Birch offers the perfect blend of comfort, style, and indoor-outdoor living.",
       "maxDP": 4,
       "maxPK": 4,
@@ -2021,7 +2021,7 @@
       }
     },
     "cypress": {
-      "name": "Cypress",
+      "name": "The Summit",
       "description": "Explore our Cypress model, a spacious and versatile home offering up to 1,296 sq. ft. of thoughtfully designed living space. With a dedicated office and an optional garage, Cypress provides the perfect balance of functionality, comfort, and room to grow.",      
       "maxDP": 4,
       "maxPK": 4,
@@ -2200,7 +2200,7 @@
       }
     },
     "hemlock": {
-      "name": "Hemlock",
+      "name": "The Horizon",
       "description": "Explore our one-bedroom, one-bath Hemlock model, with optional covered porch and patio. With Hemlock, you’ve got everything you need right at your fingertips: no more, no less.",
       "maxDP": 4,
       "maxPK": 4,
@@ -2407,7 +2407,8 @@
       }
     },
     "spruce": {
-      "name": "Spruce",
+      "name": "The Crest",
+      "description": "Explore our Spruce model, a well-appointed one-bedroom, one-bath home with a dedicated office and optional covered porch. Designed for both relaxation and productivity, Spruce offers a perfect balance of comfort, function, and flexible living space.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2416,12 +2417,126 @@
         "bedroom",
         "bathroom"
       ],
+      "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "800 SF",
+        "better": "800 SF",
+        "best": "800 SF"
+      },
+      "Outdoor Space": {
+        "good": "No",
+        "better": "100 SF",
+        "best": "100 SF"
+      },
+      "Overall Dimensions": {
+        "good": "40'x20'",
+        "better": "40'x25'-6\"",
+        "best": "40'x25'-6\""
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms",
+        "better": "2 Bedrooms",
+        "best": "2 Bedrooms"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom and 1 Powder Room",
+        "better": "1 Bathroom and 1 Powder Room",
+        "best": "1 Bathroom and 1 Powder Room"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity with Single Sink, Pedestal Sink",
+        "best": "Built-in Vanity with Single Sink, Pedestal Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap",
+        "best": "Hardie Lap and Wood Cladding"
+      },
+      "Flooring": {
+        "good": "Luxury Vinyl Plank",
+        "better": "LVP or Laminate",
+        "best": "LVP or Laminate and Tile"
+      },
+      "Covered Porch": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and 1 Bedroom",
+        "best": "Living Area and 2 Bedrooms"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
       "tour360": {
         "rooms": [
-          "bathroom",
-          "bedroom",
+          "living",
           "kitchen",
-          "living"
+          "bathroom",
+          "bedroom"
         ],
         "availableFiles": {
           "living": {
@@ -2476,57 +2591,37 @@
         "markerPositions": {
           "bathroom": {
             "bedroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "living": {
-              "yaw": 240,
+              "yaw": 50,
               "pitch": 0
             }
+        
           },
           "bedroom": {
             "bathroom": {
-              "yaw": 0,
+              "yaw": 150,
               "pitch": 0
             },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
+        
             "living": {
-              "yaw": 240,
+              "yaw": 70,
               "pitch": 0
             }
           },
           "kitchen": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
+       
             "bedroom": {
-              "yaw": 120,
+              "yaw": 240,
               "pitch": 0
             },
             "living": {
-              "yaw": 240,
+              "yaw": 280,
               "pitch": 0
             }
           },
           "living": {
-            "bathroom": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 120,
-              "pitch": 0
-            },
+        
             "kitchen": {
-              "yaw": 240,
+              "yaw": 220,
               "pitch": 0
             }
           }
@@ -2539,6 +2634,7 @@
     },
     "sage": {
       "name": "Sage",
+      "description":"Explore our one-bedroom, one-bath Sage model, with an optional covered patio. Designed for effortless living, Sage offers a perfect balance of comfort, functionality, and style in a compact footprint",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2547,6 +2643,98 @@
         "bedroom",
         "bathroom"
       ],
+       "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "560 SF",
+        "better": "560 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "100 SF"
+      },
+      "Overall Dimensions": {
+        "good": "28’x20’",
+        "better": "28’x25’-6’’"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate"
+      },
+      "Covered Porch": {
+        "good": "✗",
+        "better": "✓"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Interior and Exterior Fixtures"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Dark & Light"
+      }
+    }
+  },
       "tour360": {
         "rooms": [
           "entry",
@@ -2670,6 +2858,7 @@
     },
     "sapling": {
       "name": "Sapling",
+      "description": "Explore our one-bedroom, one-bath Sapling model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, Sapling is perfect for those seeking a simple, stylish, and functional retreat.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2678,6 +2867,120 @@
         "bedroom",
         "bathroom"
       ],
+      "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "644 SF",
+        "better": "644 SF",
+        "best": "644 SF"
+      },
+      "Outdoor Space": {
+        "good": "No",
+        "better": "105 SF",
+        "best": "105 SF"
+      },
+      "Overall Dimensions": {
+        "good": "28’x23’",
+        "better": "28’x29’",
+        "best": "28’x29’"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Covered Porch": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area and Bedroom"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
       "tour360": {
         "rooms": [
           "entry",

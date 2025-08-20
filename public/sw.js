@@ -22,24 +22,32 @@ const CACHE_PATTERNS = {
 const CACHE_STRATEGIES = {
   // Сначала кэш, потом сеть (для статики)
   cacheFirst: async (request) => {
-    const cache = await caches.open(CACHE_NAME);
-    const cached = await cache.match(request);
-    
-    if (cached) {
-      // Обновляем в фоне
-      fetch(request).then(response => {
-        if (response.ok) {
-          cache.put(request, response.clone());
-        }
-      });
-      return cached;
+    try {
+      const cache = await caches.open(CACHE_NAME);
+      const cached = await cache.match(request);
+      
+      if (cached) {
+        // Обновляем в фоне
+        fetch(request).then(response => {
+          if (response.ok) {
+            cache.put(request, response.clone());
+          }
+        }).catch(error => {
+          console.log('[SW] Background update failed:', error);
+        });
+        return cached;
+      }
+      
+      const response = await fetch(request);
+      if (response.ok) {
+        cache.put(request, response.clone());
+      }
+      return response;
+    } catch (error) {
+      console.error('[SW] CacheFirst strategy failed:', error);
+      // Fallback к обычному fetch
+      return fetch(request);
     }
-    
-    const response = await fetch(request);
-    if (response.ok) {
-      cache.put(request, response.clone());
-    }
-    return response;
   },
   
   // Сначала сеть, потом кэш (для динамических данных)
@@ -109,7 +117,17 @@ self.addEventListener('fetch', event => {
     return;
   }
   
-  // Определяем стратегию кэширования
+  // Обработка навигационных запросов (оффлайн страница)
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(() => {
+        return caches.match('/') || new Response('Offline', { status: 503 });
+      })
+    );
+    return;
+  }
+  
+  // Определяем стратегию кэширования для остальных запросов
   let strategy;
   
   if (CACHE_PATTERNS.images360.test(url.pathname) || 
@@ -167,13 +185,4 @@ self.addEventListener('message', event => {
   }
 });
 
-// Оффлайн страница
-self.addEventListener('fetch', event => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match('/offline.html');
-      })
-    );
-  }
-});
+// Оффлайн страница (встроена в основной fetch обработчик выше)

@@ -222,7 +222,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     return (
       <div className="bg-slate-700 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
         <div className="p-8 text-center">
-          <div className="animate-pulse">
+          <div>
             <div className="h-8 bg-gray-300 rounded mb-4"></div>
             <div className="h-4 bg-gray-300 rounded mb-2"></div>
             <div className="h-4 bg-gray-300 rounded mb-2"></div>

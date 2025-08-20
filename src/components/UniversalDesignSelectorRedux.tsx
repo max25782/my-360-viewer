@@ -25,27 +25,27 @@ interface UniversalDesignSelectorReduxProps {
 
 // Interior Texture Configuration
 const INTERIOR_TEXTURES = [
-  { 
-    id: 1, 
-    name: 'Classic White', 
+  {
+    id: 1,
+    name: 'Classic White',
     path: '/assets/texture/interior/colors1.webp',
     pk: 1
   },
-  { 
-    id: 2, 
-    name: 'Warm Gray', 
+  {
+    id: 2,
+    name: 'Warm Gray',
     path: '/assets/texture/interior/colors2.webp',
     pk: 2
   },
-  { 
-    id: 3, 
-    name: 'Natural Wood', 
+  {
+    id: 3,
+    name: 'Natural Wood',
     path: '/assets/texture/interior/colors3.webp',
     pk: 3
   },
-  { 
-    id: 4, 
-    name: 'Modern Black', 
+  {
+    id: 4,
+    name: 'Modern Black',
     path: '/assets/texture/interior/colors4.webp',
     pk: 4
   }
@@ -53,18 +53,18 @@ const INTERIOR_TEXTURES = [
 
 
 
-export default function UniversalDesignSelectorRedux({ 
-  houseId, 
-  type 
+export default function UniversalDesignSelectorRedux({
+  houseId,
+  type
 }: UniversalDesignSelectorReduxProps) {
   const [selectedTexture, setSelectedTexture] = useState(1);
   const dispatch = useAppDispatch();
-  
+
   // Мемоизированные селекторы для оптимальной производительности
   const isDataReady = useAppSelector(universalSelectors.selectIsHouseDataReady(houseId));
   const isLoading = useAppSelector(universalSelectors.selectIsHouseLoading(houseId));
   const isImageLoading = useAppSelector(universalSelectors.selectIsImageLoading(houseId));
-  
+
   const packages = useAppSelector(type === 'exterior' ? universalSelectors.selectExteriorPackages(houseId) : universalSelectors.selectInteriorPackages(houseId));
   const rooms = useAppSelector(universalSelectors.selectAvailableRooms(houseId));
   const selectedPackage = useAppSelector(type === 'exterior' ? universalSelectors.selectSelectedExteriorPackage(houseId) : universalSelectors.selectSelectedInteriorPackage(houseId));
@@ -111,7 +111,7 @@ export default function UniversalDesignSelectorRedux({
   const handlePackageChange = (packageIndex: number) => {
     // Optimistic update для мгновенного отклика UI
     dispatch(setSelectedPackage({ houseId, type, packageIndex }));
-    
+
     // Загрузка изображения
     const packageData = packages[packageIndex];
     if (packageData) {
@@ -126,14 +126,14 @@ export default function UniversalDesignSelectorRedux({
 
   // Get actual interior rooms from file system structure
   const [actualInteriorRooms, setActualInteriorRooms] = useState<string[]>([]);
-  
+
   useEffect(() => {
     if (type === 'interior') {
       // Get rooms from actual file structure instead of availableRooms
       const getActualInteriorRooms = async () => {
         const possibleRooms = ['kitchen', 'bedroom', 'bathroom', 'living', 'great room'];
         const existingRooms: string[] = [];
-        
+
         for (const room of possibleRooms) {
           try {
             // Check if pk1.webp exists for this room
@@ -151,10 +151,10 @@ export default function UniversalDesignSelectorRedux({
             // Room doesn't exist, skip
           }
         }
-        
+
         setActualInteriorRooms(existingRooms);
       };
-      
+
       getActualInteriorRooms();
     }
   }, [houseId, type]);
@@ -163,7 +163,7 @@ export default function UniversalDesignSelectorRedux({
 
   // State for current room index
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
-  
+
   // Reset room index when interiorRooms changes
   useEffect(() => {
     if (interiorRooms.length > 0 && currentRoomIndex >= interiorRooms.length) {
@@ -174,11 +174,11 @@ export default function UniversalDesignSelectorRedux({
   const handleTextureChange = async (textureId: number) => {
     setSelectedTexture(textureId);
     const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === textureId);
-    
+
     if (type === 'interior' && selectedTextureConfig && selectedPackage) {
       // Используем текущую комнату из Redux, а не из interiorRooms
       const currentRoom = selectedRoom;
-      
+
       dispatch(loadDesignImage({
         houseId,
         type,
@@ -191,21 +191,21 @@ export default function UniversalDesignSelectorRedux({
 
   const handleRoomChange = (direction: 'next' | 'prev') => {
     if (interiorRooms.length === 0) return;
-    
-    const newIndex = direction === 'next' 
+
+    const newIndex = direction === 'next'
       ? (currentRoomIndex + 1) % interiorRooms.length
       : (currentRoomIndex - 1 + interiorRooms.length) % interiorRooms.length;
-    
+
     setCurrentRoomIndex(newIndex);
     const currentRoom = interiorRooms[newIndex];
-    
+
     if (!currentRoom) return;
-    
+
     // Обновляем выбранную комнату в Redux
     dispatch(setSelectedRoom({ houseId, room: currentRoom }));
-    
+
     const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
-    
+
     if (type === 'interior' && selectedTextureConfig && selectedPackage) {
       dispatch(loadDesignImage({
         houseId,
@@ -224,7 +224,7 @@ export default function UniversalDesignSelectorRedux({
   const renderRoomNavigation = () => {
     if (type === 'interior' && interiorRooms.length > 0) {
       const currentRoom = interiorRooms[currentRoomIndex];
-      
+
       // Защита от undefined/null
       if (!currentRoom) {
         return (
@@ -235,7 +235,7 @@ export default function UniversalDesignSelectorRedux({
           </div>
         );
       }
-      
+
       return (
         <div className="flex items-center space-x-4">
           <div className="text-sm font-medium text-white drop-shadow-lg">
@@ -257,40 +257,38 @@ export default function UniversalDesignSelectorRedux({
     return (
       <div className="space-y-4">
         <div className="rounded-lg overflow-hidden shadow-lg">
-          <div className="aspect-video relative bg-gray-300 animate-pulse"></div>
+          <div className="aspect-video relative bg-gray-300"></div>
         </div>
         <div className="flex justify-center space-x-6">
-          {[1,2,3,4].map(i => (
-            <div key={i} className="w-16 h-12 bg-gray-300 rounded animate-pulse"></div>
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="w-16 h-12 bg-gray-300 rounded"></div>
           ))}
         </div>
       </div>
     );
   }
 
-  const selectedPackageIndex = selection ? 
+  const selectedPackageIndex = selection ?
     (type === 'exterior' ? selection.selectedExteriorPackage : selection.selectedInteriorPackage) : 0;
 
   return (
     <div className="space-y-4">
       {/* Title */}
-      <h3 className={`text-xl font-semibold text-center ${
-        type === 'exterior' ? 'text-gray-900' : 'text-white drop-shadow-lg'
-      }`}>
+      <h3 className={`text-xl font-semibold text-center ${type === 'exterior' ? 'text-gray-900' : 'text-white drop-shadow-lg'
+        }`}>
         {type === 'exterior' ? 'Exterior Options' : 'Interior Finishes'}
       </h3>
 
       {/* Texture Selection for Interior */}
-     
+
 
       {/* Main Image Display - Lazy Loading Optimized */}
       <div className="rounded-lg overflow-hidden shadow-lg">
-        <div 
-          className={`aspect-video relative overflow-hidden ${
-            isImageLoading 
-              ? ' bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200' 
+        <div
+          className={`aspect-video relative overflow-hidden ${isImageLoading
+              ? ' bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200'
               : 'bg-gray-100'
-          }`}
+            }`}
           style={{
             minHeight: '360px', // Prevent CLS
             backgroundSize: isImageLoading ? '200% 100%' : 'cover',
@@ -301,8 +299,8 @@ export default function UniversalDesignSelectorRedux({
           {isImageLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="flex flex-col items-center space-y-4">
-                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                <div className="text-gray-500 text-sm font-medium animate-pulse">
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
+                <div className="text-gray-500 text-sm font-medium">
                   Loading {type === 'exterior' ? 'exterior' : 'interior'} view...
                 </div>
               </div>
@@ -317,8 +315,8 @@ export default function UniversalDesignSelectorRedux({
               className={`
                 absolute inset-0 w-full h-full object-cover
                 transition-all  ease-in-out 
-                ${isImageLoading 
-                  ? 'opacity-0 scale-105 blur-sm' 
+                ${isImageLoading
+                  ? 'opacity-0 scale-105 blur-sm'
                   : 'opacity-100 scale-100 blur-0'
                 }
             
@@ -326,13 +324,13 @@ export default function UniversalDesignSelectorRedux({
               style={{
                 transition: 'opacity 0.7s ease-in-out, filter 0.7s ease-in-out'
               }}
-            
+
             />
           )}
-           {type === 'interior' && (
-        <div className="flex flex-col items-center space-y-4">
-          {/* Texture Buttons */}
-          {/* <div className="flex justify-center space-x-4 mb-4">
+          {type === 'interior' && (
+            <div className="flex flex-col items-center space-y-4">
+              {/* Texture Buttons */}
+              {/* <div className="flex justify-center space-x-4 mb-4">
             {INTERIOR_TEXTURES.map((texture) => (
               <button
                 key={texture.id}
@@ -353,15 +351,15 @@ export default function UniversalDesignSelectorRedux({
             ))}
           </div> */}
 
-          {/* Room Navigation */}
-          {renderRoomNavigation()}
-        </div>
-      )}
+              {/* Room Navigation */}
+              {renderRoomNavigation()}
+            </div>
+          )}
           {/* Room Navigation Arrows */}
           {type === 'interior' && rooms.length > 1 && (
             <>
               {/* Left Arrow */}
-              <button 
+              <button
                 onClick={() => {
                   const currentIndex = rooms.indexOf(selectedRoom);
                   const prevIndex = (currentIndex - 1 + rooms.length) % rooms.length;
@@ -370,11 +368,11 @@ export default function UniversalDesignSelectorRedux({
                 }}
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-8 w-8 text-gray-800" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-gray-800"
+                  fill="none"
+                  viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -382,7 +380,7 @@ export default function UniversalDesignSelectorRedux({
               </button>
 
               {/* Right Arrow */}
-              <button 
+              <button
                 onClick={() => {
                   const currentIndex = rooms.indexOf(selectedRoom);
                   const nextIndex = (currentIndex + 1) % rooms.length;
@@ -391,11 +389,11 @@ export default function UniversalDesignSelectorRedux({
                 }}
                 className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
               >
-                <svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  className="h-8 w-8 text-gray-800" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-gray-800"
+                  fill="none"
+                  viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -418,11 +416,10 @@ export default function UniversalDesignSelectorRedux({
                 <button
                   key={index}
                   onClick={() => handlePhotoIndexChange(index)}
-                  className={`transition-all ${
-                    index === currentPhotoIndex 
-                      ? 'w-3 h-3 bg-white rounded-full shadow-lg' 
+                  className={`transition-all ${index === currentPhotoIndex
+                      ? 'w-3 h-3 bg-white rounded-full shadow-lg'
                       : 'w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-80'
-                  }`}
+                    }`}
                   title={index === 0 ? 'Основной цвет' : `Вариант ${index}`}
                 >
                 </button>
@@ -431,18 +428,17 @@ export default function UniversalDesignSelectorRedux({
           )}
         </div>
       </div>
-      
+
       {/* Package Thumbnails - Lazy Loading */}
       <div className="flex justify-center space-x-6">
         {thumbnails.map((thumb: { package: { id: string; name: string }; index: number; thumbnailPath: string }) => (
           <div key={`${thumb.package.id}-${thumb.index}`} className="text-center">
-            <button 
+            <button
               onClick={() => handlePackageChange(thumb.index)}
-              className={`w-16 h-12 rounded shadow-sm transition-all hover:scale-105 mb-2 block relative overflow-hidden ${
-                selectedPackageIndex === thumb.index 
-                  ? `border-4 ${type === 'exterior' ? 'border-blue-500' : 'border-green-500'}` 
+              className={`w-16 h-12 rounded shadow-sm transition-all hover:scale-105 mb-2 block relative overflow-hidden ${selectedPackageIndex === thumb.index
+                  ? `border-4 ${type === 'exterior' ? 'border-blue-500' : 'border-green-500'}`
                   : 'border-2 border-white hover:border-gray-300'
-              }`}
+                }`}
               title={`Select ${thumb.package.name}`}
             >
               <img
@@ -476,11 +472,10 @@ export default function UniversalDesignSelectorRedux({
                 }}
               />
             </button>
-            <div className={`text-xs transition-colors ${
-              selectedPackageIndex === thumb.index 
-                ? `${type === 'exterior' ? 'text-blue-600' : 'text-white'} font-bold ${type === 'interior' ? 'drop-shadow-lg' : ''}` 
+            <div className={`text-xs transition-colors ${selectedPackageIndex === thumb.index
+                ? `${type === 'exterior' ? 'text-blue-600' : 'text-white'} font-bold ${type === 'interior' ? 'drop-shadow-lg' : ''}`
                 : `${type === 'exterior' ? 'text-gray-600' : 'text-white text-opacity-80 drop-shadow'}`
-            }`}>
+              }`}>
               {thumb.package.name}
             </div>
           </div>

@@ -11,31 +11,42 @@ export function useServiceWorker() {
   const [status, setStatus] = useState<ServiceWorkerStatus>({
     isRegistered: false,
     isReady: false,
-    isOffline: !navigator.onLine,
+    isOffline: false, // Инициализируем как false, обновим в useEffect
     controller: null,
   });
 
   // Предзагрузка комнат через Service Worker
   const preloadRooms = useCallback(async (houseId: string, rooms: string[], format: 'jpg' | 'webp' = 'webp') => {
-    if (!status.controller) return;
+    if (!status.controller) {
+      console.log('[SW] Service Worker не готов для предзагрузки');
+      return;
+    }
 
-    return new Promise((resolve) => {
-      const channel = new MessageChannel();
-      
-      channel.port1.onmessage = (event) => {
-        if (event.data.type === 'PRELOAD_COMPLETE') {
-          console.log(`[SW] Предзагрузка завершена для комнат:`, event.data.rooms);
-          resolve(event.data);
-        }
-      };
+    try {
+      return new Promise((resolve, reject) => {
+        const channel = new MessageChannel();
+        const timeout = setTimeout(() => {
+          reject(new Error('[SW] Timeout при предзагрузке'));
+        }, 30000); // 30 секунд таймаут
+        
+        channel.port1.onmessage = (event) => {
+          clearTimeout(timeout);
+          if (event.data.type === 'PRELOAD_COMPLETE') {
+            console.log(`[SW] Предзагрузка завершена для комнат:`, event.data.rooms);
+            resolve(event.data);
+          }
+        };
 
-      status.controller?.postMessage({
-        type: 'PRELOAD_ROOMS',
-        houseId,
-        rooms,
-        format
-      }, [channel.port2]);
-    });
+        status.controller?.postMessage({
+          type: 'PRELOAD_ROOMS',
+          houseId,
+          rooms,
+          format
+        }, [channel.port2]);
+      });
+    } catch (error) {
+      console.error('[SW] Ошибка предзагрузки:', error);
+    }
   }, [status.controller]);
 
   // Очистка старого кэша
@@ -59,6 +70,17 @@ export function useServiceWorker() {
   }, [status.controller]);
 
   useEffect(() => {
+    // Инициализируем состояние сети
+    if (typeof window !== 'undefined' && 'navigator' in window) {
+      setStatus(prev => ({ ...prev, isOffline: !navigator.onLine }));
+    }
+    
+    // Временно отключаем Service Worker для отладки
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[SW] Service Worker отключен в режиме разработки');
+      return;
+    }
+    
     if (!('serviceWorker' in navigator)) return;
 
     // Регистрация Service Worker

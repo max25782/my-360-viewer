@@ -92,53 +92,10 @@
   }
 }
 
-/* Gradient animation keyframes */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Shimmer loading animation */
-@keyframes shimmer {
-  0% { 
-    background-position: -200% 0;
-    transform: translateX(-100%);
-  }
-  100% { 
-    background-position: 200% 0;
-    transform: translateX(100%);
-  }
-}
-
-/* Fade in animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Pulse animation for loading */
-@keyframes softPulse {
-  0%, 100% { 
-    opacity: 0.4;
-    transform: scale(0.98);
-  }
-  50% { 
-    opacity: 0.8;
-    transform: scale(1.02);
-  }
-}
+/* Removed all animations and keyframes for instant image changes */
 
 body {
   background: linear-gradient(135deg, #f5f4f1 0%, #e8e6e0 25%, #d4d0c8 50%, #c2bdb0 75%, #b0a898 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
   color: var(--foreground);
   font-family: 'LeagueSpartan', ui-sans-serif, system-ui, sans-serif;
   min-height: 100vh;
@@ -173,7 +130,7 @@ h6 { font-weight: 400; } /* Regular */
   pointer-events: auto !important; /* Быстрые pointer события */
 }
 
-/* Стили для новых маркеров с иконками комнат (без фона и границ) */
+/* Стили для новых маркеров с иконками комнат (без переходов и анимаций) */
 .psv-room-marker {
   contain: layout style paint !important;
   will-change: transform !important;
@@ -223,7 +180,7 @@ h6 { font-weight: 400; } /* Regular */
   }
 }
 
-/* Обратная совместимость для старых маркеров */
+/* Обратная совместимость для старых маркеров (без переходов) */
 .psv-link-marker {
   contain: layout style paint !important;
   will-change: transform !important;

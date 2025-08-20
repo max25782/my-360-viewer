@@ -21,7 +21,7 @@ const ModalContent = memo(({ src, alt, onClose }: { src: string; alt: string; on
     <div className="relative max-w-4xl max-h-4xl p-4" onClick={(e) => e.stopPropagation()}>
       <button
         onClick={onClose}
-        className="absolute top-2 right-2 text-white text-2xl bg-black bg-opacity-50 rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-75 transition-opacity"
+        className="absolute top-2 right-2 text-white text-2xl bg-black bg-opacity-50 rounded-full w-8 h-8 flex items-center justify-center"
       >
         ×
       </button>
@@ -59,7 +59,7 @@ const OptimizedSimpleImageModal = memo(({ src, alt, className, width, height }: 
         alt={alt}
         width={width}
         height={height}
-        className={`cursor-pointer hover:opacity-90 transition-opacity ${className}`}
+        className={`cursor-pointer ${className}`}
         onClick={handleImageClick}
         loading="lazy"
       />

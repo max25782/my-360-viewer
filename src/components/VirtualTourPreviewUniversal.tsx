@@ -67,7 +67,7 @@ export default function VirtualTourPreviewUniversal({
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto">
-        <div className="aspect-video rounded-lg overflow-hidden shadow-2xl bg-gray-300 animate-pulse"></div>
+        <div className="aspect-video rounded-lg overflow-hidden shadow-2xl bg-gray-300"></div>
         <div className="mt-4 text-center">
           <div className="h-6 bg-gray-300 rounded w-48 mx-auto mb-2"></div>
           <div className="h-4 bg-gray-300 rounded w-32 mx-auto"></div>

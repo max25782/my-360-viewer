@@ -14,7 +14,7 @@ export default function Home() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-900 mb-4">Loading Houses...</div>
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
         </div>
       </div>
     );
@@ -49,13 +49,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="#catalog" 
-              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-blue-600 bg-white hover:bg-gray-50 transition-colors shadow-lg"
+              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-blue-600 bg-white shadow-lg"
             >
               View Catalog
           </a>
           <a
               href="#virtual-tour" 
-              className="inline-flex items-center px-8 py-3 border-2 border-white text-base font-medium rounded-lg text-white hover:bg-white hover:text-blue-600 transition-colors"
+              className="inline-flex items-center px-8 py-3 border-2 border-white text-base font-medium rounded-lg text-white"
             >
               🎭 Virtual Tour
             </a>
@@ -76,7 +76,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {houses.map((house) => (
-              <div key={house.id} className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div key={house.id} className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden">
                 <div 
                   className="relative h-64"
                   style={{
@@ -130,14 +130,14 @@ export default function Home() {
                   <div className="flex space-x-2">
                     <Link 
                       href={`/houses/${house.id}`}
-                      className="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                      className="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg text-sm font-medium"
                     >
                       Details
                     </Link>
                     {house.tour360 && house.tour360.rooms.length > 0 && (
                       <Link 
                         href={`/houses/${house.id}/tour`}
-                        className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-2 px-4 rounded-lg hover:from-green-600 hover:to-green-700 transition-all text-sm font-medium"
+                        className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white text-center py-2 px-4 rounded-lg text-sm font-medium"
                       >
                         🎭 Tour
                       </Link>

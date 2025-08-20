@@ -19,13 +19,13 @@ export default function Button({
   className = '',
   type = 'button'
 }: ButtonProps) {
-  const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg transition-colors';
+  const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg';
   
   const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-600 text-white hover:bg-slate-900',
-    slate: 'bg-slate-400 text-white hover:bg-slate-900',
-    green: 'bg-green-600 text-white hover:bg-green-700'
+    primary: 'bg-blue-600 text-white',
+    secondary: 'bg-gray-600 text-white',
+    slate: 'bg-slate-400 text-white',
+    green: 'bg-green-600 text-white'
   };
   
   const sizeClasses = {

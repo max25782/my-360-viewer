@@ -30,15 +30,7 @@ export default function RootLayout({
         <ReduxProvider>
           {children}
         </ReduxProvider>
-        <script dangerouslySetInnerHTML={{ __html: `
-          if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-              navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('Service Worker registered:', registration))
-                .catch(error => console.log('Service Worker registration failed:', error));
-            });
-          }
-        `}} />
+        {/* Service Worker registration moved to useServiceWorker hook */}
       </body>
     </html>
   );

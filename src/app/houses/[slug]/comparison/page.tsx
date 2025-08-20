@@ -19,7 +19,7 @@ export default function ComparisonPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-900 mb-4">Loading Comparison...</div>
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
         </div>
       </div>
     );

@@ -16,7 +16,7 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <Link href="/" className="flex items-center">
               <Image 
                 src="/Website.png" 
                 alt="Seattle ADU Logo" 

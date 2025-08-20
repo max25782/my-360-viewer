@@ -40,7 +40,7 @@ export default function UniversalTourLinks({
 
   if (loading) {
     return (
-      <div className="animate-pulse">
+      <div>
         {variant === 'hero' && (
           <div className="h-12 bg-gray-300 rounded w-32"></div>
         )}
