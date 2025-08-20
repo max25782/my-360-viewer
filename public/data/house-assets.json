@@ -2633,7 +2633,7 @@
       }
     },
     "sage": {
-      "name": "Sage",
+      "name": "The Dwell",
       "description":"Explore our one-bedroom, one-bath Sage model, with an optional covered patio. Designed for effortless living, Sage offers a perfect balance of comfort, functionality, and style in a compact footprint",
       "maxDP": 4,
       "maxPK": 4,
@@ -2737,13 +2737,13 @@
   },
       "tour360": {
         "rooms": [
-          "entry",
+          "living",
           "kitchen",
-          "badroom",
+          "bedroom",
           "bathroom"
         ],
         "availableFiles": {
-          "entry": {
+          "living": {
             "thumbnail": true,
             "preview": true,
             "tiles": {
@@ -2767,7 +2767,7 @@
               "down": true
             }
           },
-          "badroom": {
+          "bedroom": {
             "thumbnail": true,
             "preview": true,
             "tiles": {
@@ -2793,59 +2793,40 @@
           }
         },
         "markerPositions": {
-          "entry": {
+          "living": {
             "kitchen": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "badroom": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 240,
+              "yaw": 200,
               "pitch": 0
             }
+          
+         
           },
           "kitchen": {
-            "entry": {
-              "yaw": 0,
+            "living": {
+              "yaw": 300,
               "pitch": 0
             },
-            "badroom": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "bathroom": {
+            "bedroom": {
               "yaw": 240,
               "pitch": 0
             }
+          
           },
-          "badroom": {
-            "entry": {
-              "yaw": 0,
+          "bedroom": {
+            "living": {
+              "yaw": 70,
               "pitch": 0
             },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
+           
             "bathroom": {
-              "yaw": 240,
+              "yaw": 150,
               "pitch": 0
             }
           },
           "bathroom": {
-            "entry": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 120,
-              "pitch": 0
-            },
-            "badroom": {
-              "yaw": 240,
+       
+            "bedroom": {
+              "yaw": 60,
               "pitch": 0
             }
           }
