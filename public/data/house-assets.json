@@ -2838,7 +2838,7 @@
       }
     },
     "sapling": {
-      "name": "Sapling",
+      "name": "The Arbor",
       "description": "Explore our one-bedroom, one-bath Sapling model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, Sapling is perfect for those seeking a simple, stylish, and functional retreat.",
       "maxDP": 4,
       "maxPK": 4,
@@ -2965,7 +2965,6 @@
       "tour360": {
         "rooms": [
           "entry",
-          "full view to entry",
           "kitchen",
           "bedroom",
           "bathroom"
@@ -2983,18 +2982,7 @@
               "down": true
             }
           },
-          "full view to entry": {
-            "thumbnail": true,
-            "preview": true,
-            "tiles": {
-              "front": true,
-              "back": true,
-              "left": true,
-              "right": true,
-              "up": false,
-              "down": true
-            }
-          },
+   
           "kitchen": {
             "thumbnail": true,
             "preview": true,
@@ -3034,92 +3022,50 @@
         },
         "markerPositions": {
           "entry": {
-            "full view to entry": {
-              "yaw": 0,
-              "pitch": 0
-            },
+         
             "kitchen": {
-              "yaw": 90,
+              "yaw": 220,
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 180,
+              "yaw":185,
               "pitch": 0
             },
             "bathroom": {
-              "yaw": 270,
+              "yaw": 195,
               "pitch": 0
             }
+         
           },
-          "full view to entry": {
-            "entry": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 90,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 180,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 270,
-              "pitch": 0
-            }
-          },
+   
           "kitchen": {
             "entry": {
-              "yaw": 0,
+              "yaw": 330,
               "pitch": 0
             },
-            "full view to entry": {
+    
+            "bedroom": {
               "yaw": 90,
               "pitch": 0
             },
-            "bedroom": {
-              "yaw": 180,
-              "pitch": 0
-            },
             "bathroom": {
-              "yaw": 270,
+              "yaw": 120,
               "pitch": 0
             }
+    
           },
           "bedroom": {
             "entry": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "full view to entry": {
-              "yaw": 90,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 180,
-              "pitch": 0
-            },
-            "bathroom": {
               "yaw": 270,
               "pitch": 0
             }
+          
+           
           },
           "bathroom": {
+      
             "entry": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "full view to entry": {
-              "yaw": 90,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 180,
-              "pitch": 0
-            },
-            "bedroom": {
-              "yaw": 270,
+              "yaw": 80,
               "pitch": 0
             }
           }
