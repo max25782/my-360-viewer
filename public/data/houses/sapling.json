@@ -1,0 +1,436 @@
+{
+  "id": "sapling",
+  "name": "The Arbor",
+  "description": "Explore our one-bedroom, one-bath Sapling model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, Sapling is perfect for those seeking a simple, stylish, and functional retreat.",
+  "category": "A",
+  "bedrooms": 1,
+  "bathrooms": 1,
+  "sqft": 1000,
+  "hero": "assets/skyline/sapling/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "sapling-entry",
+        "room": "entry",
+        "title": "Entry",
+        "thumbnail": "assets/skyline/sapling/360/entry/thumb.webp",
+        "preview": "assets/skyline/sapling/360/entry/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sapling/360/entry/f.webp",
+          "back": "assets/skyline/sapling/360/entry/b.webp",
+          "left": "assets/skyline/sapling/360/entry/l.webp",
+          "right": "assets/skyline/sapling/360/entry/r.webp",
+          "up": "assets/skyline/sapling/360/entry/u.webp",
+          "down": "assets/skyline/sapling/360/entry/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-entry-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 220,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 185,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 195,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "sapling-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/sapling/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/sapling/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sapling/360/kitchen/f.webp",
+          "back": "assets/skyline/sapling/360/kitchen/b.webp",
+          "left": "assets/skyline/sapling/360/kitchen/l.webp",
+          "right": "assets/skyline/sapling/360/kitchen/r.webp",
+          "up": "assets/skyline/sapling/360/kitchen/u.webp",
+          "down": "assets/skyline/sapling/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 330,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 120,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "sapling-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/sapling/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/sapling/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sapling/360/bedroom/f.webp",
+          "back": "assets/skyline/sapling/360/bedroom/b.webp",
+          "left": "assets/skyline/sapling/360/bedroom/l.webp",
+          "right": "assets/skyline/sapling/360/bedroom/r.webp",
+          "up": "assets/skyline/sapling/360/bedroom/u.webp",
+          "down": "assets/skyline/sapling/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "sapling-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/sapling/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/sapling/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sapling/360/bathroom/f.webp",
+          "back": "assets/skyline/sapling/360/bathroom/b.webp",
+          "left": "assets/skyline/sapling/360/bathroom/l.webp",
+          "right": "assets/skyline/sapling/360/bathroom/r.webp",
+          "up": "assets/skyline/sapling/360/bathroom/u.webp",
+          "down": "assets/skyline/sapling/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 80,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sapling-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "sapling-entry"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/sapling/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/sapling/exterior/dp1.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sapling/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/sapling/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/sapling/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/sapling/interior/bathroom/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/sapling/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/sapling/exterior/dp2.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sapling/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/sapling/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/sapling/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/sapling/interior/bathroom/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/sapling/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/sapling/exterior/dp3.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sapling/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/sapling/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/sapling/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/sapling/interior/bathroom/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/sapling/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/sapling/exterior/dp4.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sapling/interior/living/pk4.webp"
+          ],
+          "kitchen": [
+            "assets/sapling/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/sapling/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/sapling/interior/bathroom/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Living Space": {
+        "good": "644 SF",
+        "better": "644 SF",
+        "best": "644 SF"
+      },
+      "Outdoor Space": {
+        "good": "No",
+        "better": "105 SF",
+        "best": "105 SF"
+      },
+      "Overall Dimensions": {
+        "good": "28’x23’",
+        "better": "28’x29’",
+        "best": "28’x29’"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Covered Porch": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area and Bedroom"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.788Z"
+}

@@ -28,25 +28,25 @@ const INTERIOR_TEXTURES = [
   {
     id: 1,
     name: 'Classic White',
-    path: '/assets/texture/interior/colors1.webp',
+    path: '/assets/skyline/texture/interior/colors1.webp',
     pk: 1
   },
   {
     id: 2,
     name: 'Warm Gray',
-    path: '/assets/texture/interior/colors2.webp',
+    path: '/assets/skyline/texture/interior/colors2.webp',
     pk: 2
   },
   {
     id: 3,
     name: 'Natural Wood',
-    path: '/assets/texture/interior/colors3.webp',
+    path: '/assets/skyline/texture/interior/colors3.webp',
     pk: 3
   },
   {
     id: 4,
     name: 'Modern Black',
-    path: '/assets/texture/interior/colors4.webp',
+    path: '/assets/skyline/texture/interior/colors4.webp',
     pk: 4
   }
 ];
@@ -79,6 +79,16 @@ export default function UniversalDesignSelectorRedux({
   const [isMounted, setIsMounted] = React.useState(false);
   const getImageUrl = useMemo(() => {
     return (path: string) => {
+      if (!path) {
+        console.error('Attempted to get URL for undefined path');
+        return '/placeholder-image.png'; // Запасной вариант
+      }
+      
+      // Исправляем путь, если он не содержит /skyline/
+      if (path.includes('/assets/') && !path.includes('/assets/skyline/')) {
+        path = path.replace('/assets/', '/assets/skyline/');
+      }
+      
       if (isMounted && typeof window !== 'undefined') {
         return `${window.location.origin}${path}`;
       }
@@ -137,12 +147,12 @@ export default function UniversalDesignSelectorRedux({
         for (const room of possibleRooms) {
           try {
             // Check if pk1.webp exists for this room
-            const response = await fetch(`/assets/${houseId}/interior/${room}/pk1.webp`, { method: 'HEAD' });
+            const response = await fetch(`/assets/skyline/${houseId}/interior/${room}/pk1.webp`, { method: 'HEAD' });
             if (response.ok) {
               existingRooms.push(room);
             } else {
               // Fallback to .jpg
-              const jpgResponse = await fetch(`/assets/${houseId}/interior/${room}/pk1.jpg`, { method: 'HEAD' });
+              const jpgResponse = await fetch(`/assets/skyline/${houseId}/interior/${room}/pk1.jpg`, { method: 'HEAD' });
               if (jpgResponse.ok) {
                 existingRooms.push(room);
               }
@@ -324,7 +334,21 @@ export default function UniversalDesignSelectorRedux({
               style={{
                 transition: 'opacity 0.7s ease-in-out, filter 0.7s ease-in-out'
               }}
-
+              onError={(e) => {
+                // Обработка ошибки загрузки изображения
+                console.error(`Failed to load image: ${currentImage}`);
+                if (e.currentTarget) {
+                  e.currentTarget.style.display = 'none';
+                }
+                // Показываем запасной вариант
+                const parent = e.currentTarget?.parentElement;
+                if (parent) {
+                  const fallbackDiv = document.createElement('div');
+                  fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
+                  fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
+                  parent.appendChild(fallbackDiv);
+                }
+              }}
             />
           )}
           {type === 'interior' && (
@@ -433,14 +457,20 @@ export default function UniversalDesignSelectorRedux({
       <div className="flex justify-center space-x-6">
         {thumbnails.map((thumb: { package: { id: string; name: string }; index: number; thumbnailPath: string }) => (
           <div key={`${thumb.package.id}-${thumb.index}`} className="text-center">
-            <button
-              onClick={() => handlePackageChange(thumb.index)}
-              className={`w-16 h-12 rounded shadow-sm transition-all hover:scale-105 mb-2 block relative overflow-hidden ${selectedPackageIndex === thumb.index
+                          <button
+                onClick={() => handlePackageChange(thumb.index)}
+                className={`w-16 h-12 rounded shadow-sm transition-all hover:scale-105 mb-2 block relative overflow-hidden ${selectedPackageIndex === thumb.index
                   ? `border-4 ${type === 'exterior' ? 'border-blue-500' : 'border-green-500'}`
                   : 'border-2 border-white hover:border-gray-300'
                 }`}
-              title={`Select ${thumb.package.name}`}
-            >
+                title={`Select ${thumb.package.name}`}
+                onError={(e) => {
+                  // Обработка ошибки на кнопке
+                  if (e.currentTarget) {
+                    e.currentTarget.style.backgroundColor = '#e5e7eb';
+                  }
+                }}
+              >
               <img
                 src={getImageUrl(thumb.thumbnailPath)}
                 alt={`${thumb.package.name} thumbnail`}
@@ -457,18 +487,27 @@ export default function UniversalDesignSelectorRedux({
                 }}
                 onLoad={(e) => {
                   // Плавное появление миниатюры
-                  e.currentTarget.style.opacity = '1';
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.filter = 'blur(0px)';
+                  if (e.currentTarget) {
+                    e.currentTarget.style.opacity = '1';
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.filter = 'blur(0px)';
+                  }
                 }}
                 onError={(e) => {
                   // Плавное исчезновение при ошибке
-                  e.currentTarget.style.opacity = '0';
-                  e.currentTarget.style.transform = 'scale(0.9)';
-                  e.currentTarget.style.backgroundColor = '#e5e7eb';
-                  setTimeout(() => {
-                    e.currentTarget.style.display = 'none';
-                  }, 250);
+                  if (e.currentTarget) {
+                    e.currentTarget.style.opacity = '0';
+                    e.currentTarget.style.transform = 'scale(0.9)';
+                    e.currentTarget.style.backgroundColor = '#e5e7eb';
+                    
+                    // Сохраняем ссылку на currentTarget, так как она может измениться внутри setTimeout
+                    const target = e.currentTarget;
+                    setTimeout(() => {
+                      if (target) {
+                        target.style.display = 'none';
+                      }
+                    }, 250);
+                  }
                 }}
               />
             </button>

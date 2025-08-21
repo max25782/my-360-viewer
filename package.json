@@ -4,13 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run data:prepare && next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build",
+    "export": "npm run data:prepare && next build",
     "deploy": "npm run export && gh-pages -d out",
     "convert:webp": "node convert-to-webp.js",
-    "optimize:images": "npm run convert:webp"
+    "optimize:images": "npm run convert:webp",
+    "data:split": "ts-node --project scripts/tsconfig.json scripts/split-houses.ts",
+    "data:validate": "ts-node --project scripts/tsconfig.json scripts/validate-data.ts",
+    "data:prepare": "npm run data:split && npm run icons:generate",
+    "icons:generate": "node scripts/generate-icons.js",
+    "pwa:test": "npm run build && npm start"
   },
   "dependencies": {
     "@photo-sphere-viewer/core": "^5.13.4",
@@ -34,6 +39,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

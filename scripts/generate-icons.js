@@ -1,0 +1,73 @@
+/**
+ * Скрипт для генерации PNG иконок из SVG для PWA
+ * Создает простые заглушки-иконки разных размеров
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const ICON_SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
+const ICONS_DIR = path.join(process.cwd(), 'public/icons');
+
+// Убеждаемся что папка существует
+if (!fs.existsSync(ICONS_DIR)) {
+  fs.mkdirSync(ICONS_DIR, { recursive: true });
+}
+
+console.log('🎨 Генерируем PWA иконки...');
+
+// Создаем простые PNG файлы-заглушки
+ICON_SIZES.forEach(size => {
+  const filename = `icon-${size}x${size}.png`;
+  const filepath = path.join(ICONS_DIR, filename);
+  
+  // Создаем простую заглушку (1x1 прозрачный PNG)
+  const minimalPNG = Buffer.from([
+    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, // PNG signature
+    0x00, 0x00, 0x00, 0x0D, // IHDR chunk length
+    0x49, 0x48, 0x44, 0x52, // IHDR
+    0x00, 0x00, 0x00, 0x01, // Width: 1
+    0x00, 0x00, 0x00, 0x01, // Height: 1
+    0x08, 0x06, 0x00, 0x00, 0x00, // Bit depth, color type, etc.
+    0x1F, 0x15, 0xC4, 0x89, // CRC
+    0x00, 0x00, 0x00, 0x0A, // IDAT chunk length
+    0x49, 0x44, 0x41, 0x54, // IDAT
+    0x78, 0x9C, 0x62, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, // Compressed data
+    0xE2, 0x21, 0xBC, 0x33, // CRC
+    0x00, 0x00, 0x00, 0x00, // IEND chunk length
+    0x49, 0x45, 0x4E, 0x44, // IEND
+    0xAE, 0x42, 0x60, 0x82  // CRC
+  ]);
+  
+  fs.writeFileSync(filepath, minimalPNG);
+  console.log(`✅ Создана иконка: ${filename} (${size}x${size})`);
+});
+
+// Создаем дополнительные иконки для shortcuts
+const shortcutIcons = ['shortcut-skyline.png', 'shortcut-tour.png'];
+shortcutIcons.forEach(filename => {
+  const filepath = path.join(ICONS_DIR, filename);
+  
+  // Используем ту же заглушку
+  const minimalPNG = Buffer.from([
+    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
+    0x00, 0x00, 0x00, 0x0D,
+    0x49, 0x48, 0x44, 0x52,
+    0x00, 0x00, 0x00, 0x01,
+    0x00, 0x00, 0x00, 0x01,
+    0x08, 0x06, 0x00, 0x00, 0x00,
+    0x1F, 0x15, 0xC4, 0x89,
+    0x00, 0x00, 0x00, 0x0A,
+    0x49, 0x44, 0x41, 0x54,
+    0x78, 0x9C, 0x62, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01,
+    0xE2, 0x21, 0xBC, 0x33,
+    0x00, 0x00, 0x00, 0x00,
+    0x49, 0x45, 0x4E, 0x44,
+    0xAE, 0x42, 0x60, 0x82
+  ]);
+  
+  fs.writeFileSync(filepath, minimalPNG);
+  console.log(`✅ Создана иконка shortcut: ${filename}`);
+});
+
+console.log('🎉 Все PWA иконки созданы!');

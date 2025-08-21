@@ -1,0 +1,399 @@
+{
+  "id": "tamarack",
+  "name": "The Nest",
+  "description": "Our Tamarack model is a streamlined one-bedroom, one-bath design with optional porch and patio. It's everything you need in a space that feels just right.",
+  "category": "A",
+  "bedrooms": 1,
+  "bathrooms": 1,
+  "sqft": 1000,
+  "hero": "assets/skyline/tamarack/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "tamarack-living",
+        "room": "living",
+        "title": "Living",
+        "thumbnail": "assets/skyline/tamarack/360/living/thumb.webp",
+        "preview": "assets/skyline/tamarack/360/living/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/tamarack/360/living/f.webp",
+          "back": "assets/skyline/tamarack/360/living/b.webp",
+          "left": "assets/skyline/tamarack/360/living/l.webp",
+          "right": "assets/skyline/tamarack/360/living/r.webp",
+          "up": "assets/skyline/tamarack/360/living/u.webp",
+          "down": "assets/skyline/tamarack/360/living/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-living-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "targetPanoramaId": "tamarack-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-living-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 320,
+              "pitch": 0
+            },
+            "targetPanoramaId": "tamarack-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "tamarack-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/tamarack/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/tamarack/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/tamarack/360/kitchen/f.webp",
+          "back": "assets/skyline/tamarack/360/kitchen/b.webp",
+          "left": "assets/skyline/tamarack/360/kitchen/l.webp",
+          "right": "assets/skyline/tamarack/360/kitchen/r.webp",
+          "up": "assets/skyline/tamarack/360/kitchen/u.webp",
+          "down": "assets/skyline/tamarack/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "targetPanoramaId": "tamarack-living",
+            "label": "Living",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "tamarack-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/tamarack/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/tamarack/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/tamarack/360/bedroom/f.webp",
+          "back": "assets/skyline/tamarack/360/bedroom/b.webp",
+          "left": "assets/skyline/tamarack/360/bedroom/l.webp",
+          "right": "assets/skyline/tamarack/360/bedroom/r.webp",
+          "up": "assets/skyline/tamarack/360/bedroom/u.webp",
+          "down": "assets/skyline/tamarack/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 50,
+              "pitch": 0
+            },
+            "targetPanoramaId": "tamarack-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 260,
+              "pitch": 0
+            },
+            "targetPanoramaId": "tamarack-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "tamarack-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/tamarack/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/tamarack/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/tamarack/360/bathroom/f.webp",
+          "back": "assets/skyline/tamarack/360/bathroom/b.webp",
+          "left": "assets/skyline/tamarack/360/bathroom/l.webp",
+          "right": "assets/skyline/tamarack/360/bathroom/r.webp",
+          "up": "assets/skyline/tamarack/360/bathroom/u.webp",
+          "down": "assets/skyline/tamarack/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 110,
+              "pitch": 0
+            },
+            "targetPanoramaId": "tamarack-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "tamarack-living"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/tamarack/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/tamarack/exterior/dp1.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/tamarack/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/tamarack/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/tamarack/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/tamarack/interior/bathroom/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/tamarack/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/tamarack/exterior/dp2.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/tamarack/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/tamarack/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/tamarack/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/tamarack/interior/bathroom/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/tamarack/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/tamarack/exterior/dp3.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/tamarack/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/tamarack/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/tamarack/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/tamarack/interior/bathroom/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/tamarack/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/tamarack/exterior/dp4.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/tamarack/interior/living/pk4.webp"
+          ],
+          "kitchen": [
+            "assets/tamarack/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/tamarack/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/tamarack/interior/bathroom/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Living Space": {
+        "good": "683 SF",
+        "better": "683 SF",
+        "best": "683 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "266 SF",
+        "best": "266 SF"
+      },
+      "Overall Dimensions": {
+        "good": "21'-6\"x33'",
+        "better": "21'-6\"x42'-8\"",
+        "best": "21'-6\"x42'-8\""
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✗"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✗"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Primary Bedroom",
+        "best": "Living Area and All Bedrooms"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.774Z"
+}

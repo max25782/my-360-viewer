@@ -1,0 +1,536 @@
+{
+  "id": "laurel",
+  "name": "The Haven",
+  "description": "The Laurel Legacy Series ADU offers 1056 square feet of versatile living space, featuring two bedrooms, one and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
+  "category": "A",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "sqft": 1350,
+  "hero": "assets/skyline/laurel/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "laurel-living",
+        "room": "living",
+        "title": "Living",
+        "thumbnail": "assets/skyline/laurel/360/living/thumb.webp",
+        "preview": "assets/skyline/laurel/360/living/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/laurel/360/living/f.webp",
+          "back": "assets/skyline/laurel/360/living/b.webp",
+          "left": "assets/skyline/laurel/360/living/l.webp",
+          "right": "assets/skyline/laurel/360/living/r.webp",
+          "up": "assets/skyline/laurel/360/living/u.webp",
+          "down": "assets/skyline/laurel/360/living/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-living-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 300,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-living-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 30,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-living-to-bedroom2",
+            "type": "room",
+            "position": {
+              "yaw": 60,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bedroom2",
+            "label": "Bedroom2",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "laurel-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/laurel/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/laurel/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/laurel/360/kitchen/f.webp",
+          "back": "assets/skyline/laurel/360/kitchen/b.webp",
+          "left": "assets/skyline/laurel/360/kitchen/l.webp",
+          "right": "assets/skyline/laurel/360/kitchen/r.webp",
+          "up": "assets/skyline/laurel/360/kitchen/u.webp",
+          "down": "assets/skyline/laurel/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 120,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-living",
+            "label": "Living",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "laurel-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/laurel/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/laurel/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/laurel/360/bedroom/f.webp",
+          "back": "assets/skyline/laurel/360/bedroom/b.webp",
+          "left": "assets/skyline/laurel/360/bedroom/l.webp",
+          "right": "assets/skyline/laurel/360/bedroom/r.webp",
+          "up": "assets/skyline/laurel/360/bedroom/u.webp",
+          "down": "assets/skyline/laurel/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 285,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 215,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "laurel-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/laurel/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/laurel/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/laurel/360/bathroom/f.webp",
+          "back": "assets/skyline/laurel/360/bathroom/b.webp",
+          "left": "assets/skyline/laurel/360/bathroom/l.webp",
+          "right": "assets/skyline/laurel/360/bathroom/r.webp",
+          "up": "assets/skyline/laurel/360/bathroom/u.webp",
+          "down": "assets/skyline/laurel/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 144,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "laurel-bathroom2",
+        "room": "bathroom2",
+        "title": "Bathroom2",
+        "thumbnail": "assets/skyline/laurel/360/bathroom2/thumb.webp",
+        "preview": "assets/skyline/laurel/360/bathroom2/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/laurel/360/bathroom2/f.webp",
+          "back": "assets/skyline/laurel/360/bathroom2/b.webp",
+          "left": "assets/skyline/laurel/360/bathroom2/l.webp",
+          "right": "assets/skyline/laurel/360/bathroom2/r.webp",
+          "up": "assets/skyline/laurel/360/bathroom2/u.webp",
+          "down": "assets/skyline/laurel/360/bathroom2/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom2-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bathroom2-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 72,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bathroom2-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 144,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bathroom2-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 216,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bathroom2-to-bedroom2",
+            "type": "room",
+            "position": {
+              "yaw": 288,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bedroom2",
+            "label": "Bedroom2",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "laurel-bedroom2",
+        "room": "bedroom2",
+        "title": "Bedroom2",
+        "thumbnail": "assets/skyline/laurel/360/bedroom2/thumb.webp",
+        "preview": "assets/skyline/laurel/360/bedroom2/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/laurel/360/bedroom2/f.webp",
+          "back": "assets/skyline/laurel/360/bedroom2/b.webp",
+          "left": "assets/skyline/laurel/360/bedroom2/l.webp",
+          "right": "assets/skyline/laurel/360/bedroom2/r.webp",
+          "up": "assets/skyline/laurel/360/bedroom2/u.webp",
+          "down": "assets/skyline/laurel/360/bedroom2/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom2-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 87,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom2-to-bathroom2",
+            "type": "room",
+            "position": {
+              "yaw": 282,
+              "pitch": 0
+            },
+            "targetPanoramaId": "laurel-bathroom2",
+            "label": "Bathroom2",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "laurel-living"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/laurel/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/laurel/exterior/dp1.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/laurel/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/laurel/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/laurel/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/laurel/interior/bathroom/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/laurel/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/laurel/exterior/dp2.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/laurel/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/laurel/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/laurel/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/laurel/interior/bathroom/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/laurel/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/laurel/exterior/dp3.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/laurel/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/laurel/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/laurel/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/laurel/interior/bathroom/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/laurel/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/laurel/exterior/dp4.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/laurel/interior/living/pk4.webp"
+          ],
+          "kitchen": [
+            "assets/laurel/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/laurel/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/laurel/interior/bathroom/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Living Space": {
+        "good": "1056 SF",
+        "better": "1056 SF",
+        "best": "1056 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "30 SF",
+        "best": "260 SF"
+      },
+      "Overall Dimensions": {
+        "good": "46'x26'",
+        "better": "46'x26'",
+        "best": "46'x26'"
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms",
+        "better": "2 Bedrooms",
+        "best": "2 Bedrooms"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom and 1 Powder Room",
+        "better": "1 Bathroom and 1 Powder Room",
+        "best": "1 Bathroom and 1 Powder Room"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Peninsula": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Shingle",
+        "best": "Hardie Lap, Shingle and Stone Cladding"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and 1 Bedroom",
+        "best": "Living Area and 2 Bedrooms"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.773Z"
+}

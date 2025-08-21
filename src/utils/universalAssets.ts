@@ -99,8 +99,8 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
             tiles: {}
           },
           textures: {
-            exterior: '/assets/texture/exterior/thumb{id}.jpg',
-            interior: '/assets/texture/interior/colors{id}.jpg'
+            exterior: '/assets/skyline/texture/exterior/thumb{id}.jpg',
+            interior: '/assets/skyline/texture/interior/colors{id}.jpg'
           }
         },
         rooms: ['living', 'kitchen', 'bedroom', 'bathroom'],
@@ -120,15 +120,28 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
 
 /**
  * Map house ID to actual directory name (handle case sensitivity)
+ * and add skyline prefix
  */
 function getActualHouseDirectory(houseId: string): string {
   const houseDirectoryMap: Record<string, string> = {
     'walnut': 'Walnut',
-    'oak': 'Oak'
+    'oak': 'Oak',
+    'tamarack': 'tamarack',
+    'laurel': 'laurel',
+    'pine': 'pine',
+    'ponderosa': 'ponderosa',
+    'juniper': 'juniper',
+    'birch': 'birch',
+    'cypress': 'cypress',
+    'hemlock': 'hemlock',
+    'spruce': 'spruce',
+    'sage': 'sage',
+    'sapling': 'sapling'
     // Add other case mappings as needed
   };
   
-  return houseDirectoryMap[houseId] || houseId;
+  const houseName = houseDirectoryMap[houseId.toLowerCase()] || houseId;
+  return `skyline/${houseName}`;
 }
 
 /**

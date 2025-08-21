@@ -1,0 +1,392 @@
+{
+  "id": "sage",
+  "name": "The Dwell",
+  "description": "Explore our one-bedroom, one-bath Sage model, with an optional covered patio. Designed for effortless living, Sage offers a perfect balance of comfort, functionality, and style in a compact footprint",
+  "category": "A",
+  "bedrooms": 1,
+  "bathrooms": 1,
+  "sqft": 1000,
+  "hero": "assets/skyline/sage/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "sage-living",
+        "room": "living",
+        "title": "Living",
+        "thumbnail": "assets/skyline/sage/360/living/thumb.webp",
+        "preview": "assets/skyline/sage/360/living/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sage/360/living/f.webp",
+          "back": "assets/skyline/sage/360/living/b.webp",
+          "left": "assets/skyline/sage/360/living/l.webp",
+          "right": "assets/skyline/sage/360/living/r.webp",
+          "up": "assets/skyline/sage/360/living/u.webp",
+          "down": "assets/skyline/sage/360/living/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-living-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 200,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sage-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "sage-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/sage/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/sage/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sage/360/kitchen/f.webp",
+          "back": "assets/skyline/sage/360/kitchen/b.webp",
+          "left": "assets/skyline/sage/360/kitchen/l.webp",
+          "right": "assets/skyline/sage/360/kitchen/r.webp",
+          "up": "assets/skyline/sage/360/kitchen/u.webp",
+          "down": "assets/skyline/sage/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 300,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sage-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 240,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sage-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "sage-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/sage/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/sage/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sage/360/bedroom/f.webp",
+          "back": "assets/skyline/sage/360/bedroom/b.webp",
+          "left": "assets/skyline/sage/360/bedroom/l.webp",
+          "right": "assets/skyline/sage/360/bedroom/r.webp",
+          "up": "assets/skyline/sage/360/bedroom/u.webp",
+          "down": "assets/skyline/sage/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 70,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sage-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 150,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sage-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "sage-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/sage/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/sage/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/sage/360/bathroom/f.webp",
+          "back": "assets/skyline/sage/360/bathroom/b.webp",
+          "left": "assets/skyline/sage/360/bathroom/l.webp",
+          "right": "assets/skyline/sage/360/bathroom/r.webp",
+          "up": "assets/skyline/sage/360/bathroom/u.webp",
+          "down": "assets/skyline/sage/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 60,
+              "pitch": 0
+            },
+            "targetPanoramaId": "sage-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "sage-living"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/sage/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/sage/exterior/dp1.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sage/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/sage/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/sage/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/sage/interior/bathroom/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/sage/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/sage/exterior/dp2.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sage/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/sage/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/sage/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/sage/interior/bathroom/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/sage/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/sage/exterior/dp3.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sage/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/sage/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/sage/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/sage/interior/bathroom/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/sage/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/sage/exterior/dp4.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/sage/interior/living/pk4.webp"
+          ],
+          "kitchen": [
+            "assets/sage/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/sage/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/sage/interior/bathroom/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Living Space": {
+        "good": "560 SF",
+        "better": "560 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "100 SF"
+      },
+      "Overall Dimensions": {
+        "good": "28’x20’",
+        "better": "28’x25’-6’’"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate"
+      },
+      "Covered Porch": {
+        "good": "✗",
+        "better": "✓"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Interior and Exterior Fixtures"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Dark & Light"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.787Z"
+}

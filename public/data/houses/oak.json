@@ -1,0 +1,596 @@
+{
+  "id": "oak",
+  "name": "The Retreat",
+  "description": "Explore our Oak model, a spacious one-bedroom, one-bath home with a dedicated office and optional garage, covered porch, and patio. Designed for versatility and comfort, Oak provides plenty of room to live, work, and unwind.",
+  "category": "A",
+  "bedrooms": 1,
+  "bathrooms": 2,
+  "sqft": 1450,
+  "hero": "assets/skyline/oak/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "oak-entry",
+        "room": "entry",
+        "title": "Entry",
+        "thumbnail": "assets/skyline/oak/360/entry/thumb.webp",
+        "preview": "assets/skyline/oak/360/entry/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/oak/360/entry/f.webp",
+          "back": "assets/skyline/oak/360/entry/b.webp",
+          "left": "assets/skyline/oak/360/entry/l.webp",
+          "right": "assets/skyline/oak/360/entry/r.webp",
+          "up": "assets/skyline/oak/360/entry/u.webp",
+          "down": "assets/skyline/oak/360/entry/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-entry-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 165,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 144,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-full view to entry",
+            "type": "room",
+            "position": {
+              "yaw": 195,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-full view to entry",
+            "label": "Full view to entry",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "oak-living",
+        "room": "living",
+        "title": "Living",
+        "thumbnail": "assets/skyline/oak/360/living/thumb.webp",
+        "preview": "assets/skyline/oak/360/living/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/oak/360/living/f.webp",
+          "back": "assets/skyline/oak/360/living/b.webp",
+          "left": "assets/skyline/oak/360/living/l.webp",
+          "right": "assets/skyline/oak/360/living/r.webp",
+          "up": "assets/skyline/oak/360/living/u.webp",
+          "down": "assets/skyline/oak/360/living/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-living-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-living-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 150,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-living-to-full view to entry",
+            "type": "room",
+            "position": {
+              "yaw": 200,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-full view to entry",
+            "label": "Full view to entry",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "oak-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/oak/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/oak/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/oak/360/kitchen/f.webp",
+          "back": "assets/skyline/oak/360/kitchen/b.webp",
+          "left": "assets/skyline/oak/360/kitchen/l.webp",
+          "right": "assets/skyline/oak/360/kitchen/r.webp",
+          "up": "assets/skyline/oak/360/kitchen/u.webp",
+          "down": "assets/skyline/oak/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-full view to entry",
+            "type": "room",
+            "position": {
+              "yaw": 320,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-full view to entry",
+            "label": "Full view to entry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 45,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "oak-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/oak/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/oak/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/oak/360/bedroom/f.webp",
+          "back": "assets/skyline/oak/360/bedroom/b.webp",
+          "left": "assets/skyline/oak/360/bedroom/l.webp",
+          "right": "assets/skyline/oak/360/bedroom/r.webp",
+          "up": "assets/skyline/oak/360/bedroom/u.webp",
+          "down": "assets/skyline/oak/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 255,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 80,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "oak-full view to entry",
+        "room": "full view to entry",
+        "title": "Full view to entry",
+        "thumbnail": "assets/skyline/oak/360/full view to entry/thumb.webp",
+        "preview": "assets/skyline/oak/360/full view to entry/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/oak/360/full view to entry/f.webp",
+          "back": "assets/skyline/oak/360/full view to entry/b.webp",
+          "left": "assets/skyline/oak/360/full view to entry/l.webp",
+          "right": "assets/skyline/oak/360/full view to entry/r.webp",
+          "up": "assets/skyline/oak/360/full view to entry/u.webp",
+          "down": "assets/skyline/oak/360/full view to entry/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-full view to entry-to-living",
+            "type": "room",
+            "position": {
+              "yaw": 120,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-living",
+            "label": "Living",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-full view to entry-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 245,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-full view to entry-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 187,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-full view to entry-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "oak-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/oak/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/oak/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/oak/360/bathroom/f.webp",
+          "back": "assets/skyline/oak/360/bathroom/b.webp",
+          "left": "assets/skyline/oak/360/bathroom/l.webp",
+          "right": "assets/skyline/oak/360/bathroom/r.webp",
+          "up": "assets/skyline/oak/360/bathroom/u.webp",
+          "down": "assets/skyline/oak/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 340,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "oak-entry"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/oak/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/oak/exterior/dp1.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/oak/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/oak/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/oak/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/oak/interior/bathroom/pk1.webp"
+          ],
+          "entry": [
+            "assets/oak/interior/entry/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/oak/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/oak/exterior/dp2.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/oak/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/oak/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/oak/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/oak/interior/bathroom/pk2.webp"
+          ],
+          "entry": [
+            "assets/oak/interior/entry/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/oak/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/oak/exterior/dp3.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/oak/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/oak/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/oak/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/oak/interior/bathroom/pk3.webp"
+          ],
+          "entry": [
+            "assets/oak/interior/entry/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/oak/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/oak/exterior/dp4.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/oak/interior/living/pk4.webp"
+          ],
+          "kitchen": [
+            "assets/oak/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/oak/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/oak/interior/bathroom/pk4.webp"
+          ],
+          "entry": [
+            "assets/oak/interior/entry/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Living Space": {
+        "good": "1139 SF",
+        "better": "1139 SF",
+        "best": "1139 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "52 SF",
+        "best": "98 SF"
+      },
+      "Overall Dimensions": {
+        "good": "34'-6\"x33'",
+        "better": "34'-6\"x37'-6\"",
+        "best": "49'x42'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom & Office",
+        "better": "1 Bedroom & Office",
+        "best": "1 Bedroom & Office"
+      },
+      "Bathrooms": {
+        "good": "2 Bathrooms",
+        "better": "2 Bathrooms",
+        "best": "2 Bathrooms"
+      },
+      "Garage": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks"
+      },
+      "Shower": {
+        "good": "Tub/Shower Units",
+        "better": "Shower Units",
+        "best": "Tile Showers"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Luxury Vinyl Plank and Carpet",
+        "better": "LVP or Laminate",
+        "best": "LVP or Laminate and Tile"
+      },
+      "Porch & Patio": {
+        "good": "✗",
+        "better": "Covered Porch",
+        "best": "Covered Porch & Covered Patio"
+      },
+      "Soffit": {
+        "good": "✗",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area, Bedroom and Office"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.779Z"
+}

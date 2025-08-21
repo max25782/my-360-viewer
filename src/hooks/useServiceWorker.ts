@@ -1,146 +1,123 @@
-import { useEffect, useState, useCallback } from 'react';
+'use client';
 
-interface ServiceWorkerStatus {
-  isRegistered: boolean;
-  isReady: boolean;
+/**
+ * Хук для работы с Service Worker и PWA функциональностью
+ */
+
+import { useEffect, useState } from 'react';
+
+interface UseServiceWorkerResult {
   isOffline: boolean;
-  controller: ServiceWorker | null;
+  isInstallable: boolean;
+  install: () => Promise<void>;
+  update: () => Promise<void>;
+  preloadCategory: (categoryId: string) => void;
 }
 
-export function useServiceWorker() {
-  const [status, setStatus] = useState<ServiceWorkerStatus>({
-    isRegistered: false,
-    isReady: false,
-    isOffline: false, // Инициализируем как false, обновим в useEffect
-    controller: null,
-  });
-
-  // Предзагрузка комнат через Service Worker
-  const preloadRooms = useCallback(async (houseId: string, rooms: string[], format: 'jpg' | 'webp' = 'webp') => {
-    if (!status.controller) {
-      console.log('[SW] Service Worker не готов для предзагрузки');
-      return;
-    }
-
-    try {
-      return new Promise((resolve, reject) => {
-        const channel = new MessageChannel();
-        const timeout = setTimeout(() => {
-          reject(new Error('[SW] Timeout при предзагрузке'));
-        }, 30000); // 30 секунд таймаут
-        
-        channel.port1.onmessage = (event) => {
-          clearTimeout(timeout);
-          if (event.data.type === 'PRELOAD_COMPLETE') {
-            console.log(`[SW] Предзагрузка завершена для комнат:`, event.data.rooms);
-            resolve(event.data);
-          }
-        };
-
-        status.controller?.postMessage({
-          type: 'PRELOAD_ROOMS',
-          houseId,
-          rooms,
-          format
-        }, [channel.port2]);
-      });
-    } catch (error) {
-      console.error('[SW] Ошибка предзагрузки:', error);
-    }
-  }, [status.controller]);
-
-  // Очистка старого кэша
-  const clearCache = useCallback(async () => {
-    if (!status.controller) return;
-
-    return new Promise((resolve) => {
-      const channel = new MessageChannel();
-      
-      channel.port1.onmessage = (event) => {
-        if (event.data.type === 'CACHE_CLEARED') {
-          console.log('[SW] Кэш очищен');
-          resolve(event.data);
-        }
-      };
-
-      status.controller?.postMessage({
-        type: 'CLEAR_OLD_CACHE'
-      }, [channel.port2]);
-    });
-  }, [status.controller]);
+export function useServiceWorker(): UseServiceWorkerResult {
+  const [isOffline, setIsOffline] = useState(false);
+  const [isInstallable, setIsInstallable] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   useEffect(() => {
-    // Инициализируем состояние сети
-    if (typeof window !== 'undefined' && 'navigator' in window) {
-      setStatus(prev => ({ ...prev, isOffline: !navigator.onLine }));
-    }
-    
-    // Временно отключаем Service Worker для отладки
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[SW] Service Worker отключен в режиме разработки');
-      return;
-    }
-    
-    if (!('serviceWorker' in navigator)) return;
-
-    // Регистрация Service Worker
-    const registerSW = async () => {
-      try {
-        const registration = await navigator.serviceWorker.register('/sw.js');
-        setStatus(prev => ({ ...prev, isRegistered: true }));
-
-        // Проверка готовности
-        if (navigator.serviceWorker.controller) {
-          setStatus(prev => ({ 
-            ...prev, 
-            isReady: true,
-            controller: navigator.serviceWorker.controller 
-          }));
-        }
-
-        // Обновление при изменении
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'activated') {
-                console.log('[SW] Новая версия активирована');
-                window.location.reload();
-              }
-            });
-          }
+    // Проверяем поддержку Service Worker
+    if ('serviceWorker' in navigator) {
+      // Регистрируем Service Worker
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('✅ Service Worker зарегистрирован:', registration);
+          
+          // Проверяем обновления
+          registration.addEventListener('updatefound', () => {
+            console.log('🔄 Найдено обновление Service Worker');
+          });
+        })
+        .catch((error) => {
+          console.error('❌ Ошибка регистрации Service Worker:', error);
         });
-      } catch (error) {
-        console.error('[SW] Ошибка регистрации:', error);
-      }
+    }
+
+    // Отслеживаем состояние сети
+    const updateOnlineStatus = () => {
+      setIsOffline(!navigator.onLine);
     };
 
-    registerSW();
+    // Начальное состояние
+    setIsOffline(!navigator.onLine);
 
-    // Слушаем изменения контроллера
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      setStatus(prev => ({
-        ...prev,
-        controller: navigator.serviceWorker.controller
-      }));
-    });
+    // Слушатели событий сети
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
 
-    // Слушаем состояние сети
-    const handleOnline = () => setStatus(prev => ({ ...prev, isOffline: false }));
-    const handleOffline = () => setStatus(prev => ({ ...prev, isOffline: true }));
+    // PWA установка
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+      setIsInstallable(true);
+    };
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    const handleAppInstalled = () => {
+      console.log('✅ PWA установлено');
+      setIsInstallable(false);
+      setInstallPrompt(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, []);
 
+  // Установка PWA
+  const install = async (): Promise<void> => {
+    if (!installPrompt) return;
+    
+    try {
+      const result = await installPrompt.prompt();
+      console.log('PWA установка:', result);
+      
+      setInstallPrompt(null);
+      setIsInstallable(false);
+    } catch (error) {
+      console.error('Ошибка установки PWA:', error);
+    }
+  };
+
+  // Обновление Service Worker
+  const update = async (): Promise<void> => {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration) {
+          await registration.update();
+          console.log('🔄 Service Worker обновлен');
+        }
+      } catch (error) {
+        console.error('Ошибка обновления Service Worker:', error);
+      }
+    }
+  };
+
+  // Предзагрузка категории
+  const preloadCategory = (categoryId: string): void => {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'PRELOAD_CATEGORY',
+        categoryId
+      });
+    }
+  };
+
   return {
-    ...status,
-    preloadRooms,
-    clearCache,
+    isOffline,
+    isInstallable,
+    install,
+    update,
+    preloadCategory
   };
 }

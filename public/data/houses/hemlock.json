@@ -1,0 +1,380 @@
+{
+  "id": "hemlock",
+  "name": "The Horizon",
+  "description": "Explore our one-bedroom, one-bath Hemlock model, with optional covered porch and patio. With Hemlock, you’ve got everything you need right at your fingertips: no more, no less.",
+  "category": "A",
+  "bedrooms": 1,
+  "bathrooms": 1,
+  "sqft": 800,
+  "hero": "assets/skyline/hemlock/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "hemlock-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/hemlock/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/hemlock/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/hemlock/360/kitchen/f.webp",
+          "back": "assets/skyline/hemlock/360/kitchen/b.webp",
+          "left": "assets/skyline/hemlock/360/kitchen/l.webp",
+          "right": "assets/skyline/hemlock/360/kitchen/r.webp",
+          "up": "assets/skyline/hemlock/360/kitchen/u.webp",
+          "down": "assets/skyline/hemlock/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 120,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 70,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "hemlock-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/hemlock/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/hemlock/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/hemlock/360/bathroom/f.webp",
+          "back": "assets/skyline/hemlock/360/bathroom/b.webp",
+          "left": "assets/skyline/hemlock/360/bathroom/l.webp",
+          "right": "assets/skyline/hemlock/360/bathroom/r.webp",
+          "up": "assets/skyline/hemlock/360/bathroom/u.webp",
+          "down": "assets/skyline/hemlock/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 300,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bathroom-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 60,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "hemlock-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/hemlock/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/hemlock/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/hemlock/360/bedroom/f.webp",
+          "back": "assets/skyline/hemlock/360/bedroom/b.webp",
+          "left": "assets/skyline/hemlock/360/bedroom/l.webp",
+          "right": "assets/skyline/hemlock/360/bedroom/r.webp",
+          "up": "assets/skyline/hemlock/360/bedroom/u.webp",
+          "down": "assets/skyline/hemlock/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 300,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 220,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "hemlock-kitchen"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/hemlock/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/hemlock/exterior/dp1.webp"
+        ],
+        "interior": {
+          "kitchen": [
+            "assets/hemlock/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/hemlock/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/hemlock/interior/bathroom/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/hemlock/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/hemlock/exterior/dp2.webp"
+        ],
+        "interior": {
+          "kitchen": [
+            "assets/hemlock/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/hemlock/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/hemlock/interior/bathroom/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/hemlock/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/hemlock/exterior/dp3.webp"
+        ],
+        "interior": {
+          "kitchen": [
+            "assets/hemlock/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/hemlock/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/hemlock/interior/bathroom/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/hemlock/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/hemlock/exterior/dp4.webp"
+        ],
+        "interior": {
+          "kitchen": [
+            "assets/hemlock/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/hemlock/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/hemlock/interior/bathroom/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Living Space": {
+        "good": "357 SF",
+        "better": "357 SF",
+        "best": "457 SF"
+      },
+      "Outdoor Space": {
+        "good": "25 SF",
+        "better": "134 SF",
+        "best": "134 SF"
+      },
+      "Overall Dimensions": {
+        "good": "23'x18'",
+        "better": "27'-6\"x18'",
+        "best": "27'-6\"x18'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Loft": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "LVP or Laminate",
+        "better": "LVP or Laminate",
+        "best": "LVP or Laminate, Carpet and Tile"
+      },
+      "Porch & Patio": {
+        "good": "Covered Porch",
+        "better": "Covered Porch & Patio",
+        "best": "Covered Porch & Patio"
+      },
+      "Soffit": {
+        "good": "Smart-Side",
+        "better": "Smart-Side",
+        "best": "T&G Soffit"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Bedroom",
+        "best": "Living Area and Bedroom"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✗"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Serenity",
+        "best": "Heritage, Haven, Serenity and Luxe"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.785Z"
+}

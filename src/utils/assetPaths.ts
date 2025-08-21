@@ -28,33 +28,33 @@ interface HouseAssetPaths {
 }
 
 export const assetPaths: HouseAssetPaths = {
-  hero: (house: string) => `/assets/${house}/hero.jpg`,
+  hero: (house: string) => `/assets/skyline/${house}/hero.jpg`,
   
-  exterior: (house: string, dp: number) => `/assets/${house}/exterior/dp${dp}.jpg`,
+  exterior: (house: string, dp: number) => `/assets/skyline/${house}/exterior/dp${dp}.jpg`,
   
   interior: (house: string, room: string, pk: number) => 
-    `/assets/${house}/interior/${room}/pk${pk}.jpg`,
+    `/assets/skyline/${house}/interior/${room}/pk${pk}.jpg`,
   
   comparison: (house: string, type: 'good' | 'better' | 'best', variant: 'exterior' | 'plan1' | 'plan2') => 
-    `/assets/${house}/comparison/${type}-${variant}.jpg`,
+    `/assets/skyline/${house}/comparison/${type}-${variant}.jpg`,
   
   tour360: (house: string, room: string) => ({
-    thumbnail: `/assets/${house}/360/${room}/thumbnail.jpg`,
-    preview: `/assets/${house}/360/${room}/preview.jpg`,
+    thumbnail: `/assets/skyline/${house}/360/${room}/thumbnail.jpg`,
+    preview: `/assets/skyline/${house}/360/${room}/preview.jpg`,
     tiles: {
-      front: `/assets/${house}/360/${room}/f.jpg`,
-      back: `/assets/${house}/360/${room}/b.jpg`,
-      up: `/assets/${house}/360/${room}/u.jpg`,
-      down: `/assets/${house}/360/${room}/d.jpg`,
-      left: `/assets/${house}/360/${room}/l.jpg`,
-      right: `/assets/${house}/360/${room}/r.jpg`
+      front: `/assets/skyline/${house}/360/${room}/f.jpg`,
+      back: `/assets/skyline/${house}/360/${room}/b.jpg`,
+      up: `/assets/skyline/${house}/360/${room}/u.jpg`,
+      down: `/assets/skyline/${house}/360/${room}/d.jpg`,
+      left: `/assets/skyline/${house}/360/${room}/l.jpg`,
+      right: `/assets/skyline/${house}/360/${room}/r.jpg`
     }
   }),
 
   // NEW: Texture configurator paths
   textures: {
-    exterior: (textureId: number) => `/assets/texture/exterior/thumb${textureId}.jpg`,
-    interior: (colorId: number) => `/assets/texture/interior/colors${colorId}.jpg`
+    exterior: (textureId: number) => `/assets/skyline/texture/exterior/thumb${textureId}.jpg`,
+    interior: (colorId: number) => `/assets/skyline/texture/interior/colors${colorId}.jpg`
   }
 };
 

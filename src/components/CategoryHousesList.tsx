@@ -1,0 +1,126 @@
+'use client';
+
+import Link from 'next/link';
+import Image from 'next/image';
+import type { HouseCategory } from '../types/houses';
+import { useHousesByCategory } from '../hooks/useHousesByCategory';
+import { publicUrl } from '../utils/paths';
+
+interface CategoryHousesListProps {
+  categoryId: HouseCategory;
+}
+
+export default function CategoryHousesList({ categoryId }: CategoryHousesListProps) {
+  const { houses, loading, error } = useHousesByCategory(categoryId);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {Array.from({ length: 6 }, (_, i) => (
+          <div key={i} className="bg-white/10 rounded-lg overflow-hidden animate-pulse">
+            <div className="aspect-video bg-gray-300"></div>
+            <div className="p-6">
+              <div className="h-6 bg-gray-300 rounded mb-2"></div>
+              <div className="h-4 bg-gray-300 rounded mb-4"></div>
+              <div className="flex space-x-2">
+                <div className="h-8 bg-gray-300 rounded flex-1"></div>
+                <div className="h-8 bg-gray-300 rounded flex-1"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-white py-12">
+        <div className="text-xl mb-4">Error loading houses</div>
+        <div className="text-gray-300">{error}</div>
+      </div>
+    );
+  }
+
+  if (houses.length === 0) {
+    return (
+      <div className="text-center text-white py-12">
+        <div className="text-6xl mb-4">🏠</div>
+        <div className="text-xl mb-4">No houses available</div>
+        <div className="text-gray-300">Houses for this category are coming soon!</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 bg-slate-800 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {houses.map((house) => (
+        <div key={house.id} className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden hover:bg-white/20 transition-all duration-300 hover:transform hover:scale-105">
+          {/* House Image */}
+          <div className="aspect-video relative">
+            <Image
+              src={publicUrl(house.thumbnail)}
+              alt={house.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            
+            {/* Badges */}
+            <div className="absolute top-4 left-4 flex flex-col space-y-2">
+              {house.hasTour360 && (
+                <div className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
+                  🎭 360° Tour
+                </div>
+              )}
+              {house.hasDesignPackages && (
+                <div className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  Design Options
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* House Info */}
+          <div className="p-6 text-white">
+            <h3 className="text-xl font-bold mb-2">{house.name}</h3>
+            <p className="text-gray-300 mb-4 text-sm line-clamp-2">{house.description}</p>
+            
+            {/* Stats */}
+            <div className="flex justify-between items-center mb-4 text-sm">
+              <div className="flex space-x-4">
+                <span className="bg-white/20 px-2 py-1 rounded">
+                  {house.bedrooms} BR
+                </span>
+                <span className="bg-white/20 px-2 py-1 rounded">
+                  {house.bathrooms} BA
+                </span>
+                <span className="bg-white/20 px-2 py-1 rounded">
+                  {house.sqft.toLocaleString()} sq ft
+                </span>
+              </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex space-x-2">
+              <Link 
+                href={`/houses/${house.id}`}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg text-sm font-medium transition-colors"
+              >
+                View Details
+              </Link>
+              {house.hasTour360 && (
+                <Link 
+                  href={`/houses/${house.id}/tour`}
+                  className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white text-center py-2 px-4 rounded-lg text-sm font-medium transition-all"
+                >
+                  🎭 Tour
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

@@ -1,0 +1,501 @@
+{
+  "id": "Walnut",
+  "name": "The Vista",
+  "description": "he Walnut Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
+  "category": "A",
+  "bedrooms": 2,
+  "bathrooms": 2,
+  "sqft": 1600,
+  "hero": "assets/skyline/Walnut/hero.webp",
+  "gallery": [],
+  "tour360": {
+    "enabled": true,
+    "panoramas": [
+      {
+        "id": "Walnut-entry",
+        "room": "entry",
+        "title": "Entry",
+        "thumbnail": "assets/skyline/Walnut/360/entry/thumb.webp",
+        "preview": "assets/skyline/Walnut/360/entry/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/Walnut/360/entry/f.webp",
+          "back": "assets/skyline/Walnut/360/entry/b.webp",
+          "left": "assets/skyline/Walnut/360/entry/l.webp",
+          "right": "assets/skyline/Walnut/360/entry/r.webp",
+          "up": "assets/skyline/Walnut/360/entry/u.webp",
+          "down": "assets/skyline/Walnut/360/entry/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-entry-to-guest",
+            "type": "room",
+            "position": {
+              "yaw": 180,
+              "pitch": -10
+            },
+            "targetPanoramaId": "Walnut-guest",
+            "label": "Guest",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 160,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 135,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "Walnut-guest",
+        "room": "guest",
+        "title": "Guest",
+        "thumbnail": "assets/skyline/Walnut/360/guest/thumb.webp",
+        "preview": "assets/skyline/Walnut/360/guest/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/Walnut/360/guest/f.webp",
+          "back": "assets/skyline/Walnut/360/guest/b.webp",
+          "left": "assets/skyline/Walnut/360/guest/l.webp",
+          "right": "assets/skyline/Walnut/360/guest/r.webp",
+          "up": "assets/skyline/Walnut/360/guest/u.webp",
+          "down": "assets/skyline/Walnut/360/guest/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-guest-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 170,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-guest-to-kitchen",
+            "type": "room",
+            "position": {
+              "yaw": 290,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-kitchen",
+            "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-guest-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 225,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "Walnut-kitchen",
+        "room": "kitchen",
+        "title": "Kitchen",
+        "thumbnail": "assets/skyline/Walnut/360/kitchen/thumb.webp",
+        "preview": "assets/skyline/Walnut/360/kitchen/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/Walnut/360/kitchen/f.webp",
+          "back": "assets/skyline/Walnut/360/kitchen/b.webp",
+          "left": "assets/skyline/Walnut/360/kitchen/l.webp",
+          "right": "assets/skyline/Walnut/360/kitchen/r.webp",
+          "up": "assets/skyline/Walnut/360/kitchen/u.webp",
+          "down": "assets/skyline/Walnut/360/kitchen/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-kitchen-to-entry",
+            "type": "room",
+            "position": {
+              "yaw": 340,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-entry",
+            "label": "Entry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-guest",
+            "type": "room",
+            "position": {
+              "yaw": 300,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-guest",
+            "label": "Guest",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "Walnut-bedroom",
+        "room": "bedroom",
+        "title": "Bedroom",
+        "thumbnail": "assets/skyline/Walnut/360/bedroom/thumb.webp",
+        "preview": "assets/skyline/Walnut/360/bedroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/Walnut/360/bedroom/f.webp",
+          "back": "assets/skyline/Walnut/360/bedroom/b.webp",
+          "left": "assets/skyline/Walnut/360/bedroom/l.webp",
+          "right": "assets/skyline/Walnut/360/bedroom/r.webp",
+          "up": "assets/skyline/Walnut/360/bedroom/u.webp",
+          "down": "assets/skyline/Walnut/360/bedroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bedroom-to-guest",
+            "type": "room",
+            "position": {
+              "yaw": 70,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-guest",
+            "label": "Guest",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-bedroom-to-bathroom",
+            "type": "room",
+            "position": {
+              "yaw": 130,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-bathroom",
+            "label": "Bathroom",
+            "icon": "🚪"
+          }
+        ]
+      },
+      {
+        "id": "Walnut-bathroom",
+        "room": "bathroom",
+        "title": "Bathroom",
+        "thumbnail": "assets/skyline/Walnut/360/bathroom/thumb.webp",
+        "preview": "assets/skyline/Walnut/360/bathroom/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/Walnut/360/bathroom/f.webp",
+          "back": "assets/skyline/Walnut/360/bathroom/b.webp",
+          "left": "assets/skyline/Walnut/360/bathroom/l.webp",
+          "right": "assets/skyline/Walnut/360/bathroom/r.webp",
+          "up": "assets/skyline/Walnut/360/bathroom/u.webp",
+          "down": "assets/skyline/Walnut/360/bathroom/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": [
+          {
+            "id": "marker-bathroom-to-bedroom",
+            "type": "room",
+            "position": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "targetPanoramaId": "Walnut-bedroom",
+            "label": "Bedroom",
+            "icon": "🚪"
+          }
+        ]
+      }
+    ],
+    "defaultPanoramaId": "Walnut-entry"
+  },
+  "designPackages": [
+    {
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/Walnut/exterior/dp1.webp",
+      "images": {
+        "exterior": [
+          "assets/Walnut/exterior/dp1.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/Walnut/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/Walnut/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/Walnut/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/Walnut/interior/bathroom/pk1.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 1A",
+        "Feature 1B"
+      ],
+      "priceModifier": 0
+    },
+    {
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/Walnut/exterior/dp2.webp",
+      "images": {
+        "exterior": [
+          "assets/Walnut/exterior/dp2.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/Walnut/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/Walnut/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/Walnut/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/Walnut/interior/bathroom/pk2.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 2A",
+        "Feature 2B"
+      ],
+      "priceModifier": 5000
+    },
+    {
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/Walnut/exterior/dp3.webp",
+      "images": {
+        "exterior": [
+          "assets/Walnut/exterior/dp3.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/Walnut/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/Walnut/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/Walnut/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/Walnut/interior/bathroom/pk3.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 3A",
+        "Feature 3B"
+      ],
+      "priceModifier": 10000
+    },
+    {
+      "id": "package-4",
+      "name": "Design Package 4",
+      "description": "Premium design option 4",
+      "thumbnail": "assets/Walnut/exterior/dp4.webp",
+      "images": {
+        "exterior": [
+          "assets/Walnut/exterior/dp4.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/Walnut/interior/living/pk4.webp"
+          ],
+          "kitchen": [
+            "assets/Walnut/interior/kitchen/pk4.webp"
+          ],
+          "bedroom": [
+            "assets/Walnut/interior/bedroom/pk4.webp"
+          ],
+          "bathroom": [
+            "assets/Walnut/interior/bathroom/pk4.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 4A",
+        "Feature 4B"
+      ],
+      "priceModifier": 15000
+    },
+    {
+      "id": "package-5",
+      "name": "Design Package 5",
+      "description": "Premium design option 5",
+      "thumbnail": "assets/Walnut/exterior/dp5.webp",
+      "images": {
+        "exterior": [
+          "assets/Walnut/exterior/dp5.webp"
+        ],
+        "interior": {
+          "living": [
+            "assets/Walnut/interior/living/pk5.webp"
+          ],
+          "kitchen": [
+            "assets/Walnut/interior/kitchen/pk5.webp"
+          ],
+          "bedroom": [
+            "assets/Walnut/interior/bedroom/pk5.webp"
+          ],
+          "bathroom": [
+            "assets/Walnut/interior/bathroom/pk5.webp"
+          ]
+        }
+      },
+      "features": [
+        "Feature 5A",
+        "Feature 5B"
+      ],
+      "priceModifier": 20000
+    }
+  ],
+  "defaultDesignPackageId": "package-1",
+  "comparison": {
+    "enabled": true,
+    "features": {
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "210 SF",
+        "best": "210 SF"
+      },
+      "Living Space": {
+        "good": "1521 SF",
+        "better": "1521 SF",
+        "best": "1521 SF"
+      },
+      "Overall Dimensions": {
+        "good": "32' 0\" x 36' 0\"",
+        "better": "32' 0\" x 41' 0\"",
+        "best": "46' 0\" x 41' 0\""
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Garage": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit",
+        "best": "Tile Shower"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Exterior Siding": {
+        "good": "Hardie Lap",
+        "better": "Hardie Lap and Board & Batten",
+        "best": "Hardie Lap and Board & Batten"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Feature Lighting": {
+        "good": "Downlighting, Interior and Exterior Fixtures",
+        "better": "Downlighting, Ceiling Fans, Interior and Exterior Fixtures",
+        "best": "Premium Fixtures from Rejuvenation"
+      },
+      "Mini-Split HVAC": {
+        "good": "Living Area",
+        "better": "Living Area and Primary Bedroom",
+        "best": "Living Area and All Bedrooms"
+      },
+      "Tank Water Heater": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Electric Fireplace": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Available Design Collection": {
+        "good": "Dark & Light",
+        "better": "Heritage, Haven and Sunset",
+        "best": "Heritage, Haven, Serenity, Luxe & Sunset"
+      }
+    }
+  },
+  "relatedIds": [],
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-21T19:39:45.770Z"
+}

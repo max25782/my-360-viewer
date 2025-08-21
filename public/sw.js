@@ -1,188 +1,255 @@
-// Service Worker для кэширования 360° изображений
-const CACHE_NAME = 'my-360-viewer-v1';
-const RUNTIME_CACHE = 'runtime-cache-v1';
+/**
+ * Service Worker для PWA с офлайн кэшированием
+ * CacheFirst для панорам, StaleWhileRevalidate для данных
+ */
 
-// Критические ресурсы для первой загрузки
-const PRECACHE_URLS = [
+const CACHE_NAME = 'house-viewer-v1';
+const DATA_CACHE = 'house-data-v1';
+const PANORAMA_CACHE = 'panorama-cache-v1';
+
+// Файлы для кэширования при установке
+const STATIC_CACHE_URLS = [
   '/',
-  '/data/house-assets.json',
-  '/fonts/LeagueSpartan-Regular.ttf',
-  '/fonts/LeagueSpartan-Bold.ttf',
+  '/category/A',
+  '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
 ];
 
-// Паттерны для кэширования
+// Паттерны для разных стратегий кэширования
 const CACHE_PATTERNS = {
-  images360: /\/assets\/.*\/360\/.*\.(jpg|webp)$/,
-  previews: /\/assets\/.*\/(hero|thumbnail|preview)\.(jpg|webp)$/,
-  fonts: /\/fonts\/.*\.(ttf|woff2?)$/,
-  static: /\.(css|js)$/
+  // Данные: StaleWhileRevalidate
+  data: /\/data\/.*\.json$/,
+  // Панорамы: CacheFirst
+  panoramas: /\/assets\/.*\/(360|panos)\/.*\.(jpg|jpeg|webp|png)$/i,
+  // Статичные ресурсы: CacheFirst
+  static: /\.(js|css|png|jpg|jpeg|webp|svg|woff|woff2)$/,
+  // HTML страницы: NetworkFirst
+  pages: /\/.*$/
 };
 
 // Стратегии кэширования
 const CACHE_STRATEGIES = {
-  // Сначала кэш, потом сеть (для статики)
-  cacheFirst: async (request) => {
-    try {
-      const cache = await caches.open(CACHE_NAME);
-      const cached = await cache.match(request);
-      
-      if (cached) {
-        // Обновляем в фоне
-        fetch(request).then(response => {
-          if (response.ok) {
-            cache.put(request, response.clone());
-          }
-        }).catch(error => {
-          console.log('[SW] Background update failed:', error);
-        });
-        return cached;
-      }
-      
-      const response = await fetch(request);
-      if (response.ok) {
-        cache.put(request, response.clone());
-      }
-      return response;
-    } catch (error) {
-      console.error('[SW] CacheFirst strategy failed:', error);
-      // Fallback к обычному fetch
-      return fetch(request);
-    }
-  },
-  
-  // Сначала сеть, потом кэш (для динамических данных)
-  networkFirst: async (request) => {
-    try {
-      const response = await fetch(request);
-      if (response.ok) {
-        const cache = await caches.open(RUNTIME_CACHE);
-        cache.put(request, response.clone());
-      }
-      return response;
-    } catch (error) {
-      const cached = await caches.match(request);
-      return cached || new Response('Offline', { status: 503 });
-    }
-  },
-  
-  // Только сеть (для аналитики и т.д.)
-  networkOnly: async (request) => {
-    return fetch(request);
-  }
+  cacheFirst: 'cache-first',
+  networkFirst: 'network-first', 
+  staleWhileRevalidate: 'stale-while-revalidate'
 };
 
 // Установка Service Worker
-self.addEventListener('install', event => {
-  console.log('[SW] Installing Service Worker');
+self.addEventListener('install', (event) => {
+  console.log('🔧 Service Worker: Установка...');
   
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('[SW] Precaching critical resources');
-        return cache.addAll(PRECACHE_URLS);
-      })
-      .then(() => self.skipWaiting())
+    (async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME);
+        await cache.addAll(STATIC_CACHE_URLS);
+        console.log('✅ Service Worker: Статичные файлы закэшированы');
+        
+        // Принудительно активируем новый Service Worker
+        await self.skipWaiting();
+      } catch (error) {
+        console.error('❌ Service Worker: Ошибка установки:', error);
+      }
+    })()
   );
 });
 
 // Активация Service Worker
-self.addEventListener('activate', event => {
-  console.log('[SW] Activating Service Worker');
+self.addEventListener('activate', (event) => {
+  console.log('🚀 Service Worker: Активация...');
   
   event.waitUntil(
-    caches.keys()
-      .then(cacheNames => {
-        return Promise.all(
-          cacheNames
-            .filter(cacheName => cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE)
-            .map(cacheName => caches.delete(cacheName))
-        );
-      })
-      .then(() => self.clients.claim())
+    (async () => {
+      try {
+        // Очищаем старые кэши
+        const cacheNames = await caches.keys();
+        const deletePromises = cacheNames
+          .filter(name => name !== CACHE_NAME && name !== DATA_CACHE && name !== PANORAMA_CACHE)
+          .map(name => caches.delete(name));
+        
+        await Promise.all(deletePromises);
+        console.log('🧹 Service Worker: Старые кэши очищены');
+        
+        // Берем контроль над всеми клиентами
+        await self.clients.claim();
+      } catch (error) {
+        console.error('❌ Service Worker: Ошибка активации:', error);
+      }
+    })()
   );
 });
 
-// Обработка запросов
-self.addEventListener('fetch', event => {
+// Стратегия Cache First (для панорам и статики)
+async function cacheFirst(request, cacheName) {
+  try {
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, networkResponse.clone());
+    }
+    
+    return networkResponse;
+  } catch (error) {
+    console.warn('⚠️ Cache First failed:', error);
+    // Возвращаем offline fallback если есть
+    return new Response('Offline - content not available', { 
+      status: 503,
+      statusText: 'Service Unavailable'
+    });
+  }
+}
+
+// Стратегия Network First (для HTML страниц)
+async function networkFirst(request, cacheName) {
+  try {
+    const networkResponse = await fetch(request);
+    if (networkResponse.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  } catch (error) {
+    console.warn('⚠️ Network failed, trying cache:', error);
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    
+    // Fallback для HTML страниц
+    if (request.headers.get('accept')?.includes('text/html')) {
+      const cache = await caches.open(CACHE_NAME);
+      const fallback = await cache.match('/');
+      if (fallback) return fallback;
+    }
+    
+    throw error;
+  }
+}
+
+// Стратегия Stale While Revalidate (для данных)
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cachedResponse = await cache.match(request);
+  
+  // Запускаем обновление в фоне
+  const fetchPromise = fetch(request).then(networkResponse => {
+    if (networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  }).catch(error => {
+    console.warn('⚠️ Background fetch failed:', error);
+    return cachedResponse;
+  });
+  
+  // Возвращаем кэшированную версию сразу или ждем сеть
+  return cachedResponse || fetchPromise;
+}
+
+// Основной обработчик запросов
+self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
   
-  // Игнорируем не-GET запросы
-  if (request.method !== 'GET') {
+  // Пропускаем chrome-extension и другие схемы
+  if (!url.protocol.startsWith('http')) {
     return;
   }
   
-  // Игнорируем запросы к другим доменам
-  if (!url.href.startsWith(self.location.origin)) {
-    return;
-  }
-  
-  // Обработка навигационных запросов (оффлайн страница)
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).catch(() => {
-        return caches.match('/') || new Response('Offline', { status: 503 });
-      })
-    );
-    return;
-  }
-  
-  // Определяем стратегию кэширования для остальных запросов
-  let strategy;
-  
-  if (CACHE_PATTERNS.images360.test(url.pathname) || 
-      CACHE_PATTERNS.previews.test(url.pathname)) {
-    // 360° изображения - кэш первый
-    strategy = CACHE_STRATEGIES.cacheFirst;
-  } else if (CACHE_PATTERNS.fonts.test(url.pathname) || 
-             CACHE_PATTERNS.static.test(url.pathname)) {
-    // Статические ресурсы - кэш первый
-    strategy = CACHE_STRATEGIES.cacheFirst;
-  } else if (url.pathname.includes('/api/') || 
-             url.pathname.includes('/data/')) {
-    // API и данные - сеть первая
-    strategy = CACHE_STRATEGIES.networkFirst;
-  } else {
-    // Всё остальное - сеть первая
-    strategy = CACHE_STRATEGIES.networkFirst;
-  }
-  
-  event.respondWith(strategy(request));
-});
-
-// Предзагрузка следующих комнат
-self.addEventListener('message', event => {
-  if (event.data.type === 'PRELOAD_ROOMS') {
-    const { houseId, rooms, format } = event.data;
-    
-    console.log(`[SW] Preloading ${format} tiles for rooms:`, rooms);
-    
-    const preloadPromises = rooms.flatMap(room => {
-      const tiles = ['f', 'b', 'l', 'r', 'u', 'd'];
-      return tiles.map(tile => {
-        const url = `/assets/${houseId}/360/${room}/${tile}.${format}`;
-        return caches.open(CACHE_NAME)
-          .then(cache => cache.add(url))
-          .catch(error => console.log(`[SW] Failed to preload ${url}:`, error));
-      });
-    });
-    
-    Promise.all(preloadPromises)
-      .then(() => {
-        event.ports[0].postMessage({ 
-          type: 'PRELOAD_COMPLETE', 
-          rooms 
+  event.respondWith(
+    (async () => {
+      try {
+        // Определяем стратегию кэширования
+        if (CACHE_PATTERNS.data.test(url.pathname)) {
+          // Данные: StaleWhileRevalidate
+          return await staleWhileRevalidate(request, DATA_CACHE);
+        }
+        
+        if (CACHE_PATTERNS.panoramas.test(url.pathname)) {
+          // Панорамы: CacheFirst
+          return await cacheFirst(request, PANORAMA_CACHE);
+        }
+        
+        if (CACHE_PATTERNS.static.test(url.pathname)) {
+          // Статичные ресурсы: CacheFirst
+          return await cacheFirst(request, CACHE_NAME);
+        }
+        
+        // HTML страницы: NetworkFirst
+        if (request.method === 'GET' && request.headers.get('accept')?.includes('text/html')) {
+          return await networkFirst(request, CACHE_NAME);
+        }
+        
+        // Все остальное - прямо из сети
+        return await fetch(request);
+        
+      } catch (error) {
+        console.error('❌ Service Worker: Ошибка обработки запроса:', error);
+        
+        // Универсальный fallback
+        if (request.headers.get('accept')?.includes('text/html')) {
+          const cache = await caches.open(CACHE_NAME);
+          const fallback = await cache.match('/');
+          if (fallback) return fallback;
+        }
+        
+        return new Response('Service Unavailable', { 
+          status: 503,
+          statusText: 'Service Unavailable'
         });
-      });
-  }
-  
-  // Очистка старого кэша
-  if (event.data.type === 'CLEAR_OLD_CACHE') {
-    caches.delete(RUNTIME_CACHE)
-      .then(() => {
-        event.ports[0].postMessage({ type: 'CACHE_CLEARED' });
-      });
+      }
+    })()
+  );
+});
+
+// Предзагрузка данных категории (опционально)
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'PRELOAD_CATEGORY') {
+    const { categoryId } = event.data;
+    
+    (async () => {
+      try {
+        console.log(`🚀 Предзагрузка категории ${categoryId}...`);
+        
+        // Загружаем данные категории
+        const dataUrls = [
+          `/data/index.json`,
+          `/data/houses.${categoryId}.json`
+        ];
+        
+        const cache = await caches.open(DATA_CACHE);
+        const fetchPromises = dataUrls.map(url => 
+          fetch(url).then(response => {
+            if (response.ok) {
+              cache.put(url, response.clone());
+            }
+            return response;
+          }).catch(error => {
+            console.warn(`⚠️ Не удалось предзагрузить ${url}:`, error);
+          })
+        );
+        
+        await Promise.allSettled(fetchPromises);
+        console.log(`✅ Категория ${categoryId} предзагружена`);
+        
+      } catch (error) {
+        console.error('❌ Ошибка предзагрузки:', error);
+      }
+    })();
   }
 });
 
-// Оффлайн страница (встроена в основной fetch обработчик выше)
+// Обработка ошибок
+self.addEventListener('error', (event) => {
+  console.error('❌ Service Worker error:', event.error);
+});
+
+self.addEventListener('unhandledrejection', (event) => {
+  console.error('❌ Service Worker unhandled rejection:', event.reason);
+});

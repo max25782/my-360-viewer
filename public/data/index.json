@@ -1,0 +1,24 @@
+{
+  "categories": [
+    {
+      "id": "A",
+      "title": "Skyline ADU Collection",
+      "count": 13,
+      "description": "Compact and efficient ADU designs (1-2 bedrooms)"
+    },
+    {
+      "id": "B",
+      "title": "Neo ADU Series",
+      "count": 0,
+      "description": "Modern and versatile ADU layouts (2-3 bedrooms)"
+    },
+    {
+      "id": "C",
+      "title": "Premium Collection",
+      "count": 0,
+      "description": "Luxury ADU designs with premium finishes (3+ bedrooms)"
+    }
+  ],
+  "totalHouses": 13,
+  "lastUpdated": "2025-08-21T19:39:45.788Z"
+}
