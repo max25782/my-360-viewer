@@ -90,7 +90,7 @@ export function useHouses() {
               maxPK: houseConfig.maxPK,
               availableRooms: houseConfig.availableRooms,
               images: {
-                hero: houseId ? `/assets/${houseId === 'oak' ? 'Oak' : houseId === 'walnut' ? 'Walnut' : houseId}/hero.webp` : '/assets/unknown/hero.webp', // Fallback путь
+                hero: houseId ? `/assets/skyline/${houseId === 'oak' ? 'Oak' : houseId === 'walnut' ? 'Walnut' : houseId}/hero.webp` : `/assets/skyline/${houseId}/hero.webp`, // Fallback путь
                 gallery: []
               },
               tour360: houseConfig.tour360,

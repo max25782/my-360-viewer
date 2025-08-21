@@ -339,14 +339,14 @@ export default function UniversalDesignSelectorRedux({
                 console.error(`Failed to load image: ${currentImage}`);
                 if (e.currentTarget) {
                   e.currentTarget.style.display = 'none';
-                }
-                // Показываем запасной вариант
-                const parent = e.currentTarget?.parentElement;
-                if (parent) {
-                  const fallbackDiv = document.createElement('div');
-                  fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
-                  fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
-                  parent.appendChild(fallbackDiv);
+                  // Показываем запасной вариант
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    const fallbackDiv = document.createElement('div');
+                    fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
+                    fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
+                    parent.appendChild(fallbackDiv);
+                  }
                 }
               }}
             />
