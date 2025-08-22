@@ -72,7 +72,10 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   const [supportsWebP, setSupportsWebP] = useState<boolean>(false);
   
   // Performance and Service Worker hooks
-  const { preloadRooms: preloadRoomsSW, isReady: swReady } = useServiceWorker();
+  const serviceWorker = useServiceWorker();
+  // Эти свойства больше не доступны в новой версии хука
+  const preloadRoomsSW = () => console.log('preloadRooms deprecated');
+  const swReady = true;
   const { measure360Scene, markRoomPreloaded, logPerformanceReport } = usePerformanceMetrics();
   const { getTilePreview } = usePreviews();
 
@@ -371,14 +374,14 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
         requestIdleCallback(() => {
           preloadNextRooms(scene.links);
           
-          // Also preload via Service Worker if available
-          if (swReady) {
-            const linkedRooms = scene.links.map(link => link.to.split('_').pop()).filter(Boolean);
-            preloadRoomsSW(houseId, linkedRooms as string[], supportsWebP ? 'webp' : 'jpg')
-              .then(() => {
-                linkedRooms.forEach(room => markRoomPreloaded(room!));
-              });
-          }
+          // Предзагрузка через Service Worker если доступно
+          const linkedRooms = scene.links.map(link => link.to.split('_').pop()).filter(Boolean);
+          
+          // Используем новый API для предзагрузки категории
+          serviceWorker.preloadCategory(houseId);
+          
+          // Отмечаем комнаты как предзагруженные
+          linkedRooms.forEach(room => markRoomPreloaded(room!));
         }, { timeout: 2000 });
       }
       
@@ -387,7 +390,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       console.error('Failed to change scene:', error);
       dispatch(setError(`Failed to change scene: ${error}`));
     }
-  }, [houseId, dispatch, toRad, buildMarkers, getSceneFromRoom, preloadNextRooms, measure360Scene, swReady, preloadRoomsSW, supportsWebP, markRoomPreloaded]);
+  }, [houseId, dispatch, toRad, buildMarkers, getSceneFromRoom, preloadNextRooms, measure360Scene, serviceWorker, markRoomPreloaded]);
 
   // Initialize house when houseId changes
   useEffect(() => {

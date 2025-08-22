@@ -55,9 +55,7 @@ export default function Viewer360({
           CubemapAdapter = cubemapAdapter.CubemapAdapter;
           MarkersPlugin = markersPlugin.MarkersPlugin;
           
-          // Загружаем CSS стили
-          await import('@photo-sphere-viewer/core/index.css');
-          await import('@photo-sphere-viewer/markers-plugin/index.css');
+          // CSS стили загружаются через global.css
         }
         
         setLibrariesLoaded(true);
