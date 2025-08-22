@@ -168,6 +168,11 @@ function replacePath(template: string, variables: Record<string, string | number
   // Добавляем логирование для отладки путей
   console.log(`Generated path: ${result} from template: ${template}`);
   
+  // Для Vercel убеждаемся, что путь начинается с /
+  if (!result.startsWith('/')) {
+    result = '/' + result;
+  }
+  
   return result;
 }
 

@@ -3,6 +3,27 @@
 import { useState, useEffect } from 'react';
 import { loadAssetConfig, getAssetPath } from '../utils/universalAssets';
 
+// Импортируем функцию для правильного маппинга домов
+function getActualHouseDirectory(houseId: string): string {
+  const houseDirectoryMap: Record<string, string> = {
+    'walnut': 'Walnut',
+    'oak': 'Oak',
+    'tamarack': 'Tamarack',
+    'laurel': 'Laurel',
+    'pine': 'Pine',
+    'ponderosa': 'Ponderosa',
+    'juniper': 'Juniper',
+    'birch': 'Birch',
+    'cypress': 'Cypress',
+    'hemlock': 'Hemlock',
+    'spruce': 'Spruce',
+    'sage': 'Sage',
+    'sapling': 'Sapling'
+  };
+  
+  return houseDirectoryMap[houseId.toLowerCase()] || houseId;
+}
+
 export interface House {
   id: string;
   name: string;
@@ -90,8 +111,8 @@ export function useHouses() {
               maxDP: houseConfig.maxDP,
               maxPK: houseConfig.maxPK,
               availableRooms: houseConfig.availableRooms,
-              images: {
-                hero: `/assets/skyline/${houseId}/hero.webp`, // Fallback путь
+                             images: {
+                 hero: `/assets/skyline/${getActualHouseDirectory(houseId)}/hero.webp`, // Fallback путь с правильным регистром
                 gallery: []
               },
               tour360: houseConfig.tour360,
