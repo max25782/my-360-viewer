@@ -83,9 +83,8 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
   if (assetData) return assetData;
   
   try {
-    // Используем window.location для построения абсолютного URL
-    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/data/house-assets.json`);
+    // Используем относительный путь для лучшей совместимости с Vercel
+    const response = await fetch('/data/house-assets.json');
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
@@ -133,17 +132,17 @@ function getActualHouseDirectory(houseId: string): string {
   const houseDirectoryMap: Record<string, string> = {
     'walnut': 'Walnut',
     'oak': 'Oak',
-    'tamarack': 'tamarack',
-    'laurel': 'laurel',
-    'pine': 'pine',
-    'ponderosa': 'ponderosa',
-    'juniper': 'juniper',
-    'birch': 'birch',
-    'cypress': 'cypress',
-    'hemlock': 'hemlock',
-    'spruce': 'spruce',
-    'sage': 'sage',
-    'sapling': 'sapling'
+    'tamarack': 'Tamarack',
+    'laurel': 'Laurel',
+    'pine': 'Pine',
+    'ponderosa': 'Ponderosa',
+    'juniper': 'Juniper',
+    'birch': 'Birch',
+    'cypress': 'Cypress',
+    'hemlock': 'Hemlock',
+    'spruce': 'Spruce',
+    'sage': 'Sage',
+    'sapling': 'Sapling'
     // Add other case mappings as needed
   };
   
@@ -165,6 +164,10 @@ function replacePath(template: string, variables: Record<string, string | number
       result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
     }
   });
+  
+  // Добавляем логирование для отладки путей
+  console.log(`Generated path: ${result} from template: ${template}`);
+  
   return result;
 }
 

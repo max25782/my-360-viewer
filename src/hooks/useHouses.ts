@@ -52,6 +52,7 @@ export function useHouses() {
           try {
             const heroPath = await getAssetPath('hero', houseId, { format: 'webp' });
             console.log(`Hero path for ${houseId}:`, heroPath);
+            console.log(`Full URL for ${houseId}:`, typeof window !== 'undefined' ? `${window.location.origin}${heroPath}` : heroPath);
           
             const house: House = {
             id: houseId,
@@ -90,7 +91,7 @@ export function useHouses() {
               maxPK: houseConfig.maxPK,
               availableRooms: houseConfig.availableRooms,
               images: {
-                hero: houseId ? `/assets/skyline/${houseId === 'oak' ? 'Oak' : houseId === 'walnut' ? 'Walnut' : houseId}/hero.webp` : `/assets/skyline/${houseId}/hero.webp`, // Fallback путь
+                hero: `/assets/skyline/${houseId}/hero.webp`, // Fallback путь
                 gallery: []
               },
               tour360: houseConfig.tour360,

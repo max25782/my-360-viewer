@@ -28,7 +28,7 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
             </Link>
           </div>
           <nav className="hidden md:flex text-2xl space-x-10">
-            <Link href="/" className="text-gray-900 hover:text-gray-900 font-bold">Catalog</Link>
+            <Link href="/" className="text-gray-900 hover:text-gray-900 font-bold">ADU Catalog</Link>
             <a href="#about" className="text-gray-900 hover:text-gray-900 font-bold">About</a>
             <a href="#contact" className="text-gray-900 hover:text-gray-900 font-bold">Contact</a>
           </nav>

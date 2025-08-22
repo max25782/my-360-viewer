@@ -28,6 +28,12 @@ export default function HeroSection({ house }: HeroSectionProps) {
               sizes="100vw"
               quality={70}
               className="object-cover"
+              onError={(e) => {
+                console.error(`Failed to load hero image for ${house.name}:`, house.images.hero);
+                // Fallback to a default image
+                const target = e.target as HTMLImageElement;
+                target.src = '/assets/skyline/birch/hero.webp'; // Fallback image
+              }}
             />
             {/* Overlay Content */}
             <div className="absolute inset-0">
