@@ -1,33 +1,33 @@
 {
   "assetConfig": {
     "pathTemplates": {
-      "hero": "/assets/{houseId}/hero.{format}",
-      "exterior": "/assets/{houseId}/exterior/dp{dp}.{format}",
-      "interior": "/assets/{houseId}/interior/{room}/pk{pk}.{format}",
-      "comparison": "/assets/{houseId}/comparison/{type}-{variant}.{format}",
+      "hero": "/assets/skyline/{houseId}/hero.{format}",
+      "exterior": "/assets/skyline/{houseId}/exterior/dp{dp}.{format}",
+      "interior": "/assets/skyline/{houseId}/interior/{room}/pk{pk}.{format}",
+      "comparison": "/assets/skyline/{houseId}/comparison/{type}-{variant}.{format}",
       "tour360": {
-        "thumbnail": "/assets/{houseId}/360/{room}/thumbnail.{format}",
-        "preview": "/assets/{houseId}/360/{room}/preview.{format}",
+        "thumbnail": "/assets/skyline/{houseId}/360/{room}/thumbnail.{format}",
+        "preview": "/assets/skyline/{houseId}/360/{room}/preview.{format}",
         "tiles": {
-          "front": "/assets/{houseId}/360/{room}/f.{format}",
-          "back": "/assets/{houseId}/360/{room}/b.{format}",
-          "left": "/assets/{houseId}/360/{room}/l.{format}",
-          "right": "/assets/{houseId}/360/{room}/r.{format}",
-          "up": "/assets/{houseId}/360/{room}/u.{format}",
-          "down": "/assets/{houseId}/360/{room}/d.{format}"
+          "front": "/assets/skyline/{houseId}/360/{room}/f.{format}",
+          "back": "/assets/skyline/{houseId}/360/{room}/b.{format}",
+          "left": "/assets/skyline/{houseId}/360/{room}/l.{format}",
+          "right": "/assets/skyline/{houseId}/360/{room}/r.{format}",
+          "up": "/assets/skyline/{houseId}/360/{room}/u.{format}",
+          "down": "/assets/skyline/{houseId}/360/{room}/d.{format}"
         },
         "tilesWebP": {
-          "front": "/assets/{houseId}/360/{room}/f.webp",
-          "back": "/assets/{houseId}/360/{room}/b.webp",
-          "left": "/assets/{houseId}/360/{room}/l.webp",
-          "right": "/assets/{houseId}/360/{room}/r.webp",
-          "up": "/assets/{houseId}/360/{room}/u.webp",
-          "down": "/assets/{houseId}/360/{room}/d.webp"
+          "front": "/assets/skyline/{houseId}/360/{room}/f.webp",
+          "back": "/assets/skyline/{houseId}/360/{room}/b.webp",
+          "left": "/assets/skyline/{houseId}/360/{room}/l.webp",
+          "right": "/assets/skyline/{houseId}/360/{room}/r.webp",
+          "up": "/assets/skyline/{houseId}/360/{room}/u.webp",
+          "down": "/assets/skyline/{houseId}/360/{room}/d.webp"
         }
       },
       "textures": {
-        "exterior": "/assets/texture/exterior/thumb{id}.{format}",
-        "interior": "/assets/texture/interior/colors{id}.{format}"
+        "exterior": "/assets/skyline/texture/exterior/thumb{id}.{format}",
+        "interior": "/assets/skyline/texture/interior/colors{id}.{format}"
       }
     },
     "rooms": [

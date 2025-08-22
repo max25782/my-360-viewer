@@ -1,14 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
 import { useCategories } from '../hooks/useCategories';
+import { selectCategoriesWithMetadata } from '../store/selectors/categoriesSelectors';
+import { useSSRCompatible } from '../hooks/useSSRCompatible';
 
 export default function CategoriesGrid() {
-  const { categories, loading, error } = useCategories();
+  const isMounted = useSSRCompatible();
+  const { categories, loading, error, refresh } = useCategories();
+  const categoriesWithMetadata = useSelector(selectCategoriesWithMetadata);
 
-  if (loading) {
+  // На сервере и до монтирования показываем loading state
+  if (!isMounted || loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 bg-slate-800 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {Array.from({ length: 3 }, (_, i) => (
           <div key={i} className="animate-pulse">
             <div className="bg-gray-200 rounded-lg h-48 mb-4"></div>
@@ -22,50 +28,26 @@ export default function CategoriesGrid() {
 
   if (error || !categories) {
     return (
-      <div className="text-center text-white">
+      <div className="text-center  text-white">
         <p className="text-xl">Error loading categories</p>
-        <p className="text-gray-300">{error}</p>
+        <p className="text-gray-300 mb-4">{error}</p>
+        <button 
+          onClick={refresh}
+          className="px-4 py-2 bg-slate-700 hover:bg-blue-700 rounded-lg transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
 
-  const categoryData = [
-    {
-      id: 'A',
-      title: 'Skyline ADU Collection',
-      description: 'Compact and efficient ADU designs (1-2 bedrooms)',
-      count: categories.categories.find(c => c.id === 'A')?.count || 0,
-      gradient: 'from-blue-600 to-indigo-700',
-      hoverGradient: 'hover:from-blue-700 hover:to-indigo-800',
-      icon: '🏠'
-    },
-    {
-      id: 'B',
-      title: 'Neo ADU Series',
-      description: 'Modern and versatile ADU layouts (2-3 bedrooms)',
-      count: categories.categories.find(c => c.id === 'B')?.count || 0,
-      gradient: 'from-purple-600 to-violet-700',
-      hoverGradient: 'hover:from-purple-700 hover:to-violet-800',
-      icon: '🏘️'
-    },
-    {
-      id: 'C',
-      title: 'Premium Collection',
-      description: 'Luxury ADU designs with premium finishes (3+ bedrooms)',
-      count: categories.categories.find(c => c.id === 'C')?.count || 0,
-      gradient: 'from-emerald-600 to-teal-700',
-      hoverGradient: 'hover:from-emerald-700 hover:to-teal-800',
-      icon: '🏛️'
-    }
-  ];
-
   return (
-    <div className="grid  bg-slate-800 grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      {categoryData.map((category) => (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {categoriesWithMetadata.map((category) => (
         <Link
           key={category.id}
           href={`/category/${category.id}`}
-          className={`group bg-slate-700  rounded-xl p-8 text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl`}
+          className="group bg-slate-700 rounded-xl p-8 text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
         >
           {/* Icon */}
           <div className="text-6xl mb-6 text-center">

@@ -57,6 +57,32 @@ export default function RootLayout({
           {children}
         </ReduxProvider>
         {/* Service Worker registration moved to useServiceWorker hook */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+              window.clearAppCache = function() {
+                try {
+                  if (window.localStorage) {
+                    const keys = Object.keys(window.localStorage);
+                    keys.forEach(key => {
+                      if (key.startsWith('persist:') || key.startsWith('redux:')) {
+                        window.localStorage.removeItem(key);
+                      }
+                    });
+                  }
+                  if (window.sessionStorage) {
+                    window.sessionStorage.clear();
+                  }
+                  console.log('✅ Cache cleared! Reloading...');
+                  window.location.reload();
+                } catch (error) {
+                  console.error('❌ Error clearing cache:', error);
+                }
+              };
+              console.log('🛠️ Dev Tools: Use clearAppCache() to clear caches');
+            }
+          `
+        }} />
       </body>
     </html>
   );

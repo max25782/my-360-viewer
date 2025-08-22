@@ -1,46 +1,59 @@
 'use client';
 
 /**
- * Хук для загрузки индекса категорий домов
+ * Хук для работы с категориями домов через Redux
+ * Заменяет локальное состояние на глобальное с кэшированием
  */
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import type { AppDispatch } from '../store';
 import type { CategoriesIndex } from '../types/houses';
-import { dataUrl, safeFetch } from '../utils/paths';
+import { loadCategories } from '../store/slices/categoriesSlice';
+import {
+  selectCategoriesData,
+  selectCategoriesLoading,
+  selectCategoriesError,
+  selectShouldRefreshCategories
+} from '../store/selectors/categoriesSelectors';
+import { useSSRCompatible } from './useSSRCompatible';
 
 interface UseCategoriesResult {
   categories: CategoriesIndex | null;
   loading: boolean;
   error: string | null;
+  refresh: () => void;
 }
 
 export function useCategories(): UseCategoriesResult {
-  const [categories, setCategories] = useState<CategoriesIndex | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const isMounted = useSSRCompatible();
+  
+  // Redux selectors
+  const categories = useSelector(selectCategoriesData);
+  const reduxLoading = useSelector(selectCategoriesLoading);
+  const error = useSelector(selectCategoriesError);
+  const shouldRefresh = useSelector(selectShouldRefreshCategories);
 
+  // Загружаем данные только после монтирования на клиенте
   useEffect(() => {
-    async function loadCategories() {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        const result = await safeFetch<CategoriesIndex>(dataUrl('index.json'));
-        
-        if (result.error) {
-          setError(result.error);
-        } else if (result.data) {
-          setCategories(result.data);
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
+    if (isMounted && shouldRefresh) {
+      dispatch(loadCategories());
     }
+  }, [dispatch, shouldRefresh, isMounted]);
 
-    loadCategories();
-  }, []);
+  // Функция для принудительного обновления
+  const refresh = () => {
+    dispatch(loadCategories());
+  };
 
-  return { categories, loading, error };
+  // На сервере и до монтирования показываем loading: true
+  const loading = !isMounted || reduxLoading;
+
+  return { 
+    categories, 
+    loading, 
+    error,
+    refresh
+  };
 }

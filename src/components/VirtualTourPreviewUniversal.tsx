@@ -44,19 +44,19 @@ export default function VirtualTourPreviewUniversal({
             const previewPath = assetPaths.tour360(houseId, firstRoom).thumbnail;
             setDynamicPreviewImage(previewPath);
           } else {
-            // Fallback to Walnut if no tour found
-            setDynamicPreviewImage('/assets/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg');
+            // Fallback to default preview
+            setDynamicPreviewImage('/assets/skyline/Walnut/360/entry/thumbnail.webp');
           }
         } else {
-          // Fallback to Walnut if no tour found
-          setDynamicPreviewImage('/assets/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg');
+          // Fallback to default preview
+          setDynamicPreviewImage('/assets/skyline/Walnut/360/entry/thumbnail.webp');
         }
         
         setLoading(false);
       } catch (error) {
         console.error('Failed to load preview data:', error);
-        // Fallback to Walnut
-        setDynamicPreviewImage('/assets/Walnut/3D/entry/thumbnail-qwc9E691mj83t8TKcLx5erIxLUnmEEt0.jpg');
+        // Fallback to default preview
+        setDynamicPreviewImage('/assets/skyline/Walnut/360/entry/thumbnail.webp');
         setLoading(false);
       }
     }

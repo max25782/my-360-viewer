@@ -129,7 +129,7 @@ export const selectExteriorThumbnails = (houseId: string) =>
       packages.map((pkg, index) => ({
         package: pkg,
         index,
-        thumbnailPath: `/assets/texture/exterior/thumb${pkg.dp}.jpg`
+        thumbnailPath: `/assets/skyline/texture/exterior/thumb${pkg.dp}.webp`
       }))
   );
 
@@ -140,7 +140,7 @@ export const selectInteriorThumbnails = (houseId: string) =>
       packages.map((pkg, index) => ({
         package: pkg,
         index,
-        thumbnailPath: `/assets/texture/interior/colors${pkg.pk}.jpg`
+        thumbnailPath: `/assets/skyline/texture/interior/colors${pkg.pk}.webp`
       }))
   );
 

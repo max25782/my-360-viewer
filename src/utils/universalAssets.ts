@@ -69,6 +69,14 @@ interface UniversalAssetData {
 let assetData: UniversalAssetData | null = null;
 
 /**
+ * Clear asset cache - useful for development and updates
+ */
+export function clearAssetCache(): void {
+  assetData = null;
+  console.log('Asset cache cleared');
+}
+
+/**
  * Load asset configuration from JSON
  */
 export async function loadAssetConfig(): Promise<UniversalAssetData> {
@@ -89,13 +97,13 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
     return {
       assetConfig: {
         pathTemplates: {
-          hero: '/assets/{houseId}/hero.webp',
-          exterior: '/assets/{houseId}/exterior/dp{dp}.jpg',
-          interior: '/assets/{houseId}/interior/{room}/pk{pk}.jpg',
-          comparison: '/assets/{houseId}/comparison/{type}-{variant}.jpg',
+          hero: '/assets/skyline/{houseId}/hero.webp',
+          exterior: '/assets/skyline/{houseId}/exterior/dp{dp}.jpg',
+          interior: '/assets/skyline/{houseId}/interior/{room}/pk{pk}.jpg',
+          comparison: '/assets/skyline/{houseId}/comparison/{type}-{variant}.jpg',
           tour360: {
-            thumbnail: '/assets/{houseId}/360/{room}/thumbnail.jpg',
-            preview: '/assets/{houseId}/360/{room}/preview.jpg',
+            thumbnail: '/assets/skyline/{houseId}/360/{room}/thumbnail.jpg',
+            preview: '/assets/skyline/{houseId}/360/{room}/preview.jpg',
             tiles: {}
           },
           textures: {
@@ -120,7 +128,6 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
 
 /**
  * Map house ID to actual directory name (handle case sensitivity)
- * and add skyline prefix
  */
 function getActualHouseDirectory(houseId: string): string {
   const houseDirectoryMap: Record<string, string> = {
@@ -141,7 +148,8 @@ function getActualHouseDirectory(houseId: string): string {
   };
   
   const houseName = houseDirectoryMap[houseId.toLowerCase()] || houseId;
-  return `skyline/${houseName}`;
+  // Не добавляем skyline/ здесь, так как он уже есть в шаблонах путей
+  return houseName;
 }
 
 /**

@@ -84,11 +84,6 @@ export default function UniversalDesignSelectorRedux({
         return '/placeholder-image.png'; // Запасной вариант
       }
       
-      // Исправляем путь, если он не содержит /skyline/
-      if (path.includes('/assets/') && !path.includes('/assets/skyline/')) {
-        path = path.replace('/assets/', '/assets/skyline/');
-      }
-      
       if (isMounted && typeof window !== 'undefined') {
         return `${window.location.origin}${path}`;
       }
@@ -337,7 +332,7 @@ export default function UniversalDesignSelectorRedux({
               onError={(e) => {
                 // Обработка ошибки загрузки изображения
                 console.error(`Failed to load image: ${currentImage}`);
-                if (e.currentTarget) {
+                if (e.currentTarget && e.currentTarget.style) {
                   e.currentTarget.style.display = 'none';
                   // Показываем запасной вариант
                   const parent = e.currentTarget.parentElement;
@@ -466,7 +461,7 @@ export default function UniversalDesignSelectorRedux({
                 title={`Select ${thumb.package.name}`}
                 onError={(e) => {
                   // Обработка ошибки на кнопке
-                  if (e.currentTarget) {
+                  if (e.currentTarget && e.currentTarget.style ) {
                     e.currentTarget.style.backgroundColor = '#e5e7eb';
                   }
                 }}
@@ -487,7 +482,7 @@ export default function UniversalDesignSelectorRedux({
                 }}
                 onLoad={(e) => {
                   // Плавное появление миниатюры
-                  if (e.currentTarget) {
+                  if (e.currentTarget && e.currentTarget.style) {
                     e.currentTarget.style.opacity = '1';
                     e.currentTarget.style.transform = 'scale(1)';
                     e.currentTarget.style.filter = 'blur(0px)';
@@ -495,7 +490,7 @@ export default function UniversalDesignSelectorRedux({
                 }}
                 onError={(e) => {
                   // Плавное исчезновение при ошибке
-                  if (e.currentTarget) {
+                  if (e.currentTarget && e.currentTarget.style) {
                     e.currentTarget.style.opacity = '0';
                     e.currentTarget.style.transform = 'scale(0.9)';
                     e.currentTarget.style.backgroundColor = '#e5e7eb';
@@ -503,7 +498,7 @@ export default function UniversalDesignSelectorRedux({
                     // Сохраняем ссылку на currentTarget, так как она может измениться внутри setTimeout
                     const target = e.currentTarget;
                     setTimeout(() => {
-                      if (target) {
+                      if (target && target.style) {
                         target.style.display = 'none';
                       }
                     }, 250);
