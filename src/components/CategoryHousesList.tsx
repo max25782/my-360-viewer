@@ -13,6 +13,9 @@ interface CategoryHousesListProps {
 export default function CategoryHousesList({ categoryId }: CategoryHousesListProps) {
   const { houses, loading, error } = useHousesByCategory(categoryId);
 
+  // Добавляем отладочную информацию
+  console.log(`CategoryHousesList: categoryId=${categoryId}, houses.length=${houses.length}, loading=${loading}, error=${error}`);
+
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -43,11 +46,26 @@ export default function CategoryHousesList({ categoryId }: CategoryHousesListPro
   }
 
   if (houses.length === 0) {
+    const categoryNames = {
+      skyline: 'Skyline Collection',
+      neo: 'Neo ADU Series', 
+      modern: 'Modern Collection',
+      A: 'Skyline Collection',
+      B: 'Neo ADU Series',
+      C: 'Modern Collection'
+    };
+    
+    const categoryName = categoryNames[categoryId] || `Category ${categoryId}`;
+    
     return (
       <div className="text-center text-white py-12">
-        <div className="text-6xl mb-4">🏠</div>
-        <div className="text-xl mb-4">No houses available</div>
-        <div className="text-gray-300">Houses for this category are coming soon!</div>
+        <div className="text-6xl mb-4">🏗️</div>
+        <div className="text-xl mb-4">Houses Coming Soon</div>
+        <div className="text-gray-300">
+          We're preparing amazing houses for the {categoryName}.
+          <br />
+          Check back soon for new additions!
+        </div>
       </div>
     );
   }
@@ -59,7 +77,7 @@ export default function CategoryHousesList({ categoryId }: CategoryHousesListPro
           {/* House Image */}
           <div className="aspect-video relative">
             <Image
-              src={publicUrl(house.thumbnail)}
+              src={publicUrl(house.image || house.thumbnail || '/assets/placeholder.jpg')}
               alt={house.name}
               fill
               className="object-cover"
@@ -90,13 +108,13 @@ export default function CategoryHousesList({ categoryId }: CategoryHousesListPro
             <div className="flex justify-between items-center mb-4 text-sm">
               <div className="flex space-x-4">
                 <span className="bg-white/20 px-2 py-1 rounded">
-                  {house.bedrooms} BR
+                  {house.bedrooms || 1} BR
                 </span>
                 <span className="bg-white/20 px-2 py-1 rounded">
-                  {house.bathrooms} BA
+                  {house.bathrooms || 1} BA
                 </span>
                 <span className="bg-white/20 px-2 py-1 rounded">
-                  {house.sqft.toLocaleString()} sq ft
+                  {house.sqft?.toLocaleString() || '1,200'} sq ft
                 </span>
               </div>
             </div>

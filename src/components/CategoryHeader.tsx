@@ -13,27 +13,45 @@ export default function CategoryHeader({ categoryId }: CategoryHeaderProps) {
   
   const categoryData = {
     A: {
-      title: 'Skyline ADU Collection',
-      description: 'Compact and efficient ADU designs perfect for small families and urban living.',
-      icon: '🏠',
-      gradient: 'from-blue-600 to-indigo-700'
+      title: 'Skyline Collection',
+      description: 'Traditional collection featuring a variety of house designs with beautiful skyline views.',
+      icon: '🏔️',
+      gradient: 'from-sky-600 to-blue-800'
     },
     B: {
       title: 'Neo ADU Series', 
-      description: 'Modern and versatile ADU layouts with flexible room configurations.',
-      icon: '🏘️',
-      gradient: 'from-purple-600 to-violet-700'
+      description: 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.',
+      icon: '⚡',
+      gradient: 'from-indigo-600 to-purple-800'
     },
     C: {
-      title: 'Premium Collection',
-      description: 'Luxury ADU designs with premium finishes and high-end features.',
-      icon: '🏛️',
-      gradient: 'from-emerald-600 to-teal-700'
+      title: 'Modern Collection',
+      description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
+      icon: '🏗️',
+      gradient: 'from-emerald-600 to-green-800'
+    },
+    skyline: {
+      title: 'Skyline Collection',
+      description: 'Traditional collection featuring a variety of house designs with beautiful skyline views.',
+      icon: '🏔️',
+      gradient: 'from-sky-600 to-blue-800'
+    },
+    neo: {
+      title: 'Neo ADU Series', 
+      description: 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.',
+      icon: '⚡',
+      gradient: 'from-indigo-600 to-purple-800'
+    },
+    modern: {
+      title: 'Modern Collection',
+      description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
+      icon: '🏗️',
+      gradient: 'from-emerald-600 to-green-800'
     }
   };
 
   const category = categoryData[categoryId];
-  const categoryInfo = categories?.categories.find(c => c.id === categoryId);
+  const categoryInfo = categories?.categories ? Object.values(categories.categories).find(c => c.id === categoryId) : null;
 
   return (
     <div className="text-center bg-slate-800 mb-12">

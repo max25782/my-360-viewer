@@ -2,7 +2,7 @@
  * Типы данных для домов и категорий
  */
 
-export type HouseCategory = 'A' | 'B' | 'C';
+export type HouseCategory = 'A' | 'B' | 'C' | 'neo' | 'skyline' | 'modern';
 
 export interface CategoryMetadata {
   id: HouseCategory;
@@ -21,14 +21,19 @@ export interface HouseCard {
   id: string;
   name: string;
   description: string;
-  category: HouseCategory;
-  thumbnail: string;
-  bedrooms: number;
-  bathrooms: number;
-  sqft: number;
-  hasTour360: boolean;
-  hasComparison: boolean;
-  hasDesignPackages: boolean;
+  category?: HouseCategory;
+  image: string; // hero image
+  maxDP?: number;
+  maxPK?: number;
+  availableRooms?: string[];
+  // Legacy fields (optional for backward compatibility)
+  thumbnail?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  sqft?: number;
+  hasTour360?: boolean;
+  hasComparison?: boolean;
+  hasDesignPackages?: boolean;
 }
 
 export interface PanoramaTiles {

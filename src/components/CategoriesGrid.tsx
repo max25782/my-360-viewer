@@ -11,6 +11,16 @@ export default function CategoriesGrid() {
   const { categories, loading, error, refresh } = useCategories();
   const categoriesWithMetadata = useSelector(selectCategoriesWithMetadata);
 
+  // Отладочная информация
+  console.log('🐛 CategoriesGrid Debug:', {
+    isMounted,
+    loading,
+    error,
+    categories,
+    categoriesWithMetadata,
+    categoriesLength: categoriesWithMetadata?.length
+  });
+
   // На сервере и до монтирования показываем loading state
   if (!isMounted || loading) {
     return (
@@ -46,7 +56,7 @@ export default function CategoriesGrid() {
       {categoriesWithMetadata.map((category) => (
         <Link
           key={category.id}
-          href={`/category/${category.id}`}
+          href={category.id === 'neo' ? '/neo' : `/category/${category.id}`}
           className="group bg-slate-700 rounded-xl p-8 text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
         >
           {/* Icon */}

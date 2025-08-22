@@ -210,7 +210,6 @@ button, a, [role="button"] {
 /* PhotoSphere Viewer стили */
 /* Импортируем стили через CSS переменные для production build */
 @import url('https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.1.4/index.min.css');
-@import url('https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.1.4/index.min.css');
 
 /* Оптимизация для PhotoSphere Viewer navbar */
 .psv-navbar {

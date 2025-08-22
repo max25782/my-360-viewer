@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { loadAssetConfig, getAssetPath } from '../utils/universalAssets';
+import { loadNeoAssetConfig, getNeoAssetPath } from '../utils/neoAssets';
 
 // Импортируем функцию для правильного маппинга домов
 function getActualHouseDirectory(houseId: string): string {
@@ -53,6 +54,7 @@ export interface House {
   };
   specialPaths?: Record<string, string>;
   fallbacks?: Record<string, string>;
+  category?: string;
 }
 
 export function useHouses() {
@@ -194,15 +196,19 @@ export function getHouse(houseId: string): Promise<House | null> {
 export async function getAllHouses(): Promise<House[]> {
   try {
     const config = await loadAssetConfig();
+    const neoConfig = await loadNeoAssetConfig();
     const houseList: House[] = [];
     
+
+    
+    // Добавляем Skyline дома
     for (const [houseId, houseConfig] of Object.entries(config.houses)) {
       const heroPath = await getAssetPath('hero', houseId, { format: 'webp' });
       
       const house: House = {
         id: houseId,
         name: houseConfig.name,
-                      description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
+        description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
         maxDP: houseConfig.maxDP,
         maxPK: houseConfig.maxPK,
         availableRooms: houseConfig.availableRooms,
@@ -213,7 +219,37 @@ export async function getAllHouses(): Promise<House[]> {
         tour360: houseConfig.tour360,
         comparison: houseConfig.comparison,
         specialPaths: houseConfig.specialPaths,
-        fallbacks: houseConfig.fallbacks
+        fallbacks: houseConfig.fallbacks,
+        category: 'skyline'
+      };
+      
+      houseList.push(house);
+    }
+    
+    // Добавляем Neo дома
+    for (const [houseId, houseConfig] of Object.entries(neoConfig.neoHouses)) {
+      const heroPath = await getNeoAssetPath('hero', houseId, { 
+        color: 'white', 
+        format: 'jpg' 
+      });
+      
+      const house: House = {
+        id: `neo-${houseId}`, // Префикс для избежания конфликтов
+        name: houseConfig.name,
+        description: houseConfig.description || `Modern Neo ${houseConfig.name} with dual color schemes`,
+        maxDP: houseConfig.maxDP,
+        maxPK: houseConfig.maxPK,
+        availableRooms: houseConfig.availableRooms,
+        images: {
+          hero: heroPath,
+          gallery: []
+        },
+        tour360: {
+          rooms: [...houseConfig.tour360.white.rooms, ...houseConfig.tour360.dark.rooms],
+          availableFiles: {}
+        },
+        comparison: houseConfig.comparison,
+        category: 'neo'
       };
       
       houseList.push(house);

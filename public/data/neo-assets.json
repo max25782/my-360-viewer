@@ -1,0 +1,88 @@
+{
+  "neoConfig": {
+    "pathTemplates": {
+      "hero": "/assets/neo/{houseId}/hero.jpg",
+      "exterior": "/assets/neo/{houseId}/exterior/{color}/dp{dp}.{format}",
+      "interior": "/assets/neo/{houseId}/interior/{room}/pk{pk}_{color}.{format}",
+      "exampleDark": "/assets/neo/{houseId}/example/dark.jpg",
+      "exampleWhite": "/assets/neo/{houseId}/example/light.jpg",
+      "tour360": {
+        "thumbnail": "/assets/neo/{houseId}/360/{color}/{room}/thumbnail.{format}",
+        "preview": "/assets/neo/{houseId}/360/{color}/{room}/preview.{format}",
+        "tiles": {
+          "front": "/assets/neo/{houseId}/360/{color}/{room}/f.{format}",
+          "back": "/assets/neo/{houseId}/360/{color}/{room}/b.{format}",
+          "left": "/assets/neo/{houseId}/360/{color}/{room}/l.{format}",
+          "right": "/assets/neo/{houseId}/360/{color}/{room}/r.{format}",
+          "up": "/assets/neo/{houseId}/360/{color}/{room}/u.{format}",
+          "down": "/assets/neo/{houseId}/360/{color}/{room}/d.{format}"
+        }
+      },
+      "textures": {
+        "white": "/assets/neo/texrure/thumb-white.jpg",
+        "black": "/assets/neo/texrure/thumb-black.jpg"
+      }
+    },
+    "colors": ["white", "dark"],
+    "designPackages": {
+      "heritage": { "dp": 1, "pk": 1 },
+      "haven": { "dp": 2, "pk": 2 },
+      "serenity": { "dp": 3, "pk": 3 },
+      "luxe": { "dp": 4, "pk": 4 }
+    },
+    "rooms": ["entry", "living", "kitchen", "hall", "badroom", "badroom2", "bathroom", "bathroom2", "wik"],
+    "comparisonTypes": ["good", "better", "best"],
+    "comparisonVariants": ["exterior", "plan1", "plan2"]
+  },
+  "neoHouses": {
+    "Apex": {
+      "name": "The Apex",
+      "description": "Modern Neo design with sophisticated dual color schemes. Features 9 rooms with seamless transitions between white and dark aesthetics.",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["entry", "living", "kitchen", "hall", "badroom", "badroom2", "bathroom", "bathroom2", "wik"],
+      "tour360": {
+        "white": {
+          "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+        },
+        "dark": {
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "bedroom_dark", "bedroom2_dark", "bathroom_dark", "bathroom_dark2", "wik_dark"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1400 SF",
+            "better": "1400 SF",
+            "best": "1400 SF"
+          },
+          "Bedrooms": {
+            "good": "2",
+            "better": "2", 
+            "best": "2"
+          },
+          "Bathrooms": {
+            "good": "2",
+            "better": "2",
+            "best": "2"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Walk-in Closet": {
+            "good": "✓",
+            "better": "✓",
+            "best": "✓"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    }
+  }
+}

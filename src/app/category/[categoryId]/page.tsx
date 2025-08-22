@@ -16,7 +16,7 @@ interface CategoryPageProps {
 
 // Валидация категории
 function isValidCategory(categoryId: string): categoryId is HouseCategory {
-  return ['A', 'B', 'C'].includes(categoryId.toUpperCase());
+  return ['A', 'B', 'C', 'skyline', 'neo', 'modern'].includes(categoryId.toLowerCase());
 }
 
 // Метаданные для SEO
@@ -28,19 +28,25 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   }
 
   const categoryNames = {
-    A: 'Skyline ADU Collection',
+    A: 'Skyline Collection',
     B: 'Neo ADU Series',
-    C: 'Premium Collection'
+    C: 'Modern Collection',
+    skyline: 'Skyline Collection',
+    neo: 'Neo ADU Series',
+    modern: 'Modern Collection'
   };
 
   const categoryDescriptions = {
-    A: 'Compact and efficient ADU designs perfect for small families.',
-    B: 'Modern and versatile ADU layouts with flexible room configurations.',
-    C: 'Luxury ADU designs with premium finishes and high-end features.'
+    A: 'Traditional collection featuring a variety of house designs with beautiful skyline views.',
+    B: 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.',
+    C: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
+    skyline: 'Traditional collection featuring a variety of house designs with beautiful skyline views.',
+    neo: 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.',
+    modern: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
   };
 
-  const categoryName = categoryNames[categoryId.toUpperCase() as HouseCategory];
-  const description = categoryDescriptions[categoryId.toUpperCase() as HouseCategory];
+  const categoryName = categoryNames[categoryId.toLowerCase() as HouseCategory] || categoryNames[categoryId.toUpperCase() as HouseCategory];
+  const description = categoryDescriptions[categoryId.toLowerCase() as HouseCategory] || categoryDescriptions[categoryId.toUpperCase() as HouseCategory];
 
   return {
     title: `${categoryName} - RG Pro Builders`,
@@ -58,7 +64,10 @@ export async function generateStaticParams() {
   return [
     { categoryId: 'A' },
     { categoryId: 'B' },
-    { categoryId: 'C' }
+    { categoryId: 'C' },
+    { categoryId: 'skyline' },
+    { categoryId: 'neo' },
+    { categoryId: 'modern' }
   ];
 }
 
@@ -71,7 +80,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
 
-  const validCategoryId = categoryId.toUpperCase() as HouseCategory;
+  const validCategoryId = categoryId.toLowerCase() as HouseCategory;
 
   return (
     <div className="min-h-screen bg-slate-800">

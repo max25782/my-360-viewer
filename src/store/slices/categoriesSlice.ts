@@ -36,16 +36,29 @@ export const loadCategories = createAsyncThunk(
         return cached;
       }
 
-      const result = await safeFetch<CategoriesIndex>(dataUrl('index.json'));
+      console.log('🔄 Redux: Fetching from /api/houses...');
+      const result = await safeFetch<CategoriesIndex>('/api/houses');
+      console.log('🔄 Redux: Fetch result:', result);
       
       if (result.error) {
+        console.error('🔄 Redux: Error from API:', result.error);
         return rejectWithValue(result.error);
       }
       
       if (!result.data) {
+        console.error('🔄 Redux: No data received');
         return rejectWithValue('No data received');
       }
 
+      console.log('🔄 Redux: Success! Data:', result.data);
+      
+      // API возвращает {success, data, timestamp}, нам нужно только data
+      if (result.data && typeof result.data === 'object' && 'data' in result.data) {
+        const apiResponse = result.data as any;
+        console.log('🔄 Redux: Extracting nested data:', apiResponse.data);
+        return apiResponse.data;
+      }
+      
       return result.data;
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
