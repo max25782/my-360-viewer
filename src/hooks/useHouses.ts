@@ -6,19 +6,19 @@ import { loadAssetConfig, getAssetPath } from '../utils/universalAssets';
 // Импортируем функцию для правильного маппинга домов
 function getActualHouseDirectory(houseId: string): string {
   const houseDirectoryMap: Record<string, string> = {
-    'walnut': 'Walnut',
-    'oak': 'Oak',
-    'tamarack': 'Tamarack',
-    'laurel': 'Laurel',
-    'pine': 'Pine',
-    'ponderosa': 'Ponderosa',
-    'juniper': 'Juniper',
-    'birch': 'Birch',
-    'cypress': 'Cypress',
-    'hemlock': 'Hemlock',
-    'spruce': 'Spruce',
-    'sage': 'Sage',
-    'sapling': 'Sapling'
+    'walnut': 'Walnut',      // ✅ Заглавная W в файловой системе
+    'oak': 'Oak',            // ✅ Заглавная O в файловой системе
+    'tamarack': 'tamarack',  // ✅ lowercase в файловой системе
+    'laurel': 'laurel',      // ✅ lowercase в файловой системе
+    'pine': 'pine',          // ✅ lowercase в файловой системе
+    'ponderosa': 'ponderosa', // ✅ lowercase в файловой системе
+    'juniper': 'juniper',    // ✅ lowercase в файловой системе
+    'birch': 'birch',        // ✅ lowercase в файловой системе
+    'cypress': 'cypress',    // ✅ lowercase в файловой системе
+    'hemlock': 'hemlock',    // ✅ lowercase в файловой системе
+    'spruce': 'spruce',      // ✅ lowercase в файловой системе
+    'sage': 'sage',          // ✅ lowercase в файловой системе
+    'sapling': 'sapling'     // ✅ lowercase в файловой системе
   };
   
   return houseDirectoryMap[houseId.toLowerCase()] || houseId;

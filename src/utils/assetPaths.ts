@@ -27,27 +27,48 @@ interface HouseAssetPaths {
   };
 }
 
-export const assetPaths: HouseAssetPaths = {
-  hero: (house: string) => `/assets/skyline/${house}/hero.jpg`,
+// Функция для правильного маппинга домов
+function getActualHouseDirectory(houseId: string): string {
+  const houseDirectoryMap: Record<string, string> = {
+    'walnut': 'Walnut',      // ✅ Заглавная W в файловой системе
+    'oak': 'Oak',            // ✅ Заглавная O в файловой системе
+    'tamarack': 'tamarack',  // ✅ lowercase в файловой системе
+    'laurel': 'laurel',      // ✅ lowercase в файловой системе
+    'pine': 'pine',          // ✅ lowercase в файловой системе
+    'ponderosa': 'ponderosa', // ✅ lowercase в файловой системе
+    'juniper': 'juniper',    // ✅ lowercase в файловой системе
+    'birch': 'birch',        // ✅ lowercase в файловой системе
+    'cypress': 'cypress',    // ✅ lowercase в файловой системе
+    'hemlock': 'hemlock',    // ✅ lowercase в файловой системе
+    'spruce': 'spruce',      // ✅ lowercase в файловой системе
+    'sage': 'sage',          // ✅ lowercase в файловой системе
+    'sapling': 'sapling'     // ✅ lowercase в файловой системе
+  };
   
-  exterior: (house: string, dp: number) => `/assets/skyline/${house}/exterior/dp${dp}.jpg`,
+  return houseDirectoryMap[houseId.toLowerCase()] || houseId;
+}
+
+export const assetPaths: HouseAssetPaths = {
+  hero: (house: string) => `/assets/skyline/${getActualHouseDirectory(house)}/hero.jpg`,
+  
+  exterior: (house: string, dp: number) => `/assets/skyline/${getActualHouseDirectory(house)}/exterior/dp${dp}.jpg`,
   
   interior: (house: string, room: string, pk: number) => 
-    `/assets/skyline/${house}/interior/${room}/pk${pk}.jpg`,
+    `/assets/skyline/${getActualHouseDirectory(house)}/interior/${room}/pk${pk}.jpg`,
   
   comparison: (house: string, type: 'good' | 'better' | 'best', variant: 'exterior' | 'plan1' | 'plan2') => 
-    `/assets/skyline/${house}/comparison/${type}-${variant}.jpg`,
+    `/assets/skyline/${getActualHouseDirectory(house)}/comparison/${type}-${variant}.jpg`,
   
   tour360: (house: string, room: string) => ({
-    thumbnail: `/assets/skyline/${house}/360/${room}/thumbnail.jpg`,
-    preview: `/assets/skyline/${house}/360/${room}/preview.jpg`,
+    thumbnail: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/thumbnail.jpg`,
+    preview: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/preview.jpg`,
     tiles: {
-      front: `/assets/skyline/${house}/360/${room}/f.jpg`,
-      back: `/assets/skyline/${house}/360/${room}/b.jpg`,
-      up: `/assets/skyline/${house}/360/${room}/u.jpg`,
-      down: `/assets/skyline/${house}/360/${room}/d.jpg`,
-      left: `/assets/skyline/${house}/360/${room}/l.jpg`,
-      right: `/assets/skyline/${house}/360/${room}/r.jpg`
+      front: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/f.jpg`,
+      back: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/b.jpg`,
+      up: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/u.jpg`,
+      down: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/d.jpg`,
+      left: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/l.jpg`,
+      right: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/r.jpg`
     }
   }),
 

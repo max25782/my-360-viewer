@@ -130,23 +130,31 @@ export async function loadAssetConfig(): Promise<UniversalAssetData> {
  */
 function getActualHouseDirectory(houseId: string): string {
   const houseDirectoryMap: Record<string, string> = {
-    'walnut': 'Walnut',
-    'oak': 'Oak',
-    'tamarack': 'Tamarack',
-    'laurel': 'Laurel',
-    'pine': 'Pine',
-    'ponderosa': 'Ponderosa',
-    'juniper': 'Juniper',
-    'birch': 'Birch',
-    'cypress': 'Cypress',
-    'hemlock': 'Hemlock',
-    'spruce': 'Spruce',
-    'sage': 'Sage',
-    'sapling': 'Sapling'
+    'walnut': 'Walnut',      // ✅ Заглавная W в файловой системе
+    'oak': 'Oak',            // ✅ Заглавная O в файловой системе
+    'tamarack': 'tamarack',  // ✅ lowercase в файловой системе
+    'laurel': 'laurel',      // ✅ lowercase в файловой системе
+    'pine': 'pine',          // ✅ lowercase в файловой системе
+    'ponderosa': 'ponderosa', // ✅ lowercase в файловой системе
+    'juniper': 'juniper',    // ✅ lowercase в файловой системе
+    'birch': 'birch',        // ✅ lowercase в файловой системе
+    'cypress': 'cypress',    // ✅ lowercase в файловой системе
+    'hemlock': 'hemlock',    // ✅ lowercase в файловой системе
+    'spruce': 'spruce',      // ✅ lowercase в файловой системе
+    'sage': 'sage',          // ✅ lowercase в файловой системе
+    'sapling': 'sapling'     // ✅ lowercase в файловой системе
     // Add other case mappings as needed
   };
   
   const houseName = houseDirectoryMap[houseId.toLowerCase()] || houseId;
+  console.log(`🏠 House directory mapping: ${houseId} → ${houseName}`);
+  
+  // Убеждаемся, что не возвращаем путь с skyline
+  if (houseName.includes('skyline')) {
+    console.error('❌ SKYLINE IN HOUSE NAME:', houseName);
+    return houseName.replace(/.*skyline\//, '');
+  }
+  
   // Не добавляем skyline/ здесь, так как он уже есть в шаблонах путей
   return houseName;
 }
@@ -167,6 +175,16 @@ function replacePath(template: string, variables: Record<string, string | number
   
   // Добавляем логирование для отладки путей
   console.log(`Generated path: ${result} from template: ${template}`);
+  
+  // Проверяем на дублирование skyline и автоматически исправляем
+  if (result.includes('/skyline/skyline/')) {
+    console.error('❌ DOUBLE SKYLINE DETECTED:', result);
+    console.error('Template was:', template);
+    console.error('Variables were:', variables);
+    // Исправляем дублирование
+    result = result.replace('/skyline/skyline/', '/skyline/');
+    console.log('✅ Fixed path:', result);
+  }
   
   // Для Vercel убеждаемся, что путь начинается с /
   if (!result.startsWith('/')) {
