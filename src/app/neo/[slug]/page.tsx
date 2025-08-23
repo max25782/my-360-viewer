@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import HeroSection from '../../../components/HeroSection';
-import { getNeoHouseConfig, getNeoAssetPath } from '../../../utils/neoAssets';
+import { getServerNeoHouseConfig, getServerNeoAssetPath } from '../../../utils/serverNeoAssets';
 import { NeoHouse } from '../../../hooks/useNeoHouse';
 import NeoComparisonCallToAction from '../../../components/Neo/NeoComparisonCallToAction';
 
@@ -12,7 +12,7 @@ interface NeoHousePageProps {
 
 export async function generateMetadata({ params }: NeoHousePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const houseConfig = await getNeoHouseConfig(slug);
+  const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
     return {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: NeoHousePageProps): Promise<M
 
 export default async function NeoHousePage({ params }: NeoHousePageProps) {
   const { slug } = await params;
-  const houseConfig = await getNeoHouseConfig(slug);
+  const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
     notFound();
@@ -39,7 +39,7 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
   // Convert Neo house config to House interface for compatibility
   let heroPath: string;
   try {
-    heroPath = await getNeoAssetPath('hero', slug, { 
+    heroPath = await getServerNeoAssetPath('hero', slug, { 
       color: 'white', 
       format: 'jpg' 
     });

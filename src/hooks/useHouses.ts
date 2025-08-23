@@ -145,7 +145,11 @@ export function useHouses() {
 
 export function useHouse(houseId: string) {
   const { houses, loading, error } = useHouses();
-  const house = houses.find(h => h.id === houseId);
+  // Try exact match first, then case-insensitive match
+  let house = houses.find(h => h.id === houseId);
+  if (!house) {
+    house = houses.find(h => h.id.toLowerCase() === houseId.toLowerCase());
+  }
   
   return { 
     house: house || null, 
@@ -159,19 +163,32 @@ export function getHouse(houseId: string): Promise<House | null> {
   return new Promise(async (resolve) => {
     try {
       const config = await loadAssetConfig();
-      const houseConfig = config.houses[houseId];
+      
+      // Try exact match first
+      let houseConfig = config.houses[houseId];
+      let actualHouseId = houseId;
+      
+      // If no exact match, try case-insensitive search
+      if (!houseConfig) {
+        const houseKeys = Object.keys(config.houses);
+        const foundKey = houseKeys.find(key => key.toLowerCase() === houseId.toLowerCase());
+        if (foundKey) {
+          houseConfig = config.houses[foundKey];
+          actualHouseId = foundKey;
+        }
+      }
       
       if (!houseConfig) {
         resolve(null);
         return;
       }
       
-      const heroPath = await getAssetPath('hero', houseId, { format: 'webp' });
+      const heroPath = await getAssetPath('hero', actualHouseId, { format: 'webp' });
       
       const house: House = {
-        id: houseId,
+        id: actualHouseId, // Use the actual ID from config
         name: houseConfig.name,
-                      description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
+        description: houseConfig.description || `Modern ${houseConfig.name} design with ${houseConfig.availableRooms?.length || 0} rooms`,
         maxDP: houseConfig.maxDP,
         maxPK: houseConfig.maxPK,
         availableRooms: houseConfig.availableRooms,

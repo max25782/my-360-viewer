@@ -10,13 +10,17 @@ interface RouteParams {
 export async function GET(request: Request, { params }: RouteParams) {
   try {
     const resolvedParams = await params;
-    const house = await getHouse(resolvedParams.id);
+    const requestedId = resolvedParams.id;
+    
+    // Try to get house with exact ID first, then case-insensitive
+    let house = await getHouse(requestedId);
     
     if (!house) {
       return NextResponse.json(
         { 
           success: false, 
-          error: `House with id '${resolvedParams.id}' not found`,
+          error: `House with id '${requestedId}' not found`,
+          availableHouses: [], // Could add list of available houses here
           timestamp: new Date().toISOString()
         },
         { status: 404 }

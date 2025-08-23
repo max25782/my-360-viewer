@@ -1,9 +1,9 @@
 /**
- * NEO ASSET SYSTEM
- * Специализированная система для Neo ADU Series с поддержкой цветовых схем
+ * Серверная версия функций для работы с Neo домами
+ * Используется в API маршрутах и серверных компонентах
  */
 
-import { readFile } from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 
 interface NeoConfig {
@@ -52,25 +52,24 @@ interface NeoAssetData {
   neoHouses: Record<string, NeoHouseConfig>;
 }
 
-// Cache for loaded Neo config
-let neoAssetData: NeoAssetData | null = null;
+/**
+ * Функция для нормализации регистра Neo домов (серверная версия)
+ */
+function getServerNeoHouseDirectory(houseId: string): string {
+  // Делаем первую букву заглавной, остальные строчные
+  return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+}
 
 /**
- * Load Neo asset configuration from JSON
+ * Load Neo asset configuration from JSON (server-side only)
  */
-export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
-  if (neoAssetData) return neoAssetData;
-  
+export async function loadServerNeoAssetConfig(): Promise<NeoAssetData> {
   try {
-    // Client side - use fetch
-    const response = await fetch('/data/neo-assets.json');
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    neoAssetData = await response.json();
-    return neoAssetData!;
+    const filePath = path.join(process.cwd(), 'public', 'data', 'neo-assets.json');
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(fileContent);
   } catch (error) {
-    console.error('Failed to load Neo asset config:', error);
+    console.error('Failed to load server Neo asset config:', error);
     // Return minimal fallback config
     return {
       neoConfig: {
@@ -112,40 +111,9 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
 }
 
 /**
- * Map Neo house ID to actual directory name
+ * Get Neo asset path with color support (server-side only)
  */
-function getNeoHouseDirectory(houseId: string): string {
-  // Делаем первую букву заглавной, остальные строчные
-  return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
-}
-
-/**
- * Replace template variables in Neo path
- */
-function replaceNeoPath(template: string, variables: Record<string, string | number>): string {
-  let result = template;
-  Object.entries(variables).forEach(([key, value]) => {
-    if (key === 'houseId') {
-      result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), getNeoHouseDirectory(String(value)));
-    } else {
-      result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
-    }
-  });
-  
-  console.log(`Neo path generated: ${result} from template: ${template}`);
-  
-  // Ensure path starts with /
-  if (!result.startsWith('/')) {
-    result = '/' + result;
-  }
-  
-  return result;
-}
-
-/**
- * Get Neo asset path with color support
- */
-export async function getNeoAssetPath(
+export async function getServerNeoAssetPath(
   type: 'hero' | 'exterior' | 'interior' | 'tour360',
   houseId: string,
   options: {
@@ -158,14 +126,14 @@ export async function getNeoAssetPath(
     format?: 'jpg' | 'webp';
   }
 ): Promise<string> {
-  const config = await loadNeoAssetConfig();
+  const config = await loadServerNeoAssetConfig();
   const houseConfig = config.neoHouses[houseId];
   
   let template = '';
   // Удаляем префикс neo- если он есть
   const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
   // Нормализуем регистр имени дома
-  const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
+  const normalizedHouseId = getServerNeoHouseDirectory(cleanHouseId);
   const variables: Record<string, string | number> = { 
     houseId: normalizedHouseId,
     color: options.color,
@@ -223,13 +191,55 @@ export async function getNeoAssetPath(
       break;
   }
   
-  return replaceNeoPath(template, variables);
+  // Заменяем переменные в шаблоне
+  let path = template;
+  for (const [key, value] of Object.entries(variables)) {
+    path = path.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+  }
+  
+  console.log(`Server Neo path generated: ${path} from template: ${template}`);
+  
+  // Ensure path starts with /
+  if (!path.startsWith('/')) {
+    path = '/' + path;
+  }
+  
+  return path;
 }
 
 /**
- * Get all available Neo houses
+ * Get Neo house configuration by ID (server-side only)
  */
-export async function getNeoHouses(): Promise<Array<{
+export async function getServerNeoHouseConfig(houseId: string): Promise<NeoHouseConfig | null> {
+  const config = await loadServerNeoAssetConfig();
+  
+  console.log(`🔍 Server: Looking for Neo house with ID: ${houseId}`);
+  console.log(`🏠 Server: Available Neo houses: ${Object.keys(config.neoHouses).join(', ')}`);
+  
+  // Попробуем найти дом по точному ID
+  if (config.neoHouses[houseId]) {
+    console.log(`✅ Server: Found Neo house with exact ID: ${houseId}`);
+    return config.neoHouses[houseId];
+  }
+  
+  // Если не нашли, попробуем найти с учетом регистра
+  const normalizedId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+  console.log(`🔄 Server: Trying normalized ID: ${normalizedId}`);
+  
+  if (config.neoHouses[normalizedId]) {
+    console.log(`✅ Server: Found Neo house with normalized ID: ${normalizedId}`);
+    return config.neoHouses[normalizedId];
+  }
+  
+  // Если все равно не нашли, вернем null
+  console.log(`❌ Server: Neo house not found: ${houseId}`);
+  return null;
+}
+
+/**
+ * Get Neo houses (server-side only)
+ */
+export async function getServerNeoHouses(): Promise<Array<{
   id: string;
   name: string;
   description: string;
@@ -237,7 +247,7 @@ export async function getNeoHouses(): Promise<Array<{
   maxPK: number;
   availableRooms: string[];
 }>> {
-  const config = await loadNeoAssetConfig();
+  const config = await loadServerNeoAssetConfig();
   
   return Object.entries(config.neoHouses).map(([id, house]) => ({
     id,
@@ -250,99 +260,9 @@ export async function getNeoHouses(): Promise<Array<{
 }
 
 /**
- * Get Neo house configuration by ID
+ * Get Neo comparison path (server-side only)
  */
-export async function getNeoHouseConfig(houseId: string): Promise<NeoHouseConfig | null> {
-  const config = await loadNeoAssetConfig();
-  
-  console.log(`🔍 Looking for Neo house with ID: ${houseId}`);
-  console.log(`🏠 Available Neo houses: ${Object.keys(config.neoHouses).join(', ')}`);
-  
-  // Попробуем найти дом по точному ID
-  if (config.neoHouses[houseId]) {
-    console.log(`✅ Found Neo house with exact ID: ${houseId}`);
-    return config.neoHouses[houseId];
-  }
-  
-  // Если не нашли, попробуем найти с учетом регистра
-  const normalizedId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
-  console.log(`🔄 Trying normalized ID: ${normalizedId}`);
-  
-  if (config.neoHouses[normalizedId]) {
-    console.log(`✅ Found Neo house with normalized ID: ${normalizedId}`);
-    return config.neoHouses[normalizedId];
-  }
-  
-  // Если все равно не нашли, вернем null
-  console.log(`❌ Neo house not found: ${houseId}`);
-  return null;
-}
-
-/**
- * Get Neo markers for navigation
- */
-export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', room: string): Promise<Array<{
-  to: string;
-  yaw: number;
-  pitch: number;
-  label: string;
-}>> {
-  try {
-    let markersData;
-    
-    // Client side - use fetch
-    const response = await fetch('/data/neo-markers.json');
-    if (!response.ok) {
-      return [];
-    }
-    markersData = await response.json();
-    
-    const houseMarkers = markersData[houseId];
-    
-    if (!houseMarkers || !houseMarkers[color] || !houseMarkers[color][room]) {
-      return [];
-    }
-    
-    return houseMarkers[color][room].markers || [];
-  } catch (error) {
-    console.error('Failed to load Neo markers:', error);
-    return [];
-  }
-}
-
-/**
- * Get Neo texture thumbnails
- */
-export async function getNeoTextures(): Promise<Array<{
-  id: 'white' | 'dark';
-  name: string;
-  thumbnail: string;
-}>> {
-  const config = await loadNeoAssetConfig();
-  
-  return [
-    {
-      id: 'white',
-      name: 'White Scheme',
-      thumbnail: config.neoConfig.pathTemplates.textures.white
-    },
-    {
-      id: 'dark', 
-      name: 'Dark Scheme',
-      thumbnail: config.neoConfig.pathTemplates.textures.dark
-    }
-  ];
-}
-
-/**
- * Clear Neo asset cache
- */
-export function clearNeoAssetCache(): void {
-  neoAssetData = null;
-  console.log('Neo asset cache cleared');
-}
-
-export function getNeoComparisonPath(
+export function getServerNeoComparisonPath(
   houseSlug: string, 
   type: 'good' | 'better' | 'best', 
   variant: 'exterior' | 'plan1' | 'plan2' | 'plan3'= 'exterior'
@@ -350,9 +270,9 @@ export function getNeoComparisonPath(
   // Удаляем префикс neo- если он есть
   const cleanHouseId = houseSlug.startsWith('neo-') ? houseSlug.substring(4) : houseSlug;
   // Нормализуем регистр имени дома
-  const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
+  const normalizedHouseId = getServerNeoHouseDirectory(cleanHouseId);
   // Используем точное расположение файлов
   const path = `/assets/neo/${normalizedHouseId}/comparison/${type}-${variant}.jpg`;
-  console.log(`Generating Neo comparison path: ${path}`);
+  console.log(`Generating Server Neo comparison path: ${path}`);
   return path;
 }

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getNeoHouses, getNeoAssetPath } from '../../utils/neoAssets';
+import { getServerNeoHouses, getServerNeoAssetPath } from '../../utils/serverNeoAssets';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import { House } from '../../hooks/useHouses';
@@ -23,7 +23,7 @@ interface NeoHouse {
 
 // Функция для конвертации Neo house в формат Legacy House для HeroSection
 async function convertNeoToLegacyHouse(neoHouse: NeoHouse): Promise<House> {
-  const heroPath = await getNeoAssetPath('hero', neoHouse.id, { 
+  const heroPath = await getServerNeoAssetPath('hero', neoHouse.id, { 
     color: 'white', 
     format: 'jpg' 
   });
@@ -52,7 +52,7 @@ export default async function NeoCollectionPage() {
   let heroHouse: House | null = null;
   
   try {
-    neoHouses = await getNeoHouses();
+    neoHouses = await getServerNeoHouses();
     if (neoHouses.length > 0) {
       heroHouse = await convertNeoToLegacyHouse(neoHouses[0]);
     }

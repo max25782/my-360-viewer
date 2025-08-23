@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getNeoHouseConfig } from '../../../../utils/neoAssets';
+import { getServerNeoHouseConfig } from '../../../../utils/serverNeoAssets';
 import JsonGoodBetterBestComparison from '../../../../components/JsonGoodBetterBestComparison';
 import Header from '@/components/Header';
 
@@ -10,7 +10,7 @@ interface NeoComparisonPageProps {
 
 export async function generateMetadata({ params }: NeoComparisonPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const houseConfig = await getNeoHouseConfig(slug);
+  const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
     return {
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: NeoComparisonPageProps): Prom
 
 export default async function NeoComparisonPage({ params }: NeoComparisonPageProps) {
   const { slug } = await params;
-  const houseConfig = await getNeoHouseConfig(slug);
+  const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
     notFound();

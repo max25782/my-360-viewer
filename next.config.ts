@@ -61,6 +61,18 @@ const nextConfig: NextConfig = {
       return [
         { source: '/360', destination: '/view-360', permanent: false },
         { source: '/veiw-360', destination: '/view-360', permanent: true },
+        
+        // Case-insensitive redirects for house names
+        { source: '/houses/apex', destination: '/houses/Apex', permanent: true },
+        { source: '/houses/walnut', destination: '/houses/Walnut', permanent: true },
+        { source: '/houses/APEX', destination: '/houses/Apex', permanent: true },
+        { source: '/houses/WALNUT', destination: '/houses/Walnut', permanent: true },
+        
+        // Tour redirects
+        { source: '/houses/apex/tour', destination: '/houses/Apex/tour', permanent: true },
+        { source: '/houses/walnut/tour', destination: '/houses/Walnut/tour', permanent: true },
+        { source: '/houses/apex/comparison', destination: '/houses/Apex/comparison', permanent: true },
+        { source: '/houses/walnut/comparison', destination: '/houses/Walnut/comparison', permanent: true },
       ];
     },
   }),
