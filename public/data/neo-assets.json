@@ -20,7 +20,7 @@
       },
       "textures": {
         "white": "/assets/neo/texrure/thumb-white.jpg",
-        "black": "/assets/neo/texrure/thumb-black.jpg"
+        "dark": "/assets/neo/texrure/thumb-dark.jpg"
       }
     },
     "colors": ["white", "dark"],
@@ -46,7 +46,7 @@
           "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
         },
         "dark": {
-          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "bedroom_dark", "bedroom2_dark", "bathroom_dark", "bathroom_dark2", "wik_dark"]
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "badroom_dark", "badroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
         }
       },
       "comparison": {
