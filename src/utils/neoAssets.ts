@@ -127,8 +127,8 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
  * Map Neo house ID to actual directory name
  */
 function getNeoHouseDirectory(houseId: string): string {
-  // Neo houses use proper case (Apex, Vertex, etc.)
-  return houseId.charAt(0).toUpperCase() + houseId.slice(1);
+  // Делаем первую букву заглавной, остальные строчные
+  return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
 }
 
 /**
