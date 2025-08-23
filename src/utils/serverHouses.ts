@@ -135,6 +135,12 @@ async function getServerAssetPath(
   return path;
 }
 
+// Функция для нормализации регистра Neo домов (серверная версия)
+function getServerNeoHouseDirectory(houseId: string): string {
+  // Делаем первую букву заглавной, остальные строчные
+  return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+}
+
 // Server-side версия getNeoAssetPath  
 async function getServerNeoAssetPath(
   type: 'hero',
@@ -147,8 +153,12 @@ async function getServerNeoAssetPath(
   const neoConfig = await loadServerNeoAssetConfig();
   
   let template = '';
+  // Удаляем префикс neo- если он есть
+  const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+  // Нормализуем регистр имени дома
+  const normalizedHouseId = getServerNeoHouseDirectory(cleanHouseId);
   const variables: Record<string, string | number> = { 
-    houseId,
+    houseId: normalizedHouseId,
     color: options.color,
     format: options.format || 'jpg'
   };

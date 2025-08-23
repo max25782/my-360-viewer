@@ -174,8 +174,12 @@ export async function getNeoAssetPath(
   const houseConfig = config.neoHouses[houseId];
   
   let template = '';
+  // Удаляем префикс neo- если он есть
+  const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+  // Нормализуем регистр имени дома
+  const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
   const variables: Record<string, string | number> = { 
-    houseId,
+    houseId: normalizedHouseId,
     color: options.color,
     format: options.format || 'jpg'
   };
@@ -345,8 +349,12 @@ export function getNeoComparisonPath(
   type: 'good' | 'better' | 'best', 
   variant: 'exterior' | 'plan1' | 'plan2' | 'plan3'= 'exterior'
 ): string {
+  // Удаляем префикс neo- если он есть
+  const cleanHouseId = houseSlug.startsWith('neo-') ? houseSlug.substring(4) : houseSlug;
+  // Нормализуем регистр имени дома
+  const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
   // Используем точное расположение файлов
-  const path = `/assets/neo/${houseSlug}/comparison/${type}-${variant}.jpg`;
+  const path = `/assets/neo/${normalizedHouseId}/comparison/${type}-${variant}.jpg`;
   console.log(`Generating Neo comparison path: ${path}`);
   return path;
 }
