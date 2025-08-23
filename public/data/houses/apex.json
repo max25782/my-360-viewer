@@ -1,482 +1,135 @@
 {
-  "id": "apex",
+  "id": "Apex",
   "name": "The Apex",
   "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
-  "category": "B",
-  "bedrooms": 2,
-  "bathrooms": 2,
-  "sqft": 1500,
-  "hero": "/assets/neo/Apex/hero.jpg",
-  "gallery": [
-    "/assets/neo/Apex/example/light.jpg",
-    "/assets/neo/Apex/example/dark.jpg"
-  ],
-  "tour360": {
-    "enabled": true,
-    "panoramas": [
-      {
-        "id": "apex-living-white",
-        "room": "living_white",
-        "title": "Living Room - White",
-        "thumbnail": "/assets/neo/Apex/360/white/living_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/living_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/living_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/living_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/living_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/living_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/living_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-kitchen-white",
-        "room": "kitchen_white",
-        "title": "Kitchen - White",
-        "thumbnail": "/assets/neo/Apex/360/white/kitchen_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/kitchen_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/kitchen_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/kitchen_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/kitchen_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/kitchen_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/kitchen_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-badroom-white",
-        "room": "badroom_white",
-        "title": "Bedroom 1 - White",
-        "thumbnail": "/assets/neo/Apex/360/white/badroom_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/badroom_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/badroom_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/badroom_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/badroom_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/badroom_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/badroom_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-badroom2-white",
-        "room": "badroom_white2",
-        "title": "Bedroom 2 - White",
-        "thumbnail": "/assets/neo/Apex/360/white/badroom_white2/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/badroom_white2/f.jpg",
-          "back": "/assets/neo/Apex/360/white/badroom_white2/b.jpg",
-          "left": "/assets/neo/Apex/360/white/badroom_white2/l.jpg",
-          "right": "/assets/neo/Apex/360/white/badroom_white2/r.jpg",
-          "up": "/assets/neo/Apex/360/white/badroom_white2/u.jpg",
-          "down": "/assets/neo/Apex/360/white/badroom_white2/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-bathroom-white",
-        "room": "bathroom_white",
-        "title": "Bathroom 1 - White",
-        "thumbnail": "/assets/neo/Apex/360/white/bathroom_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/bathroom_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/bathroom_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/bathroom_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/bathroom_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/bathroom_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/bathroom_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-bathroom2-white",
-        "room": "bathroom_white2",
-        "title": "Bathroom 2 - White",
-        "thumbnail": "/assets/neo/Apex/360/white/bathroom_white2/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/bathroom_white2/f.jpg",
-          "back": "/assets/neo/Apex/360/white/bathroom_white2/b.jpg",
-          "left": "/assets/neo/Apex/360/white/bathroom_white2/l.jpg",
-          "right": "/assets/neo/Apex/360/white/bathroom_white2/r.jpg",
-          "up": "/assets/neo/Apex/360/white/bathroom_white2/u.jpg",
-          "down": "/assets/neo/Apex/360/white/bathroom_white2/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-entry-white",
-        "room": "entry_white",
-        "title": "Entry - White",
-        "thumbnail": "/assets/neo/Apex/360/white/entry_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/entry_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/entry_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/entry_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/entry_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/entry_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/entry_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-hall-white",
-        "room": "hall_white",
-        "title": "Hallway - White",
-        "thumbnail": "/assets/neo/Apex/360/white/hall_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/hall_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/hall_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/hall_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/hall_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/hall_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/hall_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-wik-white",
-        "room": "wik_white",
-        "title": "Walk-in Closet - White",
-        "thumbnail": "/assets/neo/Apex/360/white/wik_white/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/white/wik_white/f.jpg",
-          "back": "/assets/neo/Apex/360/white/wik_white/b.jpg",
-          "left": "/assets/neo/Apex/360/white/wik_white/l.jpg",
-          "right": "/assets/neo/Apex/360/white/wik_white/r.jpg",
-          "up": "/assets/neo/Apex/360/white/wik_white/u.jpg",
-          "down": "/assets/neo/Apex/360/white/wik_white/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-living-dark",
-        "room": "living_dark",
-        "title": "Living Room - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/living_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/living_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/living_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/living_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/living_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/living_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/living_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-kitchen-dark",
-        "room": "kitchen_dark",
-        "title": "Kitchen - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/kitchen_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/kitchen_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/kitchen_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/kitchen_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/kitchen_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/kitchen_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/kitchen_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-bedroom-dark",
-        "room": "bedroom_dark",
-        "title": "Bedroom 1 - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/bedroom_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/bedroom_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/bedroom_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/bedroom_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/bedroom_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/bedroom_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/bedroom_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-bedroom2-dark",
-        "room": "bedroom2_dark",
-        "title": "Bedroom 2 - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/bedroom2_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/bedroom2_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/bedroom2_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/bedroom2_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/bedroom2_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/bedroom2_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/bedroom2_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-bathroom-dark",
-        "room": "bathroom_dark",
-        "title": "Bathroom 1 - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/bathroom_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/bathroom_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/bathroom_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/bathroom_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/bathroom_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/bathroom_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/bathroom_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-bathroom2-dark",
-        "room": "bathroom_dark2",
-        "title": "Bathroom 2 - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/bathroom_dark2/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/bathroom_dark2/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/bathroom_dark2/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/bathroom_dark2/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/bathroom_dark2/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/bathroom_dark2/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/bathroom_dark2/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-entry-dark",
-        "room": "entry_dark",
-        "title": "Entry - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/entry_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/entry_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/entry_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/entry_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/entry_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/entry_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/entry_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-hall-dark",
-        "room": "hall_dark",
-        "title": "Hallway - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/hall_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/hall_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/hall_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/hall_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/hall_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/hall_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/hall_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      },
-      {
-        "id": "apex-wik-dark",
-        "room": "wik_dark",
-        "title": "Walk-in Closet - Dark",
-        "thumbnail": "/assets/neo/Apex/360/dark/wik_dark/thumbnail.jpg",
-        "preview": "/assets/neo/Apex/360/hero-preview-dark.jpg",
-        "tiles": {
-          "front": "/assets/neo/Apex/360/dark/wik_dark/f.jpg",
-          "back": "/assets/neo/Apex/360/dark/wik_dark/b.jpg",
-          "left": "/assets/neo/Apex/360/dark/wik_dark/l.jpg",
-          "right": "/assets/neo/Apex/360/dark/wik_dark/r.jpg",
-          "up": "/assets/neo/Apex/360/dark/wik_dark/u.jpg",
-          "down": "/assets/neo/Apex/360/dark/wik_dark/d.jpg"
-        },
-        "defaultView": {
-          "yaw": 0,
-          "pitch": 0,
-          "zoom": 50
-        },
-        "markers": []
-      }
-    ],
-    "defaultPanoramaId": "apex-living-white"
-  },
+  "category": "A",
+  "bedrooms": 1,
+  "bathrooms": 1,
+  "sqft": 1600,
+  "hero": "assets/skyline/Apex/hero.webp",
+  "gallery": [],
   "designPackages": [
     {
-      "id": "heritage",
-      "name": "Heritage Package",
-      "description": "Essential finishes with Neo dual color options",
-      "thumbnail": "/assets/neo/Apex/interior/living/pk1.jpg",
+      "id": "package-1",
+      "name": "Design Package 1",
+      "description": "Premium design option 1",
+      "thumbnail": "assets/Apex/exterior/dp1.webp",
       "images": {
         "exterior": [
-          "/assets/neo/Apex/exterior/white/dp1.jpg",
-          "/assets/neo/Apex/exterior/black/dp1.jpg"
+          "assets/Apex/exterior/dp1.webp"
         ],
         "interior": {
-          "living": ["/assets/neo/Apex/interior/living/pk1.jpg"],
-          "kitchen": ["/assets/neo/Apex/interior/kitchen/pk1.jpg"],
-          "bedroom": ["/assets/neo/Apex/interior/bedroom/pk1.jpg"],
-          "bathroom": ["/assets/neo/Apex/interior/bathroom/pk1.jpg"]
+          "living": [
+            "assets/Apex/interior/living/pk1.webp"
+          ],
+          "kitchen": [
+            "assets/Apex/interior/kitchen/pk1.webp"
+          ],
+          "bedroom": [
+            "assets/Apex/interior/bedroom/pk1.webp"
+          ],
+          "bathroom": [
+            "assets/Apex/interior/bathroom/pk1.webp"
+          ],
+          "entry": [
+            "assets/Apex/interior/entry/pk1.webp"
+          ],
+          "hall": [
+            "assets/Apex/interior/hall/pk1.webp"
+          ],
+          "wik": [
+            "assets/Apex/interior/wik/pk1.webp"
+          ]
         }
       },
       "features": [
-        "Dual color scheme options",
-        "Standard fixtures",
-        "Essential appliances",
-        "Basic finishes"
+        "Feature 1A",
+        "Feature 1B"
       ],
       "priceModifier": 0
     },
     {
-      "id": "haven",
-      "name": "Haven Package", 
-      "description": "Enhanced comfort with premium dual-color finishes",
-      "thumbnail": "/assets/neo/Apex/interior/living/pk2.jpg",
+      "id": "package-2",
+      "name": "Design Package 2",
+      "description": "Premium design option 2",
+      "thumbnail": "assets/Apex/exterior/dp2.webp",
       "images": {
         "exterior": [
-          "/assets/neo/Apex/exterior/white/dp2.jpg",
-          "/assets/neo/Apex/exterior/black/dp2.jpg"
+          "assets/Apex/exterior/dp2.webp"
         ],
         "interior": {
-          "living": ["/assets/neo/Apex/interior/living/pk2.jpg"],
-          "kitchen": ["/assets/neo/Apex/interior/kitchen/pk2.jpg"],
-          "bedroom": ["/assets/neo/Apex/interior/bedroom/pk2.jpg"],
-          "bathroom": ["/assets/neo/Apex/interior/bathroom/pk2.jpg"]
+          "living": [
+            "assets/Apex/interior/living/pk2.webp"
+          ],
+          "kitchen": [
+            "assets/Apex/interior/kitchen/pk2.webp"
+          ],
+          "bedroom": [
+            "assets/Apex/interior/bedroom/pk2.webp"
+          ],
+          "bathroom": [
+            "assets/Apex/interior/bathroom/pk2.webp"
+          ],
+          "entry": [
+            "assets/Apex/interior/entry/pk2.webp"
+          ],
+          "hall": [
+            "assets/Apex/interior/hall/pk2.webp"
+          ],
+          "wik": [
+            "assets/Apex/interior/wik/pk2.webp"
+          ]
         }
       },
       "features": [
-        "Premium dual color schemes",
-        "Upgraded fixtures",
-        "Enhanced appliances",
-        "Quality finishes",
-        "Smart home features"
+        "Feature 2A",
+        "Feature 2B"
       ],
-      "priceModifier": 15000
+      "priceModifier": 5000
     },
     {
-      "id": "luxe",
-      "name": "Luxe Package",
-      "description": "Premium experience with top-tier dual-color options",
-      "thumbnail": "/assets/neo/Apex/interior/wik/pk1.jpg",
+      "id": "package-3",
+      "name": "Design Package 3",
+      "description": "Premium design option 3",
+      "thumbnail": "assets/Apex/exterior/dp3.webp",
       "images": {
         "exterior": [
-          "/assets/neo/Apex/exterior/white/dp3.jpg",
-          "/assets/neo/Apex/exterior/black/dp3.jpg"
+          "assets/Apex/exterior/dp3.webp"
         ],
         "interior": {
-          "living": ["/assets/neo/Apex/interior/wik/pk1.jpg"],
-          "kitchen": ["/assets/neo/Apex/interior/wik/pk2.jpg"],
-          "bedroom": ["/assets/neo/Apex/interior/bedroom/pk2.jpg"],
-          "bathroom": ["/assets/neo/Apex/interior/bathroom/pk2.jpg"]
+          "living": [
+            "assets/Apex/interior/living/pk3.webp"
+          ],
+          "kitchen": [
+            "assets/Apex/interior/kitchen/pk3.webp"
+          ],
+          "bedroom": [
+            "assets/Apex/interior/bedroom/pk3.webp"
+          ],
+          "bathroom": [
+            "assets/Apex/interior/bathroom/pk3.webp"
+          ],
+          "entry": [
+            "assets/Apex/interior/entry/pk3.webp"
+          ],
+          "hall": [
+            "assets/Apex/interior/hall/pk3.webp"
+          ],
+          "wik": [
+            "assets/Apex/interior/wik/pk3.webp"
+          ]
         }
       },
       "features": [
-        "Luxury dual color schemes",
-        "Premium fixtures",
-        "High-end appliances",
-        "Designer finishes",
-        "Advanced smart home",
-        "Custom lighting"
+        "Feature 3A",
+        "Feature 3B"
       ],
-      "priceModifier": 35000
+      "priceModifier": 10000
     }
   ],
-  "defaultDesignPackageId": "heritage",
+  "defaultDesignPackageId": "package-1",
   "comparison": {
+    "enabled": true,
     "features": {
       "Overall Dimensions": {
         "good": "48'x28'",
@@ -581,6 +234,8 @@
     }
   },
   "relatedIds": [],
-  "tags": ["neo", "modern", "dual-color", "smart-home"],
-  "lastUpdated": "2024-01-15T00:00:00.000Z"
+  "tags": [
+    "compact"
+  ],
+  "lastUpdated": "2025-08-23T08:15:24.610Z"
 }

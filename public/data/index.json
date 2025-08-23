@@ -3,7 +3,7 @@
     {
       "id": "A",
       "title": "Skyline ADU Collection",
-      "count": 13,
+      "count": 14,
       "description": "Compact and efficient ADU designs (1-2 bedrooms)"
     },
     {
@@ -17,8 +17,26 @@
       "title": "Premium Collection",
       "count": 0,
       "description": "Luxury ADU designs with premium finishes (3+ bedrooms)"
+    },
+    {
+      "id": "skyline",
+      "title": "Skyline Collection",
+      "count": 0,
+      "description": "Traditional collection featuring a variety of house designs with beautiful skyline views."
+    },
+    {
+      "id": "neo",
+      "title": "Neo ADU Series",
+      "count": 0,
+      "description": "Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors."
+    },
+    {
+      "id": "modern",
+      "title": "Modern Collection",
+      "count": 0,
+      "description": "Contemporary and innovative architectural designs with cutting-edge features and smart home technology."
     }
   ],
-  "totalHouses": 13,
-  "lastUpdated": "2025-08-22T13:16:17.621Z"
+  "totalHouses": 14,
+  "lastUpdated": "2025-08-23T08:15:24.646Z"
 }

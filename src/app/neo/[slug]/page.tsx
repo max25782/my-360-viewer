@@ -7,7 +7,7 @@ import NeoComparisonCallToAction from '../../../components/Neo/NeoComparisonCall
 
 
 interface NeoHousePageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: NeoHousePageProps): Promise<Metadata> {
@@ -60,7 +60,7 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
       exampleDark: `/assets/neo/${slug}/example/dark.jpg`,
       exampleWhite: `/assets/neo/${slug}/example/light.jpg`,
       whiteTexture: '/assets/neo/texrure/thumb-white.jpg',
-      blackTexture: '/assets/neo/texrure/thumb-black.jpg'
+      darkTexture: '/assets/neo/texrure/thumb-dark.jpg'
     },
     tour360: houseConfig.tour360,
     comparison: houseConfig.comparison
@@ -82,7 +82,7 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
     tour360: {
       rooms: [
         ...(house.tour360.white?.rooms || []),
-        ...(house.tour360.black?.rooms || [])
+        ...(house.tour360.dark?.rooms || [])
       ],
       availableFiles: {}
     }

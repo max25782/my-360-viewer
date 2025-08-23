@@ -15,11 +15,11 @@ export interface NeoHouse {
     exampleDark?: string;
     exampleWhite?: string;
     whiteTexture: string;
-    blackTexture: string;
+    darkTexture: string;
   };
   tour360: {
     white: { rooms: string[] };
-    black: { rooms: string[] };
+    dark: { rooms: string[] };
   };
   comparison?: {
     features: Record<string, {
@@ -65,7 +65,7 @@ export function useNeoHouse(houseId: string) {
           images: {
             hero: heroPath,
             whiteTexture: '/assets/neo/texrure/thumb-white.jpg',
-            blackTexture: '/assets/neo/texrure/thumb-black.jpg'
+            darkTexture: '/assets/neo/texrure/thumb-dark.jpg'
           },
           tour360: houseConfig.tour360,
           comparison: houseConfig.comparison
@@ -120,7 +120,7 @@ export function useNeoHouses() {
             images: {
               hero: heroPath,
               whiteTexture: '/assets/neo/texrure/thumb-white.jpg',
-              blackTexture: '/assets/neo/texrure/thumb-black.jpg'
+              darkTexture: '/assets/neo/texrure/thumb-dark.jpg'
             },
             tour360: apexHouse.tour360,
             comparison: apexHouse.comparison

@@ -20,7 +20,7 @@ export default function NeoTourPage() {
     setShowColorSelector(true);
   }, [slug]);
 
-  const handleColorSelected = (color: 'white' | 'black') => {
+  const handleColorSelected = (color: 'white' | 'dark') => {
     setSelectedColor(color);
     setShowColorSelector(false);
   };

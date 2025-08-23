@@ -18,7 +18,7 @@ interface NeoConfig {
     };
     textures: {
       white: string;
-      black: string;
+      dark: string;
     };
   };
   colors: string[];
@@ -36,7 +36,7 @@ interface NeoHouseConfig {
   availableRooms: string[];
   tour360: {
     white: { rooms: string[] };
-    black: { rooms: string[] };
+    dark: { rooms: string[] };
   };
   comparison?: {
     features: Record<string, {
@@ -104,7 +104,7 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
           },
           textures: {
             white: '/assets/neo/texrure/thumb-white.jpg',
-            black: '/assets/neo/texrure/thumb-black.jpg'
+            dark: '/assets/neo/texrure/thumb-dark.jpg'
           }
         },
         colors: ['white', 'dark'],
@@ -312,7 +312,7 @@ export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', ro
  * Get Neo texture thumbnails
  */
 export async function getNeoTextures(): Promise<Array<{
-  id: 'white' | 'black';
+  id: 'white' | 'dark';
   name: string;
   thumbnail: string;
 }>> {
@@ -325,9 +325,9 @@ export async function getNeoTextures(): Promise<Array<{
       thumbnail: config.neoConfig.pathTemplates.textures.white
     },
     {
-      id: 'black', 
-      name: 'Black Scheme',
-      thumbnail: config.neoConfig.pathTemplates.textures.black
+      id: 'dark', 
+      name: 'Dark Scheme',
+      thumbnail: config.neoConfig.pathTemplates.textures.dark
     }
   ];
 }

@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import type { HouseCard, HouseCategory } from '../types/houses';
+import type { ServerHouse } from '../utils/serverHouses';
 import { dataUrl, safeFetch } from '../utils/paths';
 
 interface UseHousesByCategoryResult {
@@ -55,7 +56,7 @@ export function useHousesByCategory(categoryId: HouseCategory): UseHousesByCateg
         // Извлекаем дома из категории и конвертируем их в HouseCard формат
         const housesData = category.houses || [];
         console.log('🏠 Houses to process:', housesData.length);
-        const houseCards: HouseCard[] = housesData.map(house => {
+        const houseCards: HouseCard[] = housesData.map((house: ServerHouse) => {
           // Извлекаем количество спален из availableRooms (подсчитываем bedroom*)
           const bedrooms = house.availableRooms?.filter(room => 
             room.toLowerCase().includes('bedroom') || room.toLowerCase().includes('badroom')

@@ -69,6 +69,24 @@ const CATEGORY_CONFIG: Record<HouseCategory, CategoryMetadata> = {
     title: 'Premium Collection',
     count: 0,
     description: 'Luxury ADU designs with premium finishes (3+ bedrooms)'
+  },
+  skyline: {
+    id: 'skyline',
+    title: 'Skyline Collection',
+    count: 0,
+    description: 'Traditional collection featuring a variety of house designs with beautiful skyline views.'
+  },
+  neo: {
+    id: 'neo',
+    title: 'Neo ADU Series',
+    count: 0,
+    description: 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.'
+  },
+  modern: {
+    id: 'modern',
+    title: 'Modern Collection',
+    count: 0,
+    description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
   }
 };
 
@@ -215,8 +233,8 @@ async function splitHouses(): Promise<void> {
   console.log(`📊 Найдено домов: ${houseIds.length}`);
   
   // Счетчики категорий
-  const categoryCounts: Record<HouseCategory, number> = { A: 0, B: 0, C: 0 };
-  const categoryCards: Record<HouseCategory, HouseCard[]> = { A: [], B: [], C: [] };
+  const categoryCounts: Record<HouseCategory, number> = { A: 0, B: 0, C: 0, skyline: 0, neo: 0, modern: 0 };
+  const categoryCards: Record<HouseCategory, HouseCard[]> = { A: [], B: [], C: [], skyline: [], neo: [], modern: [] };
   
   // Обработка каждого дома
   for (const houseId of houseIds) {
@@ -233,6 +251,7 @@ async function splitHouses(): Promise<void> {
       name: house.name || `House ${houseId}`,
       description: house.description || '',
       category,
+      image: `assets/skyline/${houseId}/hero.webp`, // hero image
       thumbnail: `assets/skyline/${houseId}/hero.webp`,
       bedrooms: stats.bedrooms,
       bathrooms: stats.bathrooms,

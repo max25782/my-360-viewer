@@ -5,7 +5,7 @@ import JsonGoodBetterBestComparison from '../../../../components/JsonGoodBetterB
 import Header from '@/components/Header';
 
 interface NeoComparisonPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: NeoComparisonPageProps): Promise<Metadata> {
@@ -50,7 +50,7 @@ export default async function NeoComparisonPage({ params }: NeoComparisonPagePro
     tour360: {
       rooms: [
         ...(houseConfig.tour360.white?.rooms || []),
-        ...(houseConfig.tour360.black?.rooms || [])
+        ...(houseConfig.tour360.dark?.rooms || [])
       ],
       availableFiles: {}
     },

@@ -6,14 +6,28 @@
 // Не импортируем getAssetPath, используем server-side версию
 import fs from 'fs';
 import path from 'path';
+import type { HouseDetails } from '../types/houses';
+
+interface HouseConfig {
+  name: string;
+  description?: string;
+  maxDP?: number;
+  maxPK?: number;
+  availableRooms?: string[];
+  tour360?: any;
+  comparison?: any;
+  specialPaths?: Record<string, string>;
+  fallbacks?: Record<string, string>;
+  category?: string;
+}
 
 export interface ServerHouse {
   id: string;
   name: string;
   description?: string;
-  maxDP: number;
-  maxPK: number;
-  availableRooms: string[];
+  maxDP?: number;
+  maxPK?: number;
+  availableRooms?: string[];
   images: {
     hero: string;
     gallery?: string[];
@@ -165,7 +179,7 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
     console.log('🔍 First Neo house keys:', Object.keys(Object.values(neoConfig.neoHouses)[0] || {}));
     
     // Добавляем Skyline дома
-    for (const [houseId, houseConfig] of Object.entries(config.houses)) {
+    for (const [houseId, houseConfig] of Object.entries(config.houses as Record<string, HouseConfig>)) {
       const heroPath = await getServerAssetPath('hero', houseId, { format: 'webp' });
       
       const house: ServerHouse = {
@@ -190,7 +204,7 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
     }
     
     // Добавляем Neo дома
-    for (const [houseId, houseConfig] of Object.entries(neoConfig.neoHouses)) {
+    for (const [houseId, houseConfig] of Object.entries(neoConfig.neoHouses as Record<string, HouseConfig>)) {
       const heroPath = await getServerNeoAssetPath('hero', houseId, { 
         color: 'white', 
         format: 'jpg' 
