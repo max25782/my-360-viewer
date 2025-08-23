@@ -90,7 +90,7 @@ export default async function NeoCollectionPage() {
               {neoHouses.map((house) => (
                 <Link 
                   key={house.id}
-                  href={`/neo/${house.id}`}
+                  href={`/neo/${house.id.charAt(0).toUpperCase() + house.id.slice(1)}`}
                   className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                 >
                   <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">

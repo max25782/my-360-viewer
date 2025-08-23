@@ -266,7 +266,28 @@ export async function getNeoHouses(): Promise<Array<{
  */
 export async function getNeoHouseConfig(houseId: string): Promise<NeoHouseConfig | null> {
   const config = await loadNeoAssetConfig();
-  return config.neoHouses[houseId] || null;
+  
+  console.log(`🔍 Looking for Neo house with ID: ${houseId}`);
+  console.log(`🏠 Available Neo houses: ${Object.keys(config.neoHouses).join(', ')}`);
+  
+  // Попробуем найти дом по точному ID
+  if (config.neoHouses[houseId]) {
+    console.log(`✅ Found Neo house with exact ID: ${houseId}`);
+    return config.neoHouses[houseId];
+  }
+  
+  // Если не нашли, попробуем найти с учетом регистра
+  const normalizedId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+  console.log(`🔄 Trying normalized ID: ${normalizedId}`);
+  
+  if (config.neoHouses[normalizedId]) {
+    console.log(`✅ Found Neo house with normalized ID: ${normalizedId}`);
+    return config.neoHouses[normalizedId];
+  }
+  
+  // Если все равно не нашли, вернем null
+  console.log(`❌ Neo house not found: ${houseId}`);
+  return null;
 }
 
 /**
