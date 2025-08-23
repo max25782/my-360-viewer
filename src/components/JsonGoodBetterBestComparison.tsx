@@ -10,6 +10,7 @@ import { House } from '../hooks/useHouses';
 import { assetPaths } from '../utils/assetPaths';
 import { getComparisonFeatures } from '../utils/universalAssets';
 import SimpleImageModal from './SimpleImageModal';
+import { getNeoComparisonPath } from '../utils/neoAssets';
 
 
 interface JsonGoodBetterBestComparisonProps {
@@ -45,18 +46,53 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     loadFeatures();
   }, [house.id]);
 
-  // Universal image paths using standardized structure
+  const renderImageWithErrorHandling = (src: string, alt: string) => {
+    const [isError, setIsError] = useState(false);
+
+    const handleError = () => {
+      console.error(`Failed to load image: ${src}`);
+      setIsError(true);
+    };
+
+    if (isError) {
+      return (
+        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+          Image Not Available
+        </div>
+      );
+    }
+
+    return (
+      <SimpleImageModal 
+        src={src} 
+        alt={alt} 
+        className="w-full h-full object-cover"
+        width={300}
+        height={200}
+        onError={handleError}
+      />
+    );
+  };
+
   const getImagePaths = () => {
     // Используем WebP формат для современных браузеров
     const format = 'webp'; // Можно сделать динамическим определением поддержки WebP
     
     // Функция для создания пути с поддержкой WebP
     const getComparisonPath = (type: 'good' | 'better' | 'best', variant: 'exterior' | 'plan1' | 'plan2') => {
+      // Для Neo домов используем специальную функцию
+      if (house.category === 'neo') {
+        const path = getNeoComparisonPath(house.id, type, variant);
+        console.log(`Neo House Comparison Path (${type}, ${variant}): ${path}`);
+        return path;
+      }
+      
+      // Для Skyline домов используем существующую логику с WebP
       const basePath = assetPaths.comparison(house.id, type, variant);
       return basePath.replace('.jpg', `.${format}`);
     };
     
-    return {
+    const paths = {
       goodExterior: getComparisonPath('good', 'exterior'),
       betterExterior: getComparisonPath('better', 'exterior'),
       bestExterior: getComparisonPath('best', 'exterior'),
@@ -64,10 +100,13 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       betterPlan1: getComparisonPath('better', 'plan1'),
       bestPlan1: getComparisonPath('best', 'plan1'),
       // Добавляем план 2 (специально для Walnut)
-      goodPlan2: getComparisonPath('good', 'plan2'),
-      betterPlan2: getComparisonPath('better', 'plan2'),
-      bestPlan2: getComparisonPath('best', 'plan2'),
+      goodPlan2: house.id === 'walnut' ? getComparisonPath('good', 'plan2') : undefined,
+      betterPlan2: house.id === 'walnut' ? getComparisonPath('better', 'plan2') : undefined,
+      bestPlan2: house.id === 'walnut' ? getComparisonPath('best', 'plan2') : undefined,
     };
+
+    console.log('Generated Image Paths:', paths);
+    return paths;
   };
 
   const imagePaths = getImagePaths();
@@ -94,94 +133,22 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       // Fixed items (images and basic house data)
       {
         label: 'Front Elevation',
-        good: (
-          <SimpleImageModal 
-            src={imagePaths.goodExterior} 
-            alt={`Good Package - ${house.name} Front Elevation`} 
-            className="w-full h-full object-contain"
-            width={400}
-            height={300}
-          />
-        ),
-        better: (
-          <SimpleImageModal 
-            src={imagePaths.betterExterior} 
-            alt={`Better Package - ${house.name} Front Elevation`} 
-            className="w-full h-full object-contain"
-            width={400}
-            height={300}
-          />
-        ),
-        best: (
-          <SimpleImageModal 
-            src={imagePaths.bestExterior} 
-            alt={`Best Package - ${house.name} Front Elevation`} 
-            className="w-full h-full object-contain"
-            width={400}
-            height={300}
-          />
-        )
+        good: renderImageWithErrorHandling(imagePaths.goodExterior, `Good Package - ${house.name} Front Elevation`),
+        better: renderImageWithErrorHandling(imagePaths.betterExterior, `Better Package - ${house.name} Front Elevation`),
+        best: renderImageWithErrorHandling(imagePaths.bestExterior, `Best Package - ${house.name} Front Elevation`)
       },
       {
         label: 'Floor Plan 1',
-        good: (
-          <SimpleImageModal 
-            src={imagePaths.goodPlan1} 
-            alt={`Good Package - ${house.name} Floor Plan 1`} 
-            className="w-full h-full object-contain"
-            width={400}
-            height={300}
-          />
-        ),
-        better: (
-          <SimpleImageModal 
-            src={imagePaths.betterPlan1} 
-            alt={`Better Package - ${house.name} Floor Plan 1`} 
-            className="w-full h-full object-contain"
-            width={400}
-            height={300}
-          />
-        ),
-        best: (
-          <SimpleImageModal 
-            src={imagePaths.bestPlan1} 
-            alt={`Best Package - ${house.name} Floor Plan 1`} 
-            className="w-full h-full object-contain"
-            width={400}
-            height={300}
-          />
-        )
+        good: renderImageWithErrorHandling(imagePaths.goodPlan1, `Good Package - ${house.name} Floor Plan 1`),
+        better: renderImageWithErrorHandling(imagePaths.betterPlan1, `Better Package - ${house.name} Floor Plan 1`),
+        best: renderImageWithErrorHandling(imagePaths.bestPlan1, `Best Package - ${house.name} Floor Plan 1`)
       },
       // Добавляем второй план (только для Walnut)
-      ...(house.id === 'walnut' ? [{
+      ...(house.id === 'walnut' && imagePaths.goodPlan2 && imagePaths.betterPlan2 && imagePaths.bestPlan2 ? [{
         label: 'Floor Plan 2',
-        good: (
-          <SimpleImageModal 
-            src={imagePaths.goodPlan2} 
-            alt={`Good Package - ${house.name} Floor Plan 2`} 
-            className="w-full h-32 object-contain"
-            width={300}
-            height={200}
-          />
-        ),
-        better: (
-          <SimpleImageModal 
-            src={imagePaths.betterPlan2} 
-            alt={`Better Package - ${house.name} Floor Plan 2`} 
-            className="w-full h-32 object-contain"
-            width={300}
-            height={200}
-          />
-        ),
-        best: (
-          <SimpleImageModal 
-            src={imagePaths.bestPlan2} 
-            alt={`Best Package - ${house.name} Floor Plan 2`} 
-            className="w-full h-32 object-contain"
-            width={300}
-            height={200}
-          />
-        )
+        good: renderImageWithErrorHandling(imagePaths.goodPlan2!, `Good Package - ${house.name} Floor Plan 2`),
+        better: renderImageWithErrorHandling(imagePaths.betterPlan2!, `Better Package - ${house.name} Floor Plan 2`),
+        best: renderImageWithErrorHandling(imagePaths.bestPlan2!, `Best Package - ${house.name} Floor Plan 2`)
       }] : []),
       // Basic house info (from JSON config)
           {
@@ -276,3 +243,4 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     </div>
   );
 }
+

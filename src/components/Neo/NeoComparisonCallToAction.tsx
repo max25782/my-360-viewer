@@ -5,6 +5,7 @@
 
 import Link from 'next/link';
 
+
 interface NeoComparisonCallToActionProps {
   houseSlug: string;
   houseName: string;
@@ -13,6 +14,7 @@ interface NeoComparisonCallToActionProps {
 export default function NeoComparisonCallToAction({ houseSlug, houseName }: NeoComparisonCallToActionProps) {
   return (
     <div className="bg-slate-600 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
+     
       {/* Header with Package Options */}
       <div className="grid grid-cols-4">
         <div className="bg-slate-800 text-white text-center py-4 px-6">

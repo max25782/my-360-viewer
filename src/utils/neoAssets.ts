@@ -3,6 +3,9 @@
  * Специализированная система для Neo ADU Series с поддержкой цветовых схем
  */
 
+import { readFile } from 'fs/promises';
+import path from 'path';
+
 interface NeoConfig {
   pathTemplates: {
     hero: string;
@@ -219,7 +222,9 @@ export async function getNeoAssetPath(
       if (tour360Type === 'tiles' && options.tileDirection) {
         template = tour360Templates.tiles[options.tileDirection] || tour360Templates.thumbnail;
       } else {
-        template = tour360Templates[tour360Type] || tour360Templates.thumbnail;
+        template = typeof tour360Templates[tour360Type] === 'string' 
+          ? tour360Templates[tour360Type] as string 
+          : tour360Templates.thumbnail;
       }
       
       variables.room = options.room || 'living';
@@ -333,4 +338,15 @@ export async function getNeoTextures(): Promise<Array<{
 export function clearNeoAssetCache(): void {
   neoAssetData = null;
   console.log('Neo asset cache cleared');
+}
+
+export function getNeoComparisonPath(
+  houseSlug: string, 
+  type: 'good' | 'better' | 'best', 
+  variant: 'exterior' | 'plan1' | 'plan2' | 'plan3'= 'exterior'
+): string {
+  // Используем точное расположение файлов
+  const path = `/assets/neo/${houseSlug}/comparison/${type}-${variant}.jpg`;
+  console.log(`Generating Neo comparison path: ${path}`);
+  return path;
 }

@@ -105,39 +105,36 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8  mx-auto">
+          <div className="grid md:grid-cols-2 gap-24  mx-auto">
             {/* White Scheme Preview */}
-            <div className="bg-gradient-to-br from-slate-50 to-white p-8 rounded-xl shadow-lg border border-gray-200">
+            <div className="bg-gradient-to-br w-100 h-100 from-slate-800 to-white p-8 rounded-xl shadow-lg border border-gray-200">
               <div className="relative  mb-6 rounded-lg overflow-hidden">
                 <img 
                   src={house.images.exampleWhite}
                   alt="White Color Scheme"
                   className="w-60 h-60 object-contain"
                 />
-                <div className="absolute top-4 left-4">
-                  <div className="w-8 h-8 bg-white border-2 border-gray-300 rounded-full shadow-sm"></div>
-                </div>
+              
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">White Scheme</h3>
              
             </div>
 
             {/* Dark Scheme Preview */}
-            <div className="bg-gradient-to-br from-gray-900 to-black p-8 rounded-xl shadow-xl text-white">
-              <div className="relative h-60 mb-6 rounded-lg overflow-hidden">
+            <div className="bg-gradient-to-br from-gray-900 to-black h-100 w-100 p-8 rounded-xl shadow-xl text-white">
+              <div className="relative  mb-6 rounded-lg overflow-hidden">
                 <img 
                   src={house.images.exampleDark}
                   alt="Dark Color Scheme"
                   className="w-60 h-60 object-contain"
                 />
-                <div className="absolute top-4 left-4">
-                  <div className="w-8 h-8 bg-gray-900 border-2 border-gray-600 rounded-full shadow-sm"></div>
-                </div>
+               
               </div>
               <h3 className="text-xl font-bold mb-3">Dark Scheme</h3>
               
             </div>
           </div>
+          
 
           {/* Tour CTA */}
           <div className="text-center mt-12">

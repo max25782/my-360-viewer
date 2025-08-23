@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getNeoHouseConfig } from '../../../../utils/neoAssets';
 import JsonGoodBetterBestComparison from '../../../../components/JsonGoodBetterBestComparison';
+import Header from '@/components/Header';
 
 interface NeoComparisonPageProps {
   params: { slug: string };
@@ -57,7 +58,8 @@ export default async function NeoComparisonPage({ params }: NeoComparisonPagePro
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50">
+        <Header/>
       {/* Use existing Skyline comparison component */}
       <JsonGoodBetterBestComparison house={legacyHouse} />
     </div>
