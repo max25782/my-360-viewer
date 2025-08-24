@@ -1,18 +1,5 @@
 [
-  {
-    "id": "Apex",
-    "name": "The Apex",
-    "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
-    "category": "A",
-    "image": "assets/skyline/Apex/hero.webp",
-    "thumbnail": "assets/skyline/Apex/hero.webp",
-    "bedrooms": 1,
-    "bathrooms": 1,
-    "sqft": 1600,
-    "hasTour360": false,
-    "hasComparison": true,
-    "hasDesignPackages": true
-  },
+
   {
     "id": "Walnut",
     "name": "The Vista",

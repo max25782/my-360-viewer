@@ -81,7 +81,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
 
                 <div className="flex space-x-4">
                   <Button 
-                    href={`/houses/${house.id}/tour`}
+                    href={house.category === 'neo' ? `/neo/${house.id}/tour` : `/houses/${house.id}/tour`}
                     variant="secondary"
                     size="lg"
                   >

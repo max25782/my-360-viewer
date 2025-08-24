@@ -92,13 +92,14 @@ export default async function NeoCollectionPage() {
                   key={house.id}
                   href={`/neo/${house.id.charAt(0).toUpperCase() + house.id.slice(1)}`}
                   className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  
                 >
                   <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">
                     {/* Placeholder for hero image */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-center">
                         <div className="w-16 h-16 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full mx-auto mb-3 flex items-center justify-center">
-                          <span className="text-2xl text-white">🏠</span>
+                          <Image src={`/assets/neo/${house.id}/hero.jpg`} alt={house.name} width={64} height={64} />
                         </div>
                         <p className="text-gray-500 text-sm">Preview Coming Soon</p>
                       </div>

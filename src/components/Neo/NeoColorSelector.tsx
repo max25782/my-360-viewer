@@ -69,7 +69,11 @@ export default function NeoColorSelector({
                   {/* Thumbnail Image */}
                   <div className="relative h-40 mb-4 rounded-lg overflow-hidden">
                     <Image
-                      src={option.thumbnail}
+                      src={houseName && option.id === 'dark' 
+                        ? `/assets/neo/${houseName}/360/hero-preview-dark.jpg`
+                        : houseName && option.id === 'white'
+                        ? `/assets/neo/${houseName}/360/hero-preview.jpg`
+                        : option.thumbnail}
                       alt={option.name}
                       fill
                       className="object-cover"

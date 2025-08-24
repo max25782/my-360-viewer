@@ -348,27 +348,7 @@ export default function UniversalDesignSelectorRedux({
           )}
           {type === 'interior' && (
             <div className="flex flex-col items-center space-y-4">
-              {/* Texture Buttons */}
-              {/* <div className="flex justify-center space-x-4 mb-4">
-            {INTERIOR_TEXTURES.map((texture) => (
-              <button
-                key={texture.id}
-                onClick={() => handleTextureChange(texture.id)}
-                className={`
-                  w-16 h-16 rounded-full shadow-md transition-all transform hover:scale-110
-                  ${selectedTexture === texture.id 
-                    ? 'border-4 border-green-500 scale-110' 
-                    : 'border-2 border-white hover:border-gray-300'}
-                `}
-                style={{
-                  backgroundImage: `url('${texture.path}')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
-                }}
-                title={texture.name}
-              />
-            ))}
-          </div> */}
+   
 
               {/* Room Navigation */}
               {renderRoomNavigation()}

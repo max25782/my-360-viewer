@@ -10,37 +10,21 @@ interface NeoDesignPackagesSectionProps {
 export default function NeoDesignPackagesSection({ house }: NeoDesignPackagesSectionProps) {
   const designPackages = [
     {
-      id: 'heritage',
-      name: 'Heritage',
-      description: 'Classic finishes with dual color coordination',
+      id: 'black',
+      name: 'Black',
+    
       whitePreview: '/assets/neo/texrure/thumb-white.jpg',
       blackPreview: '/assets/neo/texrure/thumb-black.jpg',
       features: ['Standard finishes', 'Basic lighting', 'Essential fixtures']
     },
     {
-      id: 'haven',
-      name: 'Haven',
-      description: 'Enhanced materials with premium color matching',
+      id: 'white',
+      name: 'White',
       whitePreview: '/assets/neo/texrure/thumb-white.jpg',
       blackPreview: '/assets/neo/texrure/thumb-black.jpg',
       features: ['Premium finishes', 'Enhanced lighting', 'Designer fixtures']
-    },
-    {
-      id: 'serenity',
-      name: 'Serenity',
-      description: 'Luxury materials with sophisticated color schemes',
-      whitePreview: '/assets/neo/texrure/thumb-white.jpg',
-      blackPreview: '/assets/neo/texrure/thumb-black.jpg',
-      features: ['Luxury finishes', 'Designer lighting', 'Premium fixtures']
-    },
-    {
-      id: 'luxe',
-      name: 'Luxe',
-      description: 'Ultimate finishes with custom color coordination',
-      whitePreview: '/assets/neo/texrure/thumb-white.jpg',
-      blackPreview: '/assets/neo/texrure/thumb-black.jpg',
-      features: ['Ultimate finishes', 'Custom lighting', 'Luxury fixtures']
     }
+
   ];
 
   return (
@@ -103,9 +87,7 @@ export default function NeoDesignPackagesSection({ house }: NeoDesignPackagesSec
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {pkg.name}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  {pkg.description}
-                </p>
+              
 
                 {/* Features */}
                 <ul className="space-y-1 mb-4">

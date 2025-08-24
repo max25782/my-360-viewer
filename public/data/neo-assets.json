@@ -3,7 +3,7 @@
     "pathTemplates": {
       "hero": "/assets/neo/{houseId}/hero.jpg",
       "exterior": "/assets/neo/{houseId}/exterior/{color}/dp{dp}.{format}",
-      "interior": "/assets/neo/{houseId}/interior/{room}/pk{pk}_{color}.{format}",
+      "interior": "/assets/neo/{houseId}/interior/{room}/pk{pk}.{format}",
       "exampleDark": "/assets/neo/{houseId}/example/dark.jpg",
       "exampleWhite": "/assets/neo/{houseId}/example/light.jpg",
       "tour360": {
@@ -20,10 +20,10 @@
       },
       "textures": {
         "white": "/assets/neo/texrure/thumb-white.jpg",
-        "dark": "/assets/neo/texrure/thumb-dark.jpg"
+        "dark": "/assets/neo/texrure/thumb-black.jpg"
       }
     },
-    "colors": ["white", "dark"],
+    "colors": ["white", "black"],
     "designPackages": {
       "heritage": { "dp": 1, "pk": 1 },
       "haven": { "dp": 2, "pk": 2 },
@@ -35,12 +35,131 @@
     "comparisonVariants": ["exterior", "plan1", "plan2"]
   },
   "neoHouses": {
+    "Arcos": {
+      "name": "The Arcos",
+      "description": "Arched Neo design with curved elements and flowing spaces. Features elegant arches and contemporary styling.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+       "tour360": {
+        "white": {
+          "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+        },
+        "dark": {
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "badroom_dark", "badroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+        }
+      },
+    "comparison": {
+    "features": {
+      "Overall Dimensions": {
+        "good": "48'x28'",
+        "better": "48'x28'",
+        "best": "48'x28'"
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms",
+        "better": "2 Bedrooms",
+        "best": "2 Bedrooms"
+      },
+      "Bathrooms": {
+        "good": "2 Bathrooms",
+        "better": "2 Bathrooms",
+        "best": "2 Bathrooms"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette with Kitchen Island",
+        "better": "Linear Kitchen with Kitchen Island and Upper Cabs",
+        "best": "Linear Kitchen with Kitchen Island and Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
     "Apex": {
       "name": "The Apex",
-      "description": "Modern Neo design with sophisticated dual color schemes. Features 9 rooms with seamless transitions between white and dark aesthetics.",
-      "maxDP": 4,
-      "maxPK": 4,
-      "availableRooms": ["entry", "living", "kitchen", "hall", "badroom", "badroom2", "bathroom", "bathroom2", "wik"],
+      "description": "Modern Neo design with sophisticated dual color schemes. Features spacious rooms with seamless transitions between white and dark aesthetics.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "wik"],
       "tour360": {
         "white": {
           "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
@@ -75,6 +194,644 @@
             "good": "✓",
             "better": "✓",
             "best": "✓"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Elementa": {
+      "name": "The Elementa",
+      "description": "Elemental Neo design with natural materials and harmonious spaces. Features organic elements and sustainable design.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+        },
+        "dark": {
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "badroom_dark", "badroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+        }
+      },
+      "comparison": {
+    "features": {
+      "Overall Dimensions": {
+        "good": "48'x28'",
+        "better": "48'x28'",
+        "best": "48'x28'"
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms",
+        "better": "2 Bedrooms",
+        "best": "2 Bedrooms"
+      },
+      "Bathrooms": {
+        "good": "2 Bathrooms",
+        "better": "2 Bathrooms",
+        "best": "2 Bathrooms"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette with Kitchen Island",
+        "better": "Linear Kitchen with Kitchen Island and Upper Cabs",
+        "best": "Linear Kitchen with Kitchen Island and Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
+    "Forma": {
+      "name": "The Forma",
+      "description": "Sculptural Neo design with artistic elements and unique spatial composition. Features creative use of form and premium materials.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+    "tour360": {
+        "white": {
+          "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+        },
+        "dark": {
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "badroom_dark", "badroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1150 SF",
+            "better": "1150 SF",
+            "best": "1150 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Artistic Elements": {
+            "good": "Basic",
+            "better": "Enhanced",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Halo": {
+      "name": "The Halo",
+      "description": "Circular-inspired Neo design with flowing spaces and abundant natural light. Features innovative use of curves and open concept living.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1300 SF",
+            "better": "1300 SF",
+            "best": "1300 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "HorizonX": {
+      "name": "The HorizonX",
+      "description": "Expansive Neo design with panoramic views and seamless indoor-outdoor living. Features extended sightlines and premium finishes.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1250 SF",
+            "better": "1250 SF",
+            "best": "1250 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Outdoor Living": {
+            "good": "Standard",
+            "better": "Enhanced",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Linea": {
+      "name": "The Linea",
+      "description": "Sleek Neo design with clean lines and contemporary aesthetics. Features efficient use of space and premium materials.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "950 SF",
+            "better": "950 SF",
+            "best": "950 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Lucid": {
+      "name": "The Lucid",
+      "description": "Transparent Neo design with glass elements and clarity of space. Features luminous interiors and contemporary styling.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1050 SF",
+            "better": "1050 SF",
+            "best": "1050 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Glass Features": {
+            "good": "Standard",
+            "better": "Enhanced",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Monarch": {
+      "name": "The Monarch",
+      "description": "Elegant Neo design with a focus on natural light and open spaces. Features premium finishes and smart home integration.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1200 SF",
+            "better": "1200 SF",
+            "best": "1200 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Smart Home": {
+            "good": "Basic",
+            "better": "Standard",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Nexa": {
+      "name": "The Nexa",
+      "description": "Interconnected Neo design with modular spaces and adaptable living areas. Features flexible layout and contemporary styling.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1100 SF",
+            "better": "1100 SF",
+            "best": "1100 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Flexible Spaces": {
+            "good": "Basic",
+            "better": "Enhanced",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Prism": {
+      "name": "The Prism",
+      "description": "Geometric Neo design with multi-faceted architecture and light-filled spaces. Features unique angular elements and modern amenities.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1150 SF",
+            "better": "1150 SF",
+            "best": "1150 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Strata": {
+      "name": "The Strata",
+      "description": "Layered Neo design with multi-level living and textural elements. Features dimensional spaces and sophisticated materials.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1200 SF",
+            "better": "1200 SF",
+            "best": "1200 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Textural Elements": {
+            "good": "Basic",
+            "better": "Enhanced",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Vector": {
+      "name": "The Vector",
+      "description": "Directional Neo design with bold lines and dynamic spaces. Features innovative layout and energy-efficient systems.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1050 SF",
+            "better": "1050 SF",
+            "best": "1050 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Energy Efficiency": {
+            "good": "Standard",
+            "better": "Enhanced",
+            "best": "Premium"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "Vertex": {
+      "name": "The Vertex",
+      "description": "Contemporary Neo design with angular architecture and minimalist interior. Perfect for modern living with a focus on functionality.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        },
+        "dark": {
+          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1100 SF",
+            "better": "1100 SF",
+            "best": "1100 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
           },
           "Modern Finishes": {
             "good": "Standard",

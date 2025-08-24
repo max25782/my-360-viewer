@@ -13,11 +13,11 @@ interface NeoComparisonCallToActionProps {
 
 export default function NeoComparisonCallToAction({ houseSlug, houseName }: NeoComparisonCallToActionProps) {
   return (
-    <div className="bg-slate-600 bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
+    <div className="bg-slate-600 max-w-7xl mx-auto  bg-opacity-90 backdrop-blur-sm rounded-lg shadow-xl overflow-hidden">
      
       {/* Header with Package Options */}
       <div className="grid grid-cols-4">
-        <div className="bg-slate-800 text-white text-center py-4 px-6">
+        <div className="bg-slate-700 text-white text-center py-4 px-6">
           <h3 className="text-lg font-bold">Package Options</h3>
         </div>
         <div className="bg-slate-800 text-white text-center py-4 px-6">
