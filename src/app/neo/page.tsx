@@ -49,20 +49,18 @@ async function convertNeoToLegacyHouse(neoHouse: NeoHouse): Promise<House> {
   };
 }
 
-export default async function NeoCollectionPage({
-  searchParams
-}: {
-  searchParams: { bedrooms?: string; bathrooms?: string; sqftMin?: string; sqftMax?: string }
-}) {
+export default async function NeoCollectionPage(props: any) {
+  const { searchParams } = props;
   let neoHouses: NeoHouse[] = [];
   let heroHouse: House | null = null;
   
   try {
     neoHouses = await getServerNeoHouses();
     
-    // Применяем фильтры
-    if (searchParams.bedrooms && searchParams.bedrooms !== 'any') {
-      const bedroomCount = parseInt(searchParams.bedrooms);
+    // Apply filters
+    const bedroomsParam = searchParams.bedrooms as string | undefined;
+    if (bedroomsParam && bedroomsParam !== 'any') {
+      const bedroomCount = parseInt(bedroomsParam);
       neoHouses = neoHouses.filter(house => {
         const houseBedroomCount = house.availableRooms.filter(
           room => room === 'bedroom' || room === 'bedroom2'
@@ -71,8 +69,9 @@ export default async function NeoCollectionPage({
       });
     }
     
-    if (searchParams.bathrooms && searchParams.bathrooms !== 'any') {
-      const bathroomCount = parseInt(searchParams.bathrooms);
+    const bathroomsParam = searchParams.bathrooms as string | undefined;
+    if (bathroomsParam && bathroomsParam !== 'any') {
+      const bathroomCount = parseInt(bathroomsParam);
       neoHouses = neoHouses.filter(house => {
         const houseBathroomCount = house.availableRooms.filter(
           room => room === 'bathroom' || room === 'bathroom2'
@@ -81,13 +80,15 @@ export default async function NeoCollectionPage({
       });
     }
     
-    // Фильтр по площади
-    if (searchParams.sqftMin || searchParams.sqftMax) {
-      const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin) : 0;
-      const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax) : 10000;
+    // Square footage filter
+    const sqftMinParam = searchParams.sqftMin as string | undefined;
+    const sqftMaxParam = searchParams.sqftMax as string | undefined;
+    if (sqftMinParam || sqftMaxParam) {
+      const minSqft = sqftMinParam ? parseInt(sqftMinParam) : 0;
+      const maxSqft = sqftMaxParam ? parseInt(sqftMaxParam) : 10000;
       
       neoHouses = neoHouses.filter(house => {
-        if (!house.squareFeet) return true; // Пропускаем дома без указанной площади
+        if (!house.squareFeet) return true; // Skip houses without square footage
         return house.squareFeet >= minSqft && house.squareFeet <= maxSqft;
       });
     }

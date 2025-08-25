@@ -28,7 +28,7 @@
         "defaultView": {
           "yaw": 0,
           "pitch": 0,
-          "zoom": 0
+          "zoom": 50
         },
         "markers": [
           {
@@ -83,7 +83,7 @@
         "defaultView": {
           "yaw": 0,
           "pitch": 0,
-          "zoom": 0
+          "zoom": 50
         },
         "markers": [
           {
@@ -138,7 +138,7 @@
         "defaultView": {
           "yaw": 0,
           "pitch": 0,
-          "zoom": 0
+          "zoom": 50
         },
         "markers": [
           {
@@ -182,7 +182,7 @@
         "defaultView": {
           "yaw": 0,
           "pitch": 0,
-          "zoom": 0
+          "zoom": 50
         },
         "markers": [
           {
@@ -226,7 +226,7 @@
         "defaultView": {
           "yaw": 0,
           "pitch": 0,
-          "zoom": 0
+          "zoom": 50
         },
         "markers": [
           {
@@ -497,5 +497,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-08-25T13:17:34.430Z"
+  "lastUpdated": "2025-08-25T20:19:59.029Z"
 }
