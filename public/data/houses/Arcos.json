@@ -1,44 +1,50 @@
 {
-  "id": "Apex",
+  "id": "Arcos",
   "name": "The Apex",
   "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
   "category": "A",
   "bedrooms": 1,
-  "bathrooms": 1,
-  "sqft": 1600,
-  "hero": "assets/skyline/Apex/hero.webp",
+  "bathrooms": 2,
+  "sqft": 2050,
+  "hero": "assets/skyline/Arcos/hero.webp",
   "gallery": [],
   "designPackages": [
     {
       "id": "package-1",
       "name": "Design Package 1",
       "description": "Premium design option 1",
-      "thumbnail": "assets/Apex/exterior/dp1.webp",
+      "thumbnail": "assets/Arcos/exterior/dp1.webp",
       "images": {
         "exterior": [
-          "assets/Apex/exterior/dp1.webp"
+          "assets/Arcos/exterior/dp1.webp"
         ],
         "interior": {
           "living": [
-            "assets/Apex/interior/living/pk1.webp"
+            "assets/Arcos/interior/living/pk1.webp"
           ],
           "kitchen": [
-            "assets/Apex/interior/kitchen/pk1.webp"
+            "assets/Arcos/interior/kitchen/pk1.webp"
           ],
           "bedroom": [
-            "assets/Apex/interior/bedroom/pk1.webp"
+            "assets/Arcos/interior/bedroom/pk1.webp"
+          ],
+          "badroom2": [
+            "assets/Arcos/interior/badroom2/pk1.webp"
           ],
           "bathroom": [
-            "assets/Apex/interior/bathroom/pk1.webp"
+            "assets/Arcos/interior/bathroom/pk1.webp"
+          ],
+          "bathroom2": [
+            "assets/Arcos/interior/bathroom2/pk1.webp"
           ],
           "entry": [
-            "assets/Apex/interior/entry/pk1.webp"
+            "assets/Arcos/interior/entry/pk1.webp"
           ],
           "hall": [
-            "assets/Apex/interior/hall/pk1.webp"
+            "assets/Arcos/interior/hall/pk1.webp"
           ],
           "wik": [
-            "assets/Apex/interior/wik/pk1.webp"
+            "assets/Arcos/interior/wik/pk1.webp"
           ]
         }
       },
@@ -52,32 +58,38 @@
       "id": "package-2",
       "name": "Design Package 2",
       "description": "Premium design option 2",
-      "thumbnail": "assets/Apex/exterior/dp2.webp",
+      "thumbnail": "assets/Arcos/exterior/dp2.webp",
       "images": {
         "exterior": [
-          "assets/Apex/exterior/dp2.webp"
+          "assets/Arcos/exterior/dp2.webp"
         ],
         "interior": {
           "living": [
-            "assets/Apex/interior/living/pk2.webp"
+            "assets/Arcos/interior/living/pk2.webp"
           ],
           "kitchen": [
-            "assets/Apex/interior/kitchen/pk2.webp"
+            "assets/Arcos/interior/kitchen/pk2.webp"
           ],
           "bedroom": [
-            "assets/Apex/interior/bedroom/pk2.webp"
+            "assets/Arcos/interior/bedroom/pk2.webp"
+          ],
+          "badroom2": [
+            "assets/Arcos/interior/badroom2/pk2.webp"
           ],
           "bathroom": [
-            "assets/Apex/interior/bathroom/pk2.webp"
+            "assets/Arcos/interior/bathroom/pk2.webp"
+          ],
+          "bathroom2": [
+            "assets/Arcos/interior/bathroom2/pk2.webp"
           ],
           "entry": [
-            "assets/Apex/interior/entry/pk2.webp"
+            "assets/Arcos/interior/entry/pk2.webp"
           ],
           "hall": [
-            "assets/Apex/interior/hall/pk2.webp"
+            "assets/Arcos/interior/hall/pk2.webp"
           ],
           "wik": [
-            "assets/Apex/interior/wik/pk2.webp"
+            "assets/Arcos/interior/wik/pk2.webp"
           ]
         }
       },
@@ -91,32 +103,38 @@
       "id": "package-3",
       "name": "Design Package 3",
       "description": "Premium design option 3",
-      "thumbnail": "assets/Apex/exterior/dp3.webp",
+      "thumbnail": "assets/Arcos/exterior/dp3.webp",
       "images": {
         "exterior": [
-          "assets/Apex/exterior/dp3.webp"
+          "assets/Arcos/exterior/dp3.webp"
         ],
         "interior": {
           "living": [
-            "assets/Apex/interior/living/pk3.webp"
+            "assets/Arcos/interior/living/pk3.webp"
           ],
           "kitchen": [
-            "assets/Apex/interior/kitchen/pk3.webp"
+            "assets/Arcos/interior/kitchen/pk3.webp"
           ],
           "bedroom": [
-            "assets/Apex/interior/bedroom/pk3.webp"
+            "assets/Arcos/interior/bedroom/pk3.webp"
+          ],
+          "badroom2": [
+            "assets/Arcos/interior/badroom2/pk3.webp"
           ],
           "bathroom": [
-            "assets/Apex/interior/bathroom/pk3.webp"
+            "assets/Arcos/interior/bathroom/pk3.webp"
+          ],
+          "bathroom2": [
+            "assets/Arcos/interior/bathroom2/pk3.webp"
           ],
           "entry": [
-            "assets/Apex/interior/entry/pk3.webp"
+            "assets/Arcos/interior/entry/pk3.webp"
           ],
           "hall": [
-            "assets/Apex/interior/hall/pk3.webp"
+            "assets/Arcos/interior/hall/pk3.webp"
           ],
           "wik": [
-            "assets/Apex/interior/wik/pk3.webp"
+            "assets/Arcos/interior/wik/pk3.webp"
           ]
         }
       },
@@ -237,5 +255,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-08-25T13:17:34.426Z"
+  "lastUpdated": "2025-08-25T13:17:34.430Z"
 }
