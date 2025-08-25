@@ -30,7 +30,7 @@
       "serenity": { "dp": 3, "pk": 3 },
       "luxe": { "dp": 4, "pk": 4 }
     },
-    "rooms": ["entry", "living", "kitchen", "hall", "badroom", "badroom2", "bathroom", "bathroom2", "wik"],
+    "rooms": ["entry", "living", "kitchen", "hall", "badroom", "bathroom", "wik"],
     "comparisonTypes": ["good", "better", "best"],
     "comparisonVariants": ["exterior", "plan1", "plan2"]
   },
@@ -40,7 +40,7 @@
       "description": "Arched Neo design with curved elements and flowing spaces. Features elegant arches and contemporary styling.",
       "maxDP": 3,
       "maxPK": 2,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "wik "],
        "tour360": {
         "white": {
           "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
@@ -51,6 +51,12 @@
       },
     "comparison": {
     "features": {
+      "Living Space": {
+        "good": "1008 SF",
+        "better": "1008 SF",
+        "best": "1008 SF"
+      },
+      
       "Overall Dimensions": {
         "good": "48'x28'",
         "better": "48'x28'",

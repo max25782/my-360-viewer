@@ -25,6 +25,13 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
   const getPackageNumber = () => {
     return activeScheme === 'light' ? 1 : 2;
   };
+  
+  // Функция для отладки - выводит полный путь к файлу
+  const getFullPath = () => {
+    const path = `/assets/neo/${house.id}/interior/${getRoomPath(selectedRoom)}/pk${getPackageNumber()}.jpg`;
+    console.log('Image path:', path);
+    return path;
+  };
 
   return (
     <section className="py-16 bg-slate-800">
@@ -42,7 +49,7 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
         <div className="mb-8 relative">
           <div className="relative">
             <img 
-              src={`/assets/neo/${house.id}/interior/${getRoomPath(selectedRoom)}/pk${getPackageNumber()}.jpg`} 
+              src={getFullPath()} 
               alt={`Interior - ${selectedRoom} - ${activeScheme === 'light' ? 'White' : 'Dark'}`} 
               className="w-full h-[500px] object-cover rounded-lg shadow-lg"
               onError={(e) => {
