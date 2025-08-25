@@ -116,9 +116,10 @@ export default async function NeoCollectionPage() {
                       {house.description}
                     </p>
                     
-                    <div className="flex justify-between items-center text-sm text-gray-500">
-                      <span>{house.availableRooms.length} Rooms</span>
-                      <span>2 Color Schemes</span>
+                    <div className="flex justify-left gap-2 items-center text-sm text-gray-500">
+                      <span>{house.availableRooms.filter(room => room === 'bedroom' || room === 'bedroom2').length} Bedrooms</span>
+                      <span>{house.availableRooms.filter(room => room === 'bathroom' || room === 'bathroom2').length} Bathrooms</span>
+                     
                     </div>
                   </div>
                 </Link>
