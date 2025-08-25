@@ -28,18 +28,25 @@ export default function Neo360Page() {
                     <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl group cursor-pointer" onClick={handleStartTour}>
                         {/* Preview Image */}
                         <Image
-                            src={`/assets/neo/${slug}/360/hero-preview.jpg`}
+                            src={`/assets/neo/${slug}/360/hero_black.jpg`}
                             alt="360° Tour Preview"
                             fill
                             className="object-cover transition-all duration-500 group-hover:scale-105"
                             onError={(e) => {
-                                // Fallback to example image
-                                e.currentTarget.src = `/assets/neo/${slug}/example/light.jpg`;
-                                e.currentTarget.onerror = () => {
-                                    // Final fallback to texture
-                                    if (e.currentTarget) {
-                                        e.currentTarget.src = '/assets/neo/texrure/thumb-white.jpg';
-                                    }
+                                // First fallback to white hero
+                                const target = e.currentTarget as HTMLImageElement;
+                                target.src = `/assets/neo/${slug}/360/hero-white.jpg`;
+                                target.onerror = () => {
+                                    // Second fallback to main hero image
+                                    target.src = `/assets/neo/${slug}/hero.jpg`;
+                                    target.onerror = () => {
+                                        // Third fallback to example images
+                                        target.src = `/assets/neo/${slug}/example/light.jpg`;
+                                        target.onerror = () => {
+                                            // Final fallback to dark example
+                                            target.src = `/assets/neo/${slug}/example/dark.jpg`;
+                                        };
+                                    };
                                 };
                             }}
                         />

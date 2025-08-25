@@ -91,25 +91,21 @@ export default async function NeoCollectionPage() {
                 <Link 
                   key={house.id}
                   href={`/neo/${house.id.charAt(0).toUpperCase() + house.id.slice(1)}`}
-                  className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                  className="group bg-slate-400 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                   
                 >
-                  <div className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200">
+                  <div className="relative h-64 bg-slate-700">
                     {/* Placeholder for hero image */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full mx-auto mb-3 flex items-center justify-center">
-                          <Image src={`/assets/neo/${house.id}/hero.jpg`} alt={house.name} width={64} height={64} />
+                        <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 rounded-full mx-auto mb-1 flex items-center justify-center">
+                          <Image src={`/assets/neo/${house.id}/hero.jpg`} alt={house.name} width={500} height={500} />
                         </div>
-                        <p className="text-gray-500 text-sm">Preview Coming Soon</p>
+                        
                       </div>
                     </div>
                     
-                    {/* Color scheme indicators */}
-                    <div className="absolute top-4 right-4 flex gap-2">
-                      <div className="w-6 h-6 bg-white border-2 border-gray-300 rounded-full shadow-sm"></div>
-                      <div className="w-6 h-6 bg-gray-900 border-2 border-gray-600 rounded-full shadow-sm"></div>
-                    </div>
+                    
                   </div>
 
                   <div className="p-6">

@@ -151,7 +151,7 @@ export default function Viewer360({
           yaw: panorama.defaultView.yaw,
           pitch: panorama.defaultView.pitch
         },
-        zoom: panorama.defaultView.zoom,
+        zoom: 0, // Начинаем без зума при смене панорам
         transition: false
       });
 
@@ -189,7 +189,9 @@ export default function Viewer360({
           plugins: [MarkersPlugin],
           defaultYaw: activePanorama.defaultView.yaw,
           defaultPitch: activePanorama.defaultView.pitch,
-          defaultZoomLvl: activePanorama.defaultView.zoom,
+          defaultZoomLvl: 0, // Начинаем с минимального зума
+          minFov: 30,
+          maxFov: 120, // Увеличиваем максимальный FOV
           navbar: showNavbar ? [
             'zoom',
             'move',

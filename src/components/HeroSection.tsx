@@ -23,8 +23,8 @@ export default function HeroSection({ house }: HeroSectionProps) {
     );
   }
 
-  const bedroomCount = house.availableRooms?.filter(room => room === 'bedroom').length || 0;
-  const bathroomCount = house.availableRooms?.filter(room => room === 'bathroom').length || 0;
+  const bedroomCount = house.availableRooms?.filter(room => room === 'bedroom' || room === 'bedroom2').length || 0;
+  const bathroomCount = house.availableRooms?.filter(room => room === 'bathroom' || room === 'bathroom2').length || 0;
   const livingSpace = house.comparison?.features?.["Living Space"]?.good || "N/A";
   const description = house.description || "";
   

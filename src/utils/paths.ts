@@ -2,7 +2,10 @@
  * Хелперы для работы с путями в статических данных
  */
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || '';
+// Безопасное получение переменных окружения, работает и на клиенте и на сервере
+const BASE_PATH = typeof process !== 'undefined' && process.env 
+  ? (process.env.NEXT_PUBLIC_BASE_PATH || '') 
+  : '';
 
 /**
  * Создает публичный URL для статических ресурсов

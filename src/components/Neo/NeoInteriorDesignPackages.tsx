@@ -63,24 +63,28 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
                 };
               }}
             />
-            <div className="absolute bottom-8 left-8 bg-black bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">
-              {packageType.charAt(0).toUpperCase() + packageType.slice(1)} Package - {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)} - {activeScheme === 'light' ? 'White' : 'Dark'}
-            </div>
-          </div>
-        </div>
-
-        {/* Room Selector */}
-        <div className="flex justify-center flex-wrap space-x-2 mb-8">
+            {/* Room Selector */}
+        <div className="absolute bottom-2 left-8 flex justify-center items-center flex-wrap space-x-2 ">
           {availableRooms.map((room) => (
             <button 
               key={room}
-              className={`px-4 py-2 m-1 rounded ${selectedRoom === room ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              className={`px-4 py-2 m-1 rounded ${selectedRoom === room ? 'bg-blue-600 text-white' : 'bg-slate-400 text-gray-700 hover:bg-gray-300'}`}
               onClick={() => setSelectedRoom(room)}
             >
               {room.charAt(0).toUpperCase() + room.slice(1)}
             </button>
           ))}
+            <div className="absolute bottom-15 left-8 bg-black bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">
+              {packageType.charAt(0).toUpperCase() + packageType.slice(1)} Package - {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)} - {activeScheme === 'light' ? 'White' : 'Dark'}
+            </div>
         </div>
+           
+            
+          </div>
+          
+        </div>
+
+      
 
         {/* Color Scheme Selector */}
         <div className="flex justify-center space-x-4 mb-8">

@@ -40,7 +40,7 @@
       "description": "Arched Neo design with curved elements and flowing spaces. Features elegant arches and contemporary styling.",
       "maxDP": 3,
       "maxPK": 2,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "wik "],
+      "availableRooms": ["living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik "],
        "tour360": {
         "white": {
           "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
@@ -165,7 +165,7 @@
       "description": "Modern Neo design with sophisticated dual color schemes. Features spacious rooms with seamless transitions between white and dark aesthetics.",
       "maxDP": 3,
       "maxPK": 2,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "wik"],
+      "availableRooms": ["living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"],
       "tour360": {
         "white": {
           "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
@@ -214,17 +214,23 @@
       "description": "Elemental Neo design with natural materials and harmonious spaces. Features organic elements and sustainable design.",
       "maxDP": 3,
       "maxPK": 2,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "availableRooms": ["living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"],
       "tour360": {
         "white": {
           "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "badroom_white", "badroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
         },
         "dark": {
-          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "badroom_dark", "badroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "bedroom_dark", "bedroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
         }
       },
-      "comparison": {
+     "comparison": {
     "features": {
+
+      "Living Space": {
+        "good": "1008 SF",
+        "better": "1008 SF",
+        "best": "1008 SF"
+      },
       "Overall Dimensions": {
         "good": "48'x28'",
         "better": "48'x28'",
@@ -343,39 +349,114 @@
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "1150 SF",
-            "better": "1150 SF",
-            "best": "1150 SF"
-          },
-          "Bedrooms": {
-            "good": "1",
-            "better": "1", 
-            "best": "1"
-          },
-          "Bathrooms": {
-            "good": "1",
-            "better": "1",
-            "best": "1"
-          },
-          "Color Schemes": {
-            "good": "White Only",
-            "better": "White + Dark",
-            "best": "White + Dark + Custom"
-          },
-          "Artistic Elements": {
-            "good": "Basic",
-            "better": "Enhanced",
-            "best": "Premium"
-          },
-          "Modern Finishes": {
-            "good": "Standard",
-            "better": "Premium",
-            "best": "Luxury"
-          }
-        }
+    "features": {
+      "Living Space": {
+        "good": "1008 SF",
+        "better": "1008 SF",
+        "best": "1008 SF"
+      },
+      "Overall Dimensions": {
+        "good": "36'x14'",
+        "better": "36'x14'",
+        "best": "36'x14'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
       }
+    }
+  }
     },
     "Halo": {
       "name": "The Halo",
@@ -394,9 +475,9 @@
       "comparison": {
         "features": {
           "Living Space": {
-            "good": "1300 SF",
-            "better": "1300 SF",
-            "best": "1300 SF"
+            "good": "840 SF",
+            "better": "840 SF",
+            "best": "840 SF"
           },
           "Bedrooms": {
             "good": "1",

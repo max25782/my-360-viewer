@@ -128,7 +128,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         thumbnail,
         yaw: 180,
         pitch: 0,
-        zoom: 50,
+        zoom: 0, // Начинаем с минимального зума
         links: markers
       };
 
@@ -284,9 +284,9 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         caption: currentScene.title,
         defaultYaw: (currentScene.yaw * Math.PI) / 180,
         defaultPitch: (currentScene.pitch * Math.PI) / 180,
-        defaultZoomLvl: currentScene.zoom,
+        defaultZoomLvl: 0, // Начинаем с минимального зума
         minFov: 30,
-        maxFov: 90,
+        maxFov: 120, // Увеличиваем максимальный FOV для большего zoom out
         loadingImg: currentScene.thumbnail,
         touchmoveTwoFingers: true,
         mousewheelCtrlKey: false,

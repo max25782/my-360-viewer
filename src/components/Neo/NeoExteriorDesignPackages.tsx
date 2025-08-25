@@ -60,7 +60,7 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
               {/* Package Selector */}
         <div className="flex justify-center space-x-4 mb-1">
           <button
-            className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'good' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+            className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'good' ? 'bg-slate-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
             onClick={() => setPackageType('good')}
           >
             Good
@@ -68,7 +68,7 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
           
           {maxDP >= 2 && (
             <button
-              className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'better' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'better' ? 'bg-slate-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
               onClick={() => setPackageType('better')}
             >
               Better
@@ -77,7 +77,7 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
           
           {maxDP >= 3 && (
             <button
-              className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'best' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'best' ? 'bg-slate-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
               onClick={() => setPackageType('best')}
             >
               Best

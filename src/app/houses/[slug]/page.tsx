@@ -14,6 +14,9 @@ import TakeALookAroundUniversal from '../../../components/TakeALookAroundUnivers
 export default function HousePage() {
   const params = useParams();
   const houseId = params?.slug as string;
+  
+  console.log(`🏠 HousePage: Rendering page for house: ${houseId}`);
+  
   const { house, loading, error } = useHouse(houseId);
   const { houses } = useHouses();
 

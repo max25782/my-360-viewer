@@ -145,10 +145,30 @@ export function useHouses() {
 
 export function useHouse(houseId: string) {
   const { houses, loading, error } = useHouses();
+  
+  // Отладочная информация
+  console.log(`🔍 useHouse called with houseId: ${houseId}`);
+  console.log(`📋 Available houses: ${houses.map(h => h.id).join(', ')}`);
+  
   // Try exact match first, then case-insensitive match
   let house = houses.find(h => h.id === houseId);
   if (!house) {
     house = houses.find(h => h.id.toLowerCase() === houseId.toLowerCase());
+    if (house) {
+      console.log(`✅ Found house with case-insensitive match: ${house.id}`);
+    }
+  } else {
+    console.log(`✅ Found house with exact match: ${house.id}`);
+  }
+  
+  // Проверка на редиректы для Walnut
+  if (houseId.toLowerCase() === 'walnut') {
+    console.log(`⚠️ Walnut house requested, checking configuration...`);
+    if (house) {
+      console.log(`✅ Walnut house found: ${JSON.stringify(house)}`);
+    } else {
+      console.log(`❌ Walnut house not found in houses array!`);
+    }
   }
   
   return { 

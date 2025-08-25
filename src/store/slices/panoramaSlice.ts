@@ -23,7 +23,7 @@ const initialState: PanoramaState = {
   currentPosition: {
     yaw: 0,
     pitch: 0,
-    zoom: 50,
+    zoom: 0, // Начальный зум без приближения
   },
   error: null,
 };
