@@ -5,6 +5,7 @@ import { getServerNeoHouses, getServerNeoAssetPath } from '../../utils/serverNeo
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import { House } from '../../hooks/useHouses';
+import NeoFilterWrapper from '@/components/Neo/NeoFilterWrapper';
 
 export const metadata: Metadata = {
   title: 'Neo ADU Series - Modern Dual-Color Designs',
@@ -19,6 +20,7 @@ interface NeoHouse {
   maxDP: number;
   maxPK: number;
   availableRooms: string[];
+  squareFeet?: number;
 }
 
 // Функция для конвертации Neo house в формат Legacy House для HeroSection
@@ -47,12 +49,49 @@ async function convertNeoToLegacyHouse(neoHouse: NeoHouse): Promise<House> {
   };
 }
 
-export default async function NeoCollectionPage() {
+export default async function NeoCollectionPage({
+  searchParams
+}: {
+  searchParams: { bedrooms?: string; bathrooms?: string; sqftMin?: string; sqftMax?: string }
+}) {
   let neoHouses: NeoHouse[] = [];
   let heroHouse: House | null = null;
   
   try {
     neoHouses = await getServerNeoHouses();
+    
+    // Применяем фильтры
+    if (searchParams.bedrooms && searchParams.bedrooms !== 'any') {
+      const bedroomCount = parseInt(searchParams.bedrooms);
+      neoHouses = neoHouses.filter(house => {
+        const houseBedroomCount = house.availableRooms.filter(
+          room => room === 'bedroom' || room === 'bedroom2'
+        ).length;
+        return houseBedroomCount === bedroomCount;
+      });
+    }
+    
+    if (searchParams.bathrooms && searchParams.bathrooms !== 'any') {
+      const bathroomCount = parseInt(searchParams.bathrooms);
+      neoHouses = neoHouses.filter(house => {
+        const houseBathroomCount = house.availableRooms.filter(
+          room => room === 'bathroom' || room === 'bathroom2'
+        ).length;
+        return houseBathroomCount === bathroomCount;
+      });
+    }
+    
+    // Фильтр по площади
+    if (searchParams.sqftMin || searchParams.sqftMax) {
+      const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin) : 0;
+      const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax) : 10000;
+      
+      neoHouses = neoHouses.filter(house => {
+        if (!house.squareFeet) return true; // Пропускаем дома без указанной площади
+        return house.squareFeet >= minSqft && house.squareFeet <= maxSqft;
+      });
+    }
+    
     if (neoHouses.length > 0) {
       heroHouse = await convertNeoToLegacyHouse(neoHouses[0]);
     }
@@ -73,17 +112,22 @@ export default async function NeoCollectionPage() {
       {/* Houses Grid */}
       <section className="py-16 bg-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Neo Collection
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-300">
               {neoHouses.length > 0 
                 ? `${neoHouses.length} sophisticated designs awaiting your exploration`
                 : 'Coming soon - sophisticated designs with dual color schemes'
               }
             </p>
           </div>
+          
+          {/* Фильтры */}
+          {neoHouses.length > 0 && (
+            <NeoFilterWrapper houses={neoHouses} />
+          )}
 
           {neoHouses.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -116,10 +160,16 @@ export default async function NeoCollectionPage() {
                       {house.description}
                     </p>
                     
-                    <div className="flex justify-left gap-2 items-center text-sm text-gray-500">
-                      <span>{house.availableRooms.filter(room => room === 'bedroom' || room === 'bedroom2').length} Bedrooms</span>
-                      <span>{house.availableRooms.filter(room => room === 'bathroom' || room === 'bathroom2').length} Bathrooms</span>
-                     
+                    <div className="flex flex-wrap justify-left gap-2 items-center text-sm text-gray-500">
+                      {house.squareFeet && (
+                        <span className="bg-gray-100 px-2 py-1 rounded-md">{house.squareFeet} sq.ft</span>
+                      )}
+                      <span className="bg-gray-100 px-2 py-1 rounded-md">
+                        {house.availableRooms.filter(room => room === 'bedroom' || room === 'bedroom2').length} {house.availableRooms.filter(room => room === 'bedroom' || room === 'bedroom2').length === 1 ? 'Bedroom' : 'Bedrooms'}
+                      </span>
+                      <span className="bg-gray-100 px-2 py-1 rounded-md">
+                        {house.availableRooms.filter(room => room === 'bathroom' || room === 'bathroom2').length} {house.availableRooms.filter(room => room === 'bathroom' || room === 'bathroom2').length === 1 ? 'Bathroom' : 'Bathrooms'}
+                      </span>
                     </div>
                   </div>
                 </Link>
