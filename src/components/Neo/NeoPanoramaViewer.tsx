@@ -29,7 +29,7 @@ interface NeoScene {
   yaw: number;
   pitch: number;
   zoom: number;
-  links: Array<{ to: string; yaw: number; pitch: number; label: string }>;
+  links: Array<{ to: string; yaw: number; pitch: number; label: string; icon?: string }>;
 }
 
 interface NeoMarker {
@@ -37,11 +37,13 @@ interface NeoMarker {
   yaw: number;
   pitch: number;
   label: string;
+  icon?: string; // Иконка для маркера
 }
 
 // Dynamic imports for PhotoSphere Viewer (SSR-safe)
 let Viewer: any = null;
 let CubemapAdapter: any = null;
+let MarkersPlugin: any = null;
 
 export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoramaViewerProps) {
   const [currentRoom, setCurrentRoom] = useState<string>(`entry_${selectedColor}`);
@@ -53,6 +55,64 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
   
   const viewerRef = useRef<HTMLDivElement>(null);
   const viewerInstanceRef = useRef<any>(null);
+  const markersPluginRef = useRef<any>(null);
+
+  // Utility function to convert degrees to radians
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+
+  // Build markers from scene links (similar to PanoramaViewerRedux)
+  const buildNeoMarkers = useCallback((links: NeoMarker[]) => {
+    return links.map((link, index) => ({
+      id: `neo-marker-${index}`,
+      position: {
+        yaw: toRad(link.yaw || 0),
+        pitch: toRad(link.pitch || 0),
+      },
+      html: `
+        <div class="neo-marker-content" style="
+          width: 60px;
+          height: 60px;
+          background: rgba(255, 0, 0, 0.7);
+          border: 3px solid white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 32px;
+          color: white;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        ">
+          ${link.icon || getRoomIcon(link.to)}
+        </div>
+      `,
+      tooltip: link.label,
+      data: {
+        to: link.to,
+        label: link.label,
+      },
+    }));
+  }, []);
+
+  // Room icon function (local version)
+  const getRoomIcon = (roomName: string): string => {
+    const baseName = roomName.replace(/_white$|_dark$/, '').replace(/2$/, '');
+    
+    switch (baseName) {
+      case 'entry': return '🏠';
+      case 'living': return '🛋️';
+      case 'kitchen': return '🍽️';
+      case 'hall': return '🚪';
+      case 'bedroom': return '🛏️';
+      case 'bedroom': return '🛏️';
+      case 'bathroom': return '🛁';
+      case 'wik': return '👔';
+      case 'office': return '💼';
+      default: return '📍';
+    }
+  };
 
   // Мемоизированная функция для создания сцены
   const createNeoScene = useCallback(async (roomName: string): Promise<NeoScene | null> => {
@@ -65,47 +125,50 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
       
       console.log(`Creating Neo scene: ${roomWithColor} for house ${houseId}`);
 
+      // Убираем префикс neo- для путей к ассетам
+      const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+
       // Загружаем маркеры для навигации
-      const markers = await getNeoMarkers(houseId, selectedColor, roomWithColor);
+      const markers = await getNeoMarkers(cleanHouseId, selectedColor, roomWithColor);
       
       // Создаем пути к 360° изображениям
       const tiles = {
-        front: await getNeoAssetPath('tour360', houseId, { 
+        front: await getNeoAssetPath('tour360', cleanHouseId, { 
           color: selectedColor, 
           room: roomWithColor, 
           tour360Type: 'tiles', 
           tileDirection: 'front', 
           format: 'jpg' 
         }),
-        back: await getNeoAssetPath('tour360', houseId, { 
+        back: await getNeoAssetPath('tour360', cleanHouseId, { 
           color: selectedColor, 
           room: roomWithColor, 
           tour360Type: 'tiles', 
           tileDirection: 'back', 
           format: 'jpg' 
         }),
-        left: await getNeoAssetPath('tour360', houseId, { 
+        left: await getNeoAssetPath('tour360', cleanHouseId, { 
           color: selectedColor, 
           room: roomWithColor, 
           tour360Type: 'tiles', 
           tileDirection: 'left', 
           format: 'jpg' 
         }),
-        right: await getNeoAssetPath('tour360', houseId, { 
+        right: await getNeoAssetPath('tour360', cleanHouseId, { 
           color: selectedColor, 
           room: roomWithColor, 
           tour360Type: 'tiles', 
           tileDirection: 'right', 
           format: 'jpg' 
         }),
-        top: await getNeoAssetPath('tour360', houseId, { 
+        top: await getNeoAssetPath('tour360', cleanHouseId, { 
           color: selectedColor, 
           room: roomWithColor, 
           tour360Type: 'tiles', 
           tileDirection: 'up', 
           format: 'jpg' 
         }),
-        bottom: await getNeoAssetPath('tour360', houseId, { 
+        bottom: await getNeoAssetPath('tour360', cleanHouseId, { 
           color: selectedColor, 
           room: roomWithColor, 
           tour360Type: 'tiles', 
@@ -114,16 +177,35 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         })
       };
 
-      const thumbnail = await getNeoAssetPath('tour360', houseId, { 
-        color: selectedColor, 
-        room: roomWithColor, 
-        tour360Type: 'thumbnail', 
-        format: 'jpg' 
-      });
+      // Сначала пробуем получить thumbnail из комнаты, если не получается - используем hero с цветом
+      let thumbnail;
+      try {
+        thumbnail = await getNeoAssetPath('tour360', cleanHouseId, { 
+          color: selectedColor, 
+          room: roomWithColor, 
+          tour360Type: 'thumbnail', 
+          format: 'jpg' 
+        });
+      } catch (error) {
+        console.warn('Failed to get room thumbnail, using hero color image:', error);
+        thumbnail = await getNeoAssetPath('heroColor', cleanHouseId, { 
+          color: selectedColor, 
+          format: 'jpg' 
+        });
+      }
+
+      // Валидация сгенерированных путей
+      const allPaths = [...Object.values(tiles), thumbnail];
+      const invalidPaths = allPaths.filter(path => !path || path.includes('undefined') || path.includes('null') || path === '');
+      
+      if (invalidPaths.length > 0) {
+        console.error('Invalid asset paths generated:', invalidPaths);
+        throw new Error(`Failed to generate valid paths for room ${roomWithColor}`);
+      }
 
       const scene: NeoScene = {
         key: `${houseId}_${roomWithColor}`,
-        title: `${houseId} - ${baseRoomName} (${selectedColor})`,
+        title: `${cleanHouseId} - ${baseRoomName} (${selectedColor})`,
         panorama: tiles,
         thumbnail,
         yaw: 180,
@@ -132,7 +214,11 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         links: markers
       };
 
-      console.log('Neo scene created:', scene);
+      console.log('Neo scene created successfully:', scene.key);
+      console.log('Panorama tiles:', tiles);
+      console.log('Thumbnail:', thumbnail);
+      console.log('Navigation markers:', markers.length);
+      
       return scene;
       
     } catch (error) {
@@ -187,9 +273,11 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           // Загружаем JavaScript модули
           const photosphereCore = await import('@photo-sphere-viewer/core');
           const cubemapAdapter = await import('@photo-sphere-viewer/cubemap-adapter');
+          const markersPlugin = await import('@photo-sphere-viewer/markers-plugin');
           
           Viewer = photosphereCore.Viewer;
           CubemapAdapter = cubemapAdapter.CubemapAdapter;
+          MarkersPlugin = markersPlugin.MarkersPlugin;
           
           // Глобально отключаем все проверки CSS для PhotoSphere
           if (typeof window !== 'undefined') {
@@ -227,23 +315,68 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
     loadPhotoSphereLibraries();
   }, []);
 
-  // Загрузка доступных комнат для выбранного цвета
+  // Загрузка доступных комнат из neo-assets.json для выбранного дома и цвета
   useEffect(() => {
-    const rooms = [
-      `entry_${selectedColor}`,
-      `living_${selectedColor}`, 
-      `kitchen_${selectedColor}`,
-      `hall_${selectedColor}`,
-      `badroom_${selectedColor}`,
-      `badroom_${selectedColor}2`, 
-      `bathroom_${selectedColor}`,
-      `bathroom_${selectedColor}2`, 
-      `wik_${selectedColor}`
-    ];
+    const fetchAvailableRooms = async () => {
+      try {
+        // Загружаем конфигурацию комнат из neo-assets.json
+        const response = await fetch('/data/neo-assets.json');
+        if (!response.ok) {
+          throw new Error(`Failed to load neo-assets.json: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Убираем префикс neo- если он есть для поиска в конфигурации
+        const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+        console.log(`Looking for house config: ${cleanHouseId} in neo-assets.json`);
+        
+        const houseConfig = data.neoHouses[cleanHouseId];
+        
+        if (!houseConfig || !houseConfig.tour360 || !houseConfig.tour360[selectedColor]) {
+          console.warn(`No room configuration found for house ${cleanHouseId} with color ${selectedColor}`);
+          console.log('Available houses:', Object.keys(data.neoHouses || {}));
+          console.log('Available colors for house:', houseConfig?.tour360 ? Object.keys(houseConfig.tour360) : 'none');
+          
+          // Используем дефолтные комнаты если не нашли конфигурацию
+          const defaultRooms = [
+            `entry_${selectedColor}`,
+            `living_${selectedColor}`, 
+            `kitchen_${selectedColor}`,
+            `hall_${selectedColor}`,
+            `badroom_${selectedColor}`,
+            `badroom_${selectedColor}2`, 
+            `bathroom_${selectedColor}`,
+            `bathroom_${selectedColor}2`, 
+            `wik_${selectedColor}`
+          ];
+          
+          setAvailableRooms(defaultRooms);
+          setCurrentRoom(`entry_${selectedColor}`);
+          return;
+        }
+        
+        // Получаем список комнат из конфигурации
+        const configuredRooms = houseConfig.tour360[selectedColor].rooms || [];
+        console.log(`Loaded rooms for ${cleanHouseId} (${selectedColor}):`, configuredRooms);
+        
+        if (configuredRooms.length > 0) {
+          setAvailableRooms(configuredRooms);
+          // Устанавливаем первую комнату из списка как текущую
+          setCurrentRoom(configuredRooms[0]);
+        } else {
+          console.warn(`No rooms found for ${cleanHouseId} with color ${selectedColor}`);
+          setAvailableRooms([]);
+          setError(`No rooms available for ${cleanHouseId} with ${selectedColor} color scheme`);
+        }
+      } catch (error) {
+        console.error('Error loading room configuration:', error);
+        setError(`Failed to load room configuration: ${error}`);
+      }
+    };
     
-    setAvailableRooms(rooms);
-    setCurrentRoom(`entry_${selectedColor}`);
-  }, [selectedColor]);
+    fetchAvailableRooms();
+  }, [houseId, selectedColor]);
 
   // Создание начальной сцены
   useEffect(() => {
@@ -256,108 +389,133 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
     }
   }, [librariesLoaded, currentRoom, createNeoScene]);
 
-  // Инициализация PhotoSphere Viewer
+  // Инициализация PhotoSphere Viewer (аналогично PanoramaViewerRedux)
   useEffect(() => {
-    if (!librariesLoaded || !currentScene || !viewerRef.current || !Viewer) {
+    if (!librariesLoaded || !currentScene || !viewerRef.current || !Viewer || !MarkersPlugin) {
       return;
     }
 
-    try {
-      // Очищаем предыдущий viewer и маркеры
-      if (viewerInstanceRef.current) {
-        viewerInstanceRef.current.destroy();
-        viewerInstanceRef.current = null;
-      }
-      
-      // Очищаем старые маркеры
-      if (viewerRef.current) {
-        const oldMarkers = viewerRef.current.querySelectorAll('.neo-marker');
-        oldMarkers.forEach(marker => marker.remove());
-      }
+    let isMounted = true;
 
-      console.log('Initializing PhotoSphere Viewer with scene:', currentScene.key);
-
-      const viewer = new Viewer({
-        container: viewerRef.current,
-        adapter: CubemapAdapter,
-        panorama: currentScene.panorama,
-        caption: currentScene.title,
-        defaultYaw: (currentScene.yaw * Math.PI) / 180,
-        defaultPitch: (currentScene.pitch * Math.PI) / 180,
-        defaultZoomLvl: 0, // Начинаем с минимального зума
-        minFov: 30,
-        maxFov: 120, // Увеличиваем максимальный FOV для большего zoom out
-        loadingImg: currentScene.thumbnail,
-        touchmoveTwoFingers: true,
-        mousewheelCtrlKey: false,
-        // Отключаем проверку CSS стилей
-        checkStylesheet: false
-      });
-
-      // Добавляем маркеры после инициализации viewer
+    async function initViewer() {
       try {
-        // Попробуем добавить маркеры программно
-        setTimeout(() => {
-          if (currentScene.links && currentScene.links.length > 0) {
-            // Добавляем простые HTML маркеры вместо MarkersPlugin
-            const container = viewerRef.current;
-            if (container) {
-              currentScene.links.forEach((link, index) => {
-                const marker = document.createElement('div');
-                marker.className = 'neo-marker';
-                marker.style.cssText = `
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  width: 32px;
-                  height: 32px;
-                  background: rgba(255, 255, 255, 0.9);
-                  border: 2px solid #007bff;
-                  border-radius: 50%;
-                  cursor: pointer;
-                  transform: translate(-50%, -50%);
-                  z-index: 100;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  font-size: 12px;
-                  font-weight: bold;
-                  color: #007bff;
-                  transition: all 0.2s ease;
-                `;
-                marker.textContent = '➤';
-                marker.title = link.label;
-                marker.onclick = () => {
-                  setCurrentRoom(link.to);
-                };
-                
-                // Позиционируем маркер случайно для демонстрации
-                const angle = (index * 60) % 360;
-                const radius = 40;
-                const x = 50 + Math.cos(angle * Math.PI / 180) * radius;
-                const y = 50 + Math.sin(angle * Math.PI / 180) * radius;
-                marker.style.left = `${x}%`;
-                marker.style.top = `${y}%`;
-                
-                container.appendChild(marker);
-              });
+        if (!currentScene) {
+          console.error('No current scene available for initialization');
+          return;
+        }
+
+        // Очищаем предыдущий viewer
+        if (viewerInstanceRef.current) {
+          viewerInstanceRef.current.destroy();
+          viewerInstanceRef.current = null;
+        }
+
+        console.log('Initializing Neo PhotoSphere Viewer with scene:', currentScene.key);
+        console.log('Panorama paths:', currentScene.panorama);
+        console.log('Thumbnail path:', currentScene.thumbnail);
+
+        // Валидация путей к изображениям
+        const panoramaPaths = Object.values(currentScene.panorama);
+        const invalidPaths = panoramaPaths.filter(path => !path || path.includes('undefined') || path.includes('null'));
+        
+        if (invalidPaths.length > 0) {
+          console.error('Invalid panorama paths detected:', invalidPaths);
+          setError(`Invalid image paths for room ${currentRoom}. Please check the asset configuration.`);
+          return;
+        }
+
+        // Получаем корректные углы для начальной сцены
+        const initialYaw = typeof currentScene.yaw === 'number' ? toRad(currentScene.yaw) : 0;
+        const initialPitch = typeof currentScene.pitch === 'number' ? toRad(currentScene.pitch) : 0;
+
+        const viewer = new Viewer({
+          container: viewerRef.current,
+          adapter: CubemapAdapter,
+          panorama: currentScene.panorama,
+          caption: currentScene.title,
+          // Устанавливаем корректные углы сразу при инициализации
+          defaultYaw: initialYaw,
+          defaultPitch: initialPitch,
+          navbar: ['zoom', 'caption', 'fullscreen'],
+          plugins: [
+            [MarkersPlugin, { markers: buildNeoMarkers(currentScene.links) }]
+          ],
+          // Оптимизации для производительности
+          mousewheelCtrlKey: false,
+          keyboardActions: {},
+          loadingImg: currentScene.thumbnail,
+          touchmoveTwoFingers: true,
+          checkStylesheet: false,
+        });
+
+        if (!isMounted) {
+          viewer.destroy();
+          return;
+        }
+
+        const markersPlugin = viewer.getPlugin(MarkersPlugin);
+
+        // Сохраняем в refs
+        viewerInstanceRef.current = viewer;
+        markersPluginRef.current = markersPlugin;
+
+        // Обработчик кликов по маркерам -> навигация к целевой сцене
+        markersPlugin.addEventListener('select-marker', ({ marker }: { marker: any }) => {
+          if (marker?.data?.to) {
+            // Откладываем тяжелую операцию для лучшего INP
+            setTimeout(() => {
+              console.log('Neo marker clicked, navigating to:', marker.data.to);
+              setCurrentRoom(marker.data.to);
+            }, 0);
+          }
+        });
+
+        const onReady = () => {
+          if (!currentScene) return;
+          
+          // Применяем начальный вид
+          const yaw = typeof currentScene.yaw === 'number' ? toRad(currentScene.yaw) : 0;
+          const pitch = typeof currentScene.pitch === 'number' ? toRad(currentScene.pitch) : 0;
+          viewer.rotate({ yaw, pitch });
+          
+          const z = currentScene.zoom;
+          if (typeof z === 'number') {
+            try {
+              (viewer as any).zoom(z);
+            } catch {
+              // Fallback для разных версий PSV
             }
           }
-        }, 500);
-      } catch (markerError) {
-        console.warn('Failed to add markers:', markerError);
+
+          setIsLoading(false);
+          console.log('Neo PhotoSphere Viewer initialized successfully');
+        };
+
+        viewer.addEventListener('ready', onReady, { once: true });
+
+        setError(null);
+
+      } catch (error) {
+        console.error('Error initializing Neo PhotoSphere Viewer:', error);
+        if (isMounted) {
+          setError('Failed to initialize 360° viewer');
+          setIsLoading(false);
+        }
       }
-
-      viewerInstanceRef.current = viewer;
-      setError(null);
-      
-      console.log('PhotoSphere Viewer initialized successfully');
-
-    } catch (error) {
-      console.error('Error initializing PhotoSphere Viewer:', error);
-      setError('Failed to initialize 360° viewer');
     }
-  }, [librariesLoaded, currentScene, currentRoom]);
+
+    // Задержка инициализации для мгновенного LCP
+    const initTimeout = setTimeout(() => {
+      initViewer();
+    }, 300);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(initTimeout);
+    };
+  }, [librariesLoaded, currentScene, currentRoom, buildNeoMarkers]);
+
+
 
   // Cleanup
   useEffect(() => {
@@ -379,22 +537,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
     };
   }, []);
 
-  // Функция получения иконки комнаты
-  const getRoomIcon = (roomName: string): string => {
-    const baseName = roomName.replace(/_white$|_dark$/, '').replace(/2$/, '');
-    
-    switch (baseName) {
-      case 'entry': return '🚪';
-      case 'living': return '🛋️';
-      case 'kitchen': return '🍳';
-      case 'hall': return '🚶';
-      case 'bedroom': return '🛏️';
-      case 'badroom': return '🛏️'; // поддержка старого названия
-      case 'bathroom': return '🚿';
-      case 'wik': return '👔';
-      default: return '📍';
-    }
-  };
+
 
   const getRoomDisplayName = (roomName: string): string => {
     const baseName = roomName.replace(/_white$|_dark$/, '');
@@ -444,53 +587,16 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         style={{ minHeight: '100vh' }}
       />
 
-      {/* Loading Overlay */}
+      {/* Custom Loading Overlay */}
       {isLoading && (
-        <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[1000]">
           <div className="text-center text-white">
-            <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <h3 className="text-lg font-semibold mb-2">Loading {getRoomDisplayName(currentRoom)}</h3>
+            <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+            <h3 className="text-xl font-semibold mb-3">Loading {getRoomDisplayName(currentRoom)}</h3>
             <p className="text-gray-300">Preparing your {selectedColor} scheme experience...</p>
           </div>
         </div>
       )}
-
-      {/* Room Navigation */}
-      <div className="absolute bottom-6 left-6 right-6 z-40">
-        <div className="bg-black bg-opacity-60 backdrop-blur-sm rounded-lg p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-white font-semibold">
-              {getRoomIcon(currentRoom)} {getRoomDisplayName(currentRoom)}
-            </h3>
-            <div className="text-sm text-gray-300">
-              {selectedColor.charAt(0).toUpperCase() + selectedColor.slice(1)} Scheme
-            </div>
-          </div>
-          
-          <div className="flex gap-2 overflow-x-auto">
-            {availableRooms.map((room) => {
-              const isActive = room === currentRoom;
-              const displayName = getRoomDisplayName(room);
-              const icon = getRoomIcon(room);
-              
-              return (
-                <button
-                  key={room}
-                  onClick={() => setCurrentRoom(room)}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
-                    isActive 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-white bg-opacity-10 text-gray-300 hover:bg-opacity-20'
-                  }`}
-                >
-                  <span>{icon}</span>
-                  <span>{displayName}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

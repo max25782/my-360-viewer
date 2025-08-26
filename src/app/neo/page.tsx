@@ -21,6 +21,15 @@ interface NeoHouse {
   maxPK: number;
   availableRooms: string[];
   squareFeet?: number;
+  comparison?: {
+    features?: {
+      [key: string]: {
+        good: string;
+        better: string;
+        best: string;
+      }
+    }
+  };
 }
 
 // Функция для конвертации Neo house в формат Legacy House для HeroSection
@@ -50,47 +59,88 @@ async function convertNeoToLegacyHouse(neoHouse: NeoHouse): Promise<House> {
 }
 
 export default async function NeoCollectionPage(props: any) {
-  const { searchParams } = props;
   let neoHouses: NeoHouse[] = [];
   let heroHouse: House | null = null;
   
   try {
+    // Get all houses first
     neoHouses = await getServerNeoHouses();
     
-    // Apply filters
-    const bedroomsParam = searchParams.bedrooms as string | undefined;
-    if (bedroomsParam && bedroomsParam !== 'any') {
-      const bedroomCount = parseInt(bedroomsParam);
-      neoHouses = neoHouses.filter(house => {
-        const houseBedroomCount = house.availableRooms.filter(
-          room => room === 'bedroom' || room === 'bedroom2'
-        ).length;
-        return houseBedroomCount === bedroomCount;
-      });
-    }
+    // Get searchParams safely
+    const searchParams = props?.searchParams || {};
     
-    const bathroomsParam = searchParams.bathrooms as string | undefined;
-    if (bathroomsParam && bathroomsParam !== 'any') {
-      const bathroomCount = parseInt(bathroomsParam);
-      neoHouses = neoHouses.filter(house => {
-        const houseBathroomCount = house.availableRooms.filter(
-          room => room === 'bathroom' || room === 'bathroom2'
-        ).length;
-        return houseBathroomCount === bathroomCount;
-      });
-    }
-    
-    // Square footage filter
-    const sqftMinParam = searchParams.sqftMin as string | undefined;
-    const sqftMaxParam = searchParams.sqftMax as string | undefined;
-    if (sqftMinParam || sqftMaxParam) {
-      const minSqft = sqftMinParam ? parseInt(sqftMinParam) : 0;
-      const maxSqft = sqftMaxParam ? parseInt(sqftMaxParam) : 10000;
+    // Apply filters if searchParams exists
+    if (Object.keys(searchParams).length > 0) {
+      // Bedrooms filter
+      if (searchParams.bedrooms && searchParams.bedrooms !== 'any') {
+        const bedroomCount = parseInt(searchParams.bedrooms as string);
+        neoHouses = neoHouses.filter(house => {
+          const houseBedroomCount = house.availableRooms.filter(
+            room => room === 'bedroom' || room === 'bedroom2'
+          ).length;
+          return houseBedroomCount === bedroomCount;
+        });
+      }
       
-      neoHouses = neoHouses.filter(house => {
-        if (!house.squareFeet) return true; // Skip houses without square footage
-        return house.squareFeet >= minSqft && house.squareFeet <= maxSqft;
-      });
+      // Bathrooms filter
+      if (searchParams.bathrooms && searchParams.bathrooms !== 'any') {
+        const bathroomCount = parseInt(searchParams.bathrooms as string);
+        neoHouses = neoHouses.filter(house => {
+          const houseBathroomCount = house.availableRooms.filter(
+            room => room === 'bathroom' || room === 'bathroom2'
+          ).length;
+          return houseBathroomCount === bathroomCount;
+        });
+      }
+      
+      // Square footage filter
+      if (searchParams.sqftMin || searchParams.sqftMax) {
+        const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin as string) : 0;
+        const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax as string) : 10000;
+        
+        neoHouses = neoHouses.filter(house => {
+          if (!house.squareFeet) return true; // Skip houses without square footage
+          return house.squareFeet >= minSqft && house.squareFeet <= maxSqft;
+        });
+      }
+      
+      // Features filter
+      if (searchParams.features) {
+        const selectedFeatures = (searchParams.features as string).split(',');
+        if (selectedFeatures.length > 0) {
+          neoHouses = neoHouses.filter(house => {
+            // Define predefined features mapping - which houses have which features
+            const predefinedFeaturesMap: Record<string, string[]> = {
+              "Loft": ["Apex", "Elementa", "Forma"],
+              "Garage": ["Apex", "Arcos"],
+              "Office": ["HorizonX", "Forma"],
+              "Primary Suite": ["Apex", "Elementa"],
+              "Kitchen Island": ["Apex", "Arcos", "Elementa", "Forma", "Halo"],
+              "Extra Storage": ["Apex", "Elementa", "Forma"],
+              "Covered Patio": ["Apex", "Arcos"],
+              "Covered Porch": ["Elementa", "Halo"],
+              "Bonus Room": ["Apex", "Forma"]
+            };
+            
+            // Check predefined features first
+            for (const feature of selectedFeatures) {
+              if (predefinedFeaturesMap[feature]?.includes(house.id)) {
+                return true;
+              }
+            }
+            
+            // Then check comparison features if available
+            if (house.comparison?.features) {
+              const houseFeatures = Object.keys(house.comparison.features);
+              if (selectedFeatures.some(feature => houseFeatures.includes(feature))) {
+                return true;
+              }
+            }
+            
+            return false;
+          });
+        }
+      }
     }
     
     if (neoHouses.length > 0) {

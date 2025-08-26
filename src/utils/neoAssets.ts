@@ -146,7 +146,7 @@ function replaceNeoPath(template: string, variables: Record<string, string | num
  * Get Neo asset path with color support
  */
 export async function getNeoAssetPath(
-  type: 'hero' | 'exterior' | 'interior' | 'tour360',
+  type: 'hero' | 'heroColor' | 'exterior' | 'interior' | 'tour360',
   houseId: string,
   options: {
     color: 'white' | 'dark';
@@ -166,15 +166,25 @@ export async function getNeoAssetPath(
   const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
   // Нормализуем регистр имени дома
   const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
+  
+  // Получаем сопоставление цветов из конфигурации
+  const colorMapping = config.neoConfig.colorMapping || { white: 'white', dark: 'black' };
+  const colorFile = colorMapping[options.color] || options.color;
+  
   const variables: Record<string, string | number> = { 
     houseId: normalizedHouseId,
     color: options.color,
+    colorFile: colorFile,
     format: options.format || 'jpg'
   };
   
   switch (type) {
     case 'hero':
       template = config.neoConfig.pathTemplates.hero;
+      break;
+      
+    case 'heroColor':
+      template = config.neoConfig.pathTemplates.heroColor;
       break;
       
     case 'exterior':
@@ -286,6 +296,7 @@ export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', ro
   yaw: number;
   pitch: number;
   label: string;
+  icon?: string;
 }>> {
   try {
     let markersData;
@@ -297,16 +308,60 @@ export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', ro
     }
     markersData = await response.json();
     
+    // Проверяем наличие маркеров для указанного дома
     const houseMarkers = markersData[houseId];
     
     if (!houseMarkers || !houseMarkers[color] || !houseMarkers[color][room]) {
+      console.log(`No markers found for house: ${houseId}, color: ${color}, room: ${room}`);
+      
+      // Если не нашли маркеры для точного ID дома, пробуем с нормализованным регистром
+      const normalizedId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+      if (normalizedId !== houseId && markersData[normalizedId]) {
+        console.log(`Trying with normalized house ID: ${normalizedId}`);
+        const normalizedHouseMarkers = markersData[normalizedId];
+        
+        if (normalizedHouseMarkers && normalizedHouseMarkers[color] && normalizedHouseMarkers[color][room]) {
+          console.log(`Found markers for normalized house ID: ${normalizedId}`);
+          return normalizedHouseMarkers[color][room].markers || [];
+        }
+      }
+      
       return [];
     }
     
-    return houseMarkers[color][room].markers || [];
+    // Добавляем иконки к маркерам на основе типа комнаты
+    const markers = houseMarkers[color][room].markers || [];
+    
+    return markers.map(marker => {
+      // Добавляем иконку на основе типа комнаты, если она не указана
+      if (!marker.icon) {
+        const roomType = marker.to.replace(/_white$|_dark$/, '').replace(/2$/, '');
+        marker.icon = getRoomIcon(roomType);
+      }
+      return marker;
+    });
   } catch (error) {
     console.error('Failed to load Neo markers:', error);
     return [];
+  }
+}
+
+/**
+ * Получение иконки комнаты по типу
+ */
+function getRoomIcon(roomName: string): string {
+  const baseName = roomName.replace(/_white$|_dark$/, '').replace(/2$/, '');
+  
+  switch (baseName) {
+    case 'entry': return '🚪';
+    case 'living': return '🛋️';
+    case 'kitchen': return '🍳';
+    case 'hall': return '🚶';
+    case 'bedroom': return '🛏️';
+    case 'badroom': return '🛏️'; // поддержка старого названия
+    case 'bathroom': return '🚿';
+    case 'wik': return '👔';
+    default: return '📍';
   }
 }
 

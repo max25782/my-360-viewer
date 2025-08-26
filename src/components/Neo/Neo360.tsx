@@ -28,14 +28,14 @@ export default function Neo360Page() {
                     <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl group cursor-pointer" onClick={handleStartTour}>
                         {/* Preview Image */}
                         <Image
-                            src={`/assets/neo/${slug}/360/hero_black.jpg`}
+                            src={`/assets/neo/${slug}/360/hero_dark.jpg`}
                             alt="360° Tour Preview"
                             fill
                             className="object-cover transition-all duration-500 group-hover:scale-105"
                             onError={(e) => {
                                 // First fallback to white hero
                                 const target = e.currentTarget as HTMLImageElement;
-                                target.src = `/assets/neo/${slug}/360/hero-white.jpg`;
+                                target.src = `/assets/neo/${slug}/360/hero_white.jpg`;
                                 target.onerror = () => {
                                     // Second fallback to main hero image
                                     target.src = `/assets/neo/${slug}/hero.jpg`;

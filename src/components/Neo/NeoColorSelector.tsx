@@ -16,6 +16,24 @@ export default function NeoColorSelector({
 }: NeoColorSelectorProps) {
   const [selectedPreview, setSelectedPreview] = useState<'white' | 'dark' | null>(null);
 
+  // Map display names to actual folder names
+  const getFolderName = (name: string): string => {
+    const folderMap: Record<string, string> = {
+      'The Elementa': 'Elementa',
+      'The Apex': 'Apex',
+      'The Forma': 'Forma',
+      'The Arcos': 'Arcos',
+      'The Halo': 'Halo',
+      'The HorizonX': 'HorizonX',
+      'The Linea': 'Linea',
+      'The Lucid': 'Lucid',
+      'The Monarch': 'Monarch'
+    };
+    return folderMap[name] || name;
+  };
+
+  const folderName = getFolderName(houseName);
+
   const colorOptions = [
     {
       id: 'white' as const,
@@ -70,9 +88,9 @@ export default function NeoColorSelector({
                   <div className="relative h-40 mb-4 rounded-lg overflow-hidden">
                     <Image
                       src={houseName && option.id === 'dark' 
-                        ? `/assets/neo/${houseName}/360/hero-preview-dark.jpg`
+                        ? `/assets/neo/${folderName}/360/hero_black.jpg`
                         : houseName && option.id === 'white'
-                        ? `/assets/neo/${houseName}/360/hero-preview.jpg`
+                        ? `/assets/neo/${folderName}/360/hero_white.jpg`
                         : option.thumbnail}
                       alt={option.name}
                       fill

@@ -9,6 +9,15 @@ interface NeoFiltersProps {
     name: string;
     availableRooms: string[];
     squareFeet?: number;
+    comparison?: {
+      features?: {
+        [key: string]: {
+          good: string;
+          better: string;
+          best: string;
+        }
+      }
+    };
   }>;
 }
 
@@ -21,6 +30,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
   const bathroomsParam = searchParams.get('bathrooms');
   const sqftMinParam = searchParams.get('sqftMin');
   const sqftMaxParam = searchParams.get('sqftMax');
+  const featuresParam = searchParams.get('features');
   
   // Filter states
   const [bedrooms, setBedrooms] = useState<string>(bedroomsParam || 'any');
@@ -29,6 +39,10 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
     sqftMinParam ? parseInt(sqftMinParam) : 300,
     sqftMaxParam ? parseInt(sqftMaxParam) : 1500
   ]);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>(
+    featuresParam ? featuresParam.split(',') : []
+  );
+  const [isFiltersActive, setIsFiltersActive] = useState<boolean>(false);
   
   // Get unique filter values
   const getBedroomOptions = () => {
@@ -66,6 +80,65 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
     return [min === 10000 ? 300 : min, max === 0 ? 1500 : max];
   };
   
+  // Get available features from all houses' comparison data and add predefined features
+  const getFeatureOptions = () => {
+    // Predefined features for Neo houses
+    const predefinedFeatures = [
+      "Loft",
+      "Garage",
+      "Office",
+      "Primary Suite",
+      "Kitchen Island",
+      "Extra Storage",
+      "Covered Patio",
+      "Covered Porch",
+      "Bonus Room"
+    ];
+    
+    const features = new Set<string>(predefinedFeatures);
+    
+    // Also add features from comparison data if available
+    houses.forEach(house => {
+      if (house.comparison?.features) {
+        // Add all feature names from comparison
+        Object.keys(house.comparison.features).forEach(feature => features.add(feature));
+      }
+    });
+    
+    return Array.from(features).sort();
+  };
+  
+  // Check if any filter is active
+  useEffect(() => {
+    setIsFiltersActive(
+      bedrooms !== 'any' || 
+      bathrooms !== 'any' || 
+      selectedFeatures.length > 0 ||
+      sqftRange[0] !== (sqftMinParam ? parseInt(sqftMinParam) : 300) ||
+        sqftRange[1] !== (sqftMaxParam ? parseInt(sqftMaxParam) : 1500) 
+    );
+  }, [bedrooms, bathrooms, selectedFeatures, sqftRange, sqftMinParam, sqftMaxParam]);
+  
+  // Handle feature toggle
+  const toggleFeature = (feature: string) => {
+    setSelectedFeatures(prev => 
+      prev.includes(feature)
+        ? prev.filter(f => f !== feature)
+        : [...prev, feature]
+    );
+  };
+  
+  // Reset all filters
+  const resetFilters = () => {
+    setBedrooms('any');
+    setBathrooms('any');
+    setSelectedFeatures([]);
+    setSqftRange([
+      300,
+      1500
+    ]);
+  };
+  
   // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
@@ -73,10 +146,11 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
     if (bathrooms !== 'any') params.set('bathrooms', bathrooms);
     params.set('sqftMin', sqftRange[0].toString());
     params.set('sqftMax', sqftRange[1].toString());
+    if (selectedFeatures.length > 0) params.set('features', selectedFeatures.join(','));
     
     const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
     router.push(newUrl, { scroll: false });
-  }, [bedrooms, bathrooms, sqftRange, router]);
+  }, [bedrooms, bathrooms, sqftRange, selectedFeatures, router]);
   
   // Get square footage range
   const [minSqft, maxSqft] = getSquareFootRange();
@@ -97,12 +171,35 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-      <h3 className="text-lg font-semibold mb-4 text-gray-800">Filters</h3>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
+        {isFiltersActive && (
+          <button 
+            onClick={resetFilters}
+            className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors flex items-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            Reset
+          </button>
+        )}
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Bedrooms filter */}
         <div>
-          <h4 className="text-md font-medium mb-2 text-gray-700">Bedrooms</h4>
+          <h4 className="text-md font-medium mb-2 text-gray-700 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            Bedrooms
+            {bedrooms !== 'any' && (
+              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                {bedrooms}
+              </span>
+            )}
+          </h4>
           <div className="space-y-2">
             <label className="flex items-center">
               <input
@@ -111,7 +208,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
                 value="any"
                 checked={bedrooms === 'any'}
                 onChange={() => setBedrooms('any')}
-                className="mr-2"
+                className="mr-2 accent-blue-500"
               />
               <span>Any</span>
             </label>
@@ -124,7 +221,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
                   value={count.toString()}
                   checked={bedrooms === count.toString()}
                   onChange={() => setBedrooms(count.toString())}
-                  className="mr-2"
+                  className="mr-2 accent-blue-500"
                 />
                 <span>{count} {count === 1 ? 'Bedroom' : 'Bedrooms'}</span>
               </label>
@@ -134,7 +231,17 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
         
         {/* Bathrooms filter */}
         <div>
-          <h4 className="text-md font-medium mb-2 text-gray-700">Bathrooms</h4>
+          <h4 className="text-md font-medium mb-2 text-gray-700 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Bathrooms
+            {bathrooms !== 'any' && (
+              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                {bathrooms}
+              </span>
+            )}
+          </h4>
           <div className="space-y-2">
             <label className="flex items-center">
               <input
@@ -143,7 +250,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
                 value="any"
                 checked={bathrooms === 'any'}
                 onChange={() => setBathrooms('any')}
-                className="mr-2"
+                className="mr-2 accent-blue-500"
               />
               <span>Any</span>
             </label>
@@ -156,7 +263,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
                   value={count.toString()}
                   checked={bathrooms === count.toString()}
                   onChange={() => setBathrooms(count.toString())}
-                  className="mr-2"
+                  className="mr-2 accent-blue-500"
                 />
                 <span>
                   {count} {count === 1 ? 'Bathroom' : 'Bathrooms'}
@@ -169,7 +276,17 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
       
       {/* Square Feet filter */}
       <div className="mt-6">
-        <h4 className="text-md font-medium mb-2 text-gray-700">Square Feet</h4>
+        <h4 className="text-md font-medium mb-2 text-gray-700 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+          </svg>
+          Square Feet
+          {(sqftRange[0] !== 300 || sqftRange[1] !== 1500) && (
+            <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+              {sqftRange[0]}-{sqftRange[1]}
+            </span>
+          )}
+        </h4>
         <div className="px-2">
           <div className="flex justify-between text-sm text-gray-600 mb-1">
             <span>{sqftRange[0]} sq.ft</span>
@@ -208,6 +325,82 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
           </div>
         </div>
       </div>
+      
+      {/* Features filter */}
+      {getFeatureOptions().length > 0 && (
+        <div className="mt-15">
+          <h4 className="text-md font-medium mb-2 text-gray-700 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+            Features
+            {selectedFeatures.length > 0 && (
+              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                {selectedFeatures.length}
+              </span>
+            )}
+          </h4>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {getFeatureOptions().map(feature => (
+              <button
+                key={feature}
+                onClick={() => toggleFeature(feature)}
+                className={`px-3 py-1 text-sm rounded-full border transition-colors ${
+                  selectedFeatures.includes(feature)
+                    ? 'bg-blue-100 border-blue-300 text-blue-800'
+                    : 'bg-gray-100 border-gray-200 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {feature}
+                {selectedFeatures.includes(feature) && (
+                  <span className="ml-1">✓</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {/* Active filters summary */}
+      {isFiltersActive && (
+        <div className="mt-6 pt-4 border-t border-gray-200">
+          <h4 className="text-sm font-medium text-gray-500 mb-2">Active Filters:</h4>
+          <div className="flex flex-wrap gap-2">
+            {bedrooms !== 'any' && (
+              <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
+                {bedrooms} Bedroom{bedrooms !== '1' && 's'}
+                <button onClick={() => setBedrooms('any')} className="ml-1 text-blue-400 hover:text-blue-600">
+                  ×
+                </button>
+              </span>
+            )}
+            {bathrooms !== 'any' && (
+              <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
+                {bathrooms} Bathroom{bathrooms !== '1' && 's'}
+                <button onClick={() => setBathrooms('any')} className="ml-1 text-blue-400 hover:text-blue-600">
+                  ×
+                </button>
+              </span>
+            )}
+            {(sqftRange[0] !== 300 || sqftRange[1] !== 1500) && (
+              <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
+                {sqftRange[0]}-{sqftRange[1]} sq.ft
+                <button onClick={() => setSqftRange([300, 1500])} className="ml-1 text-blue-400 hover:text-blue-600">
+                  ×
+                </button>
+              </span>
+            )}
+            {selectedFeatures.map(feature => (
+              <span key={feature} className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
+                {feature}
+                <button onClick={() => toggleFeature(feature)} className="ml-1 text-blue-400 hover:text-blue-600">
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -83,6 +83,791 @@
     ]
   },
   "houses": {
+     "Elementa": {
+      "name": "The Elementa",
+      "description": "The Elementa ADU offers 1,008 square feet of comfortable living with 2 bedrooms, 2 bathrooms, and a spacious walk-in closet. It’s a modern, open layout that gives you just the right amount of room to live, relax, and recharge—without any wasted space.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom",  "bathroom", "wik"],
+      "tour360": {
+        "white": {
+          "rooms": ["entry_white", "living_white", "kitchen_white", "bedroom_white", "bedroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+        },
+        "dark": {
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark",  "bedroom_dark", "bedroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+        }
+      },
+     "comparison": {
+    "features": {
+
+      "Living Space": {
+        "good": "1008 SF",
+        "better": "1008 SF",
+        "best": "1008 SF"
+      },
+      "Overall Dimensions": {
+        "good": "48'x28'",
+        "better": "48'x28'",
+        "best": "48'x28'"
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms",
+        "better": "2 Bedrooms",
+        "best": "2 Bedrooms"
+      },
+      "Bathrooms": {
+        "good": "2 Bathrooms",
+        "better": "2 Bathrooms",
+        "best": "2 Bathrooms"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette with Kitchen Island",
+        "better": "Linear Kitchen with Kitchen Island and Upper Cabs",
+        "best": "Linear Kitchen with Kitchen Island and Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
+    "Forma": {
+      "name": "The Forma",
+      "description": "The Forma ADU offers 1,008 square feet of thoughtfully designed living space, with a spacious garage and storage area on the ground level and a 1-bedroom, 1-bathroom residence above. This stacked layout maximizes functionality without sacrificing style, showcasing our signature modern design for those who want efficient living with room for gear, tools, or vehicles.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+    "tour360": {
+        "white": {
+          "rooms": [ "living_white",   "bedroom_white",  "bathroom_white"]
+        },
+        "dark": {
+          "rooms": [ "living_dark", "bedroom_dark", "bathroom_dark"]
+        }
+      },
+      "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "1008 SF",
+        "better": "1008 SF",
+        "best": "1008 SF"
+      },
+      "Overall Dimensions": {
+        "good": "36'x14'",
+        "better": "36'x14'",
+        "best": "36'x14'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
+    "Halo": {
+      "name": "The Halo",
+      "description": "The Halo ADU features 840 square feet of thoughtfully designed living space with one bedroom, two bathrooms, and a dedicated office. With its modern layout and clean aesthetic, it’s ideal for anyone who wants a little extra room to work, create, or simply unwind.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living_white", "kitchen_white", "bedroom_white","bedroom_white2", "bathroom_white", "bathroom_white2","wik_white"]
+        },
+        "dark": {
+          "rooms": ["living_dark", "kitchen_dark", "bedroom_dark","bedroom_dark2", "bathroom_dark", "bathroom_dark2","wik_dark"]
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "840 SF",
+            "better": "840 SF",
+            "best": "840 SF"
+          },
+          "Bedrooms": {
+            "good": "1",
+            "better": "1", 
+            "best": "1"
+          },
+          "Bathrooms": {
+            "good": "1",
+            "better": "1",
+            "best": "1"
+          },
+          "Color Schemes": {
+            "good": "White Only",
+            "better": "White + Dark",
+            "best": "White + Dark + Custom"
+          },
+          "Modern Finishes": {
+            "good": "Standard",
+            "better": "Premium",
+            "best": "Luxury"
+          }
+        }
+      }
+    },
+    "HorizonX": {
+      "name": "The HorizonX",
+      "description": "The HorizonX ADU offers a linear layout with 1 bedroom, 2 bathrooms, and a dedicated office—perfect for working from home or hosting overnight guests. With clean lines and modern finishes, it’s a comfortable, efficient space that feels just right",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living_white", "office_white", "bedroom_white", "bathroom_white", "wik_white"]
+        },
+        "dark": {
+          "rooms": ["living_dark", "office_dark", "bedroom_dark", "bathroom_dark", "wik_dark"]
+        }
+      },
+     "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "840 SF",
+        "better": "840 SF",
+        "best": "840 SF"
+      },
+      "Overall Dimensions": {
+        "good": "60'x14'",
+        "better": "60'x14'",
+        "best": "60'x14'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom & Office",
+        "better": "1 Bedroom & Office",
+        "best": "1 Bedroom & Office"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
+    "Linea": {
+      "name": "The Linea",
+      "description": "The Linea ADU features 2 bedrooms, 1 bathroom, and an open-concept kitchen with a central island—perfect for cooking, gathering, or everyday living. With 840 square feet and a clean, modern design, it strikes a balance between functionality and style in a compact footprint",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living_white", "kitchen_white", "bedroom_white2", "bedroom_white", "bathroom_white", "entry_white"]
+        },
+        "dark": {
+          "rooms": ["living_dark", "kitchen_dark", "bedroom_dark", "bathroom_dark", "entry_dark"]
+        }
+      },
+      "comparison": {
+    "features": {
+      "Living Space": {
+        "good": "840 SF",
+        "better": "840 SF",
+        "best": "840 SF"
+      },
+      "Overall dimensions": {
+        "good": "36’x28’",
+        "better": "36’x28’",
+        "best": "36’x28’"
+      },
+      "Bedrooms": {
+        "good": "2 Bedrooms",
+        "better": "2 Bedrooms",
+        "best": "2 Bedrooms"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living room fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette with Kitchen Island",
+        "better": "Linear Kitchen with Island and Upper Cabs",
+        "best": "Linear Kitchen with Kitchen Island and Upper Cabs"
+      },
+      "Kitchen counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior hose bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
+    "Lucid": {
+      "name": "The Lucid",
+      "description": "The Lucid ADU offers 672 square feet of efficient living space with 1 bedroom, an office, and 1 bathroom. This model has the trademark Modern Series design, making it a smart, stylish choice for those seeking modern living in a small footprint.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living_white", "bedroom_white2","bedroom_white", "bathroom_white", "entry_white"]
+        },
+        "dark": {
+          "rooms": ["living_dark", "bedroom_dark", "bathroom_dark", "entry_dark"]
+        }
+      },
+       "comparison": {
+    "features": { 
+      "Living Space": {
+        "good": "672 SF",
+        "better": "672 SF",
+        "best": "672 SF"
+      },
+      "Overall Dimensions": {
+        "good": "36'x28'",
+        "better": "36'x28'",
+        "best": "36'x28'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling Height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living Room Fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen Counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen Features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom Accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom Features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior Siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal Overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior Hose Bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass Slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
+     
+    "Monarch": {
+      "name": "The Monarch",
+      "description": "The linear 672 ADU makes the most of its 672 square feet with a smart layout that includes one bedroom, one bathroom, and a dedicated office. It’s a compact, modern home that’s perfect for focused work and comfortable living—all in one sleek space.",
+      "maxDP": 3,
+      "maxPK": 2,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "white": {
+          "rooms": ["living_white",  "bedroom_white", "bathroom_white", "entry_white"]
+        },
+        "dark": {
+          "rooms": ["living_dark", "bedroom_dark", "bathroom_dark", "entry_dark"]
+        }
+      },
+       "comparison": {
+    "features": {
+      "Overall dimensions": {
+        "good": "48'x14'",
+        "better": "48'x14'",
+        "best": "48'x14'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom & Office",
+        "better": "1 Bedroom & Office",
+        "best": "1 Bedroom & Office"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living room fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior hose bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
+      }
+    }
+  }
+    },
      "Apex": {
       "name": "The Apex",
       "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
@@ -451,7 +1236,7 @@
       }
     },
     "Arcos": {
-      "name": "The Apex",
+      "name": "TheAcros",
       "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
       "category": "B",
       "maxDP": 3,
@@ -460,11 +1245,10 @@
         "living",
         "kitchen",
         "bedroom",
-        "badroom2",
+        
         "bathroom",
-        "bathroom2",
-        "entry",
-        "hall",
+        
+        
         "wik"
       ],
      "comparison": {
