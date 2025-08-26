@@ -3,6 +3,7 @@ import panoramaReducer from './slices/panoramaSlice';
 import uiReducer from './slices/uiSlice';
 import universalReducer from './slices/universalSlice';
 import categoriesReducer from './slices/categoriesSlice';
+import neoReducer from './slices/neoSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     ui: uiReducer,
     universal: universalReducer,
     categories: categoriesReducer,
+    neo: neoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -18,11 +20,14 @@ export const store = configureStore({
         ignoredActions: [
           'panorama/setViewer', 
           'panorama/setMarkersPlugin',
-          'panorama/updatePosition'
+          'panorama/updatePosition',
+          'neo/updatePosition',
+          'neo/cacheScene'
         ],
         ignoredPaths: [
           'panorama.viewer', 
-          'panorama.markersPlugin'
+          'panorama.markersPlugin',
+          'neo.scenesCache'
         ],
         // Игнорируем проверку в action.payload для этих типов
         ignoredActionPaths: [

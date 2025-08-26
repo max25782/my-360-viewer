@@ -9,6 +9,7 @@ import path from 'path';
 interface NeoConfig {
   pathTemplates: {
     hero: string;
+    heroColor: string;
     exterior: string;
     interior: string;
     tour360: {
@@ -22,6 +23,7 @@ interface NeoConfig {
     };
   };
   colors: string[];
+  colorMapping?: Record<string, string>;
   designPackages: Record<string, { dp: number; pk: number }>;
   rooms: string[];
   comparisonTypes: string[];
@@ -76,6 +78,7 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
       neoConfig: {
         pathTemplates: {
           hero: '/assets/neo/{houseId}/hero.jpg',
+          heroColor: '/assets/neo/{houseId}/360/hero_{colorFile}.jpg',
           exterior: '/assets/neo/{houseId}/exterior/{color}/dp{dp}.jpg',
           interior: '/assets/neo/{houseId}/interior/{room}/pk{pk}_{color}.jpg',
           tour360: {
@@ -171,12 +174,18 @@ export async function getNeoAssetPath(
   const colorMapping = config.neoConfig.colorMapping || { white: 'white', dark: 'black' };
   const colorFile = colorMapping[options.color] || options.color;
   
+  // Проверяем, есть ли директория с именем colorFile
+  // Для tour360 мы используем имя цвета, а не маппинг
+  const useDarkForTour = type === 'tour360' && options.color === 'dark';
+  
   const variables: Record<string, string | number> = { 
     houseId: normalizedHouseId,
     color: options.color,
-    colorFile: colorFile,
+    colorFile: useDarkForTour ? 'dark' : colorFile,
     format: options.format || 'jpg'
   };
+  
+  console.log(`Color mapping: ${options.color} -> ${useDarkForTour ? 'dark' : colorFile} (for ${type})`);
   
   switch (type) {
     case 'hero':
@@ -332,7 +341,7 @@ export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', ro
     // Добавляем иконки к маркерам на основе типа комнаты
     const markers = houseMarkers[color][room].markers || [];
     
-    return markers.map(marker => {
+    return markers.map((marker: { to: string; icon?: string; yaw: number; pitch: number; label: string }) => {
       // Добавляем иконку на основе типа комнаты, если она не указана
       if (!marker.icon) {
         const roomType = marker.to.replace(/_white$|_dark$/, '').replace(/2$/, '');

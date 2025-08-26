@@ -59,43 +59,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
 
   // Utility function to convert degrees to radians
   const toRad = (deg: number) => (deg * Math.PI) / 180;
-
-  // Build markers from scene links (similar to PanoramaViewerRedux)
-  const buildNeoMarkers = useCallback((links: NeoMarker[]) => {
-    return links.map((link, index) => ({
-      id: `neo-marker-${index}`,
-      position: {
-        yaw: toRad(link.yaw || 0),
-        pitch: toRad(link.pitch || 0),
-      },
-      html: `
-        <div class="neo-marker-content" style="
-          width: 60px;
-          height: 60px;
-          background: rgba(255, 0, 0, 0.7);
-          border: 3px solid white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 32px;
-          color: white;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
-          transition: all 0.3s ease;
-          cursor: pointer;
-        ">
-          ${link.icon || getRoomIcon(link.to)}
-        </div>
-      `,
-      tooltip: link.label,
-      data: {
-        to: link.to,
-        label: link.label,
-      },
-    }));
-  }, []);
-
+  
   // Room icon function (local version)
   const getRoomIcon = (roomName: string): string => {
     const baseName = roomName.replace(/_white$|_dark$/, '').replace(/2$/, '');
@@ -106,13 +70,61 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
       case 'kitchen': return '🍽️';
       case 'hall': return '🚪';
       case 'bedroom': return '🛏️';
-      case 'bedroom': return '🛏️';
+      case 'badroom': return '🛏️'; // поддержка старого названия
       case 'bathroom': return '🛁';
       case 'wik': return '👔';
       case 'office': return '💼';
       default: return '📍';
     }
   };
+
+  // Build markers from scene links (similar to PanoramaViewerRedux)
+  const buildNeoMarkers = useCallback((links: NeoMarker[]) => {
+    console.log('Building Neo markers:', links.length, 'links');
+    
+    // Возвращаемся к HTML маркерам, так как они работают стабильнее
+    const markers = links.map((link, index) => {
+      const roomIcon = getRoomIcon(link.to);
+      return {
+        id: `neo-marker-${index}`,
+        position: {
+          yaw: toRad(link.yaw || 0),
+          pitch: toRad(link.pitch || 0),
+        },
+        html: `
+          <div style="
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 0, 0, 0.8);
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
+          ">
+            ${link.icon || roomIcon}
+          </div>
+        `,
+        tooltip: link.label,
+        data: {
+          to: link.to,
+          label: link.label,
+        },
+      };
+    });
+    
+    console.log('Built markers (HTML):', markers);
+    return markers;
+  }, []);
 
   // Мемоизированная функция для создания сцены
   const createNeoScene = useCallback(async (roomName: string): Promise<NeoScene | null> => {
@@ -436,7 +448,8 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           // Устанавливаем корректные углы сразу при инициализации
           defaultYaw: initialYaw,
           defaultPitch: initialPitch,
-          navbar: ['zoom', 'caption', 'fullscreen'],
+          // Отключаем навбар, который может вызывать проблемы
+          navbar: false,
           plugins: [
             [MarkersPlugin, { markers: buildNeoMarkers(currentScene.links) }]
           ],
@@ -446,6 +459,10 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           loadingImg: currentScene.thumbnail,
           touchmoveTwoFingers: true,
           checkStylesheet: false,
+          // Отключаем компоненты, вызывающие ошибку NaN
+          loadingTxt: false,
+          // Отключаем прогресс-бар, который вызывает ошибку NaN
+          progressBar: false,
         });
 
         if (!isMounted) {
@@ -454,6 +471,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         }
 
         const markersPlugin = viewer.getPlugin(MarkersPlugin);
+        console.log('MarkersPlugin loaded:', markersPlugin ? 'Success' : 'Failed');
 
         // Сохраняем в refs
         viewerInstanceRef.current = viewer;

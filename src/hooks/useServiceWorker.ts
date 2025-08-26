@@ -12,6 +12,7 @@ interface UseServiceWorkerResult {
   install: () => Promise<void>;
   update: () => Promise<void>;
   preloadCategory: (categoryId: string) => void;
+  registerAssets: (assets: string[]) => void;
 }
 
 export function useServiceWorker(): UseServiceWorkerResult {
@@ -113,11 +114,23 @@ export function useServiceWorker(): UseServiceWorkerResult {
     }
   };
 
+  // Регистрация ассетов для кэширования
+  const registerAssets = (assets: string[]): void => {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller && assets.length > 0) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'CACHE_ASSETS',
+        assets
+      });
+      console.log('🔄 Зарегистрировано для кэширования:', assets.length, 'файлов');
+    }
+  };
+
   return {
     isOffline,
     isInstallable,
     install,
     update,
-    preloadCategory
+    preloadCategory,
+    registerAssets
   };
 }

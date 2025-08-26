@@ -28,7 +28,7 @@ export default function Neo360Page() {
                     <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl group cursor-pointer" onClick={handleStartTour}>
                         {/* Preview Image */}
                         <Image
-                            src={`/assets/neo/${slug}/360/hero_dark.jpg`}
+                            src={`/assets/neo/${slug}/360/hero_black.jpg`}
                             alt="360° Tour Preview"
                             fill
                             className="object-cover transition-all duration-500 group-hover:scale-105"

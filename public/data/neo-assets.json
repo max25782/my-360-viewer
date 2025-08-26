@@ -8,15 +8,15 @@
       "exampleDark": "/assets/neo/{houseId}/example/dark.jpg",
       "exampleWhite": "/assets/neo/{houseId}/example/light.jpg",
       "tour360": {
-        "thumbnail": "/assets/neo/{houseId}/360/{color}/{room}/thumbnail.{format}",
-        "preview": "/assets/neo/{houseId}/360/{color}/{room}/preview.{format}",
+        "thumbnail": "/assets/neo/{houseId}/360/{colorFile}/{room}/thumbnail.{format}",
+        "preview": "/assets/neo/{houseId}/360/{colorFile}/{room}/preview.{format}",
         "tiles": {
-          "front": "/assets/neo/{houseId}/360/{color}/{room}/f.{format}",
-          "back": "/assets/neo/{houseId}/360/{color}/{room}/b.{format}",
-          "left": "/assets/neo/{houseId}/360/{color}/{room}/l.{format}",
-          "right": "/assets/neo/{houseId}/360/{color}/{room}/r.{format}",
-          "up": "/assets/neo/{houseId}/360/{color}/{room}/u.{format}",
-          "down": "/assets/neo/{houseId}/360/{color}/{room}/d.{format}"
+          "front": "/assets/neo/{houseId}/360/{colorFile}/{room}/f.{format}",
+          "back": "/assets/neo/{houseId}/360/{colorFile}/{room}/b.{format}",
+          "left": "/assets/neo/{houseId}/360/{colorFile}/{room}/l.{format}",
+          "right": "/assets/neo/{houseId}/360/{colorFile}/{room}/r.{format}",
+          "up": "/assets/neo/{houseId}/360/{colorFile}/{room}/u.{format}",
+          "down": "/assets/neo/{houseId}/360/{colorFile}/{room}/d.{format}"
         }
       },
       "textures": {
@@ -24,7 +24,11 @@
         "dark": "/assets/neo/texrure/thumb-black.jpg"
       }
     },
-    "colors": ["white", "black"],
+    "colors": ["white", "dark"],
+    "colorMapping": {
+      "white": "white",
+      "dark": "black"
+    },
     "designPackages": {
       "heritage": { "dp": 1, "pk": 1 },
       "haven": { "dp": 2, "pk": 2 },
@@ -1187,47 +1191,122 @@
     },
     "Prism": {
       "name": "The Prism",
-      "description": "Geometric Neo design with multi-faceted architecture and light-filled spaces. Features unique angular elements and modern amenities.",
+      "description": "The S672 ADU packs a lot into a small footprint, with a ground-level garage and a bright, open studio apartment above. It’s a great fit for guest space, a rental, or simple living, all wrapped in Modern Series’ clean, modern design.",
       "maxDP": 3,
       "maxPK": 2,
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": [ "bedroom", "bathroom"]
         },
         "dark": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["bedroom", "bathroom"]
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "1150 SF",
-            "better": "1150 SF",
-            "best": "1150 SF"
-          },
-          "Bedrooms": {
-            "good": "1",
-            "better": "1", 
-            "best": "1"
-          },
-          "Bathrooms": {
-            "good": "1",
-            "better": "1",
-            "best": "1"
-          },
-          "Color Schemes": {
-            "good": "White Only",
-            "better": "White + Dark",
-            "best": "White + Dark + Custom"
-          },
-          "Modern Finishes": {
-            "good": "Standard",
-            "better": "Premium",
-            "best": "Luxury"
-          }
-        }
+    "features": {
+      "Overall dimensions": {
+        "good": "24'x14'",
+        "better": "24'x14'",
+        "best": "24'x14'"
+      },
+      "Bedrooms": {
+        "good": "Studio",
+        "better": "Studio",
+        "best": "Studio"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living room fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior hose bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
       }
+    }
+  }
     },
     "Strata": {
       "name": "The Strata",
