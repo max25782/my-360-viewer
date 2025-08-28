@@ -78,11 +78,11 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
     }
   };
 
-  // Build markers from scene links (similar to PanoramaViewerRedux)
+  // Build markers from scene links (similar to Viewer360)
   const buildNeoMarkers = useCallback((links: NeoMarker[]) => {
     console.log('Building Neo markers:', links.length, 'links');
     
-    // Возвращаемся к HTML маркерам, так как они работают стабильнее
+    // Используем очень простые HTML маркеры для отладки видимости
     const markers = links.map((link, index) => {
       const roomIcon = getRoomIcon(link.to);
       return {
@@ -93,28 +93,25 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         },
         html: `
           <div style="
-            position: relative;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 0, 0, 0.8);
-            border: 2px solid white;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 0, 0, 0.8);
+            border: 5px solid white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 32px;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             cursor: pointer;
-            z-index: 1000;
-            transform: translate(-50%, -50%);
-            pointer-events: auto;
+            z-index: 9999;
           ">
             ${link.icon || roomIcon}
           </div>
         `,
         tooltip: link.label,
+        anchor: 'center' as const,
+        className: 'psv-room-marker',
         data: {
           to: link.to,
           label: link.label,
@@ -448,10 +445,16 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           // Устанавливаем корректные углы сразу при инициализации
           defaultYaw: initialYaw,
           defaultPitch: initialPitch,
-          // Отключаем навбар, который может вызывать проблемы
-          navbar: false,
+          // Включаем навбар как в Skyline
+          navbar: ['zoom', 'caption', 'fullscreen'],
           plugins: [
-            [MarkersPlugin, { markers: buildNeoMarkers(currentScene.links) }]
+            [MarkersPlugin, { 
+              markers: buildNeoMarkers(currentScene.links),
+              // Добавляем опции для маркеров
+              clickEventOnMarker: true,
+              // Отключаем автоматическое скрытие маркеров
+              hideMarkersOnDrag: false,
+            }]
           ],
           // Оптимизации для производительности
           mousewheelCtrlKey: false,
@@ -476,6 +479,47 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         // Сохраняем в refs
         viewerInstanceRef.current = viewer;
         markersPluginRef.current = markersPlugin;
+        
+        // Проверяем маркеры после инициализации
+        if (markersPlugin) {
+          console.log('Checking markers after initialization');
+          const markers = markersPlugin.getMarkers();
+          console.log(`Found ${markers.length} markers in plugin`);
+          
+          // Принудительно обновляем маркеры
+          setTimeout(() => {
+            console.log('Forcing markers update...');
+            markersPlugin.renderMarkers();
+            viewer.needsUpdate();
+            
+            // Проверяем DOM элементы маркеров
+            setTimeout(() => {
+              const markerElements = document.querySelectorAll('.psv-room-marker');
+              console.log('Marker DOM elements found:', markerElements.length);
+              
+              // Проверяем стили маркеров
+              if (markerElements.length > 0) {
+                const firstMarker = markerElements[0] as HTMLElement;
+                console.log('First marker style:', {
+                  display: firstMarker.style.display,
+                  visibility: firstMarker.style.visibility,
+                  opacity: firstMarker.style.opacity,
+                  zIndex: firstMarker.style.zIndex
+                });
+                
+                // Принудительно устанавливаем стили для видимости
+                Array.from(markerElements).forEach((marker, index) => {
+                  const el = marker as HTMLElement;
+                  el.style.display = 'flex';
+                  el.style.visibility = 'visible';
+                  el.style.opacity = '1';
+                  el.style.zIndex = '1000';
+                  console.log(`Forced visibility for marker ${index}`);
+                });
+              }
+            }, 500);
+          }, 1000);
+        }
 
         // Обработчик кликов по маркерам -> навигация к целевой сцене
         markersPlugin.addEventListener('select-marker', ({ marker }: { marker: any }) => {
@@ -483,6 +527,12 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
             // Откладываем тяжелую операцию для лучшего INP
             setTimeout(() => {
               console.log('Neo marker clicked, navigating to:', marker.data.to);
+              
+              // Очищаем маркеры перед сменой сцены
+              if (markersPlugin) {
+                markersPlugin.clearMarkers();
+              }
+              
               setCurrentRoom(marker.data.to);
             }, 0);
           }
@@ -510,6 +560,25 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         };
 
         viewer.addEventListener('ready', onReady, { once: true });
+        
+        // Добавляем обработчик события загрузки панорамы
+        viewer.addEventListener('panorama-loaded', () => {
+          console.log('Panorama loaded event - checking markers');
+          
+          if (markersPlugin && currentScene.links && currentScene.links.length > 0) {
+            console.log('Re-adding markers after panorama load');
+            const markers = buildNeoMarkers(currentScene.links);
+            markersPlugin.clearMarkers();
+            markersPlugin.setMarkers(markers);
+            
+            // Принудительно обновляем маркеры
+            setTimeout(() => {
+              markersPlugin.renderMarkers();
+              viewer.needsUpdate();
+              console.log('Markers rendered after panorama load');
+            }, 500);
+          }
+        });
 
         setError(null);
 
