@@ -37,6 +37,7 @@ export default function HousePage() {
 
   return (
     <div className="min-h-screen">
+   
       {/* Header */}
       <Header variant="transparent" />
 

@@ -245,6 +245,55 @@ self.addEventListener('message', (event) => {
   }
 });
 
+// Кэширование ассетов
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'CACHE_ASSETS') {
+    const { assets } = event.data;
+    
+    (async () => {
+      try {
+        console.log(`🚀 Кэширование ${assets.length} ассетов...`);
+        
+        const cache = await caches.open(PANORAMA_CACHE);
+        
+        // Кэшируем каждый ассет индивидуально с обработкой ошибок
+        const results = await Promise.allSettled(
+          assets.map(async (asset) => {
+            try {
+              const response = await fetch(asset);
+              if (response.ok) {
+                await cache.put(asset, response);
+                return { status: 'cached', asset };
+              } else {
+                return { status: 'error', asset, reason: `HTTP ${response.status}` };
+              }
+            } catch (error) {
+              return { status: 'error', asset, reason: error.message };
+            }
+          })
+        );
+        
+        const succeeded = results.filter(r => r.status === 'fulfilled' && r.value?.status === 'cached').length;
+        const failed = results.filter(r => r.status !== 'fulfilled' || r.value?.status !== 'cached').length;
+        
+        console.log(`✅ Кэширование завершено: ${succeeded} успешно, ${failed} с ошибками`);
+        
+        // Отправляем результат обратно
+        if (event.source && event.source.postMessage) {
+          event.source.postMessage({
+            type: 'CACHE_ASSETS_RESULT',
+            succeeded,
+            failed
+          });
+        }
+        
+      } catch (error) {
+        console.error('❌ Ошибка кэширования ассетов:', error);
+      }
+    })();
+  }
+});
+
 // Обработка ошибок
 self.addEventListener('error', (event) => {
   console.error('❌ Service Worker error:', event.error);

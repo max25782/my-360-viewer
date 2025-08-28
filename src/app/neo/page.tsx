@@ -66,8 +66,8 @@ export default async function NeoCollectionPage(props: any) {
     // Get all houses first
     neoHouses = await getServerNeoHouses();
     
-    // Get searchParams safely
-    const searchParams = props?.searchParams || {};
+    // Get searchParams safely (await if it's a Promise in newer Next.js)
+    const searchParams = await (props?.searchParams || {});
     
     // Apply filters if searchParams exists
     if (Object.keys(searchParams).length > 0) {

@@ -48,10 +48,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "wik "],
        "tour360": {
         "white": {
-          "rooms": ["entry_white", "living_white", "kitchen_white", "bedroom_white", "bedroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+          "rooms": ["entry", "living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"]
         },
         "dark": {
-          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "bedroom_dark", "bedroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+          "rooms": ["entry", "living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"]
         }
       },
     "comparison": {
@@ -174,14 +174,19 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "wik"],
       "tour360": {
         "white": {
-          "rooms": ["entry_white", "living_white", "kitchen_white", "hall_white", "bedroom_white", "bedroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+          "rooms": ["entry", "living", "kitchen", "hall", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"]
         },
         "dark": {
-          "rooms": ["entry_dark", "living_dark", "kitchen_dark", "hall_dark", "badroom_dark", "badroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+          "rooms": ["entry", "living", "kitchen", "hall", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"]
         }
       },
       "comparison": {
     "features": {
+      "Living Space": {
+        "good": "1176 SF",
+        "better": "1176 SF",
+        "best": "1176 SF"
+      },
       "Overall dimensions": {
         "good": "37'6.5\"x38'",
         "better": "37'6.5\"x38'",
@@ -296,7 +301,7 @@
           "rooms": ["entry_white", "living_white", "kitchen_white", "bedroom_white", "bedroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
         },
         "dark": {
-          "rooms": ["entry_dark", "living_dark", "kitchen_dark",  "bedroom_dark", "bedroom2_dark", "bathroom_dark", "bathroom2_dark", "wik_dark"]
+          "rooms": ["entry_dark", "living_dark", "kitchen_dark",  "bedroom_dark", "bedroom_dark2", "bathroom_dark", "bathroom_dark2", "wik_dark"]
         }
       },
      "comparison": {

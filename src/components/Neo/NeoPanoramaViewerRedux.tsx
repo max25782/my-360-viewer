@@ -121,7 +121,7 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
     }
   };
 
-  // Build markers from scene links
+  // Build markers from scene links (similar to Viewer360)
   const buildNeoMarkers = useCallback((links: any[]) => {
     console.log('Building Neo Redux markers:', links?.length || 0, 'links');
     if (!links || !Array.isArray(links) || links.length === 0) {
@@ -129,7 +129,7 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
       return [];
     }
     
-    // Возвращаемся к HTML маркерам, так как они работают стабильнее
+    // Используем HTML маркеры в стиле Viewer360
     const markers = links.map((link, index) => {
       const roomIcon = getRoomIcon(link.to);
       return {
@@ -139,29 +139,38 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
           pitch: toRad(link.pitch || 0),
         },
         html: `
-          <div style="
-            position: relative;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 0, 0, 0.8);
-            border: 2px solid white;
-            border-radius: 50%;
+          <div class="room-marker" style="
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             cursor: pointer;
-            z-index: 1000;
-            transform: translate(-50%, -50%);
-            pointer-events: auto;
+            user-select: none;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
           ">
-            ${link.icon || roomIcon}
+            <div style="
+              font-size: 48px;
+              margin-bottom: 4px;
+              text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            ">${link.icon || roomIcon}</div>
+            <div style="
+              background: rgba(0,0,0,0.8);
+              color: white;
+              padding: 6px 12px;
+              border-radius: 6px;
+              font-size: 14px;
+              font-weight: 500;
+              white-space: nowrap;
+              max-width: 120px;
+              text-align: center;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              border: 2px solid rgba(255,255,255,0.3);
+            ">${link.label}</div>
           </div>
         `,
         tooltip: link.label,
+        anchor: 'center' as const,
+        className: 'psv-room-marker',
         data: {
           to: link.to,
           label: link.label,
@@ -171,7 +180,7 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
     
     console.log('Built Neo Redux markers (HTML):', markers);
     return markers;
-  }, [getRoomIcon, toRad]);
+  }, [toRad]);
 
   // Load available rooms from neo-assets.json
   useEffect(() => {
@@ -194,13 +203,13 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
           console.warn(`No room configuration found for house ${cleanHouseId} with color ${selectedColor}`);
           
           const defaultRooms = [
-            `entry_${selectedColor}`,
-            `living_${selectedColor}`, 
-            `kitchen_${selectedColor}`,
-            `hall_${selectedColor}`,
-            `badroom_${selectedColor}`,
-            `bathroom_${selectedColor}`,
-            `wik_${selectedColor}`
+            `entry`,
+            `living`, 
+            `kitchen`,
+            `hall`,
+            `bedroom`,
+            `bathroom`,
+            `wik`
           ];
           
           dispatch(setAvailableRooms(defaultRooms));
@@ -432,6 +441,12 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
           if (marker?.data?.to) {
             setTimeout(() => {
               console.log('Neo marker clicked, navigating to:', marker.data.to);
+              
+              // Очищаем маркеры перед сменой сцены
+              if (newMarkersPlugin) {
+                newMarkersPlugin.clearMarkers();
+              }
+              
               dispatch(setCurrentRoom(marker.data.to));
             }, 0);
           }

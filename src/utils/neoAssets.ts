@@ -105,7 +105,7 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
           serenity: { dp: 3, pk: 3 },
           luxe: { dp: 4, pk: 4 }
         },
-        rooms: ['entry', 'living', 'kitchen', 'hall', 'badroom', 'badroom2', 'bathroom', 'bathroom2', 'wik'],
+        rooms: ['entry', 'living', 'kitchen', 'hall', 'bedroom', 'bedroom2', 'bathroom', 'bathroom2', 'wik'],
         comparisonTypes: ['good', 'better', 'best'],
         comparisonVariants: ['exterior', 'plan1', 'plan2']
       },
@@ -238,7 +238,25 @@ export async function getNeoAssetPath(
           : tour360Templates.thumbnail;
       }
       
-      variables.room = options.room || 'living';
+      // Проверяем, не содержит ли имя комнаты уже суффикс цвета
+      let roomName = options.room || 'living';
+      
+      // Если имя комнаты уже содержит суффикс цвета, удаляем его
+      if (roomName.endsWith(`_${options.color}`)) {
+        roomName = roomName.replace(new RegExp(`_${options.color}$`), '');
+        console.log(`Removed color suffix from room name: ${options.room} -> ${roomName}`);
+      }
+      
+      // Нормализуем имена комнат для совместимости с файловой системой
+      // Теперь комнаты хранятся в формате bathroom2, а не bathroom_2
+      if (roomName.includes('_2')) {
+        roomName = roomName.replace(/_2$/, '2');
+        console.log(`Normalized room name with number: ${options.room} -> ${roomName}`);
+      }
+      
+      console.log(`Using room name for 360 panorama: ${roomName}`);
+      
+      variables.room = roomName;
       break;
   }
   
