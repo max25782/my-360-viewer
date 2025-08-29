@@ -10,10 +10,7 @@ const PANORAMA_CACHE = 'panorama-cache-v1';
 // Файлы для кэширования при установке
 const STATIC_CACHE_URLS = [
   '/',
-  '/category/A',
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/manifest.json'
 ];
 
 // Паттерны для разных стратегий кэширования
@@ -43,8 +40,18 @@ self.addEventListener('install', (event) => {
     (async () => {
       try {
         const cache = await caches.open(CACHE_NAME);
-        await cache.addAll(STATIC_CACHE_URLS);
-        console.log('✅ Service Worker: Статичные файлы закэшированы');
+        
+        // Кэшируем каждый URL отдельно с обработкой ошибок
+        for (const url of STATIC_CACHE_URLS) {
+          try {
+            await cache.add(url);
+            console.log(`✅ Закэширован: ${url}`);
+          } catch (err) {
+            console.warn(`⚠️ Не удалось закэшировать ${url}:`, err);
+          }
+        }
+        
+        console.log('✅ Service Worker: Установка завершена');
         
         // Принудительно активируем новый Service Worker
         await self.skipWaiting();
@@ -159,6 +166,16 @@ self.addEventListener('fetch', (event) => {
   
   // Пропускаем chrome-extension и другие схемы
   if (!url.protocol.startsWith('http')) {
+    return;
+  }
+  
+  // Пропускаем запросы к API - пусть идут напрямую
+  if (url.pathname.startsWith('/api/')) {
+    return;
+  }
+  
+  // Пропускаем главную страницу в режиме разработки
+  if (url.hostname.includes('localhost') && (url.pathname === '/' || url.pathname === '/index.html')) {
     return;
   }
   

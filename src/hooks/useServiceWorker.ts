@@ -23,7 +23,19 @@ export function useServiceWorker(): UseServiceWorkerResult {
   useEffect(() => {
     // Проверяем поддержку Service Worker
     if ('serviceWorker' in navigator) {
-      // Регистрируем Service Worker
+      // В режиме разработки отключаем Service Worker
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        // Удаляем существующие регистрации Service Worker
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let registration of registrations) {
+            registration.unregister();
+            console.log('🧹 Service Worker удален в режиме разработки');
+          }
+        });
+        return;
+      }
+      
+      // Регистрируем Service Worker только в production
       navigator.serviceWorker.register('/sw.js')
         .then((registration) => {
           console.log('✅ Service Worker зарегистрирован:', registration);

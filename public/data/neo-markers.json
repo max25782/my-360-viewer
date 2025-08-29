@@ -553,7 +553,18 @@
           { "to": "living", "yaw": 315, "pitch": 0, "label": "Living Room" },
           { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
+      },
+      "bathroom2": {
+        "markers": [
+          { "to": "entry", "yaw": 180, "pitch": 0, "label": "Entry" }
+        ]
+      },
+      "entry": {
+        "markers": [
+          { "to": "living", "yaw": 180, "pitch": 0, "label": "Living Room" }
+        ]
       }
+    
     },
     "dark": {
       "living": {
