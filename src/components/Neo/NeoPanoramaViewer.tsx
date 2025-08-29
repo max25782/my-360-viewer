@@ -75,11 +75,10 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
       case 'hall': return 'Hallway';
       case 'bedroom': return 'Bedroom 1';
       case 'bedroom2': return 'Bedroom 2';
-      case 'badroom': return 'Bedroom 1'; // поддержка старого названия
-      case 'badroom2': return 'Bedroom 2'; // поддержка старого названия
       case 'bathroom': return 'Bathroom 1';
       case 'bathroom2': return 'Bathroom 2';
       case 'wik': return 'Walk-in Closet';
+      case 'office': return 'Office';
       default: return baseName;
     }
   };
@@ -94,7 +93,6 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
       case 'kitchen': return '🍽️';
       case 'hall': return '🚪';
       case 'bedroom': return '🛏️';
-      case 'bedroom': return '🛏️'; // поддержка старого названия
       case 'bathroom': return '🛁';
       case 'wik': return '👔';
       case 'office': return '💼';
@@ -377,13 +375,27 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
             // Патчим глобальную функцию проверки CSS
             const originalConsoleError = console.error;
             console.error = (...args: any[]) => {
-              // Игнорируем ошибки CSS для PhotoSphere
               const message = args[0];
+              
+              // Игнорируем ошибки CSS для PhotoSphere
               if (typeof message === 'string' && 
                   (message.includes('PhotoSphereViewer: stylesheet') || 
                    message.includes('@photo-sphere-viewer'))) {
                 return; // Игнорируем эту ошибку
               }
+              
+              // Игнорируем пустые объекты Error: {}
+              if (message instanceof Error && 
+                  Object.keys(message).length === 0 && 
+                  message.constructor === Error) {
+                return; // Игнорируем пустую ошибку
+              }
+              
+              // Игнорируем Error объекты без сообщения
+              if (message instanceof Error && !message.message) {
+                return; // Игнорируем ошибку без сообщения
+              }
+              
               // Для всех остальных ошибок вызываем оригинальную функцию
               return originalConsoleError.apply(console, args);
             };

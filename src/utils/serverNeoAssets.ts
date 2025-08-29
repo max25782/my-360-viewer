@@ -56,7 +56,16 @@ interface NeoAssetData {
  * Функция для нормализации регистра Neo домов (серверная версия)
  */
 function getServerNeoHouseDirectory(houseId: string): string {
-  // Делаем первую букву заглавной, остальные строчные
+  // Сохраняем оригинальный регистр для специальных случаев
+  const specialCases: Record<string, string> = {
+    'HorizonX': 'HorizonX'
+  };
+  
+  if (specialCases[houseId]) {
+    return specialCases[houseId];
+  }
+  
+  // Для остальных делаем первую букву заглавной, остальные строчные
   return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
 }
 

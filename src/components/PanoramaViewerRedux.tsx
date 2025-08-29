@@ -209,7 +209,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       'bathroom2': '🚿',
       'bedroom2': '🛏️',
       'full view to entry': '👁️',
-      badroom: '🛏️' // typo in some house data
+      // Используем только bedroom
     };
     return iconMap[roomName] || '🏠';
   }, []);

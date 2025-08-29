@@ -118,7 +118,16 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
  * Map Neo house ID to actual directory name
  */
 function getNeoHouseDirectory(houseId: string): string {
-  // Делаем первую букву заглавной, остальные строчные
+  // Сохраняем оригинальный регистр для специальных случаев
+  const specialCases: Record<string, string> = {
+    'HorizonX': 'HorizonX'
+  };
+  
+  if (specialCases[houseId]) {
+    return specialCases[houseId];
+  }
+  
+  // Для остальных делаем первую букву заглавной, остальные строчные
   return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
 }
 
@@ -254,6 +263,8 @@ export async function getNeoAssetPath(
         console.log(`Normalized room name with number: ${options.room} -> ${roomName}`);
       }
       
+      // Все комнаты теперь используют единое именование bedroom
+      
       console.log(`Using room name for 360 panorama: ${roomName}`);
       
       variables.room = roomName;
@@ -301,8 +312,8 @@ export async function getNeoHouseConfig(houseId: string): Promise<NeoHouseConfig
     return config.neoHouses[houseId];
   }
   
-  // Если не нашли, попробуем найти с учетом регистра
-  const normalizedId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+  // Если не нашли, попробуем найти с нормализацией регистра
+  const normalizedId = getNeoHouseDirectory(houseId);
   console.log(`🔄 Trying normalized ID: ${normalizedId}`);
   
   if (config.neoHouses[normalizedId]) {
@@ -342,7 +353,7 @@ export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', ro
       console.log(`No markers found for house: ${houseId}, color: ${color}, room: ${room}`);
       
       // Если не нашли маркеры для точного ID дома, пробуем с нормализованным регистром
-      const normalizedId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+      const normalizedId = getNeoHouseDirectory(houseId);
       if (normalizedId !== houseId && markersData[normalizedId]) {
         console.log(`Trying with normalized house ID: ${normalizedId}`);
         const normalizedHouseMarkers = markersData[normalizedId];
@@ -385,7 +396,7 @@ function getRoomIcon(roomName: string): string {
     case 'kitchen': return '🍳';
     case 'hall': return '🚶';
     case 'bedroom': return '🛏️';
-    case 'badroom': return '🛏️'; // поддержка старого названия
+    // Используем только bedroom
     case 'bathroom': return '🚿';
     case 'wik': return '👔';
     default: return '📍';

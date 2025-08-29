@@ -113,7 +113,7 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
       case 'kitchen': return '🍽️';
       case 'hall': return '🚪';
       case 'bedroom': return '🛏️';
-      case 'badroom': return '🛏️';
+      // Используем только bedroom
       case 'bathroom': return '🛁';
       case 'wik': return '👔';
       case 'office': return '💼';
@@ -359,6 +359,40 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
         if (!Viewer) {
           console.log('Loading PhotoSphere Viewer libraries...');
           
+          // Глобально отключаем все проверки CSS для PhotoSphere
+          if (typeof window !== 'undefined') {
+            // Патчим глобальную функцию проверки CSS
+            const originalConsoleError = console.error;
+            console.error = (...args: any[]) => {
+              const message = args[0];
+              
+              // Игнорируем ошибки CSS для PhotoSphere
+              if (typeof message === 'string' && 
+                  (message.includes('PhotoSphereViewer: stylesheet') || 
+                   message.includes('@photo-sphere-viewer'))) {
+                return; // Игнорируем эту ошибку
+              }
+              
+              // Игнорируем пустые объекты Error: {}
+              if (message instanceof Error && 
+                  Object.keys(message).length === 0 && 
+                  message.constructor === Error) {
+                return; // Игнорируем пустую ошибку
+              }
+              
+              // Игнорируем Error объекты без сообщения
+              if (message instanceof Error && !message.message) {
+                return; // Игнорируем ошибку без сообщения
+              }
+              
+              // Для всех остальных ошибок вызываем оригинальную функцию
+              return originalConsoleError.apply(console, args);
+            };
+            
+            // Сохраняем ссылку для восстановления позже
+            (window as any).__originalConsoleError = originalConsoleError;
+          }
+          
           const photosphereCore = await import('@photo-sphere-viewer/core');
           const cubemapAdapter = await import('@photo-sphere-viewer/cubemap-adapter');
           const markersPlugin = await import('@photo-sphere-viewer/markers-plugin');
@@ -376,6 +410,14 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
     }
 
     loadPhotoSphereLibraries();
+    
+    // Cleanup function
+    return () => {
+      if (typeof window !== 'undefined' && (window as any).__originalConsoleError) {
+        console.error = (window as any).__originalConsoleError;
+        delete (window as any).__originalConsoleError;
+      }
+    };
   }, [dispatch]);
 
   // Get current scene (from cache or create new)

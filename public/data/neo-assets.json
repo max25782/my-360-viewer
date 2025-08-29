@@ -298,10 +298,10 @@
       "availableRooms": ["living", "kitchen", "bedroom",  "bathroom", "wik"],
       "tour360": {
         "white": {
-          "rooms": ["entry_white", "living_white", "kitchen_white", "bedroom_white", "bedroom_white2", "bathroom_white", "bathroom_white2", "wik_white"]
+          "rooms": ["entry", "living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"]
         },
         "dark": {
-          "rooms": ["entry_dark", "living_dark", "kitchen_dark",  "bedroom_dark", "bedroom_dark2", "bathroom_dark", "bathroom_dark2", "wik_dark"]
+          "rooms": ["entry", "living", "kitchen", "bedroom", "bedroom2", "bathroom", "bathroom2", "wik"]
         }
       },
      "comparison": {
@@ -423,10 +423,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
     "tour360": {
         "white": {
-          "rooms": [ "living_white",   "bedroom_white",  "bathroom_white"]
+          "rooms": [ "living",   "bedroom",  "bathroom"]
         },
         "dark": {
-          "rooms": [ "living_dark", "bedroom_dark", "bathroom_dark"]
+          "rooms": [ "living", "bedroom", "bathroom"]
         }
       },
       "comparison": {
@@ -547,10 +547,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living_white", "kitchen_white", "bedroom_white","bedroom_white2", "bathroom_white", "bathroom_white2","wik_white"]
+          "rooms": ["living", "kitchen", "bedroom","bedroom2", "bathroom", "bathroom2","wik"]
         },
         "dark": {
-          "rooms": ["living_dark", "kitchen_dark", "bedroom_dark","bedroom_dark2", "bathroom_dark", "bathroom_dark2","wik_dark"]
+          "rooms": ["living", "kitchen", "bedroom","bedroom2", "bathroom", "bathroom2","wik"]
         }
       },
       "comparison": {
@@ -585,16 +585,16 @@
     },
     "HorizonX": {
       "name": "The HorizonX",
-      "description": "The HorizonX ADU offers a linear layout with 1 bedroom, 2 bathrooms, and a dedicated office—perfect for working from home or hosting overnight guests. With clean lines and modern finishes, it’s a comfortable, efficient space that feels just right",
+      "description": "The HorizonX ADU offers a linear layout with 1 bedroom, 2 bathrooms, and a dedicated office—perfect for working from home or hosting overnight guests. With clean lines and modern finishes, it's a comfortable, efficient space that feels just right",
       "maxDP": 3,
       "maxPK": 2,
-      "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
+      "availableRooms": ["living", "office", "bedroom", "bathroom", "wik"],
       "tour360": {
         "white": {
-          "rooms": ["living_white", "office_white", "bedroom_white", "bathroom_white", "wik_white"]
+          "rooms": ["living", "office", "bedroom", "bathroom", "wik"]
         },
         "dark": {
-          "rooms": ["living_dark", "office_dark", "bedroom_dark", "bathroom_dark", "wik_dark"]
+          "rooms": ["living", "office", "bedroom", "bathroom", "wik"]
         }
       },
      "comparison": {
@@ -715,10 +715,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living_white", "kitchen_white", "bedroom_white2", "bedroom_white", "bathroom_white", "entry_white"]
+          "rooms": ["living", "kitchen","entry", "bedroom", "bedroom2", "bathroom"]
         },
         "dark": {
-          "rooms": ["living_dark", "kitchen_dark", "bedroom_dark", "bathroom_dark", "entry_dark"]
+          "rooms": ["living", "kitchen","entry", "bedroom", "bathroom"]
         }
       },
       "comparison": {
@@ -839,10 +839,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living_white", "bedroom_white2","bedroom_white", "bathroom_white", "entry_white"]
+          "rooms": ["living","entry", "bedroom","bathroom"]
         },
         "dark": {
-          "rooms": ["living_dark", "bedroom_dark", "bathroom_dark", "entry_dark"]
+          "rooms": ["living","entry", "bedroom", "bathroom"]
         }
       },
        "comparison": {
@@ -964,14 +964,19 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living_white",  "bedroom_white", "bathroom_white", "entry_white"]
+          "rooms": ["living","entry", "bedroom", "bathroom"]
         },
         "dark": {
-          "rooms": ["living_dark", "bedroom_dark", "bathroom_dark", "entry_dark"]
+          "rooms": ["living","entry", "bedroom", "bathroom"]
         }
       },
        "comparison": {
     "features": {
+      "Living Space": {
+        "good": "672 SF",
+        "better": "672 SF",
+        "best": "672 SF"
+      },
       "Overall dimensions": {
         "good": "48'x14'",
         "better": "48'x14'",
@@ -1083,14 +1088,19 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["living", "bedroom", "bathroom"]
         },
         "dark": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["living", "bedroom", "bathroom"]
         }
       },
      "comparison": {
     "features": {
+      "Living Space": {
+        "good": "672 SF",
+        "better": "672 SF",
+        "best": "672 SF"
+      },
       "Overall dimensions": {
         "good": "24'x28'",
         "better": "24'x28'",
@@ -1210,6 +1220,11 @@
       },
       "comparison": {
     "features": {
+      "Living Space": {
+        "good": "672 SF",
+        "better": "672 SF",
+        "best": "672 SF"
+      },
       "Overall dimensions": {
         "good": "24'x14'",
         "better": "24'x14'",
@@ -1321,18 +1336,18 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["living", "bedroom", "bathroom"]
         },
         "dark": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["living", "bedroom", "bathroom"]
         }
       },
       "comparison": {
         "features": {
           "Living Space": {
-            "good": "1200 SF",
-            "better": "1200 SF",
-            "best": "1200 SF"
+            "good": "504 SF",
+            "better": "504 SF",
+            "best": "504 SF"
           },
           "Bedrooms": {
             "good": "1",
@@ -1370,18 +1385,18 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["living", "bedroom", "bathroom"]
         },
         "dark": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": ["living", "bedroom", "bathroom"]
         }
       },
       "comparison": {
         "features": {
           "Living Space": {
-            "good": "1050 SF",
-            "better": "1050 SF",
-            "best": "1050 SF"
+            "good": "504 SF",
+            "better": "504 SF",
+            "best": "504 SF"
           },
           "Bedrooms": {
             "good": "1",
@@ -1419,41 +1434,116 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": [ "bedroom", "bathroom"]
         },
         "dark": {
-          "rooms": ["living", "kitchen", "bedroom", "bathroom"]
+          "rooms": [ "bedroom", "bathroom"]
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "1100 SF",
-            "better": "1100 SF",
-            "best": "1100 SF"
-          },
-          "Bedrooms": {
-            "good": "1",
-            "better": "1", 
-            "best": "1"
-          },
-          "Bathrooms": {
-            "good": "1",
-            "better": "1",
-            "best": "1"
-          },
-          "Color Schemes": {
-            "good": "White Only",
-            "better": "White + Dark",
-            "best": "White + Dark + Custom"
-          },
-          "Modern Finishes": {
-            "good": "Standard",
-            "better": "Premium",
-            "best": "Luxury"
-          }
-        }
+    "features": {
+      "Overall dimensions": {
+        "good": "36'x14'",
+        "better": "36'x14'",
+        "best": "36'x14'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom",
+        "better": "1 Bedroom",
+        "best": "1 Bedroom"
+      },
+      "Bathrooms": {
+        "good": "1 Bathroom",
+        "better": "1 Bathroom",
+        "best": "1 Bathroom"
+      },
+      "Ceiling height": {
+        "good": "9 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Living room fixture": {
+        "good": "One Fixture",
+        "better": "Ceiling Fan",
+        "best": "Ceiling Fan"
+      },
+      "Kitchen": {
+        "good": "Linear Kitchenette",
+        "better": "Linear Kitchen with Upper Cabs",
+        "best": "Linear Kitchen with Upper Cabs"
+      },
+      "Kitchen counters": {
+        "good": "Quartz w/ 4” Self-Splash",
+        "better": "Quartz w/ 4” Self-Splash",
+        "best": "Quartz w/ 18” Tile Backsplash"
+      },
+      "Garbage disposal": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Kitchen features": {
+        "good": "20” Sink with Faucet, Space for Refrigerator",
+        "better": "Space for Refrigerator, Space for Range and Micro Hood",
+        "best": "Space for Refrigerator with Ice Maker, Space for Range and Micro Hood, Space for Dishwasher"
+      },
+      "Bathroom vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Single Sink"
+      },
+      "Shower": {
+        "good": "Tub/Shower Unit",
+        "better": "Shower Unit w/ Curtain Rod",
+        "best": "Tile Shower w/ Glass Door"
+      },
+      "Bathroom accessories": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Bedroom features": {
+        "good": "Single Closet, Fixture Light",
+        "better": "Single Closet, Ceiling Fan",
+        "best": "Double Closet, Ceiling Fan"
+      },
+      "Flooring": {
+        "good": "Builder Grade LVP or Laminate",
+        "better": "Upgraded LVP or Laminate",
+        "best": "Designer Series LVP or Laminate and Tile"
+      },
+      "Exterior siding": {
+        "good": "T1-11",
+        "better": "Board & Batten",
+        "best": "Board & Batten w/ Wood Cladding"
+      },
+      "Metal overhang": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Exterior hose bib": {
+        "good": "One (side)",
+        "better": "One (side)",
+        "best": "Two (side and back)"
+      },
+      "Outdoor space": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Glass slider": {
+        "good": "✗",
+        "better": "✓",
+        "best": "✓"
+      },
+      "Ductless HVAC": {
+        "good": "✓",
+        "better": "✓",
+        "best": "✓"
       }
+    }
+  }
     }
   }
 }

@@ -61,8 +61,7 @@ export const selectCurrentRoomDisplayName = createSelector(
       case 'hall': return 'Hallway';
       case 'bedroom': return 'Bedroom 1';
       case 'bedroom2': return 'Bedroom 2';
-      case 'badroom': return 'Bedroom 1';
-      case 'badroom2': return 'Bedroom 2';
+      // Используем только bedroom
       case 'bathroom': return 'Bathroom 1';
       case 'bathroom2': return 'Bathroom 2';
       case 'wik': return 'Walk-in Closet';
