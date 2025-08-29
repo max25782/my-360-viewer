@@ -59,7 +59,7 @@ export default function RootLayout({
         {/* Service Worker registration moved to useServiceWorker hook */}
         <script dangerouslySetInnerHTML={{
           __html: `
-            if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+            if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
               window.clearAppCache = function() {
                 try {
                   if (window.localStorage) {

@@ -339,7 +339,15 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
       dispatch(cacheScene({ key: currentSceneKey, scene }));
       
       // Register assets for service worker caching
-      registerAssets(allPaths);
+      // Фильтруем пути, чтобы убедиться, что все они валидны
+      const assetsToCache = allPaths.filter(
+        path => path && typeof path === 'string' && path.startsWith('/')
+      );
+      
+      if (assetsToCache.length > 0) {
+        console.log('Регистрация ассетов для кэширования:', assetsToCache);
+        registerAssets(assetsToCache);
+      }
       
       return scene;
       
@@ -391,6 +399,23 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
             
             // Сохраняем ссылку для восстановления позже
             (window as any).__originalConsoleError = originalConsoleError;
+            
+            // Добавляем глобальный обработчик ошибок загрузки изображений
+            const handleImageError = (event: ErrorEvent) => {
+              if (event.target instanceof HTMLImageElement) {
+                console.warn(`Failed to load image: ${event.target.src}`);
+                console.warn(`Image error details:`, {
+                  src: event.target.src,
+                  naturalWidth: event.target.naturalWidth,
+                  naturalHeight: event.target.naturalHeight,
+                  complete: event.target.complete,
+                  currentSrc: event.target.currentSrc
+                });
+              }
+            };
+            
+            window.addEventListener('error', handleImageError, true);
+            (window as any).__imageErrorHandler = handleImageError;
           }
           
           const photosphereCore = await import('@photo-sphere-viewer/core');
@@ -416,6 +441,12 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
       if (typeof window !== 'undefined' && (window as any).__originalConsoleError) {
         console.error = (window as any).__originalConsoleError;
         delete (window as any).__originalConsoleError;
+      }
+      
+      // Удаляем обработчик ошибок загрузки изображений
+      if (typeof window !== 'undefined' && (window as any).__imageErrorHandler) {
+        window.removeEventListener('error', (window as any).__imageErrorHandler, true);
+        delete (window as any).__imageErrorHandler;
       }
     };
   }, [dispatch]);

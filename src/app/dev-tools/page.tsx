@@ -36,7 +36,7 @@ export default function DevToolsPage() {
   };
 
   // Показываем только в dev режиме
-  if (process.env.NODE_ENV !== 'development') {
+  if (typeof window !== 'undefined' && !(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

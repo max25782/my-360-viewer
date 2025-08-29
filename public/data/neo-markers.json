@@ -556,447 +556,317 @@
       }
     },
     "dark": {
-      "living_dark": {
+      "living": {
         "markers": [
           { "to": "kitchen", "yaw": 270, "pitch": 0, "label": "Kitchen" },
           { "to": "bedroom", "yaw": 90, "pitch": 0, "label": "Bedroom" },
           { "to": "bathroom", "yaw": 135, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_dark": {
+      "kitchen": {
         "markers": [
           { "to": "living", "yaw": 90, "pitch": 0, "label": "Living Room" }
         ]
       },
-      "bedroom_dark": {
+      "bedroom": {
         "markers": [
           { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" },
           { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "bathroom_dark": {
+      "bathroom": {
         "markers": [
           { "to": "living", "yaw": 315, "pitch": 0, "label": "Living Room" },
           { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "entry_dark": {
+      "entry": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "living", "yaw": 180, "pitch": 0, "label": "Living Room" }
         ]
       }
     }
   },
   "Lucid": {
     "white": {
-      "entry_white": {
+      "entry": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "entry", "yaw": 180, "pitch": 0, "label": "Entry" }
         ]
       },
-      "living_white": {
+      "living": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_white", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "entry", "yaw": 0, "pitch": 0, "label": "Entry" },
+          { "to": "bedroom", "yaw": 90, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "kitchen_white": {
+    
+      "bedroom": {
         "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" }
+          { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" },
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "bedroom_white": {
+      "bathroom": {
         "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     },
     "dark": {
-      "entry_dark": {
+      "entry": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "entry", "yaw": 180, "pitch": 0, "label": "Entry" }
         ]
       },
-      "living_dark": {
+      "living": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_dark", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "entry", "yaw": 0, "pitch": 0, "label": "Entry" },
+          { "to": "bedroom", "yaw": 90, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "kitchen_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" }
+          { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" },
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "bedroom_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }
   },
   "Monarch": {
     "white": {
-      "entry_white": {
+      "entry": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "entry", "yaw": 180, "pitch": 0, "label": "Entry" },
+          { "to": "living", "yaw": 180, "pitch": 0, "label": "Living Room" }
         ]
       },
-      "living_white": {
+      "living": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_white", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "entry", "yaw": 0, "pitch": 0, "label": "Entry" },
+          { "to": "bedroom", "yaw": 90, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "kitchen_white": {
+    
+      "bedroom": {
         "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" }
+          { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" },
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "bedroom_white": {
+      "bathroom": {
         "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     },
     "dark": {
-      "entry_dark": {
+      "entry": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "entry", "yaw": 180, "pitch": 0, "label": "Entry" },
+          { "to": "living", "yaw": 180, "pitch": 0, "label": "Living Room" }
         ]
       },
-      "living_dark": {
+      "living": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_dark", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "entry", "yaw": 0, "pitch": 0, "label": "Entry" },
+          { "to": "bedroom", "yaw": 90, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "kitchen_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" }
+          { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" },
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "bedroom_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }
   },
   "Prism": {
     "white": {
-      "entry_white": {
+  
+     
+    
+      "bedroom": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "living_white": {
+      "bathroom": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_white", "yaw": 90, "pitch": 0, "label": "Bedroom" }
-        ]
-      },
-      "kitchen_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     },
     "dark": {
-      "entry_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "living_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_dark", "yaw": 90, "pitch": 0, "label": "Bedroom" }
-        ]
-      },
-      "kitchen_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }
   },
   "Strata": {
     "white": {
-      "entry_white": {
+     
+      "living": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" },
+     
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "living_white": {
+      "bedroom": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_white", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_white": {
+      "bathroom": {
         "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     },
     "dark": {
-      "entry_dark": {
+     
+      "living": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" },
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "living_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_dark", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }
   },
   "Vector": {
     "white": {
-      "entry_white": {
+      "living": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" },
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "living_white": {
+      "bedroom": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_white", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_white": {
+      "bathroom": {
         "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
+     
     },
     "dark": {
-      "entry_dark": {
+
+      "living": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" },
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       },
-      "living_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_dark", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }
   },
   "Vertex": {
     "white": {
-      "entry_white": {
+    
+    
+      "bedroom": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "living_white": {
+      "bathroom": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_white", "yaw": 90, "pitch": 0, "label": "Bedroom" }
-        ]
-      },
-      "kitchen_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
+
     },
     "dark": {
-      "entry_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "living_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "bedroom_dark", "yaw": 90, "pitch": 0, "label": "Bedroom" }
-        ]
-      },
-      "kitchen_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" }
-        ]
-      },
-      "bedroom_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }
   },
   "Nexa": {
     "white": {
-      "entry_white": {
+    
+      "living": {
         "markers": [
-          { "to": "living_white", "yaw": 180, "pitch": 0, "label": "Living Room" },
-          { "to": "hall_white", "yaw": 90, "pitch": 0, "label": "Hallway" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" },
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "living_white": {
+  
+      "bedroom": {
         "markers": [
-          { "to": "entry_white", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_white", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "hall_white", "yaw": 90, "pitch": 0, "label": "Bedrooms" }
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_white": {
+      "bathroom": {
         "markers": [
-          { "to": "living_white", "yaw": 90, "pitch": 0, "label": "Living Room" },
-          { "to": "hall_white", "yaw": 180, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "hall_white": {
-        "markers": [
-          { "to": "living_white", "yaw": 270, "pitch": 0, "label": "Living Room" },
-          { "to": "bedroom_white", "yaw": 0, "pitch": 0, "label": "Bedroom 1" },
-          { "to": "bedroom_white2", "yaw": 45, "pitch": 0, "label": "Bedroom 2" },
-          { "to": "bathroom_white", "yaw": 90, "pitch": 0, "label": "Bathroom 1" },
-          { "to": "bathroom_white2", "yaw": 135, "pitch": 0, "label": "Bathroom 2" },
-          { "to": "wik_white", "yaw": 180, "pitch": 0, "label": "Walk-in Closet" }
-        ]
-      },
-      "bedroom_white": {
-        "markers": [
-          { "to": "hall_white", "yaw": 180, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "bedroom_white2": {
-        "markers": [
-          { "to": "hall_white", "yaw": 225, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "bathroom_white": {
-        "markers": [
-          { "to": "hall_white", "yaw": 270, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "bathroom_white2": {
-        "markers": [
-          { "to": "hall_white", "yaw": 315, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "wik_white": {
-        "markers": [
-          { "to": "hall_white", "yaw": 0, "pitch": 0, "label": "Hallway" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     },
     "dark": {
-      "entry_dark": {
+    
+      "living": {
         "markers": [
-          { "to": "living_dark", "yaw": 180, "pitch": 0, "label": "Living Room" },
-          { "to": "hall_dark", "yaw": 90, "pitch": 0, "label": "Hallway" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" },
+          { "to": "bathroom", "yaw": 270, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "living_dark": {
+      "bedroom": {
         "markers": [
-          { "to": "entry_dark", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "kitchen_dark", "yaw": 270, "pitch": 0, "label": "Kitchen" },
-          { "to": "hall_dark", "yaw": 90, "pitch": 0, "label": "Bedrooms" }
+          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
         ]
       },
-      "kitchen_dark": {
+      "bathroom": {
         "markers": [
-          { "to": "living_dark", "yaw": 90, "pitch": 0, "label": "Living Room" },
-          { "to": "hall_dark", "yaw": 180, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "hall_dark": {
-        "markers": [
-          { "to": "living_dark", "yaw": 270, "pitch": 0, "label": "Living Room" },
-          { "to": "bedroom_dark", "yaw": 0, "pitch": 0, "label": "Bedroom 1" },
-          { "to": "bedroom_dark2", "yaw": 45, "pitch": 0, "label": "Bedroom 2" },
-          { "to": "bathroom_dark", "yaw": 90, "pitch": 0, "label": "Bathroom 1" },
-          { "to": "bathroom_dark2", "yaw": 135, "pitch": 0, "label": "Bathroom 2" },
-          { "to": "wik_dark", "yaw": 180, "pitch": 0, "label": "Walk-in Closet" }
-        ]
-      },
-      "bedroom_dark": {
-        "markers": [
-          { "to": "hall_dark", "yaw": 180, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "bedroom_dark2": {
-        "markers": [
-          { "to": "hall_dark", "yaw": 225, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "bathroom_dark": {
-        "markers": [
-          { "to": "hall_dark", "yaw": 270, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "bathroom_dark2": {
-        "markers": [
-          { "to": "hall_dark", "yaw": 315, "pitch": 0, "label": "Hallway" }
-        ]
-      },
-      "wik_dark": {
-        "markers": [
-          { "to": "hall_dark", "yaw": 0, "pitch": 0, "label": "Hallway" }
+          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
         ]
       }
     }

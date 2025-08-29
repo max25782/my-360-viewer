@@ -402,6 +402,23 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
             
             // Сохраняем ссылку для восстановления позже
             (window as any).__originalConsoleError = originalConsoleError;
+            
+            // Добавляем глобальный обработчик ошибок загрузки изображений
+            const handleImageError = (event: ErrorEvent) => {
+              if (event.target instanceof HTMLImageElement) {
+                console.warn(`Failed to load image: ${event.target.src}`);
+                console.warn(`Image error details:`, {
+                  src: event.target.src,
+                  naturalWidth: event.target.naturalWidth,
+                  naturalHeight: event.target.naturalHeight,
+                  complete: event.target.complete,
+                  currentSrc: event.target.currentSrc
+                });
+              }
+            };
+            
+            window.addEventListener('error', handleImageError, true);
+            (window as any).__imageErrorHandler = handleImageError;
           }
           
           console.log('PhotoSphere Viewer libraries loaded successfully');
@@ -530,7 +547,15 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         }
         
         // Регистрируем ассеты для кэширования в Service Worker
-        registerAssets([...panoramaPaths, currentScene.thumbnail]);
+        // Фильтруем пути, чтобы убедиться, что все они валидны
+        const assetsToCache = [...panoramaPaths, currentScene.thumbnail].filter(
+          path => path && typeof path === 'string' && path.startsWith('/')
+        );
+        
+        if (assetsToCache.length > 0) {
+          console.log('Регистрация ассетов для кэширования:', assetsToCache);
+          registerAssets(assetsToCache);
+        }
 
         // Получаем корректные углы для начальной сцены
         const initialYaw = typeof currentScene.yaw === 'number' ? toRad(currentScene.yaw) : 0;
@@ -696,6 +721,12 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
       if (typeof window !== 'undefined' && (window as any).__originalConsoleError) {
         console.error = (window as any).__originalConsoleError;
         delete (window as any).__originalConsoleError;
+      }
+      
+      // Удаляем обработчик ошибок загрузки изображений
+      if (typeof window !== 'undefined' && (window as any).__imageErrorHandler) {
+        window.removeEventListener('error', (window as any).__imageErrorHandler, true);
+        delete (window as any).__imageErrorHandler;
       }
     };
   }, []);

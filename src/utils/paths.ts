@@ -3,9 +3,9 @@
  */
 
 // Безопасное получение переменных окружения, работает и на клиенте и на сервере
-const BASE_PATH = typeof process !== 'undefined' && process.env 
+const BASE_PATH = typeof window === 'undefined' 
   ? (process.env.NEXT_PUBLIC_BASE_PATH || '') 
-  : '';
+  : (typeof process !== 'undefined' && process.env && process.env.NEXT_PUBLIC_BASE_PATH) || '';
 
 /**
  * Создает публичный URL для статических ресурсов

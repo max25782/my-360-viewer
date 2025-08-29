@@ -26,7 +26,7 @@ export function usePerformanceMonitor(componentName: string) {
         renderTimes.current = renderTimes.current.slice(-10);
       }
       
-      if (process.env.NODE_ENV === 'development') {
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
         const avgRenderTime = renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length;
         console.log(`${componentName} render time: ${renderTime.toFixed(2)}ms (avg: ${avgRenderTime.toFixed(2)}ms)`);
       }
@@ -56,7 +56,7 @@ export function useRenderOptimization() {
     renderCount.current += 1;
     lastRenderTime.current = Date.now();
     
-    if (process.env.NODE_ENV === 'development' && renderCount.current > 5) {
+    if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && renderCount.current > 5) {
       console.warn(`Component re-rendered ${renderCount.current} times. Consider optimization.`);
     }
   });

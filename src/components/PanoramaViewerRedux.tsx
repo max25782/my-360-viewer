@@ -603,7 +603,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       />
       
       {/* Performance Metrics Button - Only in development */}
-      {process.env.NODE_ENV === 'development' && isViewerReady && (
+      {typeof window !== 'undefined' && typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development' && isViewerReady && (
         <button
           onClick={logPerformanceReport}
           className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded text-sm hover:bg-black/90 transition-colors"

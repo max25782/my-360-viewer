@@ -256,18 +256,37 @@ self.addEventListener('message', (event) => {
         
         const cache = await caches.open(PANORAMA_CACHE);
         
+        // Проверяем и фильтруем ассеты перед кэшированием
+        const validAssets = assets.filter(asset => {
+          // Проверяем, что путь не пустой и не содержит недопустимых значений
+          const isValid = asset && 
+                         typeof asset === 'string' && 
+                         asset.startsWith('/') && 
+                         !asset.includes('undefined') && 
+                         !asset.includes('null');
+          
+          if (!isValid) {
+            console.warn(`⚠️ Пропускаем некорректный ассет: ${asset}`);
+          }
+          return isValid;
+        });
+        
+        console.log(`🔍 Отфильтровано ${assets.length - validAssets.length} некорректных ассетов, кэширую ${validAssets.length}`);
+        
         // Кэшируем каждый ассет индивидуально с обработкой ошибок
         const results = await Promise.allSettled(
-          assets.map(async (asset) => {
+          validAssets.map(async (asset) => {
             try {
               const response = await fetch(asset);
               if (response.ok) {
                 await cache.put(asset, response);
                 return { status: 'cached', asset };
               } else {
+                console.warn(`⚠️ Не удалось закэшировать ${asset}: HTTP ${response.status}`);
                 return { status: 'error', asset, reason: `HTTP ${response.status}` };
               }
             } catch (error) {
+              console.warn(`⚠️ Ошибка при кэшировании ${asset}: ${error.message}`);
               return { status: 'error', asset, reason: error.message };
             }
           })
