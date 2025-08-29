@@ -1,11 +1,11 @@
 {
   "id": "Arcos",
-  "name": "The Apex",
+  "name": "TheAcros",
   "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
   "category": "A",
   "bedrooms": 1,
-  "bathrooms": 2,
-  "sqft": 2050,
+  "bathrooms": 1,
+  "sqft": 1200,
   "hero": "assets/skyline/Arcos/hero.webp",
   "gallery": [],
   "designPackages": [
@@ -28,20 +28,8 @@
           "bedroom": [
             "assets/Arcos/interior/bedroom/pk1.webp"
           ],
-          "badroom2": [
-            "assets/Arcos/interior/badroom2/pk1.webp"
-          ],
           "bathroom": [
             "assets/Arcos/interior/bathroom/pk1.webp"
-          ],
-          "bathroom2": [
-            "assets/Arcos/interior/bathroom2/pk1.webp"
-          ],
-          "entry": [
-            "assets/Arcos/interior/entry/pk1.webp"
-          ],
-          "hall": [
-            "assets/Arcos/interior/hall/pk1.webp"
           ],
           "wik": [
             "assets/Arcos/interior/wik/pk1.webp"
@@ -73,20 +61,8 @@
           "bedroom": [
             "assets/Arcos/interior/bedroom/pk2.webp"
           ],
-          "badroom2": [
-            "assets/Arcos/interior/badroom2/pk2.webp"
-          ],
           "bathroom": [
             "assets/Arcos/interior/bathroom/pk2.webp"
-          ],
-          "bathroom2": [
-            "assets/Arcos/interior/bathroom2/pk2.webp"
-          ],
-          "entry": [
-            "assets/Arcos/interior/entry/pk2.webp"
-          ],
-          "hall": [
-            "assets/Arcos/interior/hall/pk2.webp"
           ],
           "wik": [
             "assets/Arcos/interior/wik/pk2.webp"
@@ -118,20 +94,8 @@
           "bedroom": [
             "assets/Arcos/interior/bedroom/pk3.webp"
           ],
-          "badroom2": [
-            "assets/Arcos/interior/badroom2/pk3.webp"
-          ],
           "bathroom": [
             "assets/Arcos/interior/bathroom/pk3.webp"
-          ],
-          "bathroom2": [
-            "assets/Arcos/interior/bathroom2/pk3.webp"
-          ],
-          "entry": [
-            "assets/Arcos/interior/entry/pk3.webp"
-          ],
-          "hall": [
-            "assets/Arcos/interior/hall/pk3.webp"
           ],
           "wik": [
             "assets/Arcos/interior/wik/pk3.webp"
@@ -255,5 +219,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-08-25T20:19:59.031Z"
+  "lastUpdated": "2025-08-29T22:11:06.193Z"
 }

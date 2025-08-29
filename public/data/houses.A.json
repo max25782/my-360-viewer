@@ -1,19 +1,5 @@
 [
   {
-    "id": "Apex",
-    "name": "The Apex",
-    "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
-    "category": "A",
-    "image": "assets/skyline/Apex/hero.webp",
-    "thumbnail": "assets/skyline/Apex/hero.webp",
-    "bedrooms": 1,
-    "bathrooms": 1,
-    "sqft": 1600,
-    "hasTour360": false,
-    "hasComparison": true,
-    "hasDesignPackages": true
-  },
-  {
     "id": "Walnut",
     "name": "The Vista",
     "description": "he Walnut Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
@@ -29,14 +15,14 @@
   },
   {
     "id": "Arcos",
-    "name": "The Apex",
+    "name": "TheAcros",
     "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
     "category": "A",
     "image": "assets/skyline/Arcos/hero.webp",
     "thumbnail": "assets/skyline/Arcos/hero.webp",
     "bedrooms": 1,
-    "bathrooms": 2,
-    "sqft": 2050,
+    "bathrooms": 1,
+    "sqft": 1200,
     "hasTour360": false,
     "hasComparison": true,
     "hasDesignPackages": true
