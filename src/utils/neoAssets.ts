@@ -444,7 +444,8 @@ export function getNeoComparisonPath(
   const cleanHouseId = houseSlug.startsWith('neo-') ? houseSlug.substring(4) : houseSlug;
   // Нормализуем регистр имени дома
   const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
-  // Используем точное расположение файлов
+  // Получаем данные сравнения из neo-assets.json, а не из пути к файлам
+  // Путь оставляем для обратной совместимости
   const path = `/assets/neo/${normalizedHouseId}/comparison/${type}-${variant}.jpg`;
   console.log(`Generating Neo comparison path: ${path}`);
   return path;

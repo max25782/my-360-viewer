@@ -129,6 +129,40 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     const bedroomCount = availableRooms.filter(room => room === 'bedroom').length;
     const bathroomCount = availableRooms.filter(room => room === 'bathroom').length;
 
+    // Для Neo домов проверяем наличие данных сравнения непосредственно в объекте дома
+    if (house.category === 'neo' && house.comparison?.features) {
+      // Используем данные из neo-assets.comparison напрямую
+      const items: ComparisonItem[] = [];
+      
+      // Добавляем изображения только если они нужны
+      items.push(
+        {
+          label: 'Front Elevation',
+          good: renderImageWithErrorHandling(imagePaths.goodExterior, `Good Package - ${house.name} Front Elevation`),
+          better: renderImageWithErrorHandling(imagePaths.betterExterior, `Better Package - ${house.name} Front Elevation`),
+          best: renderImageWithErrorHandling(imagePaths.bestExterior, `Best Package - ${house.name} Front Elevation`)
+        },
+        {
+          label: 'Floor Plan 1',
+          good: renderImageWithErrorHandling(imagePaths.goodPlan1, `Good Package - ${house.name} Floor Plan 1`),
+          better: renderImageWithErrorHandling(imagePaths.betterPlan1, `Better Package - ${house.name} Floor Plan 1`),
+          best: renderImageWithErrorHandling(imagePaths.bestPlan1, `Best Package - ${house.name} Floor Plan 1`)
+        }
+      );
+      
+      // Добавляем данные из neo-assets.comparison.features напрямую
+      Object.entries(house.comparison.features).forEach(([featureLabel, featureValues]: [string, any]) => {
+        items.push({
+          label: featureLabel,
+          good: renderFeatureValue(featureValues.good),
+          better: renderFeatureValue(featureValues.better),
+          best: renderFeatureValue(featureValues.best)
+        });
+      });
+      
+      return items;
+    }
+
     const items: ComparisonItem[] = [
       // Fixed items (images and basic house data)
       {
@@ -163,8 +197,6 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         better: `${bathroomCount} Bathrooms`,
         best: `${bathroomCount} Bathrooms`
       },
-  
-      
     ];
 
     // Add dynamic features from JSON

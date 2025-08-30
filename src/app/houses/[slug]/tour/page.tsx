@@ -42,7 +42,7 @@ export default function TourPage() {
           </Link>
           
           <div className="text-white text-center">
-            <h1 className="text-2xl font-bold">{house.name} - 360° Tour</h1>
+            <h1 className="text-2xl font-bold"> 360° Tour</h1>
             <p className="text-sm opacity-75">Navigate with mouse/touch • Click hotspots to move</p>
           </div>
           
