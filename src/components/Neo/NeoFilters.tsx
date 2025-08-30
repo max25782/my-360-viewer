@@ -46,22 +46,76 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
   
   // Get unique filter values
   const getBedroomOptions = () => {
-    const options = new Set<number>();
+    // Предустановленные опции для спален (1, 2, 3)
+    const options = new Set<number>([1, 2]);
+    
     houses.forEach(house => {
+      // Сначала проверяем данные из comparison.features
+      if (house.comparison?.features) {
+        // Ищем ключ "Bedrooms" независимо от регистра
+        const bedroomsKey = Object.keys(house.comparison.features)
+          .find(key => key.toLowerCase() === 'bedrooms');
+        
+        if (bedroomsKey) {
+          const bedroomsData = house.comparison.features[bedroomsKey]?.good || '';
+          console.log(`House ${house.id} bedrooms data:`, bedroomsData);
+          
+          // Извлекаем число из строки, например "2 Bedrooms" -> 2
+          const match = bedroomsData.match(/(\d+)/);
+          if (match && match[1]) {
+            const count = parseInt(match[1]);
+            if (!isNaN(count) && count > 0) {
+              options.add(count);
+            }
+          }
+        }
+      }
+      
+      // Fallback: подсчет из availableRooms
       const bedroomCount = house.availableRooms.filter(room => 
-        room === 'bedroom' || room === 'bedroom2').length;
+        room.toLowerCase() === 'bedroom' || 
+        room.toLowerCase() === 'bedroom2' || 
+        room.toLowerCase().includes('bedroom')).length;
       if (bedroomCount > 0) options.add(bedroomCount);
     });
+    
     return Array.from(options).sort((a, b) => a - b);
   };
   
   const getBathroomOptions = () => {
-    const options = new Set<number>();
+    // Предустановленные опции для ванных (1, 2, 3)
+    const options = new Set<number>([1, 2]);
+    
     houses.forEach(house => {
+      // Сначала проверяем данные из comparison.features
+      if (house.comparison?.features) {
+        // Ищем ключ "Bathrooms" независимо от регистра
+        const bathroomsKey = Object.keys(house.comparison.features)
+          .find(key => key.toLowerCase() === 'bathrooms');
+        
+        if (bathroomsKey) {
+          const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
+          console.log(`House ${house.id} bathrooms data:`, bathroomsData);
+          
+          // Извлекаем число из строки, например "2 Bathrooms" -> 2
+          const match = bathroomsData.match(/(\d+)/);
+          if (match && match[1]) {
+            const count = parseInt(match[1]);
+            if (!isNaN(count) && count > 0) {
+              options.add(count);
+            }
+          }
+        }
+      }
+      
+      // Fallback: подсчет из availableRooms
       const bathroomCount = house.availableRooms.filter(room => 
-        room === 'bathroom' || room === 'bathroom2').length;
+        room.toLowerCase() === 'bathroom' || 
+        room.toLowerCase() === 'bathroom2' || 
+        room.toLowerCase().includes('bathroom')).length;
       if (bathroomCount > 0) options.add(bathroomCount);
     });
+    
     return Array.from(options).sort((a, b) => a - b);
   };
   
@@ -141,15 +195,24 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
   
   // Update URL when filters change
   useEffect(() => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(window.location.search);
     if (bedrooms !== 'any') params.set('bedrooms', bedrooms);
+    else params.delete('bedrooms');
+    
     if (bathrooms !== 'any') params.set('bathrooms', bathrooms);
-    params.set('sqftMin', sqftRange[0].toString());
-    params.set('sqftMax', sqftRange[1].toString());
+    else params.delete('bathrooms');
+    
+    if (sqftRange[0] !== 300) params.set('sqftMin', sqftRange[0].toString());
+    else params.delete('sqftMin');
+    
+    if (sqftRange[1] !== 1500) params.set('sqftMax', sqftRange[1].toString());
+    else params.delete('sqftMax');
+    
     if (selectedFeatures.length > 0) params.set('features', selectedFeatures.join(','));
+    else params.delete('features');
     
     const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-    router.push(newUrl, { scroll: false });
+    router.replace(newUrl, { scroll: false });
   }, [bedrooms, bathrooms, sqftRange, selectedFeatures, router]);
   
   // Get square footage range
@@ -197,6 +260,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
             {bedrooms !== 'any' && (
               <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
                 {bedrooms}
+               
               </span>
             )}
           </h4>

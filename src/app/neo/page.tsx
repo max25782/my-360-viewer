@@ -7,6 +7,8 @@ import HeroSection from '@/components/HeroSection';
 import { House } from '../../hooks/useHouses';
 import NeoFilterWrapper from '@/components/Neo/NeoFilterWrapper';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Neo ADU Series - Modern Dual-Color Designs',
   description: 'Explore our sophisticated Neo ADU Series with white and dark color schemes. Modern living with customizable aesthetics.',
@@ -21,6 +23,10 @@ interface NeoHouse {
   maxPK: number;
   availableRooms: string[];
   squareFeet?: number;
+  tour360?: {
+    white?: { rooms?: string[] };
+    dark?: { rooms?: string[] };
+  };
   comparison?: {
     features?: {
       [key: string]: {
@@ -31,6 +37,7 @@ interface NeoHouse {
     }
   };
 }
+
 
 // Функция для конвертации Neo house в формат Legacy House для HeroSection
 async function convertNeoToLegacyHouse(neoHouse: NeoHouse): Promise<House> {
@@ -45,58 +52,158 @@ async function convertNeoToLegacyHouse(neoHouse: NeoHouse): Promise<House> {
     description: neoHouse.description,
     maxDP: neoHouse.maxDP,
     maxPK: neoHouse.maxPK,
-    availableRooms: neoHouse.availableRooms,
+    availableRooms: neoHouse.tour360?.white?.rooms || [],
     images: {
       hero: heroPath,
       gallery: []
     },
     tour360: {
-      rooms: neoHouse.availableRooms,
+      rooms: neoHouse.tour360?.white?.rooms || [],
       availableFiles: {}
     },
-    category: 'neo'
+    category: 'neo',
+    // Проверяем наличие comparison и features перед передачей
+    comparison: neoHouse.comparison ? {
+      features: neoHouse.comparison.features || {}
+    } : undefined
   };
 }
 
 export default async function NeoCollectionPage(props: any) {
   let neoHouses: NeoHouse[] = [];
   let heroHouse: House | null = null;
+
   
   try {
     // Get all houses first
     neoHouses = await getServerNeoHouses();
     
-    // Get searchParams safely (await if it's a Promise in newer Next.js)
-    const searchParams = await (props?.searchParams || {});
+    // Get search params
+    const searchParams = props.searchParams || {};
     
-    // Apply filters if searchParams exists
-    if (Object.keys(searchParams).length > 0) {
+    // Apply filters if any parameters exist
+    const hasFilters = searchParams.bedrooms || searchParams.bathrooms || 
+                       searchParams.sqftMin || searchParams.sqftMax || 
+                       searchParams.features;
+    
+    if (hasFilters) {
       // Bedrooms filter
       if (searchParams.bedrooms && searchParams.bedrooms !== 'any') {
-        const bedroomCount = parseInt(searchParams.bedrooms as string);
+        const bedroomCount = parseInt(searchParams.bedrooms);
         neoHouses = neoHouses.filter(house => {
-          const houseBedroomCount = house.availableRooms.filter(
-            room => room === 'bedroom' || room === 'bedroom2'
+          // Проверяем данные из описания дома
+          const description = house.description || '';
+          const descriptionMatch = description.match(/(\d+)\s+bedrooms?/i);
+          if (descriptionMatch && descriptionMatch[1]) {
+            const count = parseInt(descriptionMatch[1]);
+            if (!isNaN(count)) {
+              console.log(`House ${house.id}: Found ${count} bedrooms in description, looking for ${bedroomCount}`);
+              return count === bedroomCount;
+            }
+          }
+          
+          // Проверяем данные из comparison.features
+          if (house.comparison?.features) {
+            // Ищем ключ "Bedrooms" независимо от регистра
+            const bedroomsKey = Object.keys(house.comparison.features)
+              .find(key => key.toLowerCase() === 'bedrooms');
+            
+            if (bedroomsKey) {
+              const bedroomsData = house.comparison.features[bedroomsKey]?.good || '';
+              // Извлекаем число из строки, например "2 Bedrooms" -> 2
+              const match = bedroomsData.match(/(\d+)/);
+              if (match && match[1]) {
+                const count = parseInt(match[1]);
+                if (!isNaN(count)) {
+                  console.log(`House ${house.id}: Found ${count} bedrooms in comparison, looking for ${bedroomCount}`);
+                  return count === bedroomCount;
+                }
+              }
+            }
+          }
+          
+          // Fallback: подсчет из availableRooms
+          const houseBedroomCount = house.availableRooms.filter(room => 
+            room.toLowerCase() === 'bedroom' || 
+            room.toLowerCase() === 'bedroom2' || 
+            room.toLowerCase().includes('bedroom')
           ).length;
+          console.log(`House ${house.id}: Counted ${houseBedroomCount} bedrooms in availableRooms, looking for ${bedroomCount}`);
           return houseBedroomCount === bedroomCount;
         });
       }
       
       // Bathrooms filter
       if (searchParams.bathrooms && searchParams.bathrooms !== 'any') {
-        const bathroomCount = parseInt(searchParams.bathrooms as string);
+        const bathroomCount = parseInt(searchParams.bathrooms);
         neoHouses = neoHouses.filter(house => {
-          const houseBathroomCount = house.availableRooms.filter(
-            room => room === 'bathroom' || room === 'bathroom2'
+          // Сначала проверяем данные из comparison.features
+          if (house.comparison?.features) {
+            // Ищем ключ "Bathrooms" независимо от регистра
+            const bathroomsKey = Object.keys(house.comparison.features)
+              .find(key => key.toLowerCase() === 'bathrooms');
+            
+            if (bathroomsKey) {
+              const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
+              // Извлекаем число из строки, например "2 Bathrooms" -> 2
+              const match = bathroomsData.match(/(\d+)/);
+              if (match && match[1]) {
+                const count = parseInt(match[1]);
+                if (!isNaN(count)) {
+                  return count === bathroomCount;
+                }
+              }
+            }
+          }
+          
+          // Проверяем данные из описания дома
+          const description = house.description || '';
+          const descriptionMatch = description.match(/(\d+)\s+bathrooms?/i);
+          if (descriptionMatch && descriptionMatch[1]) {
+            const count = parseInt(descriptionMatch[1]);
+            if (!isNaN(count)) {
+              console.log(`House ${house.id}: Found ${count} bathrooms in description, looking for ${bathroomCount}`);
+              return count === bathroomCount;
+            }
+          }
+          
+          // Проверяем данные из comparison.features
+          if (house.comparison?.features) {
+            // Ищем ключ "Bathrooms" независимо от регистра
+            const bathroomsKey = Object.keys(house.comparison.features)
+              .find(key => key.toLowerCase() === 'bathrooms');
+            
+            if (bathroomsKey) {
+              const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
+              // Извлекаем число из строки, например "2 Bathrooms" -> 2
+              const match = bathroomsData.match(/(\d+)/);
+              if (match && match[1]) {
+                const count = parseInt(match[1]);
+                if (!isNaN(count)) {
+                  console.log(`House ${house.id}: Found ${count} bathrooms in comparison, looking for ${bathroomCount}`);
+                  return count === bathroomCount;
+                }
+              }
+            }
+          }
+          
+          // Fallback: подсчет из availableRooms или tour360.dark.rooms
+          const houseBathroomCount = house.tour360?.dark?.rooms?.filter(
+            (room: string) => room === 'bathroom' || room === 'bathroom2' || room.toLowerCase().includes('bathroom')
+          )?.length || house.availableRooms.filter(room => 
+            room.toLowerCase() === 'bathroom' || 
+            room.toLowerCase() === 'bathroom2' || 
+            room.toLowerCase().includes('bathroom')
           ).length;
+          console.log(`House ${house.id}: Counted ${houseBathroomCount} bathrooms in rooms, looking for ${bathroomCount}`);
           return houseBathroomCount === bathroomCount;
         });
       }
       
       // Square footage filter
       if (searchParams.sqftMin || searchParams.sqftMax) {
-        const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin as string) : 0;
-        const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax as string) : 10000;
+        const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin) : 0;
+        const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax) : 10000;
         
         neoHouses = neoHouses.filter(house => {
           if (!house.squareFeet) return true; // Skip houses without square footage
@@ -106,7 +213,7 @@ export default async function NeoCollectionPage(props: any) {
       
       // Features filter
       if (searchParams.features) {
-        const selectedFeatures = (searchParams.features as string).split(',');
+        const selectedFeatures = searchParams.features.split(',');
         if (selectedFeatures.length > 0) {
           neoHouses = neoHouses.filter(house => {
             // Define predefined features mapping - which houses have which features
@@ -124,7 +231,7 @@ export default async function NeoCollectionPage(props: any) {
             
             // Check predefined features first
             for (const feature of selectedFeatures) {
-              if (predefinedFeaturesMap[feature]?.includes(house.id)) {
+              if (predefinedFeaturesMap[feature as string]?.includes(house.id)) {
                 return true;
               }
             }
@@ -132,7 +239,7 @@ export default async function NeoCollectionPage(props: any) {
             // Then check comparison features if available
             if (house.comparison?.features) {
               const houseFeatures = Object.keys(house.comparison.features);
-              if (selectedFeatures.some(feature => houseFeatures.includes(feature))) {
+              if (selectedFeatures.some((feature: string) => houseFeatures.includes(feature))) {
                 return true;
               }
             }
@@ -175,14 +282,27 @@ export default async function NeoCollectionPage(props: any) {
             </p>
           </div>
           
-          {/* Фильтры */}
+          {/* Двухколоночный макет: фильтры слева, карточки справа */}
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Фильтры (aside) */}
           {neoHouses.length > 0 && (
+              <aside className="md:w-1/4 lg:w-1/5">
             <NeoFilterWrapper houses={neoHouses} />
+              </aside>
           )}
 
+            {/* Карточки домов */}
+            <div className="md:w-3/4 lg:w-4/5 sm:w-full" >
           {neoHouses.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {neoHouses.map((house) => (
+              {neoHouses.map((house) => {
+                console.log(`House ${house.id} data:`, {
+                  id: house.id,
+                  name: house.name,
+                  comparison: house.comparison,
+                  availableRooms: house.availableRooms
+                });
+                return (
                 <Link 
                   key={house.id}
                   href={`/neo/${house.id.charAt(0).toUpperCase() + house.id.slice(1)}`}
@@ -216,15 +336,95 @@ export default async function NeoCollectionPage(props: any) {
                         <span className="bg-gray-100 px-2 py-1 rounded-md">{house.squareFeet} sq.ft</span>
                       )}
                       <span className="bg-gray-100 px-2 py-1 rounded-md">
-                        {house.availableRooms.filter(room => room === 'bedroom' || room === 'bedroom2').length} {house.availableRooms.filter(room => room === 'bedroom' || room === 'bedroom2').length === 1 ? 'Bedroom' : 'Bedrooms'}
+                        {(() => {
+                          // Проверяем данные из описания дома
+                          const description = house.description || '';
+                          const bedroomMatch = description.match(/(\d+)\s+bedrooms?/i);
+                          if (bedroomMatch && bedroomMatch[1]) {
+                            const count = parseInt(bedroomMatch[1]);
+                            if (!isNaN(count)) {
+                              return `${count} ${count === 1 ? 'Bedroom' : 'Bedrooms'}`;
+                            }
+                          }
+                          
+
+                            try {
+                            // Ищем ключ "Bedrooms" независимо от регистра
+                            if (house.comparison?.features) {
+                              const keys = Object.keys(house.comparison.features);
+                              for (const key of keys) {
+                                if (key.toLowerCase() === 'bedrooms') {
+                                  const value = house.comparison.features[key]?.good;
+                                  console.log(`Found Bedrooms key for ${house.id}:`, key, value);
+                                  if (value) return value;
+                                }
+                              }
+                            }
+                          } catch (e) {
+                            console.error("Error getting bedroom data:", e);
+                          }
+                          
+                          // Fallback к подсчету из availableRooms
+                          try {
+                            const bedroomCount = house.availableRooms?.filter((room: string) => 
+                              room.toLowerCase() === 'bedroom' || 
+                              room.toLowerCase() === 'bedroom2' || 
+                              room.toLowerCase().includes('bedroom')
+                            )?.length || 0;
+                            return `${bedroomCount} ${bedroomCount === 1 ? 'Bedroom' : 'Bedrooms'}`;
+                          } catch (e) {
+                            console.error("Error in bedroom fallback:", e);
+                            return "N/A";
+                          }
+                        })()}
                       </span>
                       <span className="bg-gray-100 px-2 py-1 rounded-md">
-                        {house.availableRooms.filter(room => room === 'bathroom' || room === 'bathroom2').length} {house.availableRooms.filter(room => room === 'bathroom' || room === 'bathroom2').length === 1 ? 'Bathroom' : 'Bathrooms'}
+                        {(() => {
+                          // Проверяем данные из описания дома
+                          const description = house.description || '';
+                          const bathroomMatch = description.match(/(\d+)\s+bathrooms?/i);
+                          if (bathroomMatch && bathroomMatch[1]) {
+                            const count = parseInt(bathroomMatch[1]);
+                            if (!isNaN(count)) {
+                              return `${count} ${count === 1 ? 'Bathroom' : 'Bathrooms'}`;
+                            }
+                          }
+                          
+                          try {
+                            // Ищем ключ "Bathrooms" независимо от регистра
+                            if (house.comparison?.features) {
+                              const keys = Object.keys(house.comparison.features);
+                              for (const key of keys) {
+                                if (key.toLowerCase() === 'bathrooms') {
+                                  const value = house.comparison.features[key]?.good;
+                                  console.log(`Found Bathrooms key for ${house.id}:`, key, value);
+                                  if (value) return value;
+                                }
+                              }
+                            }
+                          } catch (e) {
+                            console.error("Error getting bathroom data:", e);
+                          }
+                          
+                          // Fallback к подсчету из availableRooms
+                          try {
+                            const bathroomCount = house.availableRooms?.filter((room: string) => 
+                              room.toLowerCase() === 'bathroom' || 
+                              room.toLowerCase() === 'bathroom2' || 
+                              room.toLowerCase().includes('bathroom')
+                            )?.length || 0;
+                            return `${bathroomCount} ${bathroomCount === 1 ? 'Bathroom' : 'Bathrooms'}`;
+                          } catch (e) {
+                            console.error("Error in bathroom fallback:", e);
+                            return "N/A";
+                          }
+                        })()}
                       </span>
                     </div>
                   </div>
                 </Link>
-              ))}
+              )
+              })}
             </div>
           ) : (
             <div className="text-center py-16">
@@ -240,6 +440,8 @@ export default async function NeoCollectionPage(props: any) {
               </p>
             </div>
           )}
+            </div>
+          </div>
         </div>
       </section>
 

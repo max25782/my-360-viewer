@@ -23,9 +23,77 @@ export default function HeroSection({ house }: HeroSectionProps) {
     );
   }
 
-  const bedroomCount = house.availableRooms?.filter(room => room === 'bedroom' || room === 'bedroom2').length || 0;
-  const bathroomCount = house.availableRooms?.filter(room => room === 'bathroom' || room === 'bathroom2').length || 0;
-  const livingSpace = house.comparison?.features?.["Living Space"]?.good || "N/A";
+  // Для Neo домов берем данные из comparison
+  let bedroomCount = 0;
+  let bathroomCount = 0;
+  let livingSpace = "N/A";
+  
+  if (house.category === 'neo' && house.comparison?.features) {
+    // Используем регистронезависимый поиск ключа "Bedrooms"
+    const bedroomsKey = Object.keys(house.comparison.features)
+      .find(key => key.toLowerCase() === 'bedrooms');
+    
+    if (bedroomsKey) {
+      const bedroomsData = house.comparison.features[bedroomsKey]?.good || '';
+      
+      if (bedroomsData.includes('1 Bedroom')) {
+        bedroomCount = 1;
+      } else if (bedroomsData.includes('2 Bedrooms')) {
+        bedroomCount = 2;
+      } else if (bedroomsData.includes('3 Bedrooms')) {
+        bedroomCount = 3;
+      } else {
+        // Если не распознали формат, просто используем текст как есть
+        bedroomCount = 0;
+        return bedroomsData;
+      }
+    } else {
+      // Если не нашли ключ, используем стандартный метод
+      bedroomCount = house.availableRooms?.filter(room => 
+        room.toLowerCase() === 'bedroom' || 
+        room.toLowerCase() === 'bedroom2' || 
+        room.toLowerCase().includes('bedroom')
+      ).length || 0;
+    }
+    
+    // Используем регистронезависимый поиск ключа "Bathrooms"
+    const bathroomsKey = Object.keys(house.comparison.features)
+      .find(key => key.toLowerCase() === 'bathrooms');
+    
+    if (bathroomsKey) {
+      const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
+      
+      if (bathroomsData.includes('1 Bathroom')) {
+        bathroomCount = 1;
+      } else if (bathroomsData.includes('2 Bathrooms')) {
+        bathroomCount = 2;
+      } else if (bathroomsData.includes('3 Bathrooms')) {
+        bathroomCount = 3;
+      } else {
+        // Если не распознали формат, просто используем текст как есть
+        bathroomCount = 0;
+        return bathroomsData;
+      }
+    } else {
+      // Если не нашли ключ, используем стандартный метод
+      bathroomCount = house.availableRooms?.filter(room => 
+        room.toLowerCase() === 'bathroom' || 
+        room.toLowerCase() === 'bathroom2' || 
+        room.toLowerCase().includes('bathroom')
+      ).length || 0;
+    }
+    
+    // Используем регистронезависимый поиск ключа "Living Space"
+    const livingSpaceKey = Object.keys(house.comparison.features)
+      .find(key => key.toLowerCase() === 'living space');
+    
+    livingSpace = livingSpaceKey ? house.comparison.features[livingSpaceKey]?.good || "N/A" : "N/A";
+  } else {
+    // Для не-Neo домов используем стандартный метод
+    bedroomCount = house.availableRooms?.filter(room => room === 'bedroom' || room === 'bedroom2').length || 0;
+    bathroomCount = house.availableRooms?.filter(room => room === 'bathroom' || room === 'bathroom2').length || 0;
+    livingSpace = house.comparison?.features?.["Living Space"]?.good || "N/A";
+  }
   const description = house.description || "";
   
   return (

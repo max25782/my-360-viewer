@@ -84,7 +84,9 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
       hero: house.images.hero,
       gallery: []
     },
-    comparison: house.comparison,
+    comparison: house.comparison ? {
+      features: house.comparison.features || {}
+    } : undefined,
     tour360: {
       rooms: [
         ...(house.tour360.white?.rooms || []),
