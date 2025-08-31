@@ -154,8 +154,15 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
     const links = createLinksForRoom(roomName, roomIndex);
     
-    // Выбираем формат изображений в зависимости от поддержки WebP
-    const format = supportsWebP ? '.webp' : '.jpg';
+    // Проверяем, является ли это Premium домом
+    const isPremium = houseId.includes('Aspen') || houseId.includes('Canyon') || 
+                      houseId.includes('Redwood') || houseId.includes('Willow') || 
+                      houseId.includes('Sequoia') || houseId.toLowerCase().includes('premium');
+    
+    // Выбираем формат изображений в зависимости от поддержки WebP и типа дома
+    // Для Premium домов всегда используем .jpg
+    const format = isPremium ? '.jpg' : (supportsWebP ? '.webp' : '.jpg');
+    
     const tiles = {
       front: tour360Paths.tiles.front.replace('.jpg', format),
       back: tour360Paths.tiles.back.replace('.jpg', format),
@@ -238,7 +245,16 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       
       const actualHouseId = getActualHouseDirectory(houseId);
       const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
-      const format = supportsWebP ? '.webp' : '.jpg';
+      
+      // Проверяем, является ли это Premium домом
+      const isPremium = houseId.includes('Aspen') || houseId.includes('Canyon') || 
+                        houseId.includes('Redwood') || houseId.includes('Willow') || 
+                        houseId.includes('Sequoia') || houseId.toLowerCase().includes('premium');
+      
+      // Выбираем формат изображений в зависимости от поддержки WebP и типа дома
+      // Для Premium домов всегда используем .jpg
+      const format = isPremium ? '.jpg' : (supportsWebP ? '.webp' : '.jpg');
+      
       const tiles = {
         front: tour360Paths.tiles.front.replace('.jpg', format),
         back: tour360Paths.tiles.back.replace('.jpg', format),

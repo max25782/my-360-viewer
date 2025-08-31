@@ -194,20 +194,17 @@ export default function UniversalDesignSelectorRedux({
     }
   };
 
-  const handleRoomChange = (direction: 'next' | 'prev') => {
+  const handleRoomChange = (newRoom: string) => {
     if (interiorRooms.length === 0) return;
 
-    const newIndex = direction === 'next'
-      ? (currentRoomIndex + 1) % interiorRooms.length
-      : (currentRoomIndex - 1 + interiorRooms.length) % interiorRooms.length;
+    // Находим индекс новой комнаты
+    const newIndex = interiorRooms.indexOf(newRoom);
+    if (newIndex === -1) return;
 
     setCurrentRoomIndex(newIndex);
-    const currentRoom = interiorRooms[newIndex];
-
-    if (!currentRoom) return;
-
+    
     // Обновляем выбранную комнату в Redux
-    dispatch(setSelectedRoom({ houseId, room: currentRoom }));
+    dispatch(setSelectedRoom({ houseId, room: newRoom }));
 
     const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
 
@@ -216,14 +213,95 @@ export default function UniversalDesignSelectorRedux({
         houseId,
         type,
         packageData: selectedPackage,
-        room: currentRoom,
+        room: newRoom,
         pk: selectedTextureConfig.pk
       }));
     }
-  };
+    
+    console.log(`Changing room to: ${newRoom}, index: ${newIndex}, texture: ${selectedTexture}, package: ${selectedPackage?.id}`);
+  }
+  
+  // Функция для циклического перехода к следующей комнате
+  const goToNextRoom = () => {
+    if (interiorRooms.length <= 1) return;
+    
+    const currentIndex = rooms.indexOf(selectedRoom);
+    const nextIndex = (currentIndex + 1) % rooms.length;
+    const nextRoom = rooms[nextIndex];
+    
+    handleRoomChange(nextRoom);
+  }
+  
+  // Функция для циклического перехода к предыдущей комнате
+  const goToPrevRoom = () => {
+    if (interiorRooms.length <= 1) return;
+    
+    const currentIndex = rooms.indexOf(selectedRoom);
+    const prevIndex = (currentIndex - 1 + rooms.length) % rooms.length;
+    const prevRoom = rooms[prevIndex];
+    
+    handleRoomChange(prevRoom);
+  }
 
   const handlePhotoIndexChange = (photoIndex: number) => {
-    dispatch(setCurrentPhotoIndex({ houseId, photoIndex }));
+    // Если индекс выходит за пределы массива, делаем цикличный переход
+    const normalizedIndex = (photoIndex + currentPhotos.length) % currentPhotos.length;
+    dispatch(setCurrentPhotoIndex({ houseId, photoIndex: normalizedIndex }));
+  };
+  
+  // Функция для перехода к следующему фото с цикличностью
+  const goToNextPhoto = () => {
+    if (!currentPhotos || !Array.isArray(currentPhotos) || currentPhotos.length <= 1) {
+      console.log(`goToNextPhoto: No photos available or only one photo`);
+      return;
+    }
+    
+    // Явно приводим к числу, чтобы избежать проблем с типами
+    const currentIndex = Number(currentPhotoIndex);
+    const photosLength = currentPhotos.length;
+    
+    console.log(`goToNextPhoto DEBUG: currentPhotos=${JSON.stringify(currentPhotos)}, length=${photosLength}, currentIndex=${currentIndex}, type=${typeof currentPhotoIndex}`);
+    
+    // Принудительно проверяем, что мы на последнем фото
+    if (currentIndex >= photosLength - 1) {
+      // Если мы на последнем фото, возвращаемся к первому (индекс 0)
+      console.log(`goToNextPhoto: Достигнут конец (${currentIndex}), возвращаемся к началу (0), total=${photosLength}`);
+      // Напрямую устанавливаем индекс через dispatch для гарантии обновления
+      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: 0 }));
+    } else {
+      // Иначе переходим к следующему фото
+      const nextIndex = currentIndex + 1;
+      console.log(`goToNextPhoto: current=${currentIndex}, next=${nextIndex}, total=${photosLength}`);
+      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: nextIndex }));
+    }
+  };
+  
+  // Функция для перехода к предыдущему фото с цикличностью
+  const goToPrevPhoto = () => {
+    if (!currentPhotos || !Array.isArray(currentPhotos) || currentPhotos.length <= 1) {
+      console.log(`goToPrevPhoto: No photos available or only one photo`);
+      return;
+    }
+    
+    // Явно приводим к числу, чтобы избежать проблем с типами
+    const currentIndex = Number(currentPhotoIndex);
+    const photosLength = currentPhotos.length;
+    
+    console.log(`goToPrevPhoto DEBUG: currentPhotos=${JSON.stringify(currentPhotos)}, length=${photosLength}, currentIndex=${currentIndex}, type=${typeof currentPhotoIndex}`);
+    
+    // Принудительно проверяем, что мы на первом фото
+    if (currentIndex <= 0) {
+      // Если мы на первом фото, переходим к последнему
+      const lastIndex = photosLength - 1;
+      console.log(`goToPrevPhoto: Достигнуто начало (${currentIndex}), переходим к концу (${lastIndex}), total=${photosLength}`);
+      // Напрямую устанавливаем индекс через dispatch для гарантии обновления
+      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: lastIndex }));
+    } else {
+      // Иначе переходим к предыдущему фото
+      const prevIndex = currentIndex - 1;
+      console.log(`goToPrevPhoto: current=${currentIndex}, prev=${prevIndex}, total=${photosLength}`);
+      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: prevIndex }));
+    }
   };
 
   const renderRoomNavigation = () => {
@@ -359,12 +437,7 @@ export default function UniversalDesignSelectorRedux({
             <>
               {/* Left Arrow */}
               <button
-                onClick={() => {
-                  const currentIndex = rooms.indexOf(selectedRoom);
-                  const prevIndex = (currentIndex - 1 + rooms.length) % rooms.length;
-                  const prevRoom = rooms[prevIndex];
-                  handleRoomChange(prevRoom === selectedRoom ? 'prev' : 'next');
-                }}
+                onClick={goToPrevRoom}
                 className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
               >
                 <svg
@@ -380,12 +453,7 @@ export default function UniversalDesignSelectorRedux({
 
               {/* Right Arrow */}
               <button
-                onClick={() => {
-                  const currentIndex = rooms.indexOf(selectedRoom);
-                  const nextIndex = (currentIndex + 1) % rooms.length;
-                  const nextRoom = rooms[nextIndex];
-                  handleRoomChange(nextRoom === selectedRoom ? 'next' : 'prev');
-                }}
+                onClick={goToNextRoom}
                 className="absolute right-14 top-1/2 transform -translate-y-1/2 bg-white/50 hover:bg-white/70 rounded-full p-2 shadow-md transition-all z-10"
               >
                 <svg
@@ -408,22 +476,57 @@ export default function UniversalDesignSelectorRedux({
             </>
           )}
 
-          {/* Photo Navigation Dots (Interior multiple photos) */}
+          {/* Photo Navigation Controls */}
           {type === 'interior' && currentPhotos.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
-              {currentPhotos.map((_: string, index: number) => (
-                <button
-                  key={index}
-                  onClick={() => handlePhotoIndexChange(index)}
-                  className={`transition-all ${index === currentPhotoIndex
-                      ? 'w-3 h-3 bg-white rounded-full shadow-lg'
-                      : 'w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-80'
-                    }`}
-                  title={index === 0 ? 'Основной цвет' : `Вариант ${index}`}
+            <>
+              {/* Left Arrow for Photos */}
+              <button
+                onClick={goToPrevPhoto}
+                className="absolute left-2 bottom-4 bg-white/50 hover:bg-white/70 rounded-full p-1 shadow-md transition-all z-10"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-800"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                </button>
-              ))}
-            </div>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              {/* Photo Navigation Dots */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
+                {Array.isArray(currentPhotos) && currentPhotos.map((_: string, index: number) => (
+                  <button
+                    key={index}
+                    onClick={() => handlePhotoIndexChange(index)}
+                    className={`transition-all ${Number(currentPhotoIndex) === index
+                        ? 'w-3 h-3 bg-white rounded-full shadow-lg'
+                        : 'w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-80'
+                      }`}
+                    title={index === 0 ? 'Основной цвет' : `Вариант ${index}`}
+                  >
+                  </button>
+                ))}
+              </div>
+              
+              {/* Right Arrow for Photos */}
+              <button
+                onClick={goToNextPhoto}
+                className="absolute right-2 bottom-4 bg-white/50 hover:bg-white/70 rounded-full p-1 shadow-md transition-all z-10"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-800"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
           )}
         </div>
       </div>

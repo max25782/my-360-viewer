@@ -1,6 +1,8 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CategoriesGrid from "../components/CategoriesGrid";
+import CategoryPage from "./category/[categoryId]/page";
+
 
 export default function Home() {
   return (
@@ -28,7 +30,7 @@ export default function Home() {
             </p>
           </div>
           
-          <CategoriesGrid />
+          <CategoriesGrid/>
         </div>
       </section>
 

@@ -144,7 +144,7 @@ function getGradientForCategory(categoryId: string): string {
     'C': 'from-emerald-600 to-green-800',
     'neo': 'from-indigo-600 to-purple-800',
     'skyline': 'from-sky-600 to-blue-800',
-    'modern': 'from-emerald-600 to-green-800'
+    'premium': 'from-emerald-600 to-green-800'
   };
   return gradients[categoryId] || 'from-gray-600 to-gray-700';
 }
@@ -156,7 +156,7 @@ function getHoverGradientForCategory(categoryId: string): string {
     'C': 'hover:from-emerald-700 hover:to-green-900',
     'neo': 'hover:from-indigo-700 hover:to-purple-900',
     'skyline': 'hover:from-sky-700 hover:to-blue-900',
-    'modern': 'hover:from-emerald-700 hover:to-green-900'
+    'premium': 'hover:from-emerald-700 hover:to-green-900'
   };
   return hoverGradients[categoryId] || 'hover:from-gray-700 hover:to-gray-800';
 }
@@ -168,7 +168,7 @@ function getIconForCategory(categoryId: string): string {
     'C': '🏗️',
     'neo': '⚡',
     'skyline': '🏔️',
-    'modern': '🏗️'
+    'premium': '🏗️'
   };
   return icons[categoryId] || '🏠';
 }
@@ -177,7 +177,8 @@ function getTitleForCategory(categoryId: string, originalTitle?: string): string
   const titles: Record<string, string> = {
     'neo': 'Neo ADU Series',
     'skyline': 'Skyline Collection',
-    'modern': 'Modern Collection'
+    'modern': 'Premium Collection',
+    'premium': 'Premium Collection'
   };
   return titles[categoryId] || originalTitle || `Category ${categoryId}`;
 }
@@ -186,7 +187,8 @@ function getDescriptionForCategory(categoryId: string, originalDescription?: str
   const descriptions: Record<string, string> = {
     'neo': 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.',
     'skyline': 'Traditional collection featuring a variety of house designs with beautiful skyline views.',
-    'modern': 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
+    'modern': 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
+    'premium': 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
   };
   return descriptions[categoryId] || originalDescription || `Houses in ${categoryId} category`;
 }

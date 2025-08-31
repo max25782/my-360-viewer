@@ -1,0 +1,599 @@
+{
+  "premiumConfig": {
+    "pathTemplates": {
+      "hero": "/assets/premium/{houseId}/hero.jpg",
+      "exterior": "/assets/premium/{houseId}/exterior/dp{dp}.{format}",
+      "interior": "/assets/premium/{houseId}/interior/{room}/pk{pk}.{format}",
+      "tour360": {
+        "thumbnail": "/assets/premium/{houseId}/360/{room}/thumbnail.{format}",
+        "preview": "/assets/premium/{houseId}/360/{room}/preview.{format}",
+        "tiles": {
+          "front": "/assets/premium/{houseId}/360/{room}/f.{format}",
+          "back": "/assets/premium/{houseId}/360/{room}/b.{format}",
+          "left": "/assets/premium/{houseId}/360/{room}/l.{format}",
+          "right": "/assets/premium/{houseId}/360/{room}/r.{format}",
+          "up": "/assets/premium/{houseId}/360/{room}/u.{format}",
+          "down": "/assets/premium/{houseId}/360/{room}/d.{format}"
+        }
+      }
+    },
+    "designPackages": {
+      "heritage": { "dp": 1, "pk": 1 },
+      "haven": { "dp": 2, "pk": 2 },
+      "serenity": { "dp": 3, "pk": 3 },
+      "luxe": { "dp": 4, "pk": 4 }
+    },
+    "rooms": ["entry", "living", "living2", "kitchen", "kitchen2", "dining", "bedroom", "bedroom2", "bedroom3", "bathroom", "bathroom2", "great room", "hallway", "shower area", "third flor hallway"],
+    "comparisonTypes": ["good", "better", "best"],
+    "comparisonVariants": ["exterior", "plan1", "plan2", "plan3"]
+  },
+  "premiumHouses": {
+    "Aspen": {
+      "name": "The Aspen",
+      "description": "The Aspen is a spacious 4-bedroom, 3-bath home with over 2,300 square feet of well-designed living space and a 2-car garage. Roomy, comfortable, and built for everyday living..",
+      "maxDP": 4,
+      "maxPK": 4,
+      "availableRooms": ["living", "kitchen", "bedroom", "bathroom", "dining"],
+      "tour360": {
+        "rooms": ["living", "kitchen", "bedroom", "bathroom", "great room", "shower area", "third flor hallway"],
+        "markerPositions": {
+          "living": {
+            "kitchen": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "great room": {
+              "yaw": 45,
+              "pitch": 0
+            }
+          },
+          "kitchen": {
+            "living": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 180,
+              "pitch": 0
+            }
+          },
+          "bedroom": {
+            "living": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "bathroom": {
+            "bedroom": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "shower area": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "great room": {
+            "living": {
+              "yaw": 225,
+              "pitch": 0
+            },
+            "third flor hallway": {
+              "yaw": 45,
+              "pitch": 0
+            }
+          },
+          "shower area": {
+            "bathroom": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          },
+          "third flor hallway": {
+            "great room": {
+              "yaw": 225,
+              "pitch": 0
+            }
+          }
+        }
+      },
+      
+      "comparison": {
+        "features": [
+        "2,362 SF of Thoughtfully Designed Living Space",
+        "224 SF of Outdoor Living Space",
+        "Spacious 2-Car Garage with conditioned Storage Room",
+        "4 Generously Sized Bedrooms",
+        "3 Full Bathrooms",
+        "Sliding Glass Door off the living room to uncovered deck",
+        "Private Uncovered Deck off Primary Bedroom",
+        "10' Ceiling on Main Floor with Vaulted Great Room",
+        "Large kitchen with oversized island and walk in pantry",
+        "Garbage Disposal",
+        "Modern Electric Fireplace",
+        "Dedicated Laundry Room",
+        "Main Level Primary Suite with Spacious Walk-in Closet",
+        "Luxury Primary en Suite Featuring Double Sink Vanity, Freestanding Tub, Walk-in Tiled Shower, and a Separate Water Closet",
+        "Bonus room in the basement with covered patio",
+        "Luxury vinyl planks or laminate flooring in main living areas and bathrooms",
+        "Plush carpet in bedrooms and bonus room",
+        "Sleek MSI quartz countertops in kitchen and bathrooms",
+        "Delta faucets and shower heads",
+        "Visual Comfort Lighting"
+      ]
+      }
+    },
+    "Canyon": {
+      "name": "The Canyon",
+      "description": "The Canyon is a 1,800 square foot modern home with 2 bedrooms, 2 bathrooms, and a spacious open floor plan. Features large windows for natural light and stunning views.",
+      "maxDP": 1,
+      "maxPK": 2,
+      "availableRooms": ["entry", "living", "dining", "kitchen", "bedroom", "bathroom", "dining"],
+      "tour360": {
+        "rooms": ["entry", "living", "dining", "kitchen", "bedroom", "bathroom", "bathroom2"],
+        "markerPositions": {
+          "entry": {
+            "living": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "kitchen": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "living": {
+            "entry": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "dining": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          },
+          "dining": {
+            "living": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "kitchen": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "kitchen": {
+            "dining": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "entry": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          },
+          "bedroom": {
+            "living": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          "bathroom": {
+            "bedroom": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "bathroom2": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "bathroom2": {
+            "bathroom": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          }
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "1800 SF",
+            "better": "1800 SF",
+            "best": "1800 SF"
+          },
+          "Overall Dimensions": {
+            "good": "45'x40'",
+            "better": "45'x40'",
+            "best": "45'x40'"
+          },
+          "Bedrooms": {
+            "good": "2 Bedrooms",
+            "better": "2 Bedrooms",
+            "best": "2 Bedrooms"
+          },
+          "Bathrooms": {
+            "good": "2 Bathrooms",
+            "better": "2 Bathrooms",
+            "best": "2 Bathrooms"
+          },
+          "Ceiling Height": {
+            "good": "9 Feet",
+            "better": "9 Feet",
+            "best": "9 Feet"
+          }
+        }
+      }
+    },
+    "Everest": {
+      "name": "The Everest",
+      "description": "The Everest is our flagship luxury home with 3,200 square feet of premium living space. Features 4 bedrooms, 3.5 bathrooms, chef's kitchen, home office, and expansive outdoor living area.",
+      "maxDP": 4,
+      "maxPK": 2,
+      "availableRooms": ["entry", "living", "dining", "kitchen", "bedroom", "bathroom", "great room"],
+      "tour360": {
+        "rooms": ["entry", "living", "dining", "kitchen", "bedroom", "bathroom"],
+        "markerPositions": {
+          "entry": {
+            "living": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          "living": {
+            "entry": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "dining": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "dining": {
+            "living": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "kitchen": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "kitchen": {
+            "dining": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          },
+          "bedroom": {
+            "living": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "bathroom": {
+            "bedroom": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          }
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "3200 SF",
+            "better": "3200 SF",
+            "best": "3200 SF"
+          },
+          "Overall Dimensions": {
+            "good": "60'x55'",
+            "better": "60'x55'",
+            "best": "60'x55'"
+          },
+          "Bedrooms": {
+            "good": "4 Bedrooms",
+            "better": "4 Bedrooms",
+            "best": "4 Bedrooms"
+          },
+          "Bathrooms": {
+            "good": "3.5 Bathrooms",
+            "better": "3.5 Bathrooms",
+            "best": "3.5 Bathrooms"
+          },
+          "Ceiling Height": {
+            "good": "10 Feet",
+            "better": "10 Feet",
+            "best": "10 Feet"
+          }
+        }
+      }
+    },
+    "Redwood": {
+      "name": "The Redwood",
+      "description": "The Redwood is a spacious 2,800 square foot home designed for multigenerational living. Features 3 bedrooms, 2.5 bathrooms, dual living areas, and a flexible floor plan.",
+      "maxDP": 3,
+      "maxPK": 3,
+      "availableRooms": [ "living", "dining", "kitchen","bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "living2", "dining", "kitchen", "kitchen2", "bedroom", "bedroom2", "bedroom3", "bathroom", "exterior"],
+        "markerPositions": {
+          "entry": {
+            "living": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "kitchen": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "living": {
+            "entry": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "living2": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "dining": {
+              "yaw": 45,
+              "pitch": 0
+            }
+          },
+          "living2": {
+            "living": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          "dining": {
+            "living": {
+              "yaw": 225,
+              "pitch": 0
+            },
+            "kitchen": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "kitchen": {
+            "dining": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "kitchen2": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "kitchen2": {
+            "kitchen": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "entry": {
+              "yaw": 180,
+              "pitch": 0
+            }
+          },
+          "bedroom": {
+            "living2": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "bedroom2": {
+              "yaw": 90,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 45,
+              "pitch": 0
+            }
+          },
+          "bedroom2": {
+            "bedroom": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "bedroom3": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "bedroom3": {
+            "bedroom2": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          },
+          "bathroom": {
+            "bedroom": {
+              "yaw": 225,
+              "pitch": 0
+            }
+          },
+          "exterior": {
+            "entry": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          }
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "2800 SF",
+            "better": "2800 SF",
+            "best": "2800 SF"
+          },
+          "Overall Dimensions": {
+            "good": "55'x50'",
+            "better": "55'x50'",
+            "best": "55'x50'"
+          },
+          "Bedrooms": {
+            "good": "3 Bedrooms",
+            "better": "3 Bedrooms",
+            "best": "3 Bedrooms"
+          },
+          "Bathrooms": {
+            "good": "2.5 Bathrooms",
+            "better": "2.5 Bathrooms",
+            "best": "2.5 Bathrooms"
+          },
+          "Ceiling Height": {
+            "good": "9 Feet",
+            "better": "9 Feet",
+            "best": "9 Feet"
+          }
+        }
+      }
+    },
+    "Willow": {
+      "name": "The Willow",
+      "description": "The Willow is a contemporary 2,200 square foot home with 3 bedrooms, 2 bathrooms, and an innovative, energy-efficient design. Features abundant natural light and seamless indoor-outdoor living.",
+      "maxDP": 2,
+      "maxPK": 2,
+      "availableRooms": ["living", "dining", "kitchen", "bedroom",  "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "living2", "hallway", "kitchen", "bedroom", "bedroom2", "bathroom"],
+        "markerPositions": {
+          "entry": {
+            "living": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "hallway": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "living": {
+            "entry": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "living2": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "living2": {
+            "living": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "kitchen": {
+              "yaw": 0,
+              "pitch": 0
+            }
+          },
+          "hallway": {
+            "entry": {
+              "yaw": 270,
+              "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 0,
+              "pitch": 0
+            },
+            "bedroom2": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "kitchen": {
+            "living2": {
+              "yaw": 180,
+              "pitch": 0
+            }
+          },
+          "bedroom": {
+            "hallway": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 90,
+              "pitch": 0
+            }
+          },
+          "bedroom2": {
+            "hallway": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          },
+          "bathroom": {
+            "bedroom": {
+              "yaw": 270,
+              "pitch": 0
+            }
+          }
+        }
+      },
+      "comparison": {
+        "features": {
+          "Living Space": {
+            "good": "2200 SF",
+            "better": "2200 SF",
+            "best": "2200 SF"
+          },
+          "Overall Dimensions": {
+            "good": "48'x46'",
+            "better": "48'x46'",
+            "best": "48'x46'"
+          },
+          "Bedrooms": {
+            "good": "3 Bedrooms",
+            "better": "3 Bedrooms",
+            "best": "3 Bedrooms"
+          },
+          "Bathrooms": {
+            "good": "2 Bathrooms",
+            "better": "2 Bathrooms",
+            "best": "2 Bathrooms"
+          },
+          "Ceiling Height": {
+            "good": "9 Feet",
+            "better": "9 Feet",
+            "best": "9 Feet"
+          }
+        }
+      }
+    }
+  }
+}

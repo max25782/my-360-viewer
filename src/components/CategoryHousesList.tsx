@@ -7,14 +7,16 @@ import { useHousesByCategory } from '../hooks/useHousesByCategory';
 import { publicUrl } from '../utils/paths';
 
 interface CategoryHousesListProps {
-  categoryId: HouseCategory;
+  category: HouseCategory;
+  title?: string;
+  searchParams?: { [key: string]: string };
 }
 
-export default function CategoryHousesList({ categoryId }: CategoryHousesListProps) {
-  const { houses, loading, error } = useHousesByCategory(categoryId);
+export default function CategoryHousesList({ category, title, searchParams = {} }: CategoryHousesListProps) {
+  const { houses, loading, error } = useHousesByCategory(category);
 
   // Добавляем отладочную информацию
-  console.log(`CategoryHousesList: categoryId=${categoryId}, houses.length=${houses.length}, loading=${loading}, error=${error}`);
+  console.log(`CategoryHousesList: category=${category}, houses.length=${houses?.length || 0}, loading=${loading}, error=${error}`);
 
   if (loading) {
     return (
@@ -49,13 +51,13 @@ export default function CategoryHousesList({ categoryId }: CategoryHousesListPro
     const categoryNames = {
       skyline: 'Skyline Collection',
       neo: 'Neo ADU Series', 
-      modern: 'Modern Collection',
+      modern: 'Premium Collection',
       A: 'Skyline Collection',
       B: 'Neo ADU Series',
-      C: 'Modern Collection'
+      C: 'Premium Collection'
     };
     
-    const categoryName = categoryNames[categoryId] || `Category ${categoryId}`;
+    const categoryName = title || categoryNames[category] || `Category ${category}`;
     
     return (
       <div className="text-center text-white py-12">
@@ -70,9 +72,14 @@ export default function CategoryHousesList({ categoryId }: CategoryHousesListPro
     );
   }
 
+  // Добавляем заголовок категории, если он передан
+  const displayTitle = title || `${category.charAt(0).toUpperCase() + category.slice(1)} Houses`;
+
   return (
-    <div className="grid grid-cols-1 bg-slate-800 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {houses.map((house) => (
+    <div>
+      <h2 className="text-3xl font-bold text-white mb-8">{displayTitle}</h2>
+      <div className="grid grid-cols-1 bg-slate-800 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {houses.map((house) => (
         <div key={house.id} className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden hover:bg-white/20 transition-all duration-300 hover:transform hover:scale-105">
           {/* House Image */}
           <div className="aspect-video relative">
@@ -139,6 +146,7 @@ export default function CategoryHousesList({ categoryId }: CategoryHousesListPro
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 }

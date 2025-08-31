@@ -176,8 +176,10 @@ export const loadDesignImage = createAsyncThunk(
             try {
               const response = await fetch(photoPath, { method: 'HEAD' });
               if (response.ok) {
+                console.log(`Found main photo: ${photoPath}`);
                 mainPhotoExists = true;
-                break;
+                photos.push(photoPath); // Добавляем найденное фото в массив
+                // Не прерываем поиск после нахождения первого фото
               }
             } catch {
               // Продолжаем поиск следующего формата
@@ -186,28 +188,63 @@ export const loadDesignImage = createAsyncThunk(
           
           if (!mainPhotoExists) {
             console.log(`No main photo found for pk${pkToUse} in ${room}`);
-            return null;
+            // Если нет основного фото для текущей комнаты и текущего пакета,
+            // попробуем использовать pk1 как запасной вариант
+            if (pkToUse > 1) {
+              console.log(`Trying fallback to pk1 for ${room}`);
+              const fallbackFormats = isWebPSupported 
+                ? [`/assets/${houseId}/interior/${room}/pk1.webp`, `/assets/${houseId}/interior/${room}/pk1.jpg`]
+                : [`/assets/${houseId}/interior/${room}/pk1.jpg`, `/assets/${houseId}/interior/${room}/pk1.webp`];
+              
+              for (const photoPath of fallbackFormats) {
+                try {
+                  const response = await fetch(photoPath, { method: 'HEAD' });
+                  if (response.ok) {
+                    console.log(`Found fallback photo: ${photoPath}`);
+                    photos.push(photoPath);
+                    // Не прерываем поиск после нахождения первого фото, чтобы обеспечить возможность цикличной навигации
+                    // Продолжаем поиск других форматов
+                  }
+                } catch {
+                  // Продолжаем поиск следующего формата
+                }
+              }
+            }
+            // Убираем return null, чтобы продолжить поиск дополнительных фото
+            // даже если основное фото не найдено
           }
 
           // Проверяем дополнительное фото только в текущей комнате
+          let foundAdditionalPhotos = [];
           for (const photoPath of additionalPhotoFormats) {
             try {
               const response = await fetch(photoPath, { method: 'HEAD' });
               if (response.ok) {
-                return photoPath;
+                console.log(`Found additional photo: ${photoPath}`);
+                foundAdditionalPhotos.push(photoPath);
               }
             } catch {
               // Продолжаем поиск следующего формата
             }
           }
           
+          if (foundAdditionalPhotos.length > 0) {
+            return foundAdditionalPhotos;
+          }
+          
           console.log(`No additional photo found for pk${pkToUse} in ${room}`);
-          return null;
+          // Не возвращаем null, чтобы не прерывать поиск других фото
         };
         
-        const additionalPhoto = await checkAdditionalPhoto();
-        if (additionalPhoto) {
-          photos.push(additionalPhoto);
+        const additionalPhotos = await checkAdditionalPhoto();
+        if (additionalPhotos) {
+          if (Array.isArray(additionalPhotos)) {
+            // Если получили массив дополнительных фото
+            photos.push(...additionalPhotos);
+          } else {
+            // Обратная совместимость, если вернулась строка
+            photos.push(additionalPhotos);
+          }
         }
       }
 

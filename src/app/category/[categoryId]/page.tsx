@@ -30,10 +30,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const categoryNames = {
     A: 'Skyline Collection',
     B: 'Neo ADU Series',
-    C: 'Modern Collection',
+    C: 'Premium Collection',
     skyline: 'Skyline Collection',
     neo: 'Neo ADU Series',
-    modern: 'Modern Collection'
+    modern: 'Premium Collection'
   };
 
   const categoryDescriptions = {
@@ -90,7 +90,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       {/* Основной контент */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <CategoryHeader categoryId={validCategoryId} />
-        <CategoryHousesList categoryId={validCategoryId} />
+        <CategoryHousesList category={validCategoryId} />
       </main>
       
       <Footer />

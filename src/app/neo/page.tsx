@@ -206,8 +206,44 @@ export default async function NeoCollectionPage(props: any) {
         const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax) : 10000;
         
         neoHouses = neoHouses.filter(house => {
-          if (!house.squareFeet) return true; // Skip houses without square footage
-          return house.squareFeet >= minSqft && house.squareFeet <= maxSqft;
+          // Проверяем данные из comparison.features для Living Space
+          if (house.comparison?.features) {
+            const livingSpaceKey = Object.keys(house.comparison.features)
+              .find(key => key.toLowerCase().includes('living space') || key.toLowerCase().includes('square'));
+            
+            if (livingSpaceKey) {
+              const livingSpaceData = house.comparison.features[livingSpaceKey]?.good || '';
+              // Извлекаем число из строки, например "1008 SF" -> 1008
+              const match = livingSpaceData.match(/(\d+)/);
+              if (match && match[1]) {
+                const sqft = parseInt(match[1]);
+                if (!isNaN(sqft)) {
+                  console.log(`House ${house.id}: Found ${sqft} sq.ft in comparison, range: ${minSqft}-${maxSqft}`);
+                  return sqft >= minSqft && sqft <= maxSqft;
+                }
+              }
+            }
+          }
+          
+          // Проверяем данные из описания дома
+          const description = house.description || '';
+          const sqftMatch = description.match(/(\d+(?:,\d+)?)\s*(?:square\s*feet|sq\.?\s*ft)/i);
+          if (sqftMatch && sqftMatch[1]) {
+            const sqft = parseInt(sqftMatch[1].replace(',', ''));
+            if (!isNaN(sqft)) {
+              console.log(`House ${house.id}: Found ${sqft} sq.ft in description, range: ${minSqft}-${maxSqft}`);
+              return sqft >= minSqft && sqft <= maxSqft;
+            }
+          }
+          
+          // Fallback к свойству squareFeet
+          if (house.squareFeet) {
+            console.log(`House ${house.id}: Using ${house.squareFeet} sq.ft from property, range: ${minSqft}-${maxSqft}`);
+            return house.squareFeet >= minSqft && house.squareFeet <= maxSqft;
+          }
+          
+          console.log(`House ${house.id}: No square footage data found, including in results`);
+          return true; // Включаем дома без данных о площади
         });
       }
       

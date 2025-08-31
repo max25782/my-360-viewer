@@ -48,6 +48,20 @@ function getActualHouseDirectory(houseId: string): string {
   return houseDirectoryMap[houseId.toLowerCase()] || houseId;
 }
 
+/**
+ * Check if houseId belongs to Premium collection
+ */
+function isPremiumHouseId(houseId: string): boolean {
+  // Import from clientPremiumAssets
+  try {
+    // Use direct check without import for better performance
+    const premiumHouseIds = ['Aspen', 'Canyon', 'Redwood', 'Willow', 'Sequoia'];
+    return premiumHouseIds.includes(houseId) || houseId.toLowerCase().includes('premium');
+  } catch (error) {
+    return houseId.toLowerCase().includes('premium');
+  }
+}
+
 export const assetPaths: HouseAssetPaths = {
   hero: (house: string) => `/assets/skyline/${getActualHouseDirectory(house)}/hero.jpg`,
   
@@ -59,18 +73,39 @@ export const assetPaths: HouseAssetPaths = {
   comparison: (house: string, type: 'good' | 'better' | 'best', variant: 'exterior' | 'plan1' | 'plan2') => 
     `/assets/skyline/${getActualHouseDirectory(house)}/comparison/${type}-${variant}.jpg`,
   
-  tour360: (house: string, room: string) => ({
-    thumbnail: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/thumbnail.jpg`,
-    preview: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/preview.jpg`,
-    tiles: {
-      front: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/f.jpg`,
-      back: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/b.jpg`,
-      up: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/u.jpg`,
-      down: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/d.jpg`,
-      left: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/l.jpg`,
-      right: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/r.jpg`
+  tour360: (house: string, room: string) => {
+    // Check if it's a Premium house
+    if (isPremiumHouseId(house)) {
+      // Always use .jpg for Premium houses
+      const format = '.jpg'; // Force jpg format for Premium houses
+      return {
+        thumbnail: `/assets/premium/${house}/360/${room}/thumbnail${format}`,
+        preview: `/assets/premium/${house}/360/${room}/hero${format}`,
+        tiles: {
+          front: `/assets/premium/${house}/360/${room}/f${format}`,
+          back: `/assets/premium/${house}/360/${room}/b${format}`,
+          up: `/assets/premium/${house}/360/${room}/u${format}`,
+          down: `/assets/premium/${house}/360/${room}/d${format}`,
+          left: `/assets/premium/${house}/360/${room}/l${format}`,
+          right: `/assets/premium/${house}/360/${room}/r${format}`
+        }
+      };
     }
-  }),
+    
+    // Default to Skyline - allow WebP detection
+    return {
+      thumbnail: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/thumbnail.jpg`,
+      preview: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/preview.jpg`,
+      tiles: {
+        front: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/f.jpg`,
+        back: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/b.jpg`,
+        up: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/u.jpg`,
+        down: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/d.jpg`,
+        left: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/l.jpg`,
+        right: `/assets/skyline/${getActualHouseDirectory(house)}/360/${room}/r.jpg`
+      }
+    };
+  },
 
   // NEW: Texture configurator paths
   textures: {

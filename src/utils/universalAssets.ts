@@ -350,6 +350,17 @@ export async function getAvailableRooms(houseId: string) {
  * Check if house has 360° tour
  */
 export async function hasTour360(houseId: string): Promise<boolean> {
+  // Check if it's a Premium house first
+  if (houseId.toLowerCase().includes('premium') || await isPremiumHouse(houseId)) {
+    try {
+      const { hasPremiumTour360Client } = await import('./clientPremiumAssets');
+      return await hasPremiumTour360Client(houseId);
+    } catch (error) {
+      console.error('Failed to check Premium 360 tour:', error);
+      return false;
+    }
+  }
+
   const config = await loadAssetConfig();
   const houseConfig = config.houses[houseId];
   
@@ -362,9 +373,32 @@ export async function hasTour360(houseId: string): Promise<boolean> {
 }
 
 /**
+ * Check if houseId belongs to Premium collection
+ */
+async function isPremiumHouse(houseId: string): Promise<boolean> {
+  try {
+    const { isPremiumHouseClient } = await import('./clientPremiumAssets');
+    return await isPremiumHouseClient(houseId);
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
  * Get 360° tour configuration for a house
  */
 export async function getTour360Config(houseId: string) {
+  // Check if it's a Premium house first
+  if (houseId.toLowerCase().includes('premium') || await isPremiumHouse(houseId)) {
+    try {
+      const { getPremium360ConfigClient } = await import('./clientPremiumAssets');
+      return await getPremium360ConfigClient(houseId);
+    } catch (error) {
+      console.error('Failed to get Premium 360 config:', error);
+      return null;
+    }
+  }
+
   const config = await loadAssetConfig();
   const houseConfig = config.houses[houseId];
   

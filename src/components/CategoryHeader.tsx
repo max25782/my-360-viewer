@@ -25,7 +25,7 @@ export default function CategoryHeader({ categoryId }: CategoryHeaderProps) {
       gradient: 'from-indigo-600 to-purple-800'
     },
     C: {
-      title: 'Modern Collection',
+      title: 'Premium Collection',
       description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
       icon: '🏗️',
       gradient: 'from-emerald-600 to-green-800'
@@ -43,7 +43,7 @@ export default function CategoryHeader({ categoryId }: CategoryHeaderProps) {
       gradient: 'from-indigo-600 to-purple-800'
     },
     modern: {
-      title: 'Modern Collection',
+      title: 'Premium Collection',
       description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
       icon: '🏗️',
       gradient: 'from-emerald-600 to-green-800'
