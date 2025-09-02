@@ -377,9 +377,14 @@ export async function hasTour360(houseId: string): Promise<boolean> {
  */
 async function isPremiumHouse(houseId: string): Promise<boolean> {
   try {
-    const { isPremiumHouseClient } = await import('./clientPremiumAssets');
+    const { isPremiumHouseClient, knownPremiumHouses } = await import('./clientPremiumAssets');
+    // Quick check for known premium houses
+    if (knownPremiumHouses.includes(houseId)) {
+      return true;
+    }
     return await isPremiumHouseClient(houseId);
   } catch (error) {
+    console.error('Error checking if house is premium:', error);
     return false;
   }
 }

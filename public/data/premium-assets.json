@@ -6,7 +6,7 @@
       "interior": "/assets/premium/{houseId}/interior/{room}/pk{pk}.{format}",
       "tour360": {
         "thumbnail": "/assets/premium/{houseId}/360/{room}/thumbnail.{format}",
-        "preview": "/assets/premium/{houseId}/360/{room}/preview.{format}",
+        "preview": "/assets/premium/{houseId}/360/{room}/hero.{format}",
         "tiles": {
           "front": "/assets/premium/{houseId}/360/{room}/f.{format}",
           "back": "/assets/premium/{houseId}/360/{room}/b.{format}",

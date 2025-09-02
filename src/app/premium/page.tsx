@@ -47,16 +47,7 @@ async function convertPremiumToLegacyHouse(premiumHouse: PremiumHouse): Promise<
   };
 }
 
-export default async function PremiumCollectionPage({
-  searchParams
-}: {
-  searchParams?: {
-    bedrooms?: string;
-    bathrooms?: string;
-    sqftMin?: string;
-    sqftMax?: string;
-  }
-}) {
+export default async function PremiumCollectionPage(props: any) {
   let premiumHouses: PremiumHouse[] = [];
   let heroHouse: House | null = null;
 
@@ -64,14 +55,18 @@ export default async function PremiumCollectionPage({
     // Get all houses first
     premiumHouses = await getServerPremiumHouses();
     
+    // Get search params
+    const searchParams = props.searchParams || {};
+    const params = searchParams;
+    
     // Apply filters if any parameters exist
-    const hasFilters = searchParams?.bedrooms || searchParams?.bathrooms || 
-                     searchParams?.sqftMin || searchParams?.sqftMax;
+    const hasFilters = params?.bedrooms || params?.bathrooms || 
+                     params?.sqftMin || params?.sqftMax;
     
     if (hasFilters) {
       // Bedrooms filter
-      if (searchParams?.bedrooms && searchParams.bedrooms !== 'any') {
-        const bedroomCount = searchParams.bedrooms;
+      if (params?.bedrooms && params.bedrooms !== 'any') {
+        const bedroomCount = params.bedrooms;
         premiumHouses = premiumHouses.filter(house => {
           // Проверяем данные из comparison.features
           if (house.comparison?.features?.Bedrooms) {
@@ -86,8 +81,8 @@ export default async function PremiumCollectionPage({
       }
       
       // Bathrooms filter
-      if (searchParams?.bathrooms && searchParams.bathrooms !== 'any') {
-        const bathroomCount = searchParams.bathrooms;
+      if (params?.bathrooms && params.bathrooms !== 'any') {
+        const bathroomCount = params.bathrooms;
         premiumHouses = premiumHouses.filter(house => {
           // Проверяем данные из comparison.features
           if (house.comparison?.features?.Bathrooms) {
@@ -102,9 +97,9 @@ export default async function PremiumCollectionPage({
       }
       
       // Square footage filter
-      if (searchParams?.sqftMin || searchParams?.sqftMax) {
-        const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin) : 0;
-        const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax) : Infinity;
+      if (params?.sqftMin || params?.sqftMax) {
+        const minSqft = params.sqftMin ? parseInt(params.sqftMin) : 0;
+        const maxSqft = params.sqftMax ? parseInt(params.sqftMax) : Infinity;
         
         premiumHouses = premiumHouses.filter(house => {
           // Проверяем данные из comparison.features

@@ -150,37 +150,77 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
 
   // Create scene object from room name and index (for universal JSON system)
   const createSceneFromRoom = useCallback((roomName: string, roomIndex: number) => {
-    const actualHouseId = getActualHouseDirectory(houseId);
-    const tour360Paths = assetPaths.tour360(actualHouseId, roomName);
     const links = createLinksForRoom(roomName, roomIndex);
     
     // Проверяем, является ли это Premium домом
-    const isPremium = houseId.includes('Aspen') || houseId.includes('Canyon') || 
-                      houseId.includes('Redwood') || houseId.includes('Willow') || 
-                      houseId.includes('Sequoia') || houseId.toLowerCase().includes('premium');
+    const knownPremiumHouses = ['Aspen', 'Canyon', 'Redwood', 'Willow', 'Sequoia', 'Everest'];
+    const isPremium = knownPremiumHouses.includes(houseId) || houseId.toLowerCase().includes('premium');
     
-    // Выбираем формат изображений в зависимости от поддержки WebP и типа дома
-    // Для Premium домов всегда используем .jpg
-    const format = isPremium ? '.jpg' : (supportsWebP ? '.webp' : '.jpg');
+    let tiles;
+    let tour360Paths;
     
-    const tiles = {
-      front: tour360Paths.tiles.front.replace('.jpg', format),
-      back: tour360Paths.tiles.back.replace('.jpg', format),
-      left: tour360Paths.tiles.left.replace('.jpg', format),
-      right: tour360Paths.tiles.right.replace('.jpg', format),
-      up: tour360Paths.tiles.up.replace('.jpg', format),
-      down: tour360Paths.tiles.down.replace('.jpg', format)
-    };
+    if (isPremium) {
+      // Используем специальную функцию для Premium домов
+      try {
+        const { getPremiumAssetPath } = require('../utils/clientPremiumAssets');
+        tiles = {
+          front: getPremiumAssetPath(houseId, roomName, 'front'),
+          back: getPremiumAssetPath(houseId, roomName, 'back'),
+          left: getPremiumAssetPath(houseId, roomName, 'left'),
+          right: getPremiumAssetPath(houseId, roomName, 'right'),
+          up: getPremiumAssetPath(houseId, roomName, 'up'),
+          down: getPremiumAssetPath(houseId, roomName, 'down')
+        };
+        tour360Paths = {
+          thumbnail: getPremiumAssetPath(houseId, roomName, 'thumbnail')
+        };
+      } catch (error) {
+        console.error('Failed to generate Premium asset paths:', error);
+        // Fallback to old system
+        const actualHouseId = getActualHouseDirectory(houseId);
+        tour360Paths = assetPaths.tour360(actualHouseId, roomName);
+        tiles = {
+          front: tour360Paths.tiles.front,
+          back: tour360Paths.tiles.back,
+          left: tour360Paths.tiles.left,
+          right: tour360Paths.tiles.right,
+          up: tour360Paths.tiles.up,
+          down: tour360Paths.tiles.down
+        };
+      }
+    } else {
+      // Используем старую систему для не-Premium домов
+      const actualHouseId = getActualHouseDirectory(houseId);
+      tour360Paths = assetPaths.tour360(actualHouseId, roomName);
+      const format = supportsWebP ? '.webp' : '.jpg';
+      
+      tiles = {
+        front: tour360Paths.tiles.front.replace('.jpg', format),
+        back: tour360Paths.tiles.back.replace('.jpg', format),
+        left: tour360Paths.tiles.left.replace('.jpg', format),
+        right: tour360Paths.tiles.right.replace('.jpg', format),
+        up: tour360Paths.tiles.up.replace('.jpg', format),
+        down: tour360Paths.tiles.down.replace('.jpg', format)
+      };
+    }
     
     console.log(`🔧 Creating scene for ${roomName}:`, {
       roomName,
       roomIndex,
-      actualHouseId,
+      houseId,
+      isPremium,
       linksCount: links.length,
       links,
+      tiles,
       usingWebP: supportsWebP,
-      tilesFormat: supportsWebP ? 'WebP' : 'JPEG'
+      tilesFormat: isPremium ? 'JPEG (Premium)' : (supportsWebP ? 'WebP' : 'JPEG')
     });
+    
+    // Дополнительное логирование для Aspen
+    if (houseId === 'Aspen') {
+      console.log(`🔍 Aspen Debug - Room: ${roomName}, Encoded: ${encodeURIComponent(roomName)}`);
+      console.log(`🔍 Aspen Tiles:`, tiles);
+    }
     
     return {
       key: `${houseId}_${roomName}`,
@@ -193,10 +233,10 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
         top: tiles.up,
         bottom: tiles.down
       },
-      thumbnail: tour360Paths.thumbnail,
+      thumbnail: tour360Paths?.thumbnail || '/assets/placeholder-360.jpg',
       yaw: 180,
       pitch: 0,
-      zoom: 50,
+      zoom: 5,
       links
     };
   }, [houseId, getActualHouseDirectory, createLinksForRoom, supportsWebP]);
@@ -359,15 +399,34 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
       // Get target parameters
       const targetYaw = typeof scene.yaw === 'number' ? toRad(scene.yaw) : 0;
       const targetPitch = typeof scene.pitch === 'number' ? toRad(scene.pitch) : 0;
-      const targetZoom = typeof scene.zoom === 'number' ? scene.zoom : 50;
+      const targetZoom = typeof scene.zoom === 'number' ? scene.zoom : 5;
       
       // Set panorama with correct parameters
-      await currentViewer.setPanorama(scene.panorama, {
-        caption: scene.title,
-        position: { yaw: targetYaw, pitch: targetPitch },
-        zoom: targetZoom,
-        transition: false // Remove transition to avoid jumps
-      });
+      try {
+        await currentViewer.setPanorama(scene.panorama, {
+          caption: scene.title,
+          position: { yaw: targetYaw, pitch: targetPitch },
+          zoom: targetZoom,
+          transition: false // Remove transition to avoid jumps
+        });
+      } catch (panoramaError) {
+        console.error(`❌ Failed to set panorama for ${sceneKey}:`, panoramaError);
+        console.log('🔍 Scene panorama config:', scene.panorama);
+        
+        // Дополнительная диагностика для Aspen
+        if (houseId === 'Aspen') {
+          console.log('🔍 Aspen Panorama Error Details:', {
+            sceneKey,
+            roomName: sceneKey.split('_')[1],
+            panoramaConfig: scene.panorama,
+            error: panoramaError
+          });
+        }
+        
+        dispatch(setError(`Failed to load panorama for ${sceneKey}: ${panoramaError}`));
+        return;
+      }
+      
       
       // Mark scene as ready for performance metrics
       perfMeasure.markSceneReady();
@@ -531,15 +590,19 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   useEffect(() => {
     async function loadTour360Config() {
       try {
+        console.log(`🚀 Loading tour config for: ${houseId}`);
         const hasTouring = await hasTour360(houseId);
+        console.log(`🚀 ${houseId} has tour: ${hasTouring}`);
+        
         if (hasTouring) {
           const config = await getTour360Config(houseId);
+          console.log(`🚀 ${houseId} config:`, config);
           setTour360Config(config);
           
           // Don't create scene here - let useEffect handle it when tour360Config is set
         }
       } catch (error) {
-        console.error('Failed to load 360° tour config:', error);
+        console.error(`❌ Failed to load 360° tour config for ${houseId}:`, error);
         dispatch(setError(`Failed to load tour configuration: ${error}`));
       }
     }

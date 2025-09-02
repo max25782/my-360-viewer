@@ -80,16 +80,17 @@ export default async function NeoCollectionPage(props: any) {
     
     // Get search params
     const searchParams = props.searchParams || {};
+    const params = searchParams;
     
     // Apply filters if any parameters exist
-    const hasFilters = searchParams.bedrooms || searchParams.bathrooms || 
-                       searchParams.sqftMin || searchParams.sqftMax || 
-                       searchParams.features;
+    const hasFilters = params?.bedrooms || params?.bathrooms || 
+                       params?.sqftMin || params?.sqftMax || 
+                       params?.features;
     
     if (hasFilters) {
       // Bedrooms filter
-      if (searchParams.bedrooms && searchParams.bedrooms !== 'any') {
-        const bedroomCount = parseInt(searchParams.bedrooms);
+      if (params.bedrooms && params.bedrooms !== 'any') {
+        const bedroomCount = parseInt(params.bedrooms);
         neoHouses = neoHouses.filter(house => {
           // Проверяем данные из описания дома
           const description = house.description || '';
@@ -134,8 +135,8 @@ export default async function NeoCollectionPage(props: any) {
       }
       
       // Bathrooms filter
-      if (searchParams.bathrooms && searchParams.bathrooms !== 'any') {
-        const bathroomCount = parseInt(searchParams.bathrooms);
+      if (params.bathrooms && params.bathrooms !== 'any') {
+        const bathroomCount = parseInt(params.bathrooms);
         neoHouses = neoHouses.filter(house => {
           // Сначала проверяем данные из comparison.features
           if (house.comparison?.features) {
@@ -201,9 +202,9 @@ export default async function NeoCollectionPage(props: any) {
       }
       
       // Square footage filter
-      if (searchParams.sqftMin || searchParams.sqftMax) {
-        const minSqft = searchParams.sqftMin ? parseInt(searchParams.sqftMin) : 0;
-        const maxSqft = searchParams.sqftMax ? parseInt(searchParams.sqftMax) : 10000;
+      if (params.sqftMin || params.sqftMax) {
+        const minSqft = params.sqftMin ? parseInt(params.sqftMin) : 0;
+        const maxSqft = params.sqftMax ? parseInt(params.sqftMax) : 10000;
         
         neoHouses = neoHouses.filter(house => {
           // Проверяем данные из comparison.features для Living Space
@@ -248,8 +249,8 @@ export default async function NeoCollectionPage(props: any) {
       }
       
       // Features filter
-      if (searchParams.features) {
-        const selectedFeatures = searchParams.features.split(',');
+      if (params.features) {
+        const selectedFeatures = params.features.split(',');
         if (selectedFeatures.length > 0) {
           neoHouses = neoHouses.filter(house => {
             // Define predefined features mapping - which houses have which features

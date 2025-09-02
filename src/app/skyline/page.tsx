@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   keywords: 'skyline homes, luxury houses, modern architecture, premium living spaces',
 };
 
-export default function SkylinePage({ searchParams }: { searchParams: { [key: string]: string } }) {
+export default function SkylinePage(props: any) {
+  const searchParams = props.searchParams || {};
   return (
     <div className="min-h-screen bg-slate-800">
       <Header />

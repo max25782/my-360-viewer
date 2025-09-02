@@ -68,7 +68,7 @@ export const generateHouseTour = (houseId: string): TourScene[] => {
         }
       },
       thumbnail: assetPaths.tour360(houseId, room.id).thumbnail,
-      preview: assetPaths.tour360(houseId, room.id).preview,
+      preview: assetPaths.tour360(houseId, room.id).hero,
       position: {
         yaw: room.defaultYaw,
         pitch: room.defaultPitch
@@ -144,7 +144,7 @@ export const getHouseTourPreview = (houseId: string) => {
   if (!firstRoom) {
     return {
       thumbnail: '/assets/fallback-360-thumbnail.jpg',
-      preview: '/assets/fallback-360-preview.jpg',
+      preview: '/assets/fallback-360-hero.jpg',
       roomCount: 0
     };
   }
