@@ -275,39 +275,59 @@
         "markerPositions": {
           "entry": {
             "living": {
-              "yaw": 0,
-              "pitch": 0
-            }
-          },
-          "living": {
-            "entry": {
               "yaw": 180,
               "pitch": 0
             },
             "dining": {
+              "yaw": 200,
+              "pitch": -10
+            }
+          },
+          "living": {
+            "entry": {
               "yaw": 90,
+              "pitch": 0
+            },
+            "dining": {
+              "yaw": 70,
+              "pitch": -10
+            },
+            "kitchen": {
+              "yaw": 180,
               "pitch": 0
             }
           },
           "dining": {
             "living": {
-              "yaw": 270,
-              "pitch": 0
+              "yaw": 255,
+              "pitch": -10
             },
             "kitchen": {
-              "yaw": 90,
+              "yaw": 215,
+              "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "entry": {
+              "yaw": 130,
               "pitch": 0
             }
           },
           "kitchen": {
             "dining": {
-              "yaw": 270,
-              "pitch": 0
+              "yaw": 10,
+              "pitch": -10
+            },
+            "living": {
+              "yaw": 280,
+              "pitch": -10
             }
           },
           "bedroom": {
-            "living": {
-              "yaw": 180,
+            "dining": {
+              "yaw": 40,
               "pitch": 0
             },
             "bathroom": {
@@ -317,7 +337,7 @@
           },
           "bathroom": {
             "bedroom": {
-              "yaw": 270,
+              "yaw": 280,
               "pitch": 0
             }
           }
@@ -365,74 +385,102 @@
           "entry": {
             "living": {
               "yaw": 0,
-              "pitch": 0
+              "pitch": -10
             },
             "kitchen": {
-              "yaw": 90,
+              "yaw": 300,
               "pitch": 0
+            },
+            "bedroom": {
+              "yaw": 80,
+              "pitch": 0
+            },
+            "bedroom2": {
+              "yaw": 100,
+              "pitch": 0
+            },
+            "living2": {
+              "yaw": 150,
+              "pitch": 0
+            },
+            "bathroom": {
+              "yaw": 90,
+              "pitch": -10
             }
           },
           "living": {
             "entry": {
-              "yaw": 180,
-              "pitch": 0
-            },
-            "living2": {
-              "yaw": 90,
+              "yaw": 220,
               "pitch": 0
             },
             "dining": {
-              "yaw": 45,
+              "yaw": 60,
+              "pitch": -10
+            },
+            "kitchen": {
+              "yaw": 0,
               "pitch": 0
             }
           },
           "living2": {
-            "living": {
+            "bedroom3": {
               "yaw": 270,
               "pitch": 0
             },
-            "bedroom": {
-              "yaw": 0,
+            "entry": {
+              "yaw": 100,
+              "pitch": 0
+            },
+            "kitchen2": {
+              "yaw": 250,
               "pitch": 0
             }
           },
           "dining": {
             "living": {
-              "yaw": 225,
+              "yaw": 300,
               "pitch": 0
             },
             "kitchen": {
-              "yaw": 90,
+              "yaw": 60,
+              "pitch": 0
+            },
+            "exterior": {
+              "yaw": 230,
               "pitch": 0
             }
           },
           "kitchen": {
             "dining": {
-              "yaw": 270,
-              "pitch": 0
-            },
-            "kitchen2": {
               "yaw": 90,
+              "pitch": -10
+            },
+            "living": {
+              "yaw": 180,
               "pitch": 0
             }
           },
           "kitchen2": {
-            "kitchen": {
-              "yaw": 270,
+            "bedroom3": {
+              "yaw": 100,
               "pitch": 0
             },
             "entry": {
-              "yaw": 180,
+              "yaw": 250,
+              "pitch": 0
+            },
+            "living2": {
+              "yaw": 280,
               "pitch": 0
             }
           },
           "bedroom": {
-            "living2": {
-              "yaw": 180,
+            "entry": {
+              "yaw": 127,
               "pitch": 0
             },
-            "bedroom2": {
-              "yaw": 90,
+            "exterior": {
+              "yaw": 150,
               "pitch": 0
             },
             "bathroom": {
@@ -441,30 +489,34 @@
             }
           },
           "bedroom2": {
-            "bedroom": {
-              "yaw": 270,
+            "entry": {
+              "yaw": 320,
               "pitch": 0
             },
-            "bedroom3": {
-              "yaw": 90,
+            "exterior": {
+              "yaw": 120,
               "pitch": 0
             }
           },
           "bedroom3": {
-            "bedroom2": {
-              "yaw": 270,
+            "living2": {
+              "yaw": 100,
               "pitch": 0
             }
           },
           "bathroom": {
-            "bedroom": {
-              "yaw": 225,
+            "entry": {
+              "yaw": 240,
               "pitch": 0
             }
           },
           "exterior": {
-            "entry": {
-              "yaw": 0,
+            "bedroom": {
+              "yaw":105,
+              "pitch": 0
+            },
+            "dining": {
+              "yaw": 270,
               "pitch": 0
             }
           }
@@ -511,73 +563,97 @@
         "markerPositions": {
           "entry": {
             "living": {
-              "yaw": 0,
+              "yaw": 150,
               "pitch": 0
             },
-            "hallway": {
-              "yaw": 90,
+            "kitchen": {
+              "yaw": 200,
+              "pitch": 0
+            },
+            "living2": {
+              "yaw": 135,
+              "pitch": -25
+            },
+          "hallway": {
+              "yaw": 250,
               "pitch": 0
             }
           },
           "living": {
-            "entry": {
-              "yaw": 180,
+            "hallway": {
+              "yaw": 320,
               "pitch": 0
             },
-            "living2": {
-              "yaw": 90,
+            "kitchen": {
+              "yaw":285,
               "pitch": 0
             }
           },
           "living2": {
-            "living": {
-              "yaw": 270,
+            "entry": {
+              "yaw": 260,
               "pitch": 0
             },
-            "kitchen": {
-              "yaw": 0,
+            "bedroom2": {
+              "yaw": 230,
               "pitch": 0
             }
           },
           "hallway": {
             "entry": {
-              "yaw": 270,
+              "yaw": 110,
               "pitch": 0
             },
             "bedroom": {
-              "yaw": 0,
+              "yaw": 350,
               "pitch": 0
             },
-            "bedroom2": {
-              "yaw": 90,
+            "living2": {
+              "yaw": 150,
+              "pitch": -25
+            },
+            "kitchen": {
+              "yaw": 220,
+              "pitch": 0
+            },
+            "living": {
+              "yaw": 180,
               "pitch": 0
             }
           },
           "kitchen": {
-            "living2": {
+            "living": {
               "yaw": 180,
+              "pitch": 0
+            },
+            "hallway": {
+              "yaw": 80,
+              "pitch": 0
+            },
+            "entry": {
+              "yaw": 95,
               "pitch": 0
             }
           },
           "bedroom": {
             "hallway": {
-              "yaw": 180,
+              "yaw": 225,
               "pitch": 0
             },
             "bathroom": {
-              "yaw": 90,
+              "yaw": 215,
               "pitch": 0
             }
           },
           "bedroom2": {
-            "hallway": {
-              "yaw": 270,
+            "living2": {
+              "yaw": 100,
               "pitch": 0
             }
           },
           "bathroom": {
             "bedroom": {
-              "yaw": 270,
+              "yaw": 10,
               "pitch": 0
             }
           }
