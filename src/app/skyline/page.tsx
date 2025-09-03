@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import { getServerSkylineHouses } from '@/utils/serverSkylineAssets';
-import CategoryHousesList from '@/components/CategoryHousesList';
 import Header from '@/components/Header';
 import SkylineFilterWrapper from '@/components/Skyline/SkylineFilterWrapper';
+import SkylineHousesList from '@/components/Skyline/SkylineHousesList';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,11 +12,7 @@ export const metadata: Metadata = {
   keywords: 'skyline homes, luxury houses, modern architecture, premium living spaces',
 };
 
-export default async function SkylinePage({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+export default async function SkylinePage() {
   // Получаем дома для передачи в фильтры
   const skylineHouses = await getServerSkylineHouses();
   
@@ -44,11 +40,7 @@ export default async function SkylinePage({
             
             {/* Houses Grid */}
             <div className="lg:col-span-3">
-              <CategoryHousesList 
-                category="skyline" 
-                title="Skyline Collection" 
-                searchParams={searchParams}
-              />
+              <SkylineHousesList houses={skylineHouses} />
             </div>
           </div>
         </div>

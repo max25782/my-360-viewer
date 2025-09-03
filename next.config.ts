@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
     skipTrailingSlashRedirect: true,
     distDir: 'out',
   }),
+  
+  // Улучшение работы серверных компонентов
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
 
   // Базовый путь только для GitHub Pages, никогда не для Vercel
   basePath: (isGitHubPages && !isVercel) ? `/${repoName}` : '',

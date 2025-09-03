@@ -1,12 +1,10 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
 import { getServerPremiumHouses, getServerPremiumAssetPath } from '../../utils/serverPremiumAssets';
-import { PremiumHouse } from '../../utils/clientPremiumAssets';
+import { PremiumHouse, getClientPremiumAssetPath } from '../../utils/clientPremiumAssets';
 import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
 import { House } from '../../hooks/useHouses';
 import PremiumFilterWrapper from '@/components/Premium/PremiumFilterWrapper';
+import PremiumHousesList from '@/components/Premium/PremiumHousesList';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,99 +45,13 @@ async function convertPremiumToLegacyHouse(premiumHouse: PremiumHouse): Promise<
   };
 }
 
-export default async function PremiumCollectionPage({
-  searchParams
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+export default async function PremiumCollectionPage() {
   let premiumHouses: PremiumHouse[] = [];
   let heroHouse: House | null = null;
-  // Получаем все дома для передачи в фильтры
-  const allPremiumHouses = await getServerPremiumHouses();
 
   try {
-    // Get all houses first
+    // Get all houses
     premiumHouses = await getServerPremiumHouses();
-    
-    // Проверяем наличие параметров фильтрации
-    const bedrooms = searchParams?.bedrooms as string | undefined;
-    const bathrooms = searchParams?.bathrooms as string | undefined;
-    const sqftMin = searchParams?.sqftMin as string | undefined;
-    const sqftMax = searchParams?.sqftMax as string | undefined;
-    const features = searchParams?.features as string | undefined;
-    const style = searchParams?.style as string | undefined;
-    
-    // Apply filters if any parameters exist
-    const hasFilters = bedrooms || bathrooms || sqftMin || sqftMax || features || style;
-    
-          if (hasFilters) {
-      // Bedrooms filter
-      if (bedrooms && bedrooms !== 'any') {
-        const bedroomCount = bedrooms;
-        premiumHouses = premiumHouses.filter(house => {
-          // Проверяем прямые данные фильтров
-          if (house.filters?.bedrooms) {
-            return house.filters.bedrooms === bedroomCount;
-          }
-          
-          // Проверяем данные из comparison.features
-          if (house.comparison?.features?.Bedrooms) {
-            const bedroomFeature = house.comparison.features.Bedrooms.good;
-            const match = bedroomFeature.match(/(\d+)/);
-            if (match && match[1] === bedroomCount) {
-              return true;
-            }
-          }
-          return false;
-        });
-      }
-      
-      // Bathrooms filter
-      if (bathrooms && bathrooms !== 'any') {
-        const bathroomCount = bathrooms;
-        premiumHouses = premiumHouses.filter(house => {
-          // Проверяем прямые данные фильтров
-          if (house.filters?.bathrooms) {
-            return house.filters.bathrooms === bathroomCount;
-          }
-          
-          // Проверяем данные из comparison.features
-          if (house.comparison?.features?.Bathrooms) {
-            const bathroomFeature = house.comparison.features.Bathrooms.good;
-            const match = bathroomFeature.match(/(\d+\.?\d*)/);
-            if (match && match[1] === bathroomCount) {
-              return true;
-            }
-          }
-          return false;
-        });
-      }
-      
-      // Square footage filter
-      if (sqftMin || sqftMax) {
-        const minSqft = sqftMin ? parseInt(sqftMin) : 0;
-        const maxSqft = sqftMax ? parseInt(sqftMax) : Infinity;
-        
-        premiumHouses = premiumHouses.filter(house => {
-          // Проверяем прямые данные фильтров
-          if (house.filters?.sqft) {
-            const sqft = parseInt(house.filters.sqft);
-            return !isNaN(sqft) && sqft >= minSqft && sqft <= maxSqft;
-          }
-          
-          // Проверяем данные из comparison.features
-          if (house.comparison?.features?.['Living Space']) {
-            const sqftFeature = house.comparison.features['Living Space'].good;
-            const match = sqftFeature.match(/(\d+)/);
-            if (match) {
-              const sqft = parseInt(match[1]);
-              return sqft >= minSqft && sqft <= maxSqft;
-            }
-          }
-          return false;
-        });
-      }
-    }
     
     // Convert the first house to legacy format for hero section
     if (premiumHouses.length > 0) {
@@ -174,72 +86,14 @@ export default async function PremiumCollectionPage({
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Filters */}
             <div className="lg:col-span-1">
-              <PremiumFilterWrapper houses={allPremiumHouses} />
+              <PremiumFilterWrapper houses={premiumHouses} />
             </div>
             
             {/* Houses Grid */}
             <div className="lg:col-span-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {premiumHouses.length > 0 ? (
-                  premiumHouses.map(async (house) => {
-                    const heroPath = await getServerPremiumAssetPath('hero', house.id, { format: 'jpg' });
-                    
-                    // Extract bedroom and bathroom counts
-                    let bedroomCount = "N/A";
-                    let bathroomCount = "N/A";
-                    let sqFt = "N/A";
-                    
-                    if (house.comparison?.features?.Bedrooms) {
-                      const match = house.comparison.features.Bedrooms.good.match(/(\d+)/);
-                      if (match) bedroomCount = match[1];
-                    }
-                    
-                    if (house.comparison?.features?.Bathrooms) {
-                      const match = house.comparison.features.Bathrooms.good.match(/(\d+\.?\d*)/);
-                      if (match) bathroomCount = match[1];
-                    }
-                    
-                    if (house.comparison?.features?.['Living Space']) {
-                      const match = house.comparison.features['Living Space'].good.match(/(\d+)/);
-                      if (match) sqFt = match[1];
-                    }
-                    
-                    return (
-                      <div key={house.id} className="bg-slate-700 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
-                        <Link href={`/premium/${house.id.toLowerCase()}`}>
-                          <div className="relative h-48">
-                            <Image
-                              src={heroPath}
-                              alt={house.name}
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              className="object-cover"
-                              priority={false}
-                            />
-                          </div>
-                          <div className="p-4">
-                            <h3 className="text-xl font-semibold text-white">{house.name}</h3>
-                            <p className="text-gray-300 text-sm mt-1 line-clamp-2">{house.description}</p>
-                            <div className="flex items-center justify-between mt-4">
-                              <div className="flex space-x-3 text-sm text-gray-200">
-                                <span>{bedroomCount} BD</span>
-                                <span>{bathroomCount} BA</span>
-                                <span>{sqFt} SF</span>
-                              </div>
-                              <span className="text-emerald-400 text-sm font-medium">View Details</span>
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="col-span-full text-center py-10">
-                    <h3 className="text-xl text-white mb-2">No houses match your filters</h3>
-                    <p className="text-gray-300">Try adjusting your filter criteria</p>
-                  </div>
-                )}
-              </div>
+              <PremiumHousesList 
+                houses={premiumHouses} 
+              />
             </div>
           </div>
         </div>

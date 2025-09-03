@@ -16,6 +16,12 @@ export interface PremiumHouse {
   comparison?: {
     features: any;
   };
+  filters?: {
+    bedrooms?: string;
+    bathrooms?: string;
+    sqft?: string;
+    style?: string;
+  };
 }
 
 /**
@@ -127,6 +133,28 @@ export function getPremiumAssetPath(
   console.log(`Generated Premium asset path: ${path}`);
   
   return path;
+}
+
+/**
+ * Функция для получения пути к ресурсам Premium на стороне клиента
+ */
+export function getClientPremiumAssetPath(type: string, houseId: string, options: { format?: string } = {}): string {
+  const format = options.format || 'jpg';
+  
+  switch (type) {
+    case 'hero':
+      return `/assets/premium/${houseId}/hero.${format}`;
+    case 'thumbnail':
+      return `/assets/premium/${houseId}/thumbnail.${format}`;
+    case 'exterior':
+      return `/assets/premium/${houseId}/exterior/dp1.${format}`;
+    case 'interior':
+      return `/assets/premium/${houseId}/interior/dp1.${format}`;
+    case '360':
+      return `/assets/premium/${houseId}/360`;
+    default:
+      return `/assets/premium/${houseId}/${type}.${format}`;
+  }
 }
 
 /**

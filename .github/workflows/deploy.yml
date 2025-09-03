@@ -1,68 +1,59 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Триггер при пуше в main ветку
   push:
-    branches: [ main, master ]
-  
-  # Позволяет запускать workflow вручную из вкладки Actions
+    branches: [main]
   workflow_dispatch:
 
-# Устанавливает разрешения GITHUB_TOKEN для деплоя на Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Позволяет только один конкурентный деплой, пропуская запуски в очереди между уже запущенным и последним в очереди
-# Однако НЕ отменяет выполняемые запуски, поскольку мы хотим дать этим производственным развертываниям завершиться
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Джоб для сборки сайта
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@v3
+      
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
           cache: 'npm'
-          
+      
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v3
         with:
-          # Автоматически внедряет basePath в next.config.js
           static_site_generator: next
-          
+      
       - name: Restore cache
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: |
             .next/cache
-          # Генерируем новый кеш всякий раз, когда изменяются пакеты или исходные файлы.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # Если исходные файлы изменились, но пакеты не изменились, перестраиваем из предыдущего кеша.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
-            
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+      
       - name: Install dependencies
         run: npm ci
-        
+      
       - name: Build with Next.js
         run: npm run build
-        
+        env:
+          DEPLOY_TARGET: github-pages
+      
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./out
 
-  # Джоб деплоя
   deploy:
     environment:
       name: github-pages
@@ -72,4 +63,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
