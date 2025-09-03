@@ -113,7 +113,7 @@ export default function SkylineHousesList({ houses: allServerHouses }: SkylineHo
             {/* House Image */}
             <div className="aspect-video relative">
               <Image
-                src={publicUrl(house.image || house.thumbnail || '/assets/hero.webp')}
+                src={publicUrl(house.image || house.thumbnail || `/assets/skyline/${house.id}/hero.webp`)}
                 alt={house.name}
                 fill
                 className="object-cover"
