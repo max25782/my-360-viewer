@@ -14,20 +14,6 @@
     "hasDesignPackages": true
   },
   {
-    "id": "Arcos",
-    "name": "TheAcros",
-    "description": "Discover the Apex Neo ADU - a sophisticated modern home featuring dual color schemes. Experience crisp white interiors or rich dark tones with premium finishes and cutting-edge design.",
-    "category": "A",
-    "image": "assets/skyline/Arcos/hero.webp",
-    "thumbnail": "assets/skyline/Arcos/hero.webp",
-    "bedrooms": 1,
-    "bathrooms": 1,
-    "sqft": 1200,
-    "hasTour360": false,
-    "hasComparison": true,
-    "hasDesignPackages": true
-  },
-  {
     "id": "laurel",
     "name": "The Haven",
     "description": "The Laurel Legacy Series ADU offers 1056 square feet of versatile living space, featuring two bedrooms, one and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
