@@ -38,10 +38,32 @@ const PremiumFilters = dynamic(() => import('./PremiumFilters'), {
   )
 });
 
+interface PremiumHouse {
+  id: string;
+  name: string;
+  availableRooms: string[];
+  squareFeet?: number;
+  filters?: {
+    bedrooms?: string;
+    bathrooms?: string;
+    sqft?: string;
+  };
+  comparison?: {
+    features?: {
+      [key: string]: {
+        good: string;
+        better: string;
+        best: string;
+      }
+    }
+  };
+}
+
 interface PremiumFilterWrapperProps {
+  houses?: PremiumHouse[];
   className?: string;
 }
 
-export default function PremiumFilterWrapper({ className = '' }: PremiumFilterWrapperProps) {
-  return <PremiumFilters className={className} />;
+export default function PremiumFilterWrapper({ houses = [], className = '' }: PremiumFilterWrapperProps) {
+  return <PremiumFilters houses={houses} className={className} />;
 }

@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
-import { useHousesByCategory } from '@/hooks/useHousesByCategory';
+import { getServerSkylineHouses } from '@/utils/serverSkylineAssets';
 import CategoryHousesList from '@/components/CategoryHousesList';
 import Header from '@/components/Header';
+import SkylineFilterWrapper from '@/components/Skyline/SkylineFilterWrapper';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,8 +12,14 @@ export const metadata: Metadata = {
   keywords: 'skyline homes, luxury houses, modern architecture, premium living spaces',
 };
 
-export default function SkylinePage(props: any) {
-  const searchParams = props.searchParams || {};
+export default async function SkylinePage({
+  searchParams
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  // Получаем дома для передачи в фильтры
+  const skylineHouses = await getServerSkylineHouses();
+  
   return (
     <div className="min-h-screen bg-slate-800">
       <Header />
@@ -29,11 +36,21 @@ export default function SkylinePage(props: any) {
 
       <section className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CategoryHousesList 
-            category="skyline" 
-            title="Skyline Collection" 
-            searchParams={searchParams}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            {/* Sidebar Filters */}
+            <div className="lg:col-span-1">
+              <SkylineFilterWrapper houses={skylineHouses} />
+            </div>
+            
+            {/* Houses Grid */}
+            <div className="lg:col-span-3">
+              <CategoryHousesList 
+                category="skyline" 
+                title="Skyline Collection" 
+                searchParams={searchParams}
+              />
+            </div>
+          </div>
         </div>
       </section>
     </div>

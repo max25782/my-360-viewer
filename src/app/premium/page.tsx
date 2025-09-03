@@ -47,27 +47,41 @@ async function convertPremiumToLegacyHouse(premiumHouse: PremiumHouse): Promise<
   };
 }
 
-export default async function PremiumCollectionPage(props: any) {
+export default async function PremiumCollectionPage({
+  searchParams
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   let premiumHouses: PremiumHouse[] = [];
   let heroHouse: House | null = null;
+  // Получаем все дома для передачи в фильтры
+  const allPremiumHouses = await getServerPremiumHouses();
 
   try {
     // Get all houses first
     premiumHouses = await getServerPremiumHouses();
     
-    // Get search params
-    const searchParams = props.searchParams || {};
-    const params = searchParams;
+    // Проверяем наличие параметров фильтрации
+    const bedrooms = searchParams?.bedrooms as string | undefined;
+    const bathrooms = searchParams?.bathrooms as string | undefined;
+    const sqftMin = searchParams?.sqftMin as string | undefined;
+    const sqftMax = searchParams?.sqftMax as string | undefined;
+    const features = searchParams?.features as string | undefined;
+    const style = searchParams?.style as string | undefined;
     
     // Apply filters if any parameters exist
-    const hasFilters = params?.bedrooms || params?.bathrooms || 
-                     params?.sqftMin || params?.sqftMax;
+    const hasFilters = bedrooms || bathrooms || sqftMin || sqftMax || features || style;
     
-    if (hasFilters) {
+          if (hasFilters) {
       // Bedrooms filter
-      if (params?.bedrooms && params.bedrooms !== 'any') {
-        const bedroomCount = params.bedrooms;
+      if (bedrooms && bedrooms !== 'any') {
+        const bedroomCount = bedrooms;
         premiumHouses = premiumHouses.filter(house => {
+          // Проверяем прямые данные фильтров
+          if (house.filters?.bedrooms) {
+            return house.filters.bedrooms === bedroomCount;
+          }
+          
           // Проверяем данные из comparison.features
           if (house.comparison?.features?.Bedrooms) {
             const bedroomFeature = house.comparison.features.Bedrooms.good;
@@ -81,9 +95,14 @@ export default async function PremiumCollectionPage(props: any) {
       }
       
       // Bathrooms filter
-      if (params?.bathrooms && params.bathrooms !== 'any') {
-        const bathroomCount = params.bathrooms;
+      if (bathrooms && bathrooms !== 'any') {
+        const bathroomCount = bathrooms;
         premiumHouses = premiumHouses.filter(house => {
+          // Проверяем прямые данные фильтров
+          if (house.filters?.bathrooms) {
+            return house.filters.bathrooms === bathroomCount;
+          }
+          
           // Проверяем данные из comparison.features
           if (house.comparison?.features?.Bathrooms) {
             const bathroomFeature = house.comparison.features.Bathrooms.good;
@@ -97,11 +116,17 @@ export default async function PremiumCollectionPage(props: any) {
       }
       
       // Square footage filter
-      if (params?.sqftMin || params?.sqftMax) {
-        const minSqft = params.sqftMin ? parseInt(params.sqftMin) : 0;
-        const maxSqft = params.sqftMax ? parseInt(params.sqftMax) : Infinity;
+      if (sqftMin || sqftMax) {
+        const minSqft = sqftMin ? parseInt(sqftMin) : 0;
+        const maxSqft = sqftMax ? parseInt(sqftMax) : Infinity;
         
         premiumHouses = premiumHouses.filter(house => {
+          // Проверяем прямые данные фильтров
+          if (house.filters?.sqft) {
+            const sqft = parseInt(house.filters.sqft);
+            return !isNaN(sqft) && sqft >= minSqft && sqft <= maxSqft;
+          }
+          
           // Проверяем данные из comparison.features
           if (house.comparison?.features?.['Living Space']) {
             const sqftFeature = house.comparison.features['Living Space'].good;
@@ -149,7 +174,7 @@ export default async function PremiumCollectionPage(props: any) {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Filters */}
             <div className="lg:col-span-1">
-              <PremiumFilterWrapper />
+              <PremiumFilterWrapper houses={allPremiumHouses} />
             </div>
             
             {/* Houses Grid */}

@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { HouseCategory } from '../types/houses';
@@ -9,14 +10,72 @@ import { publicUrl } from '../utils/paths';
 interface CategoryHousesListProps {
   category: HouseCategory;
   title?: string;
-  searchParams?: { [key: string]: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default function CategoryHousesList({ category, title, searchParams = {} }: CategoryHousesListProps) {
-  const { houses, loading, error } = useHousesByCategory(category);
+  const { houses: allHouses, loading, error } = useHousesByCategory(category);
+  
+  // Фильтрация домов на основе searchParams
+  const houses = React.useMemo(() => {
+    if (!allHouses || allHouses.length === 0 || !searchParams) return allHouses;
+    
+    let filteredHouses = [...allHouses];
+    
+    // Фильтр по спальням
+    const bedrooms = searchParams.bedrooms as string;
+    if (bedrooms && bedrooms !== 'any') {
+      const bedroomCount = parseInt(bedrooms);
+      if (!isNaN(bedroomCount)) {
+        filteredHouses = filteredHouses.filter(house => (house.bedrooms ?? 0) === bedroomCount);
+      }
+    }
+    
+    // Фильтр по ванным комнатам
+    const bathrooms = searchParams.bathrooms as string;
+    if (bathrooms && bathrooms !== 'any') {
+      const bathroomCount = parseFloat(bathrooms);
+      if (!isNaN(bathroomCount)) {
+        filteredHouses = filteredHouses.filter(house => (house.bathrooms ?? 0) === bathroomCount);
+      }
+    }
+    
+    // Фильтр по площади
+    const sqftMin = searchParams.sqftMin as string;
+    const sqftMax = searchParams.sqftMax as string;
+    if (sqftMin || sqftMax) {
+      const minSqft = sqftMin ? parseInt(sqftMin) : 0;
+      const maxSqft = sqftMax ? parseInt(sqftMax) : Infinity;
+      
+      if (!isNaN(minSqft) && !isNaN(maxSqft)) {
+        filteredHouses = filteredHouses.filter(house => 
+          (house.sqft ?? 0) >= minSqft && (house.sqft ?? 0) <= maxSqft
+        );
+      }
+    }
+    
+    // Фильтр по особенностям (features)
+    const features = searchParams.features as string;
+    if (features) {
+      const selectedFeatures = features.split(',');
+      if (selectedFeatures.length > 0) {
+        filteredHouses = filteredHouses.filter(house => {
+          // Простая проверка наличия особенностей
+          // В реальном приложении здесь будет более сложная логика
+          return selectedFeatures.some(feature => 
+            house.description?.toLowerCase().includes(feature.toLowerCase())
+          );
+        });
+      }
+    }
+    
+    return filteredHouses;
+  }, [allHouses, searchParams]);
 
   // Добавляем отладочную информацию
   console.log(`CategoryHousesList: category=${category}, houses.length=${houses?.length || 0}, loading=${loading}, error=${error}`);
+  console.log('SearchParams:', searchParams);
+  console.log('Filtered Houses:', houses);
 
   if (loading) {
     return (

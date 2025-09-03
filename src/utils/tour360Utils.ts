@@ -68,7 +68,7 @@ export const generateHouseTour = (houseId: string): TourScene[] => {
         }
       },
       thumbnail: assetPaths.tour360(houseId, room.id).thumbnail,
-      preview: assetPaths.tour360(houseId, room.id).hero,
+      preview: assetPaths.tour360(houseId, room.id).preview,
       position: {
         yaw: room.defaultYaw,
         pitch: room.defaultPitch

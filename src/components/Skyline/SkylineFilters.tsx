@@ -3,17 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-interface PremiumFiltersProps {
-  houses?: Array<{
+interface SkylineFiltersProps {
+  houses: Array<{
     id: string;
     name: string;
     availableRooms: string[];
     squareFeet?: number;
-    filters?: {
-      bedrooms?: string;
-      bathrooms?: string;
-      sqft?: string;
-    };
     comparison?: {
       features?: {
         [key: string]: {
@@ -24,10 +19,9 @@ interface PremiumFiltersProps {
       }
     };
   }>;
-  className?: string;
 }
 
-export default function PremiumFilters({ houses = [], className = '' }: PremiumFiltersProps) {
+export default function SkylineFilters({ houses }: SkylineFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -37,34 +31,27 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
   const sqftMinParam = searchParams.get('sqftMin');
   const sqftMaxParam = searchParams.get('sqftMax');
   const featuresParam = searchParams.get('features');
-  const styleParam = searchParams.get('style');
   
   // Filter states
   const [bedrooms, setBedrooms] = useState<string>(bedroomsParam || 'any');
   const [bathrooms, setBathrooms] = useState<string>(bathroomsParam || 'any');
   const [sqftRange, setSqftRange] = useState<[number, number]>([
-    sqftMinParam ? parseInt(sqftMinParam) : 1500,
-    sqftMaxParam ? parseInt(sqftMaxParam) : 3500
+    sqftMinParam ? parseInt(sqftMinParam) : 300,
+    sqftMaxParam ? parseInt(sqftMaxParam) : 1200
   ]);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(
     featuresParam ? featuresParam.split(',') : []
   );
-  const [selectedStyle, setSelectedStyle] = useState<string>(styleParam || 'any');
   const [isFiltersActive, setIsFiltersActive] = useState<boolean>(false);
   
   // Get unique filter values
   const getBedroomOptions = () => {
-    // Предустановленные опции для спален
-    const options = new Set<string>(['3', '4', '5']);
+    // Предустановленные опции для спален (1, 2, 3)
+    const options = new Set<number>([1, 2, 3]);
     
     houses.forEach(house => {
-      // Сначала проверяем прямые данные фильтров
-      if (house.filters?.bedrooms) {
-        options.add(house.filters.bedrooms);
-      }
-      
-      // Затем проверяем данные из comparison.features
-      else if (house.comparison?.features) {
+      // Сначала проверяем данные из comparison.features
+      if (house.comparison?.features) {
         // Ищем ключ "Bedrooms" независимо от регистра
         const bedroomsKey = Object.keys(house.comparison.features)
           .find(key => key.toLowerCase() === 'bedrooms');
@@ -75,28 +62,32 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
           // Извлекаем число из строки, например "2 Bedrooms" -> 2
           const match = bedroomsData.match(/(\d+)/);
           if (match && match[1]) {
-            options.add(match[1]);
+            const count = parseInt(match[1]);
+            if (!isNaN(count) && count > 0) {
+              options.add(count);
+            }
           }
         }
       }
+      
+      // Fallback: подсчет из availableRooms
+      const bedroomCount = house.availableRooms.filter(room => 
+        room.toLowerCase() === 'bedroom' || 
+        room.toLowerCase() === 'bedroom2' || 
+        room.toLowerCase().includes('bedroom')).length;
+      if (bedroomCount > 0) options.add(bedroomCount);
     });
     
-    // Сортировка с учетом числовых значений
-    return Array.from(options).sort((a, b) => parseInt(a) - parseInt(b));
+    return Array.from(options).sort((a, b) => a - b);
   };
   
   const getBathroomOptions = () => {
-    // Предустановленные опции для ванных
-    const options = new Set<string>(['2', '2.5', '3', '3.5']);
+    // Предустановленные опции для ванных (1, 1.5, 2)
+    const options = new Set<string>(['1', '1.5', '2']);
     
     houses.forEach(house => {
-      // Сначала проверяем прямые данные фильтров
-      if (house.filters?.bathrooms) {
-        options.add(house.filters.bathrooms);
-      }
-      
-      // Затем проверяем данные из comparison.features
-      else if (house.comparison?.features) {
+      // Сначала проверяем данные из comparison.features
+      if (house.comparison?.features) {
         // Ищем ключ "Bathrooms" независимо от регистра
         const bathroomsKey = Object.keys(house.comparison.features)
           .find(key => key.toLowerCase() === 'bathrooms');
@@ -111,6 +102,13 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
           }
         }
       }
+      
+      // Fallback: подсчет из availableRooms
+      const bathroomCount = house.availableRooms.filter(room => 
+        room.toLowerCase() === 'bathroom' || 
+        room.toLowerCase() === 'bathroom2' || 
+        room.toLowerCase().includes('bathroom')).length;
+      if (bathroomCount > 0) options.add(bathroomCount.toString());
     });
     
     // Сортировка с учетом десятичных значений
@@ -118,20 +116,18 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
   };
   
   const getSqftRange = () => {
-    let min = 1500;
-    let max = 3500;
+    let min = 300;
+    let max = 1200;
     
     houses.forEach(house => {
       // Проверяем прямое указание площади
-      if (house.filters?.sqft) {
-        const sqft = parseInt(house.filters.sqft);
-        if (!isNaN(sqft)) {
-          min = Math.min(min, sqft);
-          max = Math.max(max, sqft);
-        }
+      if (house.squareFeet) {
+        min = Math.min(min, house.squareFeet);
+        max = Math.max(max, house.squareFeet);
       }
+      
       // Проверяем данные из comparison.features
-      else if (house.comparison?.features) {
+      if (house.comparison?.features) {
         // Ищем ключ, содержащий "square" или "sqft" или "living space"
         const sqftKey = Object.keys(house.comparison.features)
           .find(key => 
@@ -165,11 +161,6 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
   const getAvailableFeatures = () => {
     const features = new Set<string>();
     
-    // Предустановленные популярные особенности премиум-домов
-    features.add('Smart Home');
-    features.add('Energy Efficient');
-    features.add('Luxury Finishes');
-    
     houses.forEach(house => {
       if (house.comparison?.features) {
         // Добавляем все ключи features кроме стандартных (спальни, ванные, площадь)
@@ -188,18 +179,12 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
     
     return Array.from(features).sort();
   };
-
-  const getStyleOptions = () => {
-    // Предустановленные стили для премиум-домов
-    return ['Contemporary', 'Modern', 'Traditional', 'Transitional'];
-  };
   
   // Computed values
   const bedroomOptions = getBedroomOptions();
   const bathroomOptions = getBathroomOptions();
   const [minSqft, maxSqft] = getSqftRange();
   const availableFeatures = getAvailableFeatures();
-  const styleOptions = getStyleOptions();
   
   // Apply filters
   const applyFilters = () => {
@@ -239,15 +224,8 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
       params.delete('features');
     }
     
-    // Style
-    if (selectedStyle && selectedStyle !== 'any') {
-      params.set('style', selectedStyle);
-    } else {
-      params.delete('style');
-    }
-    
     // Update URL
-    router.push(`/premium?${params.toString()}`);
+    router.push(`/skyline?${params.toString()}`);
   };
   
   // Reset filters
@@ -256,8 +234,7 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
     setBathrooms('any');
     setSqftRange([minSqft, maxSqft]);
     setSelectedFeatures([]);
-    setSelectedStyle('any');
-    router.push('/premium');
+    router.push('/skyline');
   };
   
   // Toggle feature selection
@@ -276,15 +253,14 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
       bathrooms !== 'any' || 
       sqftRange[0] > minSqft || 
       sqftRange[1] < maxSqft || 
-      selectedFeatures.length > 0 ||
-      selectedStyle !== 'any';
+      selectedFeatures.length > 0;
     
     setIsFiltersActive(hasActiveFilters);
-  }, [bedrooms, bathrooms, sqftRange, selectedFeatures, selectedStyle, minSqft, maxSqft]);
+  }, [bedrooms, bathrooms, sqftRange, selectedFeatures, minSqft, maxSqft]);
   
   return (
-    <div className={`bg-slate-700 rounded-lg p-6 shadow-lg ${className}`}>
-      <h2 className="text-xl font-semibold text-white mb-4">Filter Premium Homes</h2>
+    <div className="bg-sky-800 bg-opacity-90 rounded-lg p-6 shadow-lg">
+      <h2 className="text-xl font-semibold text-white mb-4">Filter Skyline Homes</h2>
       
       <div className="space-y-6">
         {/* Bedrooms Filter */}
@@ -296,8 +272,8 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
             <button
               className={`px-3 py-1 rounded-full text-sm ${
                 bedrooms === 'any' 
-                  ? 'bg-emerald-600 text-white' 
-                  : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
+                  ? 'bg-sky-600 text-white' 
+                  : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
               }`}
               onClick={() => setBedrooms('any')}
             >
@@ -307,11 +283,11 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
               <button
                 key={option}
                 className={`px-3 py-1 rounded-full text-sm ${
-                  bedrooms === option 
-                    ? 'bg-emerald-600 text-white' 
-                    : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
+                  bedrooms === option.toString() 
+                    ? 'bg-sky-600 text-white' 
+                    : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
                 }`}
-                onClick={() => setBedrooms(option)}
+                onClick={() => setBedrooms(option.toString())}
               >
                 {option}
               </button>
@@ -328,8 +304,8 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
             <button
               className={`px-3 py-1 rounded-full text-sm ${
                 bathrooms === 'any' 
-                  ? 'bg-emerald-600 text-white' 
-                  : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
+                  ? 'bg-sky-600 text-white' 
+                  : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
               }`}
               onClick={() => setBathrooms('any')}
             >
@@ -340,8 +316,8 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
                 key={option}
                 className={`px-3 py-1 rounded-full text-sm ${
                   bathrooms === option 
-                    ? 'bg-emerald-600 text-white' 
-                    : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
+                    ? 'bg-sky-600 text-white' 
+                    : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
                 }`}
                 onClick={() => setBathrooms(option)}
               >
@@ -363,10 +339,10 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
                 type="range"
                 min={minSqft}
                 max={maxSqft}
-                step="100"
+                step="50"
                 value={sqftRange[0]}
                 onChange={(e) => setSqftRange([parseInt(e.target.value), sqftRange[1]])}
-                className="w-full accent-emerald-500"
+                className="w-full accent-sky-500"
               />
             </div>
             <div>
@@ -375,48 +351,38 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
                 type="range"
                 min={minSqft}
                 max={maxSqft}
-                step="100"
+                step="50"
                 value={sqftRange[1]}
                 onChange={(e) => setSqftRange([sqftRange[0], parseInt(e.target.value)])}
-                className="w-full accent-emerald-500"
+                className="w-full accent-sky-500"
               />
             </div>
           </div>
         </div>
-
-        {/* Style Filter */}
-        <div>
-          <label className="block text-sm font-medium text-gray-200 mb-2">
-            Architectural Style
-          </label>
-          <div className="flex flex-wrap gap-2">
-            <button
-              className={`px-3 py-1 rounded-full text-sm ${
-                selectedStyle === 'any' 
-                  ? 'bg-emerald-600 text-white' 
-                  : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
-              }`}
-              onClick={() => setSelectedStyle('any')}
-            >
-              Any
-            </button>
-            {styleOptions.map(style => (
-              <button
-                key={style}
-                className={`px-3 py-1 rounded-full text-sm ${
-                  selectedStyle === style 
-                    ? 'bg-emerald-600 text-white' 
-                    : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
-                }`}
-                onClick={() => setSelectedStyle(style)}
-              >
-                {style}
-              </button>
-            ))}
-          </div>
-        </div>
         
-       
+        {/* Features Filter */}
+        {availableFeatures.length > 0 && (
+          <div>
+            <label className="block text-sm font-medium text-gray-200 mb-2">
+              Features
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {availableFeatures.map(feature => (
+                <button
+                  key={feature}
+                  className={`px-3 py-1 rounded-full text-sm ${
+                    selectedFeatures.includes(feature) 
+                      ? 'bg-sky-600 text-white' 
+                      : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
+                  }`}
+                  onClick={() => toggleFeature(feature)}
+                >
+                  {feature}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
         
         {/* Action Buttons */}
         <div className="flex justify-between pt-2">
@@ -424,8 +390,8 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
             onClick={resetFilters}
             className={`px-4 py-2 rounded-lg text-sm transition-colors ${
               isFiltersActive 
-                ? 'bg-slate-600 hover:bg-slate-500 text-white' 
-                : 'bg-slate-800 text-gray-400 cursor-not-allowed'
+                ? 'bg-sky-900 hover:bg-sky-800 text-white' 
+                : 'bg-sky-950 text-gray-400 cursor-not-allowed'
             }`}
             disabled={!isFiltersActive}
           >
@@ -433,7 +399,7 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
           </button>
           <button
             onClick={applyFilters}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm transition-colors"
+            className="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg text-sm transition-colors"
           >
             Apply Filters
           </button>
@@ -442,3 +408,4 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
     </div>
   );
 }
+
