@@ -84,7 +84,8 @@ export function useHousesByCategory(categoryId: HouseCategory): UseHousesByCateg
                 }
               }
             } else if (typeof ls === 'string') {
-              const match = ls.replace(/,/g, '').match(/(\d+)/);
+              const lsStr = ls as string;
+              const match = lsStr.replace(/,/g, '').match(/(\d+)/);
               if (match && match[1]) {
                 sqft = parseInt(match[1], 10);
               }

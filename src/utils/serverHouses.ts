@@ -28,6 +28,9 @@ export interface ServerHouse {
   maxDP?: number;
   maxPK?: number;
   availableRooms?: string[];
+  squareFeet?: number;
+  bedrooms?: number;
+  bathrooms?: number;
   images: {
     hero: string;
     gallery?: string[];

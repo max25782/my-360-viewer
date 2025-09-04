@@ -45,15 +45,33 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
   // Convert Neo house config to House interface for compatibility
   let heroPath: string;
   try {
+    console.log(`Generating hero path for slug: ${slug}`);
     heroPath = await getServerNeoAssetPath('hero', slug, { 
       color: 'white', 
       format: 'jpg' 
     });
+    console.log(`Generated hero path: ${heroPath}`);
+    
+    // Проверяем, содержит ли slug префикс "neo-"
+    if (slug.startsWith('neo-')) {
+      const cleanSlug = slug.substring(4);
+      console.log(`Slug contains 'neo-' prefix. Clean slug: ${cleanSlug}`);
+      // Корректируем путь, если slug содержит префикс "neo-"
+      heroPath = `/assets/neo/${cleanSlug}/hero.jpg`;
+      console.log(`Corrected hero path: ${heroPath}`);
+    }
   } catch (error) {
     console.error('Failed to get hero path:', error);
-    heroPath = `/assets/neo/${slug}/hero.jpg`; // Fallback
+    // Удаляем префикс "neo-" из slug при формировании пути к fallback-изображению
+    const cleanSlug = slug.startsWith('neo-') ? slug.substring(4) : slug;
+    heroPath = `/assets/neo/${cleanSlug}/hero.jpg`; // Fallback
+    console.log(`Using fallback hero path: ${heroPath}`);
   }
 
+  // Удаляем префикс "neo-" из slug для формирования путей к изображениям
+  const cleanSlug = slug.startsWith('neo-') ? slug.substring(4) : slug;
+  console.log(`Using clean slug for image paths: ${cleanSlug}`);
+  
   const house: NeoHouse = {
     id: slug,
     name: houseConfig.name,
@@ -63,8 +81,8 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
     availableRooms: houseConfig.availableRooms,
     images: {
       hero: heroPath,
-      exampleDark: `/assets/neo/${slug}/example/dark.jpg`,
-      exampleWhite: `/assets/neo/${slug}/example/light.jpg`,
+      exampleDark: `/assets/neo/${cleanSlug}/example/dark.jpg`,
+      exampleWhite: `/assets/neo/${cleanSlug}/example/light.jpg`,
       whiteTexture: '/assets/neo/texrure/thumb-white.jpg',
       darkTexture: '/assets/neo/texrure/thumb-dark.jpg'
     },
