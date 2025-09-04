@@ -67,8 +67,29 @@ export function useHousesByCategory(categoryId: HouseCategory): UseHousesByCateg
             room.toLowerCase().includes('bathroom')
           ).length || 1;
           
-          // Приблизительная площадь на основе maxDP/maxPK (если есть)
-          const sqft = (house.maxDP && house.maxPK) ? house.maxDP * house.maxPK * 10 : 1200;
+          // Извлекаем площадь из comparison.features или из серверных данных
+          let sqft = house.squareFeet || 0;
+          
+          // Если нет площади в серверных данных, пытаемся извлечь из comparison.features
+          if (!sqft && house.comparison?.features?.['Living Space']) {
+            const ls = house.comparison.features['Living Space'];
+            if (typeof ls === 'object') {
+              // Пробуем извлечь из best/better/good
+              const candidates = [ls.best, ls.better, ls.good].filter(v => v && typeof v === 'string');
+              for (const candidate of candidates) {
+                const match = candidate.replace(/,/g, '').match(/(\d+)/);
+                if (match && match[1]) {
+                  sqft = parseInt(match[1], 10);
+                  break;
+                }
+              }
+            } else if (typeof ls === 'string') {
+              const match = ls.replace(/,/g, '').match(/(\d+)/);
+              if (match && match[1]) {
+                sqft = parseInt(match[1], 10);
+              }
+            }
+          }
           
           return {
             id: house.id,
@@ -85,7 +106,8 @@ export function useHousesByCategory(categoryId: HouseCategory): UseHousesByCateg
             // Дополнительные поля
             maxDP: house.maxDP,
             maxPK: house.maxPK,
-            availableRooms: house.availableRooms
+            availableRooms: house.availableRooms,
+            comparison: house.comparison
           };
         });
         
