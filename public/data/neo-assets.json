@@ -839,10 +839,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living","entry", "bedroom","bathroom"]
+          "rooms": ["living","office", "bedroom","bathroom"]
         },
         "dark": {
-          "rooms": ["living","entry", "bedroom", "bathroom"]
+          "rooms": ["living","office", "bedroom", "bathroom"]
         }
       },
        "comparison": {

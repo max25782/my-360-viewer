@@ -83,7 +83,7 @@ export default function NeoTourPage() {
 
   // Show 360° tour with selected color
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen ">
       {/* Tour Header */}
       <div className="absolute top-0 left-0 right-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm">
         <div className="flex items-center justify-between p-4">

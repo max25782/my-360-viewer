@@ -36,11 +36,18 @@ export async function generateMetadata({ params }: NeoHousePageProps): Promise<M
 
 export default async function NeoHousePage({ params }: NeoHousePageProps) {
   const { slug } = await params;
+  console.log(`🏠 NeoHousePage called with slug: "${slug}"`);
+  
   const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
+    console.log(`❌ No house config found for slug: "${slug}"`);
     notFound();
   }
+  
+  console.log(`✅ Found house config for slug: "${slug}", name: "${houseConfig.name}"`);
+  console.log(`🔍 House config comparison:`, houseConfig.comparison);
+  console.log(`🔍 House config tour360:`, houseConfig.tour360);
 
   // Convert Neo house config to House interface for compatibility
   let heroPath: string;
@@ -94,26 +101,42 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
   const legacyHouse = {
     id: house.id,
     name: house.name,
-    description: house.description,
-    maxDP: house.maxDP,
-    maxPK: house.maxPK,
-    availableRooms: house.availableRooms,
+    description: house.description || '',  // Гарантируем, что description не будет undefined
+    maxDP: house.maxDP || 1,              // Гарантируем, что maxDP не будет undefined
+    maxPK: house.maxPK || 1,              // Гарантируем, что maxPK не будет undefined
+    availableRooms: house.availableRooms || [],  // Гарантируем, что availableRooms не будет undefined
     images: {
-      hero: house.images.hero,
+      hero: house.images.hero || '/assets/skyline/Birch/hero.jpg',  // Гарантированный fallback
       gallery: []
     },
-    comparison: house.comparison ? {
-      features: house.comparison.features || {}
-    } : undefined,
+    comparison: {  // Всегда создаем объект comparison
+      features: house.comparison?.features || {
+        // Добавляем минимальные данные, если их нет
+        "Bedrooms": { good: "1 Bedroom", better: "", best: "" },
+        "Bathrooms": { good: "1 Bathroom", better: "", best: "" },
+        "Living Space": { good: "N/A", better: "", best: "" }
+      }
+    },
     tour360: {
       rooms: [
-        ...(house.tour360.white?.rooms || []),
-        ...(house.tour360.dark?.rooms || [])
+        ...(house.tour360?.white?.rooms || []),
+        ...(house.tour360?.dark?.rooms || [])
       ],
       availableFiles: {}
     },
     category: 'neo'
   };
+
+  console.log(`🏠 Created legacyHouse for HeroSection:`, {
+    id: legacyHouse.id,
+    name: legacyHouse.name,
+    description: legacyHouse.description,
+    hero_path: legacyHouse.images.hero,
+    has_comparison: !!legacyHouse.comparison,
+    comparison_features: legacyHouse.comparison?.features,
+    available_rooms: legacyHouse.availableRooms,
+    category: legacyHouse.category
+  });
 
   return (
     <div className="min-h-screen bg-slate-700">

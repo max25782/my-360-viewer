@@ -45,7 +45,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
       } else {
         // Если не распознали формат, просто используем текст как есть
         bedroomCount = 0;
-        return bedroomsData;
+        // Не возвращаем bedroomsData, это приводит к ошибке рендеринга
       }
     } else {
       // Если не нашли ключ, используем стандартный метод
@@ -72,7 +72,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
       } else {
         // Если не распознали формат, просто используем текст как есть
         bathroomCount = 0;
-        return bathroomsData;
+        // Не возвращаем bathroomsData, это приводит к ошибке рендеринга
       }
     } else {
       // Если не нашли ключ, используем стандартный метод
