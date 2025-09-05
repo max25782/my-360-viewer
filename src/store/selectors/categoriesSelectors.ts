@@ -35,7 +35,7 @@ export const selectCategories = createSelector(
   [selectCategoriesData],
   (data) => {
     // Определяем все ожидаемые категории
-    const expectedCategories = ['skyline', 'neo', 'modern'];
+    const expectedCategories = ['skyline', 'neo', 'premium'];
     
     if (!data?.categories) {
       // Если данных нет, возвращаем пустые категории

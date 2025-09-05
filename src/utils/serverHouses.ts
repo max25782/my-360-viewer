@@ -188,17 +188,25 @@ async function getServerNeoAssetPath(
   return path;
 }
 
+// Импортируем функцию для загрузки Premium домов
+import { getServerPremiumHouses, getServerPremiumAssetPath } from './serverPremiumAssets';
+
 export async function getAllServerHouses(): Promise<ServerHouse[]> {
   try {
     const config = await loadServerAssetConfig();
     const neoConfig = await loadServerNeoAssetConfig();
+    const premiumHouses = await getServerPremiumHouses();
     const houseList: ServerHouse[] = [];
     
     console.log('📊 Loading houses - Skyline config:', Object.keys(config.houses).length);
     console.log('📊 Loading houses - Neo config:', Object.keys(neoConfig.neoHouses).length);
+    console.log('📊 Loading houses - Premium config:', premiumHouses.length);
     
     console.log('🔍 First Skyline house keys:', Object.keys(Object.values(config.houses)[0] || {}));
     console.log('🔍 First Neo house keys:', Object.keys(Object.values(neoConfig.neoHouses)[0] || {}));
+    if (premiumHouses.length > 0) {
+      console.log('🔍 First Premium house keys:', Object.keys(premiumHouses[0] || {}));
+    }
     
     // Добавляем Skyline дома
     for (const [houseId, houseConfig] of Object.entries(config.houses as Record<string, HouseConfig>)) {
@@ -253,6 +261,37 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
       
       console.log(`🏠 Neo house created: ${house.id}, category: ${house.category}`);
       houseList.push(house);
+    }
+    
+    // Добавляем Premium дома
+    for (const premiumHouse of premiumHouses) {
+      try {
+        const heroPath = await getServerPremiumAssetPath('hero', premiumHouse.id, { format: 'jpg' });
+        
+        const house: ServerHouse = {
+          id: `premium-${premiumHouse.id}`,
+          name: premiumHouse.name,
+          description: premiumHouse.description || `Premium ${premiumHouse.name} with luxury features`,
+          maxDP: premiumHouse.maxDP,
+          maxPK: premiumHouse.maxPK,
+          availableRooms: premiumHouse.availableRooms,
+          images: {
+            hero: heroPath,
+            gallery: []
+          },
+          tour360: {
+            rooms: premiumHouse.tour360?.rooms || [],
+            availableFiles: {}
+          },
+          comparison: premiumHouse.comparison,
+          category: 'premium'
+        };
+        
+        console.log(`🏠 Premium house created: ${house.id}, category: ${house.category}`);
+        houseList.push(house);
+      } catch (error) {
+        console.error(`Failed to process Premium house ${premiumHouse.id}:`, error);
+      }
     }
     
     console.log('📊 Final house list:', houseList.length, 'houses');

@@ -19,9 +19,10 @@ interface NeoFiltersProps {
       }
     };
   }>;
+  className?: string;
 }
 
-export default function NeoFilters({ houses }: NeoFiltersProps) {
+export default function NeoFilters({ houses, className = '' }: NeoFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -37,7 +38,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
   const [bathrooms, setBathrooms] = useState<string>(bathroomsParam || 'any');
   const [sqftRange, setSqftRange] = useState<[number, number]>([
     sqftMinParam ? parseInt(sqftMinParam) : 300,
-    sqftMaxParam ? parseInt(sqftMaxParam) : 1500
+    sqftMaxParam ? parseInt(sqftMaxParam) : 1300
   ]);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(
     featuresParam ? featuresParam.split(',') : []
@@ -46,120 +47,34 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
   
   // Get unique filter values
   const getBedroomOptions = () => {
-    // Предустановленные опции для спален (1, 2, 3)
-    const options = new Set<number>([1, 2]);
-    
-    houses.forEach(house => {
-      // Сначала проверяем данные из comparison.features
-      if (house.comparison?.features) {
-        // Ищем ключ "Bedrooms" независимо от регистра
-        const bedroomsKey = Object.keys(house.comparison.features)
-          .find(key => key.toLowerCase() === 'bedrooms');
-        
-        if (bedroomsKey) {
-          const bedroomsData = house.comparison.features[bedroomsKey]?.good || '';
-          console.log(`House ${house.id} bedrooms data:`, bedroomsData);
-          
-          // Извлекаем число из строки, например "2 Bedrooms" -> 2
-          const match = bedroomsData.match(/(\d+)/);
-          if (match && match[1]) {
-            const count = parseInt(match[1]);
-            if (!isNaN(count) && count > 0) {
-              options.add(count);
-            }
-          }
-        }
-      }
-      
-      // Fallback: подсчет из availableRooms
-      const bedroomCount = house.availableRooms.filter(room => 
-        room.toLowerCase() === 'bedroom' || 
-        room.toLowerCase() === 'bedroom2' || 
-        room.toLowerCase().includes('bedroom')).length;
-      if (bedroomCount > 0) options.add(bedroomCount);
-    });
-    
-    return Array.from(options).sort((a, b) => a - b);
+    // Предустановленные опции для спален согласно требованиям
+    return ["Studio", "1 Bedroom", "1 Bedroom & Office", "2 Bedrooms"];
   };
   
   const getBathroomOptions = () => {
-    // Предустановленные опции для ванных (1, 2, 3)
-    const options = new Set<number>([1, 2]);
-    
-    houses.forEach(house => {
-      // Сначала проверяем данные из comparison.features
-      if (house.comparison?.features) {
-        // Ищем ключ "Bathrooms" независимо от регистра
-        const bathroomsKey = Object.keys(house.comparison.features)
-          .find(key => key.toLowerCase() === 'bathrooms');
-        
-        if (bathroomsKey) {
-          const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
-          console.log(`House ${house.id} bathrooms data:`, bathroomsData);
-          
-          // Извлекаем число из строки, например "2 Bathrooms" -> 2
-          const match = bathroomsData.match(/(\d+)/);
-          if (match && match[1]) {
-            const count = parseInt(match[1]);
-            if (!isNaN(count) && count > 0) {
-              options.add(count);
-            }
-          }
-        }
-      }
-      
-      // Fallback: подсчет из availableRooms
-      const bathroomCount = house.availableRooms.filter(room => 
-        room.toLowerCase() === 'bathroom' || 
-        room.toLowerCase() === 'bathroom2' || 
-        room.toLowerCase().includes('bathroom')).length;
-      if (bathroomCount > 0) options.add(bathroomCount);
-    });
-    
-    return Array.from(options).sort((a, b) => a - b);
+    // Предустановленные опции для ванных согласно требованиям
+    return ["1 Bathroom", "2 Bathrooms"];
   };
   
   // Get min and max square footage
   const getSquareFootRange = () => {
-    let min = 10000;
-    let max = 0;
-    
-    houses.forEach(house => {
-      if (house.squareFeet) {
-        min = Math.min(min, house.squareFeet);
-        max = Math.max(max, house.squareFeet);
-      }
-    });
-    
-    return [min === 10000 ? 300 : min, max === 0 ? 1500 : max];
+    // Предустановленный диапазон площадей согласно требованиям
+    return [300, 1300];
   };
   
   // Get available features from all houses' comparison data and add predefined features
   const getFeatureOptions = () => {
-    // Predefined features for Neo houses
+    // Predefined features for Neo houses согласно требованиям
     const predefinedFeatures = [
-      "Loft",
       "Garage",
       "Office",
       "Primary Suite",
       "Kitchen Island",
       "Extra Storage",
-      "Covered Patio",
-      "Covered Porch",
-      "Bonus Room"
+      "Covered Porch"
     ];
     
-    const features = new Set<string>(predefinedFeatures);
-    
-    // Also add features from comparison data if available
-    houses.forEach(house => {
-      if (house.comparison?.features) {
-        // Add all feature names from comparison
-        Object.keys(house.comparison.features).forEach(feature => features.add(feature));
-      }
-    });
-    
-    return Array.from(features).sort();
+    return predefinedFeatures;
   };
   
   // Check if any filter is active
@@ -169,7 +84,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
       bathrooms !== 'any' || 
       selectedFeatures.length > 0 ||
       sqftRange[0] !== (sqftMinParam ? parseInt(sqftMinParam) : 300) ||
-        sqftRange[1] !== (sqftMaxParam ? parseInt(sqftMaxParam) : 1500) 
+        sqftRange[1] !== (sqftMaxParam ? parseInt(sqftMaxParam) : 1300) 
     );
   }, [bedrooms, bathrooms, selectedFeatures, sqftRange, sqftMinParam, sqftMaxParam]);
   
@@ -189,7 +104,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
     setSelectedFeatures([]);
     setSqftRange([
       300,
-      1500
+      1300
     ]);
   };
   
@@ -205,7 +120,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
     if (sqftRange[0] !== 300) params.set('sqftMin', sqftRange[0].toString());
     else params.delete('sqftMin');
     
-    if (sqftRange[1] !== 1500) params.set('sqftMax', sqftRange[1].toString());
+    if (sqftRange[1] !== 1300) params.set('sqftMax', sqftRange[1].toString());
     else params.delete('sqftMax');
     
     if (selectedFeatures.length > 0) params.set('features', selectedFeatures.join(','));
@@ -233,7 +148,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+    <div className={`bg-white p-6 rounded-lg shadow-md mb-8 ${className}`}>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
         {isFiltersActive && (
@@ -277,17 +192,17 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
               <span>Any</span>
             </label>
             
-            {getBedroomOptions().map(count => (
-              <label key={`bedroom-${count}`} className="flex items-center">
+            {getBedroomOptions().map(option => (
+              <label key={`bedroom-${option}`} className="flex items-center">
                 <input
                   type="radio"
                   name="bedrooms"
-                  value={count.toString()}
-                  checked={bedrooms === count.toString()}
-                  onChange={() => setBedrooms(count.toString())}
+                  value={option}
+                  checked={bedrooms === option}
+                  onChange={() => setBedrooms(option)}
                   className="mr-2 accent-blue-500"
                 />
-                <span>{count} {count === 1 ? 'Bedroom' : 'Bedrooms'}</span>
+                <span>{option}</span>
               </label>
             ))}
           </div>
@@ -319,19 +234,17 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
               <span>Any</span>
             </label>
             
-            {getBathroomOptions().map(count => (
-              <label key={`bathroom-${count}`} className="flex items-center">
+            {getBathroomOptions().map(option => (
+              <label key={`bathroom-${option}`} className="flex items-center">
                 <input
                   type="radio"
                   name="bathrooms"
-                  value={count.toString()}
-                  checked={bathrooms === count.toString()}
-                  onChange={() => setBathrooms(count.toString())}
+                  value={option}
+                  checked={bathrooms === option}
+                  onChange={() => setBathrooms(option)}
                   className="mr-2 accent-blue-500"
                 />
-                <span>
-                  {count} {count === 1 ? 'Bathroom' : 'Bathrooms'}
-                </span>
+                <span>{option}</span>
               </label>
             ))}
           </div>
@@ -432,7 +345,7 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
           <div className="flex flex-wrap gap-2">
             {bedrooms !== 'any' && (
               <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
-                {bedrooms} Bedroom{bedrooms !== '1' && 's'}
+                {bedrooms}
                 <button onClick={() => setBedrooms('any')} className="ml-1 text-blue-400 hover:text-blue-600">
                   ×
                 </button>
@@ -440,16 +353,16 @@ export default function NeoFilters({ houses }: NeoFiltersProps) {
             )}
             {bathrooms !== 'any' && (
               <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
-                {bathrooms} Bathroom{bathrooms !== '1' && 's'}
+                {bathrooms}
                 <button onClick={() => setBathrooms('any')} className="ml-1 text-blue-400 hover:text-blue-600">
                   ×
                 </button>
               </span>
             )}
-            {(sqftRange[0] !== 300 || sqftRange[1] !== 1500) && (
+            {(sqftRange[0] !== 300 || sqftRange[1] !== 1300) && (
               <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md flex items-center">
                 {sqftRange[0]}-{sqftRange[1]} sq.ft
-                <button onClick={() => setSqftRange([300, 1500])} className="ml-1 text-blue-400 hover:text-blue-600">
+                <button onClick={() => setSqftRange([300, 1300])} className="ml-1 text-blue-400 hover:text-blue-600">
                   ×
                 </button>
               </span>

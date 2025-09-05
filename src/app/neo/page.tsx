@@ -115,7 +115,7 @@ export default async function NeoCollectionPage() {
             {/* Фильтры (aside) */}
           {neoHouses.length > 0 && (
               <aside className="md:w-1/4 lg:w-1/5">
-                <NeoFilterWrapper houses={neoHouses} />
+                <NeoFilterWrapper houses={neoHouses} className="sticky top-4" />
               </aside>
           )}
 

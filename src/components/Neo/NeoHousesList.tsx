@@ -239,11 +239,11 @@ export default function NeoHousesList({ houses }: NeoHousesListProps) {
                   <div className="text-center">
                     <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 rounded-full mx-auto mb-1 flex items-center justify-center">
                       <Image 
-  src={`/assets/neo/${house.id.startsWith('neo-') ? house.id.substring(4) : house.id}/hero.jpg`} 
+                         src={`/assets/neo/${house.id.startsWith('neo-') ? house.id.substring(4) : house.id}/hero.jpg`} 
   alt={house.name} 
   width={500} 
-  height={500} 
-/>
+                          height={500} 
+                        />
                     </div>
                   </div>
                 </div>

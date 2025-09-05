@@ -152,11 +152,7 @@ export default function CategoryHousesList({ category, title, searchParams = {} 
             
             {/* Badges */}
             <div className="absolute top-4 left-4 flex flex-col space-y-2">
-              {house.hasTour360 && (
-                <div className="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center">
-                  🎭 360° Tour
-                </div>
-              )}
+            
               {house.hasDesignPackages && (
                 <div className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold">
                   Design Options

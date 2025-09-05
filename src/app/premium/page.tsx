@@ -86,7 +86,7 @@ export default async function PremiumCollectionPage() {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar Filters */}
             <div className="lg:col-span-1">
-              <PremiumFilterWrapper houses={premiumHouses} />
+              <PremiumFilterWrapper houses={premiumHouses} className="sticky top-4" />
             </div>
             
             {/* Houses Grid */}

@@ -43,8 +43,8 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
   const [bedrooms, setBedrooms] = useState<string>(bedroomsParam || 'any');
   const [bathrooms, setBathrooms] = useState<string>(bathroomsParam || 'any');
   const [sqftRange, setSqftRange] = useState<[number, number]>([
-    sqftMinParam ? parseInt(sqftMinParam) : 1500,
-    sqftMaxParam ? parseInt(sqftMaxParam) : 3500
+    sqftMinParam ? parseInt(sqftMinParam) : 2200,
+    sqftMaxParam ? parseInt(sqftMaxParam) : 3300
   ]);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(
     featuresParam ? featuresParam.split(',') : []
@@ -54,139 +54,33 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
   
   // Get unique filter values
   const getBedroomOptions = () => {
-    // Предустановленные опции для спален
-    const options = new Set<string>(['3', '4', '5']);
-    
-    houses.forEach(house => {
-      // Сначала проверяем прямые данные фильтров
-      if (house.filters?.bedrooms) {
-        options.add(house.filters.bedrooms);
-      }
-      
-      // Затем проверяем данные из comparison.features
-      else if (house.comparison?.features) {
-        // Ищем ключ "Bedrooms" независимо от регистра
-        const bedroomsKey = Object.keys(house.comparison.features)
-          .find(key => key.toLowerCase() === 'bedrooms');
-        
-        if (bedroomsKey) {
-          const bedroomsData = house.comparison.features[bedroomsKey]?.good || '';
-          
-          // Извлекаем число из строки, например "2 Bedrooms" -> 2
-          const match = bedroomsData.match(/(\d+)/);
-          if (match && match[1]) {
-            options.add(match[1]);
-          }
-        }
-      }
-    });
-    
-    // Сортировка с учетом числовых значений
-    return Array.from(options).sort((a, b) => parseInt(a) - parseInt(b));
+    // Предустановленные опции для спален согласно требованиям
+    return ["4 Bedrooms", "5 Bedrooms"];
   };
   
   const getBathroomOptions = () => {
-    // Предустановленные опции для ванных
-    const options = new Set<string>(['2', '2.5', '3', '3.5']);
-    
-    houses.forEach(house => {
-      // Сначала проверяем прямые данные фильтров
-      if (house.filters?.bathrooms) {
-        options.add(house.filters.bathrooms);
-      }
-      
-      // Затем проверяем данные из comparison.features
-      else if (house.comparison?.features) {
-        // Ищем ключ "Bathrooms" независимо от регистра
-        const bathroomsKey = Object.keys(house.comparison.features)
-          .find(key => key.toLowerCase() === 'bathrooms');
-        
-        if (bathroomsKey) {
-          const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
-          
-          // Извлекаем число из строки, например "2 Bathrooms" -> 2 или "1.5 Bathrooms" -> 1.5
-          const match = bathroomsData.match(/(\d+\.?\d*)/);
-          if (match && match[1]) {
-            options.add(match[1]);
-          }
-        }
-      }
-    });
-    
-    // Сортировка с учетом десятичных значений
-    return Array.from(options).sort((a, b) => parseFloat(a) - parseFloat(b));
+    // Предустановленные опции для ванных согласно требованиям
+    return ["3 Bathrooms", "3.5 Bathrooms", "4 Bathrooms"];
   };
   
   const getSqftRange = () => {
-    let min = 1500;
-    let max = 3500;
-    
-    houses.forEach(house => {
-      // Проверяем прямое указание площади
-      if (house.filters?.sqft) {
-        const sqft = parseInt(house.filters.sqft);
-        if (!isNaN(sqft)) {
-          min = Math.min(min, sqft);
-          max = Math.max(max, sqft);
-        }
-      }
-      // Проверяем данные из comparison.features
-      else if (house.comparison?.features) {
-        // Ищем ключ, содержащий "square" или "sqft" или "living space"
-        const sqftKey = Object.keys(house.comparison.features)
-          .find(key => 
-            key.toLowerCase().includes('square') || 
-            key.toLowerCase().includes('sqft') ||
-            key.toLowerCase().includes('living space'));
-        
-        if (sqftKey) {
-          const sqftData = house.comparison.features[sqftKey]?.good || '';
-          
-          // Извлекаем число из строки
-          const match = sqftData.match(/(\d+)/);
-          if (match && match[1]) {
-            const sqft = parseInt(match[1]);
-            if (!isNaN(sqft) && sqft > 0) {
-              min = Math.min(min, sqft);
-              max = Math.max(max, sqft);
-            }
-          }
-        }
-      }
-    });
-    
-    // Округляем до ближайших сотен для удобства
-    min = Math.floor(min / 100) * 100;
-    max = Math.ceil(max / 100) * 100;
-    
-    return [min, max];
+    // Предустановленный диапазон площадей согласно требованиям
+    return [2200, 3300];
   };
   
   const getAvailableFeatures = () => {
-    const features = new Set<string>();
-    
-    // Предустановленные популярные особенности премиум-домов
-    features.add('Smart Home');
-    features.add('Energy Efficient');
-    features.add('Luxury Finishes');
-    
-    houses.forEach(house => {
-      if (house.comparison?.features) {
-        // Добавляем все ключи features кроме стандартных (спальни, ванные, площадь)
-        Object.keys(house.comparison.features).forEach(key => {
-          const lowerKey = key.toLowerCase();
-          if (!lowerKey.includes('bedroom') && 
-              !lowerKey.includes('bathroom') && 
-              !lowerKey.includes('square') && 
-              !lowerKey.includes('sqft') &&
-              !lowerKey.includes('living space')) {
-            features.add(key);
-          }
-        });
-      }
-    });
-    
-    return Array.from(features).sort();
+    // Предустановленные особенности для Premium домов согласно требованиям
+    return [
+      'Garage',
+      'Office',
+      'Primary Suite',
+      'Kitchen Island',
+      'Extra Storage',
+      'Covered Patio',
+      'Covered Porch',
+      'Bonus Room',
+      'Covered Deck'
+    ];
   };
 
   const getStyleOptions = () => {
@@ -254,7 +148,7 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
   const resetFilters = () => {
     setBedrooms('any');
     setBathrooms('any');
-    setSqftRange([minSqft, maxSqft]);
+    setSqftRange([2200, 3300]);
     setSelectedFeatures([]);
     setSelectedStyle('any');
     router.push('/premium');
@@ -416,7 +310,27 @@ export default function PremiumFilters({ houses = [], className = '' }: PremiumF
           </div>
         </div>
         
-       
+        {/* Features Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-200 mb-2">
+            Features
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {availableFeatures.map(feature => (
+              <button
+                key={feature}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  selectedFeatures.includes(feature) 
+                    ? 'bg-emerald-600 text-white' 
+                    : 'bg-slate-600 text-gray-200 hover:bg-slate-500'
+                }`}
+                onClick={() => toggleFeature(feature)}
+              >
+                {feature}
+              </button>
+            ))}
+          </div>
+        </div>
         
         {/* Action Buttons */}
         <div className="flex justify-between pt-2">

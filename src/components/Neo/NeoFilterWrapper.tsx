@@ -14,8 +14,9 @@ interface NeoHouse {
 
 interface NeoFilterWrapperProps {
   houses: NeoHouse[];
+  className?: string;
 }
 
-export default function NeoFilterWrapper({ houses }: NeoFilterWrapperProps) {
-  return <NeoFilters houses={houses} />;
+export default function NeoFilterWrapper({ houses, className = '' }: NeoFilterWrapperProps) {
+  return <NeoFilters houses={houses} className={className} />;
 }

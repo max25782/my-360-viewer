@@ -56,7 +56,11 @@ export default function CategoriesGrid() {
       {categoriesWithMetadata.map((category) => (
         <Link
           key={category.id}
-          href={category.id === 'neo' ? '/neo' : `/category/${category.id}`}
+          href={
+            category.id === 'neo' ? '/neo' : 
+            category.id === 'premium' ? '/premium' : 
+            `/category/${category.id}`
+          }
           className="group bg-slate-700 rounded-xl p-8 text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl"
         >
           {/* Icon */}

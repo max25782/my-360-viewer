@@ -49,141 +49,32 @@ export default function SkylineFilters({ houses, className = '' }: SkylineFilter
   
   // Get unique filter values
   const getBedroomOptions = () => {
-    // Предустановленные опции для спален (1, 2, 3)
-    const options = new Set<number>([1, 2, 3]);
-    
-    houses.forEach(house => {
-      // Сначала проверяем данные из comparison.features
-      if (house.comparison?.features) {
-        // Ищем ключ "Bedrooms" независимо от регистра
-        const bedroomsKey = Object.keys(house.comparison.features)
-          .find(key => key.toLowerCase() === 'bedrooms');
-        
-        if (bedroomsKey) {
-          const bedroomsData = house.comparison.features[bedroomsKey]?.good || '';
-          
-          // Извлекаем число из строки, например "2 Bedrooms" -> 2
-          const match = bedroomsData.match(/(\d+)/);
-          if (match && match[1]) {
-            const count = parseInt(match[1]);
-            if (!isNaN(count) && count > 0) {
-              options.add(count);
-            }
-          }
-        }
-      }
-      
-      // Fallback: подсчет из availableRooms
-      const bedroomCount = house.availableRooms.filter(room => 
-        room.toLowerCase() === 'bedroom' || 
-        room.toLowerCase() === 'bedroom2' || 
-        room.toLowerCase().includes('bedroom')).length;
-      if (bedroomCount > 0) options.add(bedroomCount);
-    });
-    
-    return Array.from(options).sort((a, b) => a - b);
+    // Предустановленные опции для спален согласно требованиям
+    return ["1", "1 & Office", "2"];
   };
   
   const getBathroomOptions = () => {
-    // Предустановленные опции для ванных (1, 1.5, 2)
-    const options = new Set<string>(['1', '1.5', '2']);
-    
-    houses.forEach(house => {
-      // Сначала проверяем данные из comparison.features
-      if (house.comparison?.features) {
-        // Ищем ключ "Bathrooms" независимо от регистра
-        const bathroomsKey = Object.keys(house.comparison.features)
-          .find(key => key.toLowerCase() === 'bathrooms');
-        
-        if (bathroomsKey) {
-          const bathroomsData = house.comparison.features[bathroomsKey]?.good || '';
-          
-          // Извлекаем число из строки, например "2 Bathrooms" -> 2 или "1.5 Bathrooms" -> 1.5
-          const match = bathroomsData.match(/(\d+\.?\d*)/);
-          if (match && match[1]) {
-            options.add(match[1]);
-          }
-        }
-      }
-      
-      // Fallback: подсчет из availableRooms
-      const bathroomCount = house.availableRooms.filter(room => 
-        room.toLowerCase() === 'bathroom' || 
-        room.toLowerCase() === 'bathroom2' || 
-        room.toLowerCase().includes('bathroom')).length;
-      if (bathroomCount > 0) options.add(bathroomCount.toString());
-    });
-    
-    // Сортировка с учетом десятичных значений
-    return Array.from(options).sort((a, b) => parseFloat(a) - parseFloat(b));
+    // Предустановленные опции для ванных согласно требованиям
+    return ["1", "1.5", "2", "2.5"];
   };
   
   const getSqftRange = () => {
-    let min = 300;
-    let max = 1200;
-    
-    houses.forEach(house => {
-      // Проверяем прямое указание площади
-      if (house.squareFeet) {
-        min = Math.min(min, house.squareFeet);
-        max = Math.max(max, house.squareFeet);
-      }
-      
-      // Проверяем данные из comparison.features
-      if (house.comparison?.features) {
-        // Ищем ключ, содержащий "square" или "sqft" или "living space"
-        const sqftKey = Object.keys(house.comparison.features)
-          .find(key => 
-            key.toLowerCase().includes('square') || 
-            key.toLowerCase().includes('sqft') ||
-            key.toLowerCase().includes('living space'));
-        
-        if (sqftKey) {
-          const sqftData = house.comparison.features[sqftKey]?.good || '';
-          
-          // Извлекаем число из строки
-          const match = sqftData.match(/(\d+)/);
-          if (match && match[1]) {
-            const sqft = parseInt(match[1]);
-            if (!isNaN(sqft) && sqft > 0) {
-              min = Math.min(min, sqft);
-              max = Math.max(max, sqft);
-            }
-          }
-        }
-      }
-    });
-    
-    // Округляем до ближайших сотен для удобства
-    min = Math.floor(min / 100) * 100;
-    max = Math.ceil(max / 100) * 100;
-    
-    return [min, max];
+    // Предустановленный диапазон площадей согласно требованиям
+    return [300, 1300];
   };
   
   const getAvailableFeatures = () => {
-    const features = new Set<string>();
-    
-    // Предустановленные популярные особенности для Skyline домов
-    features.add('Open Floor Plan');
-    features.add('Energy Efficient');
-    features.add('Modern Kitchen');
-    
-    houses.forEach(house => {
-      if (house.comparison?.features) {
-        // Добавляем все ключи features кроме стандартных (спальни, ванные, площадь)
-        Object.keys(house.comparison.features).forEach(key => {
-          const lowerKey = key.toLowerCase();
-          if (!lowerKey.includes('bedroom') && 
-              !lowerKey.includes('bathroom') && 
-              !lowerKey.includes('square') && 
-              !lowerKey.includes('sqft') &&
-              !lowerKey.includes('living space')) {
-            features.add(key);
-          }
-        });
-      }
-    });
+    const features = new Set<string>([
+      'Loft',
+      'Garage',
+      'Office',
+      'Primary Suite',
+      'Kitchen Island',
+      'Extra Storage',
+      'Covered Patio',
+      'Covered Porch',
+      'Bonus Room'
+    ]);
     
     return Array.from(features).sort();
   };
