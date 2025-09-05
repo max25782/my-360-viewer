@@ -9,6 +9,8 @@ import CategoryHeader from '@/components/CategoryHeader';
 import CategoryHousesList from '@/components/CategoryHousesList';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import SkylineFilterWrapper from '@/components/Skyline/SkylineFilterWrapper';
+import { getHousesByCategory } from '../../../utils/houses';
 
 interface CategoryPageProps {
   params: Promise<{ categoryId: string }>;
@@ -72,8 +74,13 @@ export async function generateStaticParams() {
 }
 
 // Основной компонент страницы
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params, searchParams }: { 
+  params: Promise<{ categoryId: string }>,
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  // В Next.js App Router с асинхронными параметрами
   const { categoryId } = await params;
+  const resolvedSearchParams = await searchParams;
   
   // Валидация категории
   if (!isValidCategory(categoryId)) {
@@ -81,6 +88,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const validCategoryId = categoryId.toLowerCase() as HouseCategory;
+  
+  // Получаем дома для категории, если это Skyline
+  const skylineHouses = validCategoryId === 'skyline' ? await getHousesByCategory('skyline') : [];
 
   return (
     <div className="min-h-screen bg-slate-800">
@@ -90,7 +100,24 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       {/* Основной контент */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <CategoryHeader categoryId={validCategoryId} />
-        <CategoryHousesList category={validCategoryId} />
+        
+        {/* Двухколоночный макет для Skyline с фильтрами слева */}
+        {validCategoryId === 'skyline' ? (
+          <div className="flex flex-col md:flex-row gap-6 mt-8">
+            {/* Левая колонка с фильтрами */}
+            <div className="w-full md:w-1/4 flex-shrink-0">
+              <SkylineFilterWrapper houses={skylineHouses} className="sticky top-4" />
+            </div>
+            
+            {/* Правая колонка со списком домов */}
+            <div className="w-full md:w-3/4">
+              <CategoryHousesList category={validCategoryId} searchParams={resolvedSearchParams} />
+            </div>
+          </div>
+        ) : (
+          /* Обычный макет для других категорий */
+          <CategoryHousesList category={validCategoryId} searchParams={resolvedSearchParams} />
+        )}
       </main>
       
       <Footer />

@@ -19,9 +19,10 @@ interface SkylineFiltersProps {
       }
     };
   }>;
+  className?: string;
 }
 
-export default function SkylineFilters({ houses }: SkylineFiltersProps) {
+export default function SkylineFilters({ houses, className = '' }: SkylineFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -31,6 +32,7 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
   const sqftMinParam = searchParams.get('sqftMin');
   const sqftMaxParam = searchParams.get('sqftMax');
   const featuresParam = searchParams.get('features');
+  const styleParam = searchParams.get('style');
   
   // Filter states
   const [bedrooms, setBedrooms] = useState<string>(bedroomsParam || 'any');
@@ -42,6 +44,7 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(
     featuresParam ? featuresParam.split(',') : []
   );
+  const [selectedStyle, setSelectedStyle] = useState<string>(styleParam || 'any');
   const [isFiltersActive, setIsFiltersActive] = useState<boolean>(false);
   
   // Get unique filter values
@@ -161,6 +164,11 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
   const getAvailableFeatures = () => {
     const features = new Set<string>();
     
+    // Предустановленные популярные особенности для Skyline домов
+    features.add('Open Floor Plan');
+    features.add('Energy Efficient');
+    features.add('Modern Kitchen');
+    
     houses.forEach(house => {
       if (house.comparison?.features) {
         // Добавляем все ключи features кроме стандартных (спальни, ванные, площадь)
@@ -180,11 +188,17 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
     return Array.from(features).sort();
   };
   
+  const getStyleOptions = () => {
+    // Предустановленные стили для Skyline домов
+    return ['Modern', 'Contemporary', 'Minimalist', 'Northwest'];
+  };
+  
   // Computed values
   const bedroomOptions = getBedroomOptions();
   const bathroomOptions = getBathroomOptions();
   const [minSqft, maxSqft] = getSqftRange();
   const availableFeatures = getAvailableFeatures();
+  const styleOptions = getStyleOptions();
   
   // Apply filters
   const applyFilters = () => {
@@ -224,8 +238,15 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
       params.delete('features');
     }
     
+    // Style
+    if (selectedStyle && selectedStyle !== 'any') {
+      params.set('style', selectedStyle);
+    } else {
+      params.delete('style');
+    }
+    
     // Update URL
-    router.push(`/skyline?${params.toString()}`);
+    router.push(`/category/skyline?${params.toString()}`);
   };
   
   // Reset filters
@@ -234,7 +255,8 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
     setBathrooms('any');
     setSqftRange([minSqft, maxSqft]);
     setSelectedFeatures([]);
-    router.push('/skyline');
+    setSelectedStyle('any');
+    router.push('/category/skyline');
   };
   
   // Toggle feature selection
@@ -253,13 +275,14 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
       bathrooms !== 'any' || 
       sqftRange[0] > minSqft || 
       sqftRange[1] < maxSqft || 
-      selectedFeatures.length > 0;
+      selectedFeatures.length > 0 ||
+      selectedStyle !== 'any';
     
     setIsFiltersActive(hasActiveFilters);
-  }, [bedrooms, bathrooms, sqftRange, selectedFeatures, minSqft, maxSqft]);
+  }, [bedrooms, bathrooms, sqftRange, selectedFeatures, selectedStyle, minSqft, maxSqft]);
   
   return (
-    <div className="bg-sky-800 bg-opacity-90 rounded-lg p-6 shadow-lg">
+    <div className={`bg-sky-800 bg-opacity-90 rounded-lg p-6 shadow-lg ${className}`}>
       <h2 className="text-xl font-semibold text-white mb-4">Filter Skyline Homes</h2>
       
       <div className="space-y-6">
@@ -357,6 +380,38 @@ export default function SkylineFilters({ houses }: SkylineFiltersProps) {
                 className="w-full accent-sky-500"
               />
             </div>
+          </div>
+        </div>
+        
+        {/* Style Filter */}
+        <div>
+          <label className="block text-sm font-medium text-gray-200 mb-2">
+            Architectural Style
+          </label>
+          <div className="flex flex-wrap gap-2">
+            <button
+              className={`px-3 py-1 rounded-full text-sm ${
+                selectedStyle === 'any' 
+                  ? 'bg-sky-600 text-white' 
+                  : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
+              }`}
+              onClick={() => setSelectedStyle('any')}
+            >
+              Any
+            </button>
+            {styleOptions.map(style => (
+              <button
+                key={style}
+                className={`px-3 py-1 rounded-full text-sm ${
+                  selectedStyle === style 
+                    ? 'bg-sky-600 text-white' 
+                    : 'bg-sky-900 text-gray-200 hover:bg-sky-800'
+                }`}
+                onClick={() => setSelectedStyle(style)}
+              >
+                {style}
+              </button>
+            ))}
           </div>
         </div>
         

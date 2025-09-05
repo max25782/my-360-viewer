@@ -44,7 +44,7 @@ export default function HousePage() {
       {/* Breadcrumbs */}
       <Breadcrumb 
         items={[
-          { label: 'Skyline Collection', href: '/skyline' },
+          { label: 'Skyline Collection', href: '/category/skyline' },
           { label: house.name }
         ]} 
       />
@@ -58,17 +58,7 @@ export default function HousePage() {
       {/* Take a Look Around Section */}
       <TakeALookAroundUniversal house={house} />
 
-      {/* Technical Specifications */}
-      {/* <TechnicalSpecifications house={house} /> */}
-
-      {/* Model Features */}
-      {/* <ModelFeatures house={house} /> */}
-
-      {/* Get Started Today CTA */}
-      {/* <GetStartedToday house={house} /> */}
-
-      {/* Explore Other Models */}
-      {/* <ExploreModels currentHouse={house} allHouses={houses} /> */}
+   
 
       {/* Footer */}
       <Footer />

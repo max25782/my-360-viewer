@@ -34,9 +34,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Statistics Section */}
-   
-
       {/* Footer */}
       <Footer />
     </div>

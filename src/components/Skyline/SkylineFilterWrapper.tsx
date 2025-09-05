@@ -56,9 +56,10 @@ interface SkylineHouse {
 
 interface SkylineFilterWrapperProps {
   houses: SkylineHouse[];
+  className?: string;
 }
 
-export default function SkylineFilterWrapper({ houses }: SkylineFilterWrapperProps) {
-  return <SkylineFilters houses={houses} />;
+export default function SkylineFilterWrapper({ houses, className = '' }: SkylineFilterWrapperProps) {
+  return <SkylineFilters houses={houses} className={className} />;
 }
 

@@ -30,7 +30,7 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
           <nav className="hidden md:flex text-2xl space-x-8">
             <Link href="/" className="text-gray-900 hover:text-gray-900 font-bold">ADU Catalog</Link>
             <Link href="/neo" className="text-gray-900 hover:text-gray-900 font-bold">Neo</Link>
-            <Link href="/skyline" className="text-gray-900 hover:text-gray-900 font-bold">Skyline</Link>
+            <Link href="/category/skyline" className="text-gray-900 hover:text-gray-900 font-bold">Skyline</Link>
             <Link href="/premium" className="text-gray-900 hover:text-gray-900 font-bold">Premium</Link>
             <a href="#about" className="text-gray-900 hover:text-gray-900 font-bold">About</a>
             <a href="#contact" className="text-gray-900 hover:text-gray-900 font-bold">Contact</a>
