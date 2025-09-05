@@ -44,7 +44,7 @@ export default function HousePage() {
       {/* Breadcrumbs */}
       <Breadcrumb 
         items={[
-          { label: 'Seattle models', href: '/' },
+          { label: 'Skyline Collection', href: '/skyline' },
           { label: house.name }
         ]} 
       />

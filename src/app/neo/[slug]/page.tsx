@@ -8,6 +8,7 @@ import NeoExteriorDesignPackages from '../../../components/Neo/NeoExteriorDesign
 import NeoInteriorDesignPackages from '../../../components/Neo/NeoInteriorDesignPackages';
 
 import Header from '@/components/Header';
+import Breadcrumb from '@/components/Breadcrumb';
 import Neo360Page from '@/components/Neo/Neo360';
 import NeonStartColors from '@/components/Neo/NeoStartColors';
 
@@ -141,6 +142,14 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
   return (
     <div className="min-h-screen bg-slate-700">
       <Header />
+      
+      {/* Breadcrumb navigation - только для Neo коллекции */}
+      <Breadcrumb 
+        items={[
+          { label: 'Neo Collection', href: '/neo' },
+          { label: house.name }
+        ]}
+      />
 
       {/* Hero Section - reuse existing component */}
       <HeroSection house={legacyHouse} />
