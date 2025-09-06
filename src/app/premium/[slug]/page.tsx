@@ -11,6 +11,7 @@ import PremiumInteriorCarousel from '@/components/Premium/PremiumInteriorCarouse
 import PremiumFeatures from '@/components/Premium/PremiumFeatures';
 import Premium360Tour from '@/components/Premium/Premium360Tour';
 import PremiumCallToAction from '@/components/Premium/PremiumCallToAction';
+import Footer from '@/components/Footer';
 
 export const dynamic = 'force-dynamic';
 
@@ -104,6 +105,13 @@ export default async function PremiumHousePage({ params }: { params: Promise<{ s
           <HeroSection house={house} />
         </div>
       </section>
+
+        {/* 360 Tour Section */}
+      <Premium360Tour 
+        houseName={premiumHouse.name}
+        houseSlug={slug}
+        description="Take a virtual tour and explore every room in immersive 360° view."
+      />
       
       {/* Design Selector */}
              <section className="py-10 bg-slate-700">
@@ -138,18 +146,9 @@ export default async function PremiumHousePage({ params }: { params: Promise<{ s
         houseId={premiumHouse.id}
       />
       
-      {/* 360 Tour Section */}
-      <Premium360Tour 
-        houseName={premiumHouse.name}
-        houseSlug={slug}
-        description="Take a virtual tour and explore every room in immersive 360° view."
-      />
-
-      {/* Call to Action */}
-      <PremiumCallToAction 
-        houseName={premiumHouse.name}
-        description="Schedule a virtual tour or in-person visit to explore this premium home in detail."
-      />
+     {/* {footer} */}
+        <Footer />
+       
     </div>
   );
 }

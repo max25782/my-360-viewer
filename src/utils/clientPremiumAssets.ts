@@ -152,6 +152,8 @@ export function getClientPremiumAssetPath(type: string, houseId: string, options
       return `/assets/premium/${houseId}/interior/dp1.${format}`;
     case '360':
       return `/assets/premium/${houseId}/360`;
+    case '360-preview':
+      return `/assets/premium/${houseId}/360/hero.${format}`;
     default:
       return `/assets/premium/${houseId}/${type}.${format}`;
   }

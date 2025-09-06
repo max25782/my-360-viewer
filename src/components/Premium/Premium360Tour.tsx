@@ -1,5 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { getClientPremiumAssetPath } from '../../utils/clientPremiumAssets';
+
 interface Premium360TourProps {
   houseName: string;
   houseSlug: string;
@@ -7,6 +11,46 @@ interface Premium360TourProps {
 }
 
 export default function Premium360Tour({ houseName, houseSlug, description }: Premium360TourProps) {
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Проверяем наличие изображений для превью
+    const checkPreviewImage = async () => {
+      try {
+        // Сначала проверяем JPG
+        const jpgPath = getClientPremiumAssetPath('360-preview', houseSlug, { format: 'jpg' });
+        const jpgResponse = await fetch(jpgPath, { method: 'HEAD' });
+        
+        if (jpgResponse.ok) {
+          setPreviewSrc(jpgPath);
+          setIsLoading(false);
+          return;
+        }
+        
+        // Если JPG не найден, проверяем PNG
+        const pngPath = getClientPremiumAssetPath('360-preview', houseSlug, { format: 'png' });
+        const pngResponse = await fetch(pngPath, { method: 'HEAD' });
+        
+        if (pngResponse.ok) {
+          setPreviewSrc(pngPath);
+          setIsLoading(false);
+          return;
+        }
+        
+        // Если ни одно изображение не найдено
+        setPreviewSrc(null);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error checking preview image:', error);
+        setPreviewSrc(null);
+        setIsLoading(false);
+      }
+    };
+    
+    checkPreviewImage();
+  }, [houseSlug]);
+
   return (
     <section className="py-8 bg-slate-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -16,6 +60,29 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
         <p className="text-lg text-gray-200 mb-6 max-w-3xl mx-auto">
           {description || `Take a virtual tour and explore every room of ${houseName} in immersive 360° view.`}
         </p>
+        
+        {/* Превью 360 тура */}
+        {!isLoading && previewSrc && (
+          <div className="relative w-full max-w-7xl  mx-auto h-80 mb-8 rounded-lg overflow-hidden">
+            <Image
+              src={previewSrc}
+              alt={`${houseName} 360° Tour Preview`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover"
+              priority={false}
+            />
+            <div className="absolute inset-0  bg-opacity-30 flex items-center justify-center">
+              <div className="bg-white bg-opacity-80 rounded-full p-6">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-700" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" />
+                </svg>
+              </div>
+            </div>
+          
+          </div>
+        )}
+        
         <a 
           href={`/premium/${houseSlug}/tour`}
           className="inline-flex items-center px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-500 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform"
