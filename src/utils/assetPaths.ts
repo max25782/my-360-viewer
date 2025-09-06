@@ -28,7 +28,7 @@ interface HouseAssetPaths {
 }
 
 // Функция для правильного маппинга домов
-function getActualHouseDirectory(houseId: string): string {
+export function getActualHouseDirectory(houseId: string): string {
   const houseDirectoryMap: Record<string, string> = {
     'walnut': 'Walnut',      // ✅ Заглавная W в файловой системе
     'oak': 'Oak',            // ✅ Заглавная O в файловой системе
