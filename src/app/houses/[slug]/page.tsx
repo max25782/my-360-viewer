@@ -52,15 +52,13 @@ export default function HousePage() {
       {/* Hero Section */}
       <HeroSection house={house} />
 
-      
+       {/* Take a Look Around Section */}
+      <TakeALookAroundUniversal house={house} />
+
       {/* Interior Design Packages Section */}
       <DesignPackagesSectionRedux house={house} />
 
-      {/* Take a Look Around Section */}
-      <TakeALookAroundUniversal house={house} />
-
-   
-
+  
       {/* Footer */}
       <Footer />
     </div>

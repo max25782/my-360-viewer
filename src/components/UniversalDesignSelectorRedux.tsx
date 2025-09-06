@@ -23,6 +23,34 @@ interface UniversalDesignSelectorReduxProps {
   type: 'exterior' | 'interior';
 }
 
+// Exterior Texture Configuration
+const EXTERIOR_TEXTURES = [
+  {
+    id: 1,
+    name: 'Heritage',
+    path: '/assets/skyline/texture/exterior/thumb1.webp',
+    pk: 1
+  },
+  {
+    id: 2,
+    name: 'Haven',
+    path: '/assets/skyline/texture/exterior/thumb2.webp',
+    pk: 2
+  },
+  {
+    id: 3,
+    name: 'Serenity',
+    path: '/assets/skyline/texture/exterior/thumb3.webp',
+    pk: 3
+  },
+  {
+    id: 4,
+    name: 'Luxe',
+    path: '/assets/skyline/texture/exterior/thumb4.webp',
+    pk: 4
+  }
+];
+
 // Interior Texture Configuration
 const INTERIOR_TEXTURES = [
   {
@@ -102,17 +130,31 @@ export default function UniversalDesignSelectorRedux({
   
   // Автоматически применяем текстуру при инициализации компонента
   const applyTexture = React.useCallback(() => {
-    if (type === 'interior' && isDataReady && selectedPackage) {
-      console.log(`Auto-applying texture ${selectedTexture} for ${houseId}`);
-      const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
-      if (selectedTextureConfig) {
-        dispatch(loadDesignImage({
-          houseId,
-          type,
-          packageData: selectedPackage,
-          room: selectedRoom,
-          pk: selectedTextureConfig.pk
-        }));
+    if (isDataReady && selectedPackage) {
+      if (type === 'exterior') {
+        console.log(`Auto-applying exterior texture ${selectedTexture} for ${houseId}`);
+        const selectedTextureConfig = EXTERIOR_TEXTURES.find(t => t.id === selectedTexture);
+        if (selectedTextureConfig) {
+          dispatch(loadDesignImage({
+            houseId,
+            type,
+            packageData: selectedPackage,
+            room: null,
+            pk: selectedTextureConfig.pk
+          }));
+        }
+      } else if (type === 'interior') {
+        console.log(`Auto-applying interior texture ${selectedTexture} for ${houseId}`);
+        const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
+        if (selectedTextureConfig) {
+          dispatch(loadDesignImage({
+            houseId,
+            type,
+            packageData: selectedPackage,
+            room: selectedRoom,
+            pk: selectedTextureConfig.pk
+          }));
+        }
       }
     }
   }, [isDataReady, selectedPackage, selectedRoom, type, houseId, dispatch, selectedTexture]);
@@ -198,20 +240,37 @@ export default function UniversalDesignSelectorRedux({
   }, [interiorRooms, currentRoomIndex]);
 
   const handleTextureChange = async (textureId: number) => {
+    console.log(`🎨 Texture change: ${type} texture ${textureId} for house ${houseId}`);
     setSelectedTexture(textureId);
-    const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === textureId);
+    
+    if (type === 'exterior') {
+      const selectedTextureConfig = EXTERIOR_TEXTURES.find(t => t.id === textureId);
+      console.log(`🏠 Exterior texture config:`, selectedTextureConfig);
+      console.log(`📦 Selected package:`, selectedPackage);
+      if (selectedTextureConfig && selectedPackage) {
+        console.log(`🚀 Loading exterior design image with pk${selectedTextureConfig.pk}`);
+        dispatch(loadDesignImage({
+          houseId,
+          type,
+          packageData: selectedPackage,
+          room: null,
+          pk: selectedTextureConfig.pk
+        }));
+      }
+    } else if (type === 'interior') {
+      const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === textureId);
+      if (selectedTextureConfig && selectedPackage) {
+        // Используем текущую комнату из Redux, а не из interiorRooms
+        const currentRoom = selectedRoom;
 
-    if (type === 'interior' && selectedTextureConfig && selectedPackage) {
-      // Используем текущую комнату из Redux, а не из interiorRooms
-      const currentRoom = selectedRoom;
-
-      dispatch(loadDesignImage({
-        houseId,
-        type,
-        packageData: selectedPackage,
-        room: currentRoom,
-        pk: selectedTextureConfig.pk
-      }));
+        dispatch(loadDesignImage({
+          houseId,
+          type,
+          packageData: selectedPackage,
+          room: currentRoom,
+          pk: selectedTextureConfig.pk
+        }));
+      }
     }
   };
 
@@ -457,6 +516,49 @@ export default function UniversalDesignSelectorRedux({
        
         </div>
       </div>
+
+      {/* Texture Selection for Exterior - Below Image */}
+      {type === 'exterior' && (
+        <div className="mt-6">
+          <h4 className="text-lg font-semibold text-gray-900 text-center mb-4">
+            Exterior Finishes
+          </h4>
+          <div className="flex justify-center space-x-4">
+            {EXTERIOR_TEXTURES.map((texture) => (
+              <div key={texture.id} className="text-center">
+                <button
+                  onClick={() => handleTextureChange(texture.id)}
+                  className={`w-20 h-16 rounded-lg overflow-hidden transition-all hover:scale-105 block relative ${
+                    selectedTexture === texture.id
+                      ? 'ring-4 ring-gray-900 shadow-lg'
+                      : 'ring-2 ring-gray-300 hover:ring-gray-500'
+                  }`}
+                  title={`Select ${texture.name}`}
+                >
+                  <img
+                    src={getImageUrl(texture.path)}
+                    alt={`${texture.name} texture`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to solid color if image fails
+                      if (e.currentTarget && e.currentTarget.parentElement) {
+                        const parent = e.currentTarget.parentElement;
+                        parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
+                                                     texture.id === 2 ? '#5e6266' : 
+                                                     texture.id === 3 ? '#9a9083' : '#4c4c4c';
+                        e.currentTarget.style.display = 'none';
+                      }
+                    }}
+                  />
+                </button>
+                <div className="text-sm text-gray-900 font-medium mt-2">
+                  {texture.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Texture Selection for Interior - Below Image */}
       {type === 'interior' && (

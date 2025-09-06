@@ -135,13 +135,16 @@ export const loadDesignImage = createAsyncThunk(
       
       if (type === 'exterior') {
         try {
+          // Если есть pk (от текстуры), используем его как вариант пакета
+          const dpToUse = pk ? pk : packageData.dp;
           const imagePath = await getAssetPath('exterior', houseId, { 
-            dp: packageData.dp, 
+            dp: dpToUse, 
             format: isWebPSupported ? 'webp' : 'jpg' 
           });
           photos.push(imagePath);
+          console.log(`Loading exterior image: dp${dpToUse} ${pk ? '(from texture pk)' : '(from package dp)'}`);
         } catch (e) {
-          console.log(`Exterior photo not found for dp${packageData.dp}`);
+          console.log(`Exterior photo not found for dp${pk ? pk : packageData.dp}`);
         }
       } else {
         // Полностью динамическая загрузка всех доступных фотографий для интерьера
