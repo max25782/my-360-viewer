@@ -86,7 +86,7 @@
 
     "Walnut": {
       "name": "The Vista",
-      "description": "he Walnut Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
+      "description": "The Vista Legacy Series ADU offers 1521 square feet of versatile living space, featuring two bedrooms, two and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
       "maxDP": 5,
       "maxPK": 5,
       "availableRooms": [
@@ -327,7 +327,7 @@
    
     "laurel": {
       "name": "The Haven",
-      "description": "The Laurel Legacy Series ADU offers 1056 square feet of versatile living space, featuring two bedrooms, one and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
+      "description": "The The Haven Legacy Series ADU offers 1056 square feet of versatile living space, featuring two bedrooms, one and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -602,7 +602,7 @@
     },
     "tamarack": {
       "name": "The Nest",
-      "description": "Our Tamarack model is a streamlined one-bedroom, one-bath design with optional porch and patio. It's everything you need in a space that feels just right.",
+      "description": "Our The Nest model is a streamlined one-bedroom, one-bath design with optional porch and patio. It's everything you need in a space that feels just right.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -810,7 +810,7 @@
     },
     "ponderosa": {
       "name": "The Grove",
-      "description": "Explore our Ponderosa model, a thoughtfully designed home featuring two bedrooms, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Ponderosa offers the perfect blend of comfort, flexibility, and functional living space",
+      "description": "Explore our The Grove model, a thoughtfully designed home featuring two bedrooms, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, The Grove offers the perfect blend of comfort, flexibility, and functional living space",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -1027,7 +1027,7 @@
     },
     "pine": {
       "name": "The Outlook",
-      "description": "Discover our Pine model, a cozy yet functional home featuring one bedroom, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Pine is designed for comfortable living in a compact and stylish space",
+      "description": "Discover our Outlook model, a cozy yet functional home featuring one bedroom, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Outlook is designed for comfortable living in a compact and stylish space",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -1248,7 +1248,7 @@
     },
     "oak": {
       "name": "The Retreat",
-      "description":"Explore our Oak model, a spacious one-bedroom, one-bath home with a dedicated office and optional garage, covered porch, and patio. Designed for versatility and comfort, Oak provides plenty of room to live, work, and unwind.",
+      "description":"Explore our The Retreat model, a spacious one-bedroom, one-bath home with a dedicated office and optional garage, covered porch, and patio. Designed for versatility and comfort, The Retreat provides plenty of room to live, work, and unwind.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -1561,7 +1561,7 @@
     },
     "juniper": {
       "name": "The Hideaway",
-      "description": "Explore our Juniper model, a well-balanced mid-size home featuring one bedroom, one bath, and a versatile layout. With an optional covered carport and thoughtful design, Juniper offers the perfect blend of comfort, efficiency, and everyday convenience",
+      "description": "Explore our The Hideaway model, a well-balanced mid-size home featuring one bedroom, one bath, and a versatile layout. With an optional covered carport and thoughtful design, The Hideaway offers the perfect blend of comfort, efficiency, and everyday convenience",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -1772,7 +1772,7 @@
     },
     "birch": {
       "name": "The Oasis",
-      "description": "Explore our Birch model, a spacious one-bedroom, one-bath design with an optional covered porch and patio. With a thoughtful layout and room to breathe, Birch offers the perfect blend of comfort, style, and indoor-outdoor living.",
+      "description": "Explore our The Oasis model, a spacious one-bedroom, one-bath design with an optional covered porch and patio. With a thoughtful layout and room to breathe, The Oasis offers the perfect blend of comfort, style, and indoor-outdoor living.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2038,7 +2038,7 @@
     },
     "cypress": {
       "name": "The Summit",
-      "description": "Explore our Cypress model, a spacious and versatile home offering up to 1,296 sq. ft. of thoughtfully designed living space. With a dedicated office and an optional garage, Cypress provides the perfect balance of functionality, comfort, and room to grow.",      
+      "description": "Explore our The Summit model, a spacious and versatile home offering up to 1,296 sq. ft. of thoughtfully designed living space. With a dedicated office and an optional garage, The Summit provides the perfect balance of functionality, comfort, and room to grow.",      
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2217,7 +2217,7 @@
     },
     "hemlock": {
       "name": "The Horizon",
-      "description": "Explore our one-bedroom, one-bath Hemlock model, with optional covered porch and patio. With Hemlock, you’ve got everything you need right at your fingertips: no more, no less.",
+      "description": "Explore our one-bedroom, one-bath The Horizon model, with optional covered porch and patio. With The Horizon, you’ve got everything you need right at your fingertips: no more, no less.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2424,7 +2424,7 @@
     },
     "spruce": {
       "name": "The Crest",
-      "description": "Explore our Spruce model, a well-appointed one-bedroom, one-bath home with a dedicated office and optional covered porch. Designed for both relaxation and productivity, Spruce offers a perfect balance of comfort, function, and flexible living space.",
+      "description": "Explore our The Crest model, a well-appointed one-bedroom, one-bath home with a dedicated office and optional covered porch. Designed for both relaxation and productivity, The Crest offers a perfect balance of comfort, function, and flexible living space.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2650,7 +2650,7 @@
     },
     "sage": {
       "name": "The Dwell",
-      "description":"Explore our one-bedroom, one-bath Sage model, with an optional covered patio. Designed for effortless living, Sage offers a perfect balance of comfort, functionality, and style in a compact footprint",
+      "description":"Explore our one-bedroom, one-bath The Dwell model, with an optional covered patio. Designed for effortless living, The Dwell offers a perfect balance of comfort, functionality, and style in a compact footprint",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [
@@ -2855,7 +2855,7 @@
     },
     "sapling": {
       "name": "The Arbor",
-      "description": "Explore our one-bedroom, one-bath Sapling model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, Sapling is perfect for those seeking a simple, stylish, and functional retreat.",
+      "description": "Explore our one-bedroom, one-bath The Arbor model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, The Arbor is perfect for those seeking a simple, stylish, and functional retreat.",
       "maxDP": 4,
       "maxPK": 4,
       "availableRooms": [

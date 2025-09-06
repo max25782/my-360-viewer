@@ -103,7 +103,7 @@ export default function UniversalTourLinks({
                 ></div>
               </div>
               <h3 className="text-2xl font-bold mb-2">360° Virtual Tour</h3>
-              <p className="text-lg opacity-90">Explore {houseName} in immersive 360°</p>
+              <p className="text-lg opacity-90">Explore in immersive 360°</p>
             </div>
           </Link>
         </div>
