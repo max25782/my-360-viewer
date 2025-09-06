@@ -659,7 +659,7 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-orange-800 mb-2">
-              {getCurrentScene()?.title || '360° Virtual Tour'}
+              {'360° Virtual Tour'}
             </h1>
             <p className="text-lg text-orange-600 mb-6">
               {isLoading ? 'Loading immersive experience...' : 'Initializing viewer...'}

@@ -192,7 +192,7 @@ export default function VirtualTourPreviewUniversal({
       <div className="mt-4 text-center">
         <h3 className="text-2xl font-bold text-white mb-2">360° Virtual Tour</h3>
         <p className="text-gray-300">
-          Experience {houseName} in immersive 360° • Click to explore
+          Experience in immersive 360° • Click to explore
         </p>
       </div>
     </div>
