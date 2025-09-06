@@ -113,6 +113,7 @@ export default function PremiumHousesList({ houses: initialHouses }: PremiumHous
           let bathroomCount = "N/A";
           let sqFt = "N/A";
           
+          // Проверяем старый формат данных (объект с ключами)
           if (house.comparison?.features?.Bedrooms) {
             const match = house.comparison.features.Bedrooms.good.match(/(\d+)/);
             if (match) bedroomCount = match[1];
@@ -126,6 +127,36 @@ export default function PremiumHousesList({ houses: initialHouses }: PremiumHous
           if (house.comparison?.features?.['Living Space']) {
             const match = house.comparison.features['Living Space'].good.match(/(\d+)/);
             if (match) sqFt = match[1];
+          }
+          
+          // Проверяем новый формат данных (массив строк)
+          if (Array.isArray(house.comparison?.features)) {
+            // Ищем информацию о спальнях
+            const bedroomFeature = house.comparison.features.find(
+              feature => feature.includes('Bedroom') || feature.includes('Bedrooms')
+            );
+            if (bedroomFeature) {
+              const match = bedroomFeature.match(/(\d+)\s*(Generously Sized)?\s*(Bedroom|Bedrooms)/i);
+              if (match) bedroomCount = match[1];
+            }
+            
+            // Ищем информацию о ванных комнатах
+            const bathroomFeature = house.comparison.features.find(
+              feature => feature.includes('Bathroom') || feature.includes('Bathrooms') || feature.includes(' Bath')
+            );
+            if (bathroomFeature) {
+              const match = bathroomFeature.match(/(\d+\.?\d*)\s*(Full)?\s*(Bathroom|Bathrooms|Bath)/i);
+              if (match) bathroomCount = match[1];
+            }
+            
+            // Ищем информацию о площади
+            const sqftFeature = house.comparison.features.find(
+              feature => feature.includes('SF') || feature.includes('Square Feet') || feature.includes('Living Space')
+            );
+            if (sqftFeature) {
+              const match = sqftFeature.match(/(\d+,?\d*)\s*SF/);
+              if (match) sqFt = match[1].replace(',', '');
+            }
           }
           
           return (

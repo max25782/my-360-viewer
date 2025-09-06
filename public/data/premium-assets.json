@@ -235,33 +235,31 @@
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "1800 SF",
-            "better": "1800 SF",
-            "best": "1800 SF"
-          },
-          "Overall Dimensions": {
-            "good": "45'x40'",
-            "better": "45'x40'",
-            "best": "45'x40'"
-          },
-          "Bedrooms": {
-            "good": "2 Bedrooms",
-            "better": "2 Bedrooms",
-            "best": "2 Bedrooms"
-          },
-          "Bathrooms": {
-            "good": "2 Bathrooms",
-            "better": "2 Bathrooms",
-            "best": "2 Bathrooms"
-          },
-          "Ceiling Height": {
-            "good": "9 Feet",
-            "better": "9 Feet",
-            "best": "9 Feet"
-          }
-        }
+             "features": [
+    "2,622 SF of thoughtfully designed Living Space",
+    "508 SF of Outdoor Living Space",
+    "Spacious 2-Car Garage with workshop space",
+    "4 Generously Sized Bedrooms",
+    "3 Full Bathrooms",
+    "1 Powder Bath",
+    "Welcoming Covered Porch",
+    "Expansive Tripass sliding door off the living room to uncovered deck",
+    "Covered deck off primary bedroom and great room",
+    "10’ ceiling on main floor, 9’ ceiling height in daylight basement",
+    "Large kitchen with oversized island and walk in pantry",
+    "Garbage Disposal",
+    "Modern Electric Fireplace",
+    "Dedicated Laundry Room",
+    "Stackable washer dryer space in primary closet",
+    "Main Level Primary Suite with spacious walk in closet",
+    "Luxury Primary en Suite Featuring Separate Vanities, Walk-in Tiled Shower, and a Separate Water Closet",
+    "Bonus Room in the Basement with Covered Deck",
+    "Luxury Vinyl Plank or Laminate Flooring in Main Living areas and bathrooms",
+    "Plush Carpet in Bedrooms and Bonus Room",
+    "Sleek MSI Quartz Countertops in kitchen and bathrooms",
+    "Delta Faucets and Shower Heads",
+    "Visual Comfort Lighting"
+  ]
       }
     },
     "Everest": {
@@ -344,33 +342,31 @@
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "3200 SF",
-            "better": "3200 SF",
-            "best": "3200 SF"
-          },
-          "Overall Dimensions": {
-            "good": "60'x55'",
-            "better": "60'x55'",
-            "best": "60'x55'"
-          },
-          "Bedrooms": {
-            "good": "4 Bedrooms",
-            "better": "4 Bedrooms",
-            "best": "4 Bedrooms"
-          },
-          "Bathrooms": {
-            "good": "3.5 Bathrooms",
-            "better": "3.5 Bathrooms",
-            "best": "3.5 Bathrooms"
-          },
-          "Ceiling Height": {
-            "good": "10 Feet",
-            "better": "10 Feet",
-            "best": "10 Feet"
-          }
-        }
+         "features": [
+    "2,769 SF of thoughtfully designed Living Space",
+    "408 SF of Outdoor Living Space",
+    "Spacious 2-Car Garage",
+    "4 Generously Sized Bedrooms",
+    "3 Full Bathrooms",
+    "1 Powder Bath",
+    "Welcoming Covered Porch",
+    "Access from Kitchen to Covered Deck",
+    "Covered Deck off Family Room",
+    "10’ ceiling on main floor, 9’ ceiling height in daylight basement",
+    "Large Kitchen with Oversized Island and Pantry",
+    "Garbage Disposal",
+    "Modern Electric Fireplace",
+    "Dedicated Laundry Room",
+    "Stackable Washer Dryer Space in Primary Closet",
+    "Main Level Primary Suite with spacious Walk-in Closet",
+    "Luxury Primary en Suite featuring a Double Sink Vanity and a Walk-in Tiled Shower",
+    "Family Room in the Basement with Covered Deck",
+    "Luxury Vinyl Plank or Laminate Flooring in Main Living Areas and Bathrooms",
+    "Plush Carpet in Bedrooms and Bonus Room",
+    "Sleek MSI Quartz Countertops in Kitchen and Bathrooms",
+    "Delta faucets and Shower Heads",
+    "Visual Comfort lighting"
+  ]
       }
     },
     "Redwood": {
@@ -523,33 +519,29 @@
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "2800 SF",
-            "better": "2800 SF",
-            "best": "2800 SF"
-          },
-          "Overall Dimensions": {
-            "good": "55'x50'",
-            "better": "55'x50'",
-            "best": "55'x50'"
-          },
-          "Bedrooms": {
-            "good": "3 Bedrooms",
-            "better": "3 Bedrooms",
-            "best": "3 Bedrooms"
-          },
-          "Bathrooms": {
-            "good": "2.5 Bathrooms",
-            "better": "2.5 Bathrooms",
-            "best": "2.5 Bathrooms"
-          },
-          "Ceiling Height": {
-            "good": "9 Feet",
-            "better": "9 Feet",
-            "best": "9 Feet"
-          }
-        }
+
+  "features": [
+    "2,993 SF of thoughtfully designed Main Home Living Space",
+    "338 SF of Outdoor Living Space",
+    "Attached 1 Bed, 1 Bath ADU with its own 1-Car Garage",
+    "Spacious Main Home 2-Car Garage",
+    "3 Generously Sized Bedrooms",
+    "2 Full Bathrooms",
+    "1 Office or Flex Room",
+    "Welcoming Covered Porch and Patio",
+    "Tray Ceiling in Living Room",
+    "Large Kitchen with Oversized Island and Walk-in Pantry",
+    "Garbage Disposal",
+    "Modern Electric Fireplace",
+    "Dedicated Laundry Room",
+    "Main Level Primary Suite with Spacious Walk-in Closet",
+    "Luxury Primary en-suite featuring Double Sink Vanity, Freestanding Tub, Walk-in Tiled Shower, and a Separate Water Closet",
+    "Luxury Vinyl Plank or Laminate Flooring in Main Living Areas and Bathrooms",
+    "Plush Carpet in Bedrooms and Bonus Room",
+    "Sleek MSI Quartz Countertops in Kitchen and Bathrooms",
+    "Delta Faucets and Shower"
+  ]
+
       }
     },
     "Willow": {
@@ -660,33 +652,27 @@
         }
       },
       "comparison": {
-        "features": {
-          "Living Space": {
-            "good": "2200 SF",
-            "better": "2200 SF",
-            "best": "2200 SF"
-          },
-          "Overall Dimensions": {
-            "good": "48'x46'",
-            "better": "48'x46'",
-            "best": "48'x46'"
-          },
-          "Bedrooms": {
-            "good": "3 Bedrooms",
-            "better": "3 Bedrooms",
-            "best": "3 Bedrooms"
-          },
-          "Bathrooms": {
-            "good": "2 Bathrooms",
-            "better": "2 Bathrooms",
-            "best": "2 Bathrooms"
-          },
-          "Ceiling Height": {
-            "good": "9 Feet",
-            "better": "9 Feet",
-            "best": "9 Feet"
-          }
-        }
+            "features": [
+    "2,993 SF of thoughtfully designed Main Home Living Space",
+    "338 SF of Outdoor Living Space",
+    "Attached 1 Bed, 1 Bath ADU with its own 1-Car Garage",
+    "Spacious Main Home 2-Car Garage",
+    "3 Generously Sized Bedrooms",
+    "2 Full Bathrooms",
+    "1 Office or Flex Room",
+    "Welcoming Covered Porch and Patio",
+    "Tray Ceiling in Living Room",
+    "Large Kitchen with Oversized Island and Walk-in Pantry",
+    "Garbage Disposal",
+    "Modern Electric Fireplace",
+    "Dedicated Laundry Room",
+    "Main Level Primary Suite with Spacious Walk-in Closet",
+    "Luxury Primary en-suite featuring Double Sink Vanity, Freestanding Tub, Walk-in Tiled Shower, and a Separate Water Closet",
+    "Luxury Vinyl Plank or Laminate Flooring in Main Living Areas and Bathrooms",
+    "Plush Carpet in Bedrooms and Bonus Room",
+    "Sleek MSI Quartz Countertops in Kitchen and Bathrooms",
+    "Delta Faucets and Shower"
+  ]
       }
     }
   }

@@ -134,7 +134,8 @@ export default async function PremiumHousePage({ params }: { params: Promise<{ s
       {/* Features Section */}
       <PremiumFeatures 
         features={premiumHouse.comparison?.features || []} 
-        houseName={premiumHouse.name} 
+        houseName={premiumHouse.name}
+        houseId={premiumHouse.id}
       />
       
       {/* 360 Tour Section */}

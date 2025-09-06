@@ -1,14 +1,47 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+
 interface PremiumFeaturesProps {
   features: string[];
   houseName: string;
+  houseId: string;
 }
 
-export default function PremiumFeatures({ features, houseName }: PremiumFeaturesProps) {
+export default function PremiumFeatures({ features, houseName, houseId }: PremiumFeaturesProps) {
   if (!features || !Array.isArray(features) || features.length === 0) {
     return null;
   }
+
+  // Состояние для хранения доступных изображений
+  const [availableImages, setAvailableImages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Проверяем наличие изображений при загрузке компонента
+  useEffect(() => {
+    const checkImages = async () => {
+      const imagesToCheck = ['plan1', 'plan2', 'plan3'];
+      const available = [];
+      
+      for (const plan of imagesToCheck) {
+        try {
+          // Проверяем доступность изображения
+          const response = await fetch(`/assets/premium/${houseId}/comparison/${plan}.jpg`, { method: 'HEAD' });
+          if (response.ok) {
+            available.push(plan);
+          }
+        } catch (e) {
+          console.log(`Image ${plan} not available for ${houseId}`);
+        }
+      }
+      
+      setAvailableImages(available);
+      setIsLoading(false);
+    };
+    
+    checkImages();
+  }, [houseId]);
 
   return (
     <section className="py-12">
@@ -17,6 +50,32 @@ export default function PremiumFeatures({ features, houseName }: PremiumFeatures
           {houseName} Features
         </h2>
         
+        {/* Изображения сравнения */}
+        {!isLoading && availableImages.length > 0 && (
+          <div className="mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {availableImages.map((plan, index) => (
+                <div key={plan} className="bg-slate-800 p-2 rounded-lg overflow-hidden">
+                  <div className="relative w-full" style={{ paddingBottom: '75%' }}>
+                    <Image 
+                      src={`/assets/premium/${houseId}/comparison/${plan}.jpg`} 
+                      alt={`${houseName} ${plan.replace(/(\d+)/, ' Plan $1')}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: 'cover' }}
+                      className="rounded-md"
+                    />
+                  </div>
+                  <p className="text-center text-gray-300 mt-2 font-medium">
+                    {plan.replace(/(\d+)/, ' Plan $1').replace('plan', 'Floor Plan')}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Список особенностей */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {features.map((feature: string, index: number) => (
             <div key={index} className="bg-slate-800 p-4 rounded-lg flex items-start">
