@@ -406,8 +406,6 @@ export default function UniversalDesignSelectorRedux({
           )}
           {type === 'interior' && (
             <div className="flex flex-col items-center space-y-4">
-   
-
               {/* Room Navigation */}
               {renderRoomNavigation()}
             </div>
@@ -460,73 +458,49 @@ export default function UniversalDesignSelectorRedux({
         </div>
       </div>
 
-      {/* Package Thumbnails - Lazy Loading */}
-      <div className="flex justify-center space-x-6">
-        {thumbnails.map((thumb: { package: { id: string; name: string }; index: number; thumbnailPath: string }) => (
-          <div key={`${thumb.package.id}-${thumb.index}`} className="text-center">
-                          <button
-                onClick={() => handlePackageChange(thumb.index)}
-                className={`w-16 h-12 rounded shadow-sm transition-all hover:scale-105 mb-2 block relative overflow-hidden ${selectedPackageIndex === thumb.index
-                  ? `border-4 ${type === 'exterior' ? 'border-blue-500' : 'border-green-500'}`
-                  : 'border-2 border-white hover:border-gray-300'
-                }`}
-                title={`Select ${thumb.package.name}`}
-                onError={(e) => {
-                  // Обработка ошибки на кнопке
-                  if (e.currentTarget && e.currentTarget.style ) {
-                    e.currentTarget.style.backgroundColor = '#e5e7eb';
-                  }
-                }}
-              >
-              <img
-                src={getImageUrl(thumb.thumbnailPath)}
-                alt={`${thumb.package.name} thumbnail`}
-                loading="lazy"
-                decoding="async"
-                className="
-                  absolute inset-0 w-full h-full object-cover
-                  transition-all duration-500 ease-in-out
-                  opacity-0 scale-110 blur-sm
-                  hover:scale-105 hover:brightness-110
-                "
-                style={{
-                  transition: 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out, filter 0.5s ease-in-out'
-                }}
-                onLoad={(e) => {
-                  // Плавное появление миниатюры
-                  if (e.currentTarget && e.currentTarget.style) {
-                    e.currentTarget.style.opacity = '1';
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.filter = 'blur(0px)';
-                  }
-                }}
-                onError={(e) => {
-                  // Плавное исчезновение при ошибке
-                  if (e.currentTarget && e.currentTarget.style) {
-                    e.currentTarget.style.opacity = '0';
-                    e.currentTarget.style.transform = 'scale(0.9)';
-                    e.currentTarget.style.backgroundColor = '#e5e7eb';
-                    
-                    // Сохраняем ссылку на currentTarget, так как она может измениться внутри setTimeout
-                    const target = e.currentTarget;
-                    setTimeout(() => {
-                      if (target && target.style) {
-                        target.style.display = 'none';
+      {/* Texture Selection for Interior - Below Image */}
+      {type === 'interior' && (
+        <div className="mt-6">
+          <h4 className="text-lg font-semibold text-white text-center mb-4 drop-shadow-lg">
+            Interior Finishes
+          </h4>
+          <div className="flex justify-center space-x-4">
+            {INTERIOR_TEXTURES.map((texture) => (
+              <div key={texture.id} className="text-center">
+                <button
+                  onClick={() => handleTextureChange(texture.id)}
+                  className={`w-20 h-16 rounded-lg overflow-hidden transition-all hover:scale-105 block relative ${
+                    selectedTexture === texture.id
+                      ? 'ring-4 ring-white shadow-lg'
+                      : 'ring-2 ring-white/30 hover:ring-white/50'
+                  }`}
+                  title={`Select ${texture.name}`}
+                >
+                  <img
+                    src={getImageUrl(texture.path)}
+                    alt={`${texture.name} texture`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to solid color if image fails
+                      if (e.currentTarget && e.currentTarget.parentElement) {
+                        const parent = e.currentTarget.parentElement;
+                        parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
+                                                     texture.id === 2 ? '#5e6266' : 
+                                                     texture.id === 3 ? '#9a9083' : '#4c4c4c';
+                        e.currentTarget.style.display = 'none';
                       }
-                    }, 250);
-                  }
-                }}
-              />
-            </button>
-            <div className={`text-xs transition-colors ${selectedPackageIndex === thumb.index
-                ? `${type === 'exterior' ? 'text-blue-600' : 'text-white'} font-bold ${type === 'interior' ? 'drop-shadow-lg' : ''}`
-                : `${type === 'exterior' ? 'text-gray-600' : 'text-white text-opacity-80 drop-shadow'}`
-              }`}>
-              {thumb.package.name}
-            </div>
+                    }}
+                  />
+                </button>
+                <div className="text-sm text-white font-medium mt-2 drop-shadow">
+                  {texture.name}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+      
     </div>
   );
 }
