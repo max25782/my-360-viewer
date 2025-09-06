@@ -1,7 +1,7 @@
 {
   "id": "hemlock",
   "name": "The Horizon",
-  "description": "Explore our one-bedroom, one-bath Hemlock model, with optional covered porch and patio. With Hemlock, you’ve got everything you need right at your fingertips: no more, no less.",
+  "description": "Explore our one-bedroom, one-bath The Horizon model, with optional covered porch and patio. With The Horizon, you’ve got everything you need right at your fingertips: no more, no less.",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -376,5 +376,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.552Z"
+  "lastUpdated": "2025-09-06T17:34:43.805Z"
 }

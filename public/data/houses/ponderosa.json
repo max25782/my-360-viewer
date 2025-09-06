@@ -1,7 +1,7 @@
 {
   "id": "ponderosa",
   "name": "The Grove",
-  "description": "Explore our Ponderosa model, a thoughtfully designed home featuring two bedrooms, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Ponderosa offers the perfect blend of comfort, flexibility, and functional living space",
+  "description": "Explore our The Grove model, a thoughtfully designed home featuring two bedrooms, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, The Grove offers the perfect blend of comfort, flexibility, and functional living space",
   "category": "A",
   "bedrooms": 2,
   "bathrooms": 1,
@@ -405,5 +405,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.542Z"
+  "lastUpdated": "2025-09-06T17:34:43.800Z"
 }

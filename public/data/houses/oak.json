@@ -1,7 +1,7 @@
 {
   "id": "oak",
   "name": "The Retreat",
-  "description": "Explore our Oak model, a spacious one-bedroom, one-bath home with a dedicated office and optional garage, covered porch, and patio. Designed for versatility and comfort, Oak provides plenty of room to live, work, and unwind.",
+  "description": "Explore our The Retreat model, a spacious one-bedroom, one-bath home with a dedicated office and optional garage, covered porch, and patio. Designed for versatility and comfort, The Retreat provides plenty of room to live, work, and unwind.",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 2,
@@ -592,5 +592,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.547Z"
+  "lastUpdated": "2025-09-06T17:34:43.802Z"
 }

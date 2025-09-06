@@ -137,6 +137,7 @@ export const loadDesignImage = createAsyncThunk(
         try {
           // Если есть pk (от текстуры), используем его как вариант пакета
           const dpToUse = pk ? pk : packageData.dp;
+          console.log(`🏠 Using dpToUse=${dpToUse} for exterior image (pk=${pk}, packageData.dp=${packageData.dp})`);
           const imagePath = await getAssetPath('exterior', houseId, { 
             dp: dpToUse, 
             format: isWebPSupported ? 'webp' : 'jpg' 

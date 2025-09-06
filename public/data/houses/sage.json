@@ -1,7 +1,7 @@
 {
   "id": "sage",
   "name": "The Dwell",
-  "description": "Explore our one-bedroom, one-bath Sage model, with an optional covered patio. Designed for effortless living, Sage offers a perfect balance of comfort, functionality, and style in a compact footprint",
+  "description": "Explore our one-bedroom, one-bath The Dwell model, with an optional covered patio. Designed for effortless living, The Dwell offers a perfect balance of comfort, functionality, and style in a compact footprint",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -388,5 +388,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.557Z"
+  "lastUpdated": "2025-09-06T17:34:43.807Z"
 }

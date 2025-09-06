@@ -1,7 +1,7 @@
 {
   "id": "sapling",
   "name": "The Arbor",
-  "description": "Explore our one-bedroom, one-bath Sapling model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, Sapling is perfect for those seeking a simple, stylish, and functional retreat.",
+  "description": "Explore our one-bedroom, one-bath The Arbor model, a smartly designed space that feels both cozy and open. With an efficient layout and optional covered patio, The Arbor is perfect for those seeking a simple, stylish, and functional retreat.",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -432,5 +432,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.560Z"
+  "lastUpdated": "2025-09-06T17:34:43.807Z"
 }

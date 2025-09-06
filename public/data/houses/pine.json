@@ -1,7 +1,7 @@
 {
   "id": "pine",
   "name": "The Outlook",
-  "description": "Discover our Pine model, a cozy yet functional home featuring one bedroom, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Pine is designed for comfortable living in a compact and stylish space",
+  "description": "Discover our Outlook model, a cozy yet functional home featuring one bedroom, one bath, and a dedicated office. With an optional covered patio and a smart, efficient layout, Outlook is designed for comfortable living in a compact and stylish space",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -405,5 +405,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.545Z"
+  "lastUpdated": "2025-09-06T17:34:43.801Z"
 }

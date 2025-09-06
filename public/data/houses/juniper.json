@@ -1,7 +1,7 @@
 {
   "id": "juniper",
   "name": "The Hideaway",
-  "description": "Explore our Juniper model, a well-balanced mid-size home featuring one bedroom, one bath, and a versatile layout. With an optional covered carport and thoughtful design, Juniper offers the perfect blend of comfort, efficiency, and everyday convenience",
+  "description": "Explore our The Hideaway model, a well-balanced mid-size home featuring one bedroom, one bath, and a versatile layout. With an optional covered carport and thoughtful design, The Hideaway offers the perfect blend of comfort, efficiency, and everyday convenience",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -349,5 +349,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.549Z"
+  "lastUpdated": "2025-09-06T17:34:43.803Z"
 }

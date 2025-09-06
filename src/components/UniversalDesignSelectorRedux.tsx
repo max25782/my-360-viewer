@@ -139,7 +139,7 @@ export default function UniversalDesignSelectorRedux({
             houseId,
             type,
             packageData: selectedPackage,
-            room: null,
+            room: '',
             pk: selectedTextureConfig.pk
           }));
         }
@@ -253,7 +253,7 @@ export default function UniversalDesignSelectorRedux({
           houseId,
           type,
           packageData: selectedPackage,
-          room: null,
+          room: '',
           pk: selectedTextureConfig.pk
         }));
       }

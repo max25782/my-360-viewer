@@ -1,7 +1,7 @@
 {
   "id": "cypress",
   "name": "The Summit",
-  "description": "Explore our Cypress model, a spacious and versatile home offering up to 1,296 sq. ft. of thoughtfully designed living space. With a dedicated office and an optional garage, Cypress provides the perfect balance of functionality, comfort, and room to grow.",
+  "description": "Explore our The Summit model, a spacious and versatile home offering up to 1,296 sq. ft. of thoughtfully designed living space. With a dedicated office and an optional garage, The Summit provides the perfect balance of functionality, comfort, and room to grow.",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -366,5 +366,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.551Z"
+  "lastUpdated": "2025-09-06T17:34:43.804Z"
 }

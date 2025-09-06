@@ -1,7 +1,7 @@
 {
   "id": "spruce",
   "name": "The Crest",
-  "description": "Explore our Spruce model, a well-appointed one-bedroom, one-bath home with a dedicated office and optional covered porch. Designed for both relaxation and productivity, Spruce offers a perfect balance of comfort, function, and flexible living space.",
+  "description": "Explore our The Crest model, a well-appointed one-bedroom, one-bath home with a dedicated office and optional covered porch. Designed for both relaxation and productivity, The Crest offers a perfect balance of comfort, function, and flexible living space.",
   "category": "A",
   "bedrooms": 1,
   "bathrooms": 1,
@@ -410,5 +410,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-06T08:41:51.554Z"
+  "lastUpdated": "2025-09-06T17:34:43.806Z"
 }
