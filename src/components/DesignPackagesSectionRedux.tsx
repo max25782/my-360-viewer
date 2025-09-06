@@ -7,6 +7,7 @@
 import { House } from '../hooks/useHouses';
 import UniversalDesignSelectorRedux from './UniversalDesignSelectorRedux';
 import ComparisonCallToAction from './ComparisonCallToAction';
+import SkylineExteriorDesignPackages from './Skyline/SkylineExteriorDesignPackages';
 
 interface DesignPackagesSectionReduxProps {
   house: House;
@@ -26,12 +27,16 @@ export default function DesignPackagesSectionRedux({ house }: DesignPackagesSect
         </div>
 
         {/* Design Collection Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {/* Exterior View */}
-          <UniversalDesignSelectorRedux 
-            houseId={house.id}
-            type="exterior"
-          />
+        <div className="grid grid-cols-1 lg:grid-rows-2 gap-8 mb-16">
+          {/* Exterior View - Using Skyline Component */}
+          {house.category === 'skyline' ? (
+            <SkylineExteriorDesignPackages house={house} />
+          ) : (
+            <UniversalDesignSelectorRedux 
+              houseId={house.id}
+              type="exterior"
+            />
+          )}
 
           {/* Interior View */}
           <UniversalDesignSelectorRedux 

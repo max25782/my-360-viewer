@@ -52,7 +52,8 @@ export default function HousePage() {
       {/* Hero Section */}
       <HeroSection house={house} />
 
-      {/* Design Packages Section */}
+      
+      {/* Interior Design Packages Section */}
       <DesignPackagesSectionRedux house={house} />
 
       {/* Take a Look Around Section */}

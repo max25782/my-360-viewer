@@ -283,6 +283,11 @@ export async function getAssetPath(
       
       variables.room = room;
       variables.pk = pk;
+      
+      // Проверяем формат изображения - сначала пробуем webp, потом jpg
+      if (!options.format) {
+        variables.format = 'webp'; // По умолчанию пробуем webp сначала
+      }
       break;
       
     case 'comparison':

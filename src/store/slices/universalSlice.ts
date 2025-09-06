@@ -144,108 +144,119 @@ export const loadDesignImage = createAsyncThunk(
           console.log(`Exterior photo not found for dp${packageData.dp}`);
         }
       } else {
-        // Use pk from parameter or fallback to package data
-        const pkToUse = pk || packageData.pk || 1;
-
-        // Загружаем основное фото из interior папки дома
-        try {
-          const mainPhoto = await getAssetPath('interior', houseId, { 
-            room, 
-            pk: pkToUse,
-            format: isWebPSupported ? 'webp' : 'jpg'
-          });
-          photos.push(mainPhoto);
-        } catch (e) {
-          console.log(`Main photo not found for pk${pkToUse}`);
-        }
+        // Полностью динамическая загрузка всех доступных фотографий для интерьера
+        const maxPkToCheck = 5; // Проверяем до 5 основных пакетов (pk1, pk2, pk3, pk4, pk5)
+        const formats = isWebPSupported 
+          ? ['webp', 'jpg'] 
+          : ['jpg', 'webp'];
         
-        // Проверяем дополнительное фото
-        const additionalPhotoFormats = isWebPSupported 
-          ? [`/assets/${houseId}/interior/${room}/pk${pkToUse}.1.webp`, `/assets/${houseId}/interior/${room}/pk${pkToUse}.1.jpg`]
-          : [`/assets/${houseId}/interior/${room}/pk${pkToUse}.1.jpg`, `/assets/${houseId}/interior/${room}/pk${pkToUse}.1.webp`];
+        // Если передан конкретный pk (от текстуры), используем его
+        const specificPk = pk ? [pk] : Array.from({length: maxPkToCheck}, (_, i) => i + 1);
         
-        // Создаем промис для проверки дополнительного фото с использованием fetch
-        const checkAdditionalPhoto = async () => {
-          // Проверяем, есть ли вообще основное изображение с таким pk
-          const mainPhotoFormats = isWebPSupported 
-            ? [`/assets/${houseId}/interior/${room}/pk${pkToUse}.webp`, `/assets/${houseId}/interior/${room}/pk${pkToUse}.jpg`]
-            : [`/assets/${houseId}/interior/${room}/pk${pkToUse}.jpg`, `/assets/${houseId}/interior/${room}/pk${pkToUse}.webp`];
+        console.log(`Dynamically scanning interior photos for ${houseId}, room: ${room}${pk ? `, specific pk: ${pk}` : ''}`);
+        
+        // Функция для проверки существования файла без логирования ошибок
+        const checkFileExists = async (path: string): Promise<boolean> => {
+          try {
+            // Используем AbortController для предотвращения ошибок в консоли
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 500); // Таймаут 500мс
+            
+            const response = await fetch(path, { 
+              method: 'HEAD',
+              signal: controller.signal,
+              // Подавляем логирование ошибок в консоли
+              cache: 'no-cache'
+            });
+            
+            clearTimeout(timeoutId);
+            return response.ok;
+          } catch {
+            // Тихо игнорируем ошибки (включая AbortError)
+            return false;
+          }
+        };
+        
+        // Оптимизированное сканирование пакетов
+        // Сначала определим, какие пакеты (pk) существуют для этой комнаты
+        const existingPkNumbers: number[] = [];
+        
+        // Проверяем только основные фото пакетов (pk1, pk2, pk3...) или конкретный pk
+        for (const pkNum of specificPk) {
+          let foundMainPhoto = false;
           
-          let mainPhotoExists = false;
-          for (const photoPath of mainPhotoFormats) {
-            try {
-              const response = await fetch(photoPath, { method: 'HEAD' });
-              if (response.ok) {
-                console.log(`Found main photo: ${photoPath}`);
-                mainPhotoExists = true;
-                photos.push(photoPath); // Добавляем найденное фото в массив
-                // Не прерываем поиск после нахождения первого фото
-              }
-            } catch {
-              // Продолжаем поиск следующего формата
+          // Проверяем оба формата
+          for (const format of formats) {
+            const mainPhotoPath = `/assets/skyline/${houseId}/interior/${room}/pk${pkNum}.${format}`;
+            if (await checkFileExists(mainPhotoPath)) {
+              console.log(`Found main photo: ${mainPhotoPath}`);
+              photos.push(mainPhotoPath);
+              existingPkNumbers.push(pkNum);
+              foundMainPhoto = true;
+              break; // Нашли основное фото, переходим к следующему пакету
             }
           }
           
-          if (!mainPhotoExists) {
-            console.log(`No main photo found for pk${pkToUse} in ${room}`);
-            // Если нет основного фото для текущей комнаты и текущего пакета,
-            // попробуем использовать pk1 как запасной вариант
-            if (pkToUse > 1) {
-              console.log(`Trying fallback to pk1 for ${room}`);
-              const fallbackFormats = isWebPSupported 
-                ? [`/assets/${houseId}/interior/${room}/pk1.webp`, `/assets/${houseId}/interior/${room}/pk1.jpg`]
-                : [`/assets/${houseId}/interior/${room}/pk1.jpg`, `/assets/${houseId}/interior/${room}/pk1.webp`];
-              
-              for (const photoPath of fallbackFormats) {
-                try {
-                  const response = await fetch(photoPath, { method: 'HEAD' });
-                  if (response.ok) {
-                    console.log(`Found fallback photo: ${photoPath}`);
-                    photos.push(photoPath);
-                    // Не прерываем поиск после нахождения первого фото, чтобы обеспечить возможность цикличной навигации
-                    // Продолжаем поиск других форматов
-                  }
-                } catch {
-                  // Продолжаем поиск следующего формата
+          // Если не нашли основное фото для pk > 1 и не ищем конкретный pk, прекращаем поиск
+          // (предполагаем, что пакеты идут по порядку: pk1, pk2, pk3...)
+          if (!foundMainPhoto && pkNum > 1 && !pk) {
+            // Если это не pk1 и фото не найдено, вероятно дальше тоже не будет
+            break;
+          }
+        }
+        
+        console.log(`Found ${existingPkNumbers.length} package(s) for ${houseId}, room: ${room}: ${existingPkNumbers.join(', ')}`);
+        
+        // Теперь проверяем вариации только для найденных пакетов
+        for (const pkNum of existingPkNumbers) {
+          // Проверяем вариации (pk1.1, pk1.2, pk2.1...)
+          // Для экономии запросов проверяем только первую вариацию для каждого пакета
+          const hasVariations = await (async () => {
+            for (const format of formats) {
+              const firstVariantPath = `/assets/skyline/${houseId}/interior/${room}/pk${pkNum}.1.${format}`;
+              if (await checkFileExists(firstVariantPath)) {
+                console.log(`Found variant photo: ${firstVariantPath}`);
+                photos.push(firstVariantPath);
+                return true;
+              }
+            }
+            return false;
+          })();
+          
+          // Если нашли первую вариацию, проверяем остальные
+          if (hasVariations) {
+            // Проверяем вариации 2 и 3
+            for (let variant = 2; variant <= 3; variant++) {
+              for (const format of formats) {
+                const variantPath = `/assets/skyline/${houseId}/interior/${room}/pk${pkNum}.${variant}.${format}`;
+                if (await checkFileExists(variantPath)) {
+                  console.log(`Found variant photo: ${variantPath}`);
+                  photos.push(variantPath);
+                  break;
                 }
               }
             }
-            // Убираем return null, чтобы продолжить поиск дополнительных фото
-            // даже если основное фото не найдено
-          }
-
-          // Проверяем дополнительное фото только в текущей комнате
-          let foundAdditionalPhotos = [];
-          for (const photoPath of additionalPhotoFormats) {
-            try {
-              const response = await fetch(photoPath, { method: 'HEAD' });
-              if (response.ok) {
-                console.log(`Found additional photo: ${photoPath}`);
-                foundAdditionalPhotos.push(photoPath);
-              }
-            } catch {
-              // Продолжаем поиск следующего формата
-            }
-          }
-          
-          if (foundAdditionalPhotos.length > 0) {
-            return foundAdditionalPhotos;
-          }
-          
-          console.log(`No additional photo found for pk${pkToUse} in ${room}`);
-          // Не возвращаем null, чтобы не прерывать поиск других фото
-        };
-        
-        const additionalPhotos = await checkAdditionalPhoto();
-        if (additionalPhotos) {
-          if (Array.isArray(additionalPhotos)) {
-            // Если получили массив дополнительных фото
-            photos.push(...additionalPhotos);
-          } else {
-            // Обратная совместимость, если вернулась строка
-            photos.push(additionalPhotos);
           }
         }
+        
+        // Если не нашли ни одного фото, используем запасной вариант из другой комнаты
+        if (photos.length === 0) {
+          console.log(`No photos found for ${houseId}, room: ${room}, trying fallback to living room`);
+          
+          // Пробуем найти фото в гостиной
+          if (room !== 'living') {
+            for (const format of formats) {
+              const fallbackPath = `/assets/skyline/${houseId}/interior/living/pk1.${format}`;
+              if (await checkFileExists(fallbackPath)) {
+                console.log(`Using fallback photo from living room: ${fallbackPath}`);
+                photos.push(fallbackPath);
+                break;
+              }
+            }
+          }
+        }
+        
+        console.log(`Found ${photos.length} interior photos for ${houseId}, room: ${room}`);
       }
 
       return {

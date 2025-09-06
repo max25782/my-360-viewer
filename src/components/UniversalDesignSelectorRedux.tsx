@@ -27,25 +27,25 @@ interface UniversalDesignSelectorReduxProps {
 const INTERIOR_TEXTURES = [
   {
     id: 1,
-    name: 'Classic White',
+    name: 'Heritage',
     path: '/assets/skyline/texture/interior/colors1.webp',
     pk: 1
   },
   {
     id: 2,
-    name: 'Warm Gray',
+    name: 'Haven',
     path: '/assets/skyline/texture/interior/colors2.webp',
     pk: 2
   },
   {
     id: 3,
-    name: 'Natural Wood',
+    name: 'Serenity',
     path: '/assets/skyline/texture/interior/colors3.webp',
     pk: 3
   },
   {
     id: 4,
-    name: 'Modern Black',
+    name: 'Luxe',
     path: '/assets/skyline/texture/interior/colors4.webp',
     pk: 4
   }
@@ -99,6 +99,27 @@ export default function UniversalDesignSelectorRedux({
   useEffect(() => {
     dispatch(loadHouseAssets(houseId));
   }, [dispatch, houseId]);
+  
+  // Автоматически применяем текстуру при инициализации компонента
+  const applyTexture = React.useCallback(() => {
+    if (type === 'interior' && isDataReady && selectedPackage) {
+      console.log(`Auto-applying texture ${selectedTexture} for ${houseId}`);
+      const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
+      if (selectedTextureConfig) {
+        dispatch(loadDesignImage({
+          houseId,
+          type,
+          packageData: selectedPackage,
+          room: selectedRoom,
+          pk: selectedTextureConfig.pk
+        }));
+      }
+    }
+  }, [isDataReady, selectedPackage, selectedRoom, type, houseId, dispatch, selectedTexture]);
+  
+  useEffect(() => {
+    applyTexture();
+  }, [applyTexture]);
 
   // Загрузка изображения при изменении выбора
   useEffect(() => {
@@ -225,10 +246,11 @@ export default function UniversalDesignSelectorRedux({
   const goToNextRoom = () => {
     if (interiorRooms.length <= 1) return;
     
-    const currentIndex = rooms.indexOf(selectedRoom);
-    const nextIndex = (currentIndex + 1) % rooms.length;
-    const nextRoom = rooms[nextIndex];
+    const currentIndex = interiorRooms.indexOf(selectedRoom);
+    const nextIndex = (currentIndex + 1) % interiorRooms.length;
+    const nextRoom = interiorRooms[nextIndex];
     
+    console.log(`🔄 goToNextRoom: current=${selectedRoom} (${currentIndex}) -> next=${nextRoom} (${nextIndex}), total=${interiorRooms.length}`);
     handleRoomChange(nextRoom);
   }
   
@@ -236,10 +258,11 @@ export default function UniversalDesignSelectorRedux({
   const goToPrevRoom = () => {
     if (interiorRooms.length <= 1) return;
     
-    const currentIndex = rooms.indexOf(selectedRoom);
-    const prevIndex = (currentIndex - 1 + rooms.length) % rooms.length;
-    const prevRoom = rooms[prevIndex];
+    const currentIndex = interiorRooms.indexOf(selectedRoom);
+    const prevIndex = (currentIndex - 1 + interiorRooms.length) % interiorRooms.length;
+    const prevRoom = interiorRooms[prevIndex];
     
+    console.log(`🔄 goToPrevRoom: current=${selectedRoom} (${currentIndex}) -> prev=${prevRoom} (${prevIndex}), total=${interiorRooms.length}`);
     handleRoomChange(prevRoom);
   }
 
@@ -260,20 +283,11 @@ export default function UniversalDesignSelectorRedux({
     const currentIndex = Number(currentPhotoIndex);
     const photosLength = currentPhotos.length;
     
-    console.log(`goToNextPhoto DEBUG: currentPhotos=${JSON.stringify(currentPhotos)}, length=${photosLength}, currentIndex=${currentIndex}, type=${typeof currentPhotoIndex}`);
+    // Используем модульную арифметику для циклического перехода
+    const nextIndex = (currentIndex + 1) % photosLength;
     
-    // Принудительно проверяем, что мы на последнем фото
-    if (currentIndex >= photosLength - 1) {
-      // Если мы на последнем фото, возвращаемся к первому (индекс 0)
-      console.log(`goToNextPhoto: Достигнут конец (${currentIndex}), возвращаемся к началу (0), total=${photosLength}`);
-      // Напрямую устанавливаем индекс через dispatch для гарантии обновления
-      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: 0 }));
-    } else {
-      // Иначе переходим к следующему фото
-      const nextIndex = currentIndex + 1;
-      console.log(`goToNextPhoto: current=${currentIndex}, next=${nextIndex}, total=${photosLength}`);
-      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: nextIndex }));
-    }
+    console.log(`goToNextPhoto: current=${currentIndex}, next=${nextIndex}, total=${photosLength}`);
+    dispatch(setCurrentPhotoIndex({ houseId, photoIndex: nextIndex }));
   };
   
   // Функция для перехода к предыдущему фото с цикличностью
@@ -287,21 +301,12 @@ export default function UniversalDesignSelectorRedux({
     const currentIndex = Number(currentPhotoIndex);
     const photosLength = currentPhotos.length;
     
-    console.log(`goToPrevPhoto DEBUG: currentPhotos=${JSON.stringify(currentPhotos)}, length=${photosLength}, currentIndex=${currentIndex}, type=${typeof currentPhotoIndex}`);
+    // Используем модульную арифметику для циклического перехода
+    // +photosLength нужен для предотвращения отрицательного индекса
+    const prevIndex = (currentIndex - 1 + photosLength) % photosLength;
     
-    // Принудительно проверяем, что мы на первом фото
-    if (currentIndex <= 0) {
-      // Если мы на первом фото, переходим к последнему
-      const lastIndex = photosLength - 1;
-      console.log(`goToPrevPhoto: Достигнуто начало (${currentIndex}), переходим к концу (${lastIndex}), total=${photosLength}`);
-      // Напрямую устанавливаем индекс через dispatch для гарантии обновления
-      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: lastIndex }));
-    } else {
-      // Иначе переходим к предыдущему фото
-      const prevIndex = currentIndex - 1;
-      console.log(`goToPrevPhoto: current=${currentIndex}, prev=${prevIndex}, total=${photosLength}`);
-      dispatch(setCurrentPhotoIndex({ houseId, photoIndex: prevIndex }));
-    }
+    console.log(`goToPrevPhoto: current=${currentIndex}, prev=${prevIndex}, total=${photosLength}`);
+    dispatch(setCurrentPhotoIndex({ houseId, photoIndex: prevIndex }));
   };
 
   const renderRoomNavigation = () => {
@@ -362,67 +367,42 @@ export default function UniversalDesignSelectorRedux({
         {type === 'exterior' ? 'Exterior Options' : 'Interior Finishes'}
       </h3>
 
-      {/* Texture Selection for Interior */}
-
+      {/* Texture Selection for Interior - функциональность сохранена, UI отключен */}
 
       {/* Main Image Display - Lazy Loading Optimized */}
       <div className="rounded-lg overflow-hidden shadow-lg">
         <div
-          className={`aspect-video relative overflow-hidden ${isImageLoading
-              ? ' bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200'
-              : 'bg-gray-100'
-            }`}
+          className="aspect-video relative overflow-hidden bg-gray-100"
           style={{
-            minHeight: '360px', // Prevent CLS
-            backgroundSize: isImageLoading ? '200% 100%' : 'cover',
-            animation: isImageLoading ? 'shimmer 1.5s infinite' : 'none'
+            minHeight: '360px' // Prevent CLS
           }}
         >
-          {/* Loading Skeleton */}
-          {isImageLoading && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="flex flex-col items-center space-y-4">
-                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
-                <div className="text-gray-500 text-sm font-medium">
-                  Loading {type === 'exterior' ? 'exterior' : 'interior'} view...
-                </div>
-              </div>
-            </div>
-          )}
           {currentImage && (
-            <img
-              src={getImageUrl(currentImage)}
-              alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
-              loading="lazy"
-              decoding="async"
-              className={`
-                absolute inset-0 w-full h-full object-cover
-                transition-all  ease-in-out 
-                ${isImageLoading
-                  ? 'opacity-0 scale-105 blur-sm'
-                  : 'opacity-100 scale-100 blur-0'
-                }
-            
-              `}
-              style={{
-                transition: 'opacity 0.7s ease-in-out, filter 0.7s ease-in-out'
-              }}
-              onError={(e) => {
-                // Обработка ошибки загрузки изображения
-                console.error(`Failed to load image: ${currentImage}`);
-                if (e.currentTarget && e.currentTarget.style) {
-                  e.currentTarget.style.display = 'none';
-                  // Показываем запасной вариант
-                  const parent = e.currentTarget.parentElement;
-                  if (parent) {
-                    const fallbackDiv = document.createElement('div');
-                    fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
-                    fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
-                    parent.appendChild(fallbackDiv);
+            <>
+              <img
+                src={getImageUrl(currentImage)}
+                alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover"
+                onError={(e) => {
+                  // Обработка ошибки загрузки изображения
+                  console.error(`Failed to load image: ${currentImage}`);
+                  if (e.currentTarget && e.currentTarget.style) {
+                    e.currentTarget.style.display = 'none';
+                    // Показываем запасной вариант
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                      const fallbackDiv = document.createElement('div');
+                      fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
+                      fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
+                      parent.appendChild(fallbackDiv);
+                    }
                   }
-                }
-              }}
-            />
+                }}
+              />
+              
+            </>
           )}
           {type === 'interior' && (
             <div className="flex flex-col items-center space-y-4">
@@ -433,7 +413,7 @@ export default function UniversalDesignSelectorRedux({
             </div>
           )}
           {/* Room Navigation Arrows */}
-          {type === 'interior' && rooms.length > 1 && (
+          {type === 'interior' && interiorRooms.length > 1 && (
             <>
               {/* Left Arrow */}
               <button
@@ -476,58 +456,7 @@ export default function UniversalDesignSelectorRedux({
             </>
           )}
 
-          {/* Photo Navigation Controls */}
-          {type === 'interior' && currentPhotos.length > 1 && (
-            <>
-              {/* Left Arrow for Photos */}
-              <button
-                onClick={goToPrevPhoto}
-                className="absolute left-2 bottom-4 bg-white/50 hover:bg-white/70 rounded-full p-1 shadow-md transition-all z-10"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-800"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              
-              {/* Photo Navigation Dots */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
-                {Array.isArray(currentPhotos) && currentPhotos.map((_: string, index: number) => (
-                  <button
-                    key={index}
-                    onClick={() => handlePhotoIndexChange(index)}
-                    className={`transition-all ${Number(currentPhotoIndex) === index
-                        ? 'w-3 h-3 bg-white rounded-full shadow-lg'
-                        : 'w-3 h-3 bg-white bg-opacity-50 rounded-full hover:bg-opacity-80'
-                      }`}
-                    title={index === 0 ? 'Основной цвет' : `Вариант ${index}`}
-                  >
-                  </button>
-                ))}
-              </div>
-              
-              {/* Right Arrow for Photos */}
-              <button
-                onClick={goToNextPhoto}
-                className="absolute right-2 bottom-4 bg-white/50 hover:bg-white/70 rounded-full p-1 shadow-md transition-all z-10"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-800"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </>
-          )}
+       
         </div>
       </div>
 
