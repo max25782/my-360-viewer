@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { House } from '../hooks/useHouses';
 import Button from './Button';
+import { PREMIUM_HOUSE_DATA } from '@/utils/premiumHouseData';
 
 interface HeroSectionProps {
   house: House;
@@ -88,8 +89,28 @@ export default function HeroSection({ house }: HeroSectionProps) {
       .find(key => key.toLowerCase() === 'living space');
     
     livingSpace = livingSpaceKey ? house.comparison.features[livingSpaceKey]?.good || "N/A" : "N/A";
+  } else if (house.category === 'premium') {
+    // Используем данные из централизованного источника данных
+    // Это обеспечит консистентность между сервером и клиентом
+    const houseIdLower = house.id.replace('premium-', '').toLowerCase();
+    
+    // Получаем данные из общего словаря
+    const houseData = PREMIUM_HOUSE_DATA[houseIdLower];
+    
+    if (houseData) {
+      bedroomCount = houseData.bedrooms;
+      bathroomCount = houseData.bathrooms;
+      livingSpace = houseData.livingSpace;
+      console.log(`🏠 HeroSection Premium: Using data for ${houseIdLower}:`, houseData);
+    } else {
+      // Значения по умолчанию для неизвестных домов
+      bedroomCount = 4;
+      bathroomCount = 3;
+      livingSpace = "2,500";
+      console.log(`🏠 HeroSection Premium: Using default values for unknown house ${houseIdLower}`);
+    }
   } else {
-    // Для не-Neo домов используем стандартный метод
+    // Для стандартных домов используем стандартный метод
     bedroomCount = house.availableRooms?.filter(room => room === 'bedroom' || room === 'bedroom2').length || 0;
     bathroomCount = house.availableRooms?.filter(room => room === 'bathroom' || room === 'bathroom2').length || 0;
     livingSpace = house.comparison?.features?.["Living Space"]?.good || "N/A";
@@ -129,20 +150,20 @@ export default function HeroSection({ house }: HeroSectionProps) {
                 
                 <div className="grid grid-cols-3 gap-6 mb-8">
                   <div className="text-center bg-slate-400 bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-slate-900">{bedroomCount}</span>
+                    <span className="block text-3xl font-bold text-slate-900" suppressHydrationWarning>{bedroomCount}</span>
                     <span className="block text-sm text-gray-200">Rooms</span>
                   </div>
-                  <div className="text-center bg-slate-400 bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-slate-900">{bathroomCount}</span>
+                  <div className="text-center bg-slate-400 bg-opacity-20  p-4 rounded-lg">
+                    <span className="block text-3xl font-bold text-slate-900" suppressHydrationWarning>{bathroomCount}</span>
                     <span className="block text-sm text-gray-200">Bathrooms</span>
                   </div>
-                  <div className="text-center bg-slate-400 bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
-                    <span className="block text-3xl font-bold text-slate-900">{livingSpace}</span>
+                  <div className="text-center bg-slate-400   p-4 rounded-lg">
+                    <span className="block text-3xl font-bold text-slate-900" suppressHydrationWarning>{livingSpace}</span>
                     <span className="block text-sm text-gray-200">Living Space</span>
                   </div>
                 </div>
                 <div className=" mb-8">
-                  <div className="text-center bg-gray bg-opacity-20 backdrop-blur-sm p-4 rounded-lg">
+                  <div className="text-center bg-gray bg-opacity-20  p-4 rounded-lg">
                     <span className="block text-1xl font-bold text-slate-900">{description}</span>
                   </div>
                 </div>

@@ -7,10 +7,11 @@ import Breadcrumb from '@/components/Breadcrumb';
 import HeroSection from '@/components/HeroSection';
 import { House } from '../../../hooks/useHouses';
 import PremiumExteriorCarousel from '@/components/Premium/PremiumExteriorCarousel';
+// Импортируем функцию для работы с features премиум домов
+import { getPremiumHouseFeatures } from '@/utils/premiumHouseData';
 import PremiumInteriorCarousel from '@/components/Premium/PremiumInteriorCarousel';
 import PremiumFeatures from '@/components/Premium/PremiumFeatures';
 import Premium360Tour from '@/components/Premium/Premium360Tour';
-import PremiumCallToAction from '@/components/Premium/PremiumCallToAction';
 import Footer from '@/components/Footer';
 
 export const dynamic = 'force-dynamic';
@@ -65,10 +66,10 @@ async function convertPremiumToLegacyHouse(premiumHouse: PremiumHouse): Promise<
       availableFiles: {}
     },
     category: 'premium',
-    // Проверяем наличие comparison и features перед передачей
-    comparison: premiumHouse.comparison ? {
-      features: premiumHouse.comparison.features || {}
-    } : undefined
+    // Используем динамические данные из централизованного источника
+    comparison: {
+      features: getPremiumHouseFeatures(premiumHouse.id)
+    }
   };
 }
 

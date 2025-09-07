@@ -13,6 +13,10 @@ interface Premium360TourProps {
 export default function Premium360Tour({ houseName, houseSlug, description }: Premium360TourProps) {
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Преобразуем houseSlug для правильного регистра и URL
+  const cleanHouseSlug = houseSlug.replace('premium-', '');
+  const capitalizedHouseSlug = cleanHouseSlug.charAt(0).toUpperCase() + cleanHouseSlug.slice(1).toLowerCase();
 
   useEffect(() => {
     // Проверяем наличие изображений для превью
@@ -21,8 +25,11 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
         console.log(`Checking preview images for premium house: ${houseSlug}`);
         
         // Проверяем наличие hero.jpg в директории 360
-        const jpgPath = `/assets/premium/${houseSlug}/360/hero.jpg`;
-        console.log(`Checking path: ${jpgPath}`);
+        // Используем преобразованные переменные из компонента
+        console.log(`🖼️ PREMIUM360TOUR: houseSlug="${houseSlug}" → cleanHouseSlug="${cleanHouseSlug}" → capitalizedHouseSlug="${capitalizedHouseSlug}"`);
+        
+        const jpgPath = `/assets/premium/${capitalizedHouseSlug}/360/hero.jpg`;
+        console.log(`🖼️ PREMIUM360TOUR: Checking JPG path: ${jpgPath}`);
         const jpgResponse = await fetch(jpgPath, { method: 'HEAD' });
         
         if (jpgResponse.ok) {
@@ -33,8 +40,8 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
         }
         
         // Если JPG не найден, проверяем PNG
-        const pngPath = `/assets/premium/${houseSlug}/360/hero.png`;
-        console.log(`Checking path: ${pngPath}`);
+        const pngPath = `/assets/premium/${capitalizedHouseSlug}/360/hero.png`;
+        console.log(`🖼️ PREMIUM360TOUR: Checking PNG path: ${pngPath}`);
         const pngResponse = await fetch(pngPath, { method: 'HEAD' });
         
         if (pngResponse.ok) {
@@ -53,8 +60,8 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
             
             if (house && house.tour360 && house.tour360.rooms && house.tour360.rooms.length > 0) {
               const firstRoom = house.tour360.rooms[0];
-              const roomThumbnailPath = `/assets/premium/${houseSlug}/360/${firstRoom}/thumbnail.jpg`;
-              console.log(`Checking room thumbnail: ${roomThumbnailPath}`);
+              const roomThumbnailPath = `/assets/premium/${capitalizedHouseSlug}/360/${firstRoom}/thumbnail.jpg`;
+              console.log(`🖼️ PREMIUM360TOUR: Checking room thumbnail: ${roomThumbnailPath}`);
               
               const roomResponse = await fetch(roomThumbnailPath, { method: 'HEAD' });
               if (roomResponse.ok) {
@@ -96,7 +103,7 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
         {/* Превью 360 тура */}
         {!isLoading && previewSrc && (
           <a 
-            href={`/premium/${houseSlug}/tour`}
+            href={`/premium/${cleanHouseSlug}/tour`}
             className="block relative w-full max-w-7xl mx-auto h-80 mb-8 rounded-lg overflow-hidden shadow-xl cursor-pointer"
             style={{
               minHeight: '360px', // Предотвращает CLS
@@ -106,7 +113,7 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
               backgroundRepeat: 'no-repeat'
             }}
           >
-            {/* Затемнение для лучшей видимости кнопки */}
+            {/* Полупрозрачный слой для лучшей видимости кнопки */}
             <div className="absolute inset-0 bg-opacity-30"></div>
             
             {/* Кнопка воспроизведения */}
