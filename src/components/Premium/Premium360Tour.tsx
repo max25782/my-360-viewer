@@ -18,27 +18,59 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
     // Проверяем наличие изображений для превью
     const checkPreviewImage = async () => {
       try {
-        // Сначала проверяем JPG
-        const jpgPath = getClientPremiumAssetPath('360-preview', houseSlug, { format: 'jpg' });
+        console.log(`Checking preview images for premium house: ${houseSlug}`);
+        
+        // Проверяем наличие hero.jpg в директории 360
+        const jpgPath = `/assets/premium/${houseSlug}/360/hero.jpg`;
+        console.log(`Checking path: ${jpgPath}`);
         const jpgResponse = await fetch(jpgPath, { method: 'HEAD' });
         
         if (jpgResponse.ok) {
+          console.log(`Found hero.jpg at ${jpgPath}`);
           setPreviewSrc(jpgPath);
           setIsLoading(false);
           return;
         }
         
         // Если JPG не найден, проверяем PNG
-        const pngPath = getClientPremiumAssetPath('360-preview', houseSlug, { format: 'png' });
+        const pngPath = `/assets/premium/${houseSlug}/360/hero.png`;
+        console.log(`Checking path: ${pngPath}`);
         const pngResponse = await fetch(pngPath, { method: 'HEAD' });
         
         if (pngResponse.ok) {
+          console.log(`Found hero.png at ${pngPath}`);
           setPreviewSrc(pngPath);
           setIsLoading(false);
           return;
         }
         
+        // Если не нашли hero, проверяем первую комнату
+        try {
+          const response = await fetch('/data/premium-assets.json');
+          if (response.ok) {
+            const data = await response.json();
+            const house = data.premiumHouses[houseSlug];
+            
+            if (house && house.tour360 && house.tour360.rooms && house.tour360.rooms.length > 0) {
+              const firstRoom = house.tour360.rooms[0];
+              const roomThumbnailPath = `/assets/premium/${houseSlug}/360/${firstRoom}/thumbnail.jpg`;
+              console.log(`Checking room thumbnail: ${roomThumbnailPath}`);
+              
+              const roomResponse = await fetch(roomThumbnailPath, { method: 'HEAD' });
+              if (roomResponse.ok) {
+                console.log(`Found room thumbnail at ${roomThumbnailPath}`);
+                setPreviewSrc(roomThumbnailPath);
+                setIsLoading(false);
+                return;
+              }
+            }
+          }
+        } catch (roomError) {
+          console.error('Error checking room thumbnails:', roomError);
+        }
+        
         // Если ни одно изображение не найдено
+        console.log(`No preview images found for ${houseSlug}`);
         setPreviewSrc(null);
         setIsLoading(false);
       } catch (error) {
@@ -63,23 +95,55 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
         
         {/* Превью 360 тура */}
         {!isLoading && previewSrc && (
-          <div className="relative w-full max-w-7xl  mx-auto h-80 mb-8 rounded-lg overflow-hidden">
-            <Image
-              src={previewSrc}
-              alt={`${houseName} 360° Tour Preview`}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-              priority={false}
-            />
-            <div className="absolute inset-0  bg-opacity-30 flex items-center justify-center">
-              <div className="bg-white bg-opacity-80 rounded-full p-6">
+          <a 
+            href={`/premium/${houseSlug}/tour`}
+            className="block relative w-full max-w-7xl mx-auto h-80 mb-8 rounded-lg overflow-hidden shadow-xl cursor-pointer"
+            style={{
+              minHeight: '360px', // Предотвращает CLS
+              backgroundImage: `url('${previewSrc}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          >
+            {/* Затемнение для лучшей видимости кнопки */}
+            <div className="absolute inset-0 bg-opacity-30"></div>
+            
+            {/* Кнопка воспроизведения */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="bg-white bg-opacity-80 rounded-full p-6 shadow-lg transform transition-transform hover:scale-110">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-700" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" />
                 </svg>
               </div>
             </div>
-          
+            
+            {/* Запасной вариант с Image компонентом, если стиль фона не работает */}
+            <div className="hidden">
+              <Image
+                src={previewSrc}
+                alt={`${houseName} 360° Tour Preview`}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+                priority={false}
+              />
+            </div>
+          </a>
+        )}
+        
+        {/* Показываем плейсхолдер, если изображение не найдено */}
+        {!isLoading && !previewSrc && (
+          <div className="relative w-full max-w-7xl mx-auto h-80 mb-8 rounded-lg overflow-hidden bg-slate-700">
+            <div className="absolute inset-0 flex items-center justify-center flex-col">
+              <div className="bg-slate-600 rounded-full p-6 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 22V12h6v10" />
+                </svg>
+              </div>
+              <p className="text-slate-400 text-lg">360° тур скоро будет доступен</p>
+            </div>
           </div>
         )}
         
@@ -93,28 +157,7 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
           Start 360° Virtual Tour
         </a>
         
-        {/* Additional features */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-          <div className="flex items-center justify-center text-gray-200">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-            360° View
-          </div>
-          <div className="flex items-center justify-center text-gray-200">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-            All Rooms
-          </div>
-          <div className="flex items-center justify-center text-gray-200">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-            </svg>
-            Mobile Friendly
-          </div>
-        </div>
+       
       </div>
     </section>
   );
