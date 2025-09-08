@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import ZoomableImageModal from '../ZoomableImageModal';
 
 interface PremiumFeaturesProps {
   features: string[];
@@ -57,13 +58,12 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
               {availableImages.map((plan, index) => (
                 <div key={plan} className="bg-slate-800 p-2 rounded-lg overflow-hidden">
                   <div className="relative w-full" style={{ paddingBottom: '75%' }}>
-                    <Image 
+                    <ZoomableImageModal 
                       src={`/assets/premium/${houseId}/comparison/${plan}.jpg`} 
                       alt={`${houseName} ${plan.replace(/(\d+)/, ' Plan $1')}`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      style={{ objectFit: 'cover' }}
-                      className="rounded-md"
+                      width={800}
+                      height={600}
+                      className="absolute inset-0 w-full h-full object-cover rounded-md"
                     />
                   </div>
                   <p className="text-center text-gray-300 mt-2 font-medium">
