@@ -145,7 +145,7 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 22V12h6v10" />
                 </svg>
               </div>
-              <p className="text-slate-400 text-lg">360° тур скоро будет доступен</p>
+              <p className="text-slate-400 text-lg">360° will be available soon</p>
             </div>
           </div>
         )}
