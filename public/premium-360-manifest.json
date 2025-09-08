@@ -1,0 +1,1639 @@
+{
+  "houses": {
+    "Aspen": {
+      "panoramas": {
+        "bathroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/bathroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/bathroom/thumbnail.jpg"
+        },
+        "bedroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/bedroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/bedroom/thumbnail.jpg"
+        },
+        "great room": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/great room/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/great room/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/great room/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/great room/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/great room/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/great room/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/great room/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/great room/thumbnail.jpg"
+        },
+        "kitchen": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/kitchen/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/kitchen/thumbnail.jpg"
+        },
+        "living": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/living/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/living/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "d_backup.jpg",
+              "path": "/assets/premium/Aspen/360/living/d_backup.jpg",
+              "type": "d_backup"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/living/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/living/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/living/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/living/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/living/u.jpg",
+              "type": "u"
+            },
+            {
+              "filename": "u_backup.jpg",
+              "path": "/assets/premium/Aspen/360/living/u_backup.jpg",
+              "type": "u_backup"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/living/thumbnail.jpg"
+        },
+        "shower area": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/shower area/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/shower area/thumbnail.jpg"
+        },
+        "third flor hallway": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Aspen/360/third flor hallway/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Aspen/360/third flor hallway/thumbnail.jpg"
+        }
+      },
+      "heroImage": "/assets/premium/Aspen/360/hero.png"
+    },
+    "Canyon": {
+      "panoramas": {
+        "bathroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/bathroom/thumbnail.jpg"
+        },
+        "bathroom2": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/bathroom2/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/bathroom2/thumbnail.jpg"
+        },
+        "bedroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/bedroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/bedroom/thumbnail.jpg"
+        },
+        "dining": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/dining/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/dining/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/dining/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/dining/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/dining/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/dining/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/dining/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/dining/thumbnail.jpg"
+        },
+        "entry": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/entry/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/entry/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/entry/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/entry/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/entry/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/entry/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/entry/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/entry/thumbnail.jpg"
+        },
+        "kitchen": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/kitchen/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/kitchen/thumbnail.jpg"
+        },
+        "living": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Canyon/360/living/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Canyon/360/living/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Canyon/360/living/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Canyon/360/living/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Canyon/360/living/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Canyon/360/living/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Canyon/360/living/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Canyon/360/living/thumbnail.jpg"
+        }
+      },
+      "heroImage": "/assets/premium/Canyon/360/hero.png"
+    },
+    "Everest": {
+      "panoramas": {
+        "bathroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Everest/360/bathroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Everest/360/bathroom/thumbnail.jpg"
+        },
+        "bedroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Everest/360/bedroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Everest/360/bedroom/thumbnail.jpg"
+        },
+        "dining": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Everest/360/dining/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Everest/360/dining/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Everest/360/dining/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Everest/360/dining/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Everest/360/dining/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Everest/360/dining/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Everest/360/dining/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Everest/360/dining/thumbnail.jpg"
+        },
+        "entry": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Everest/360/entry/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Everest/360/entry/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Everest/360/entry/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Everest/360/entry/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Everest/360/entry/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Everest/360/entry/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Everest/360/entry/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Everest/360/entry/thumbnail.jpg"
+        },
+        "kitchen": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Everest/360/kitchen/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Everest/360/kitchen/thumbnail.jpg"
+        },
+        "living": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Everest/360/living/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Everest/360/living/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Everest/360/living/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Everest/360/living/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Everest/360/living/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Everest/360/living/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Everest/360/living/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Everest/360/living/thumbnail.jpg"
+        }
+      },
+      "heroImage": "/assets/premium/Everest/360/hero.png"
+    },
+    "Redwood": {
+      "panoramas": {
+        "bathroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/bathroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/bathroom/thumbnail.jpg"
+        },
+        "bedroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/bedroom/thumbnail.jpg"
+        },
+        "bedroom2": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom2/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/bedroom2/thumbnail.jpg"
+        },
+        "bedroom3": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/bedroom3/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/bedroom3/thumbnail.jpg"
+        },
+        "dining": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/dining/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/dining/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/dining/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/dining/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/dining/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/dining/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/dining/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/dining/thumbnail.jpg"
+        },
+        "entry": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/entry/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/entry/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/entry/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/entry/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/entry/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/entry/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/entry/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/entry/thumbnail.jpg"
+        },
+        "exterior": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/exterior/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/exterior/thumbnail.jpg"
+        },
+        "kitchen": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/kitchen/thumbnail.jpg"
+        },
+        "kitchen2": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/kitchen2/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/kitchen2/thumbnail.jpg"
+        },
+        "living": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/living/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/living/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/living/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/living/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/living/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/living/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/living/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/living/thumbnail.jpg"
+        },
+        "living2": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Redwood/360/living2/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Redwood/360/living2/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Redwood/360/living2/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Redwood/360/living2/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Redwood/360/living2/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Redwood/360/living2/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Redwood/360/living2/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Redwood/360/living2/thumbnail.jpg"
+        }
+      },
+      "heroImage": "/assets/premium/Redwood/360/hero.jpg"
+    },
+    "Willow": {
+      "panoramas": {
+        "bathroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/bathroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/bathroom/thumbnail.jpg"
+        },
+        "bedroom": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/bedroom/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/bedroom/thumbnail.jpg"
+        },
+        "bedroom2": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/bedroom2/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/bedroom2/thumbnail.jpg"
+        },
+        "entry": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/entry/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/entry/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/entry/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/entry/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/entry/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/entry/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/entry/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/entry/thumbnail.jpg"
+        },
+        "hallway": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/hallway/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/hallway/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/hallway/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/hallway/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/hallway/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/hallway/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/hallway/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/hallway/thumbnail.jpg"
+        },
+        "kitchen": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/kitchen/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/kitchen/thumbnail.jpg"
+        },
+        "living": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/living/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/living/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/living/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/living/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/living/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/living/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/living/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/living/thumbnail.jpg"
+        },
+        "living2": {
+          "files": [
+            {
+              "filename": "b.jpg",
+              "path": "/assets/premium/Willow/360/living2/b.jpg",
+              "type": "b"
+            },
+            {
+              "filename": "d.jpg",
+              "path": "/assets/premium/Willow/360/living2/d.jpg",
+              "type": "d"
+            },
+            {
+              "filename": "f.jpg",
+              "path": "/assets/premium/Willow/360/living2/f.jpg",
+              "type": "f"
+            },
+            {
+              "filename": "l.jpg",
+              "path": "/assets/premium/Willow/360/living2/l.jpg",
+              "type": "l"
+            },
+            {
+              "filename": "r.jpg",
+              "path": "/assets/premium/Willow/360/living2/r.jpg",
+              "type": "r"
+            },
+            {
+              "filename": "thumbnail.jpg",
+              "path": "/assets/premium/Willow/360/living2/thumbnail.jpg",
+              "type": "thumbnail"
+            },
+            {
+              "filename": "u.jpg",
+              "path": "/assets/premium/Willow/360/living2/u.jpg",
+              "type": "u"
+            }
+          ],
+          "hasThumbnail": true,
+          "thumbnailPath": "/assets/premium/Willow/360/living2/thumbnail.jpg"
+        }
+      },
+      "heroImage": "/assets/premium/Willow/360/hero.jpg"
+    }
+  },
+  "generatedAt": "2025-09-08T17:07:27.461Z"
+}

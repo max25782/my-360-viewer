@@ -19,75 +19,57 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
   const capitalizedHouseSlug = cleanHouseSlug.charAt(0).toUpperCase() + cleanHouseSlug.slice(1).toLowerCase();
 
   useEffect(() => {
-    // Проверяем наличие изображений для превью
-    const checkPreviewImage = async () => {
+    // Проверяем оба формата изображений
+    const checkAndSetPreviewImage = async () => {
+      console.log(`Setting preview image for premium house: ${houseSlug}`);
+      
+      // Используем преобразованные переменные из компонента
+      console.log(`🖼️ PREMIUM360TOUR: houseSlug="${houseSlug}" → cleanHouseSlug="${cleanHouseSlug}" → capitalizedHouseSlug="${capitalizedHouseSlug}"`);
+      
+      // Сначала пробуем PNG, затем JPG
+      const pngPath = `/assets/premium/${capitalizedHouseSlug}/360/hero.png`;
+      const jpgPath = `/assets/premium/${capitalizedHouseSlug}/360/hero.jpg`;
+      
+      console.log(`🖼️ PREMIUM360TOUR: Trying PNG path first: ${pngPath}, then JPG: ${jpgPath}`);
+      
       try {
-        console.log(`Checking preview images for premium house: ${houseSlug}`);
+        // Создаем объект Image для проверки загрузки PNG
+        const img = new window.Image();
+        img.src = pngPath;
         
-        // Проверяем наличие hero.jpg в директории 360
-        // Используем преобразованные переменные из компонента
-        console.log(`🖼️ PREMIUM360TOUR: houseSlug="${houseSlug}" → cleanHouseSlug="${cleanHouseSlug}" → capitalizedHouseSlug="${capitalizedHouseSlug}"`);
-        
-        const jpgPath = `/assets/premium/${capitalizedHouseSlug}/360/hero.jpg`;
-        console.log(`🖼️ PREMIUM360TOUR: Checking JPG path: ${jpgPath}`);
-        const jpgResponse = await fetch(jpgPath, { method: 'HEAD' });
-        
-        if (jpgResponse.ok) {
-          console.log(`Found hero.jpg at ${jpgPath}`);
-          setPreviewSrc(jpgPath);
-          setIsLoading(false);
-          return;
-        }
-        
-        // Если JPG не найден, проверяем PNG
-        const pngPath = `/assets/premium/${capitalizedHouseSlug}/360/hero.png`;
-        console.log(`🖼️ PREMIUM360TOUR: Checking PNG path: ${pngPath}`);
-        const pngResponse = await fetch(pngPath, { method: 'HEAD' });
-        
-        if (pngResponse.ok) {
-          console.log(`Found hero.png at ${pngPath}`);
+        // Устанавливаем обработчики событий
+        img.onload = () => {
+          console.log(`PNG image loaded successfully: ${pngPath}`);
           setPreviewSrc(pngPath);
           setIsLoading(false);
-          return;
-        }
+        };
         
-        // Если не нашли hero, проверяем первую комнату
-        try {
-          const response = await fetch('/data/premium-assets.json');
-          if (response.ok) {
-            const data = await response.json();
-            const house = data.premiumHouses[houseSlug];
-            
-            if (house && house.tour360 && house.tour360.rooms && house.tour360.rooms.length > 0) {
-              const firstRoom = house.tour360.rooms[0];
-              const roomThumbnailPath = `/assets/premium/${capitalizedHouseSlug}/360/${firstRoom}/thumbnail.jpg`;
-              console.log(`🖼️ PREMIUM360TOUR: Checking room thumbnail: ${roomThumbnailPath}`);
-              
-              const roomResponse = await fetch(roomThumbnailPath, { method: 'HEAD' });
-              if (roomResponse.ok) {
-                console.log(`Found room thumbnail at ${roomThumbnailPath}`);
-                setPreviewSrc(roomThumbnailPath);
-                setIsLoading(false);
-                return;
-              }
-            }
-          }
-        } catch (roomError) {
-          console.error('Error checking room thumbnails:', roomError);
-        }
-        
-        // Если ни одно изображение не найдено
-        console.log(`No preview images found for ${houseSlug}`);
-        setPreviewSrc(null);
-        setIsLoading(false);
+        img.onerror = () => {
+          console.log(`PNG failed to load, trying JPG: ${jpgPath}`);
+          // Пробуем JPG
+          const jpgImg = new window.Image();
+          jpgImg.src = jpgPath;
+          
+          jpgImg.onload = () => {
+            console.log(`JPG image loaded successfully: ${jpgPath}`);
+            setPreviewSrc(jpgPath);
+            setIsLoading(false);
+          };
+          
+          jpgImg.onerror = () => {
+            console.log(`Both PNG and JPG failed to load`);
+            setPreviewSrc(null);
+            setIsLoading(false);
+          };
+        };
       } catch (error) {
-        console.error('Error checking preview image:', error);
+        console.error('Error loading preview images:', error);
         setPreviewSrc(null);
         setIsLoading(false);
       }
     };
     
-    checkPreviewImage();
+    checkAndSetPreviewImage();
   }, [houseSlug]);
 
   return (
@@ -112,6 +94,8 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat'
             }}
+            data-jpg-path={`/assets/premium/${capitalizedHouseSlug}/360/hero.jpg`}
+            data-png-path={`/assets/premium/${capitalizedHouseSlug}/360/hero.png`}
           >
             {/* Полупрозрачный слой для лучшей видимости кнопки */}
             <div className="absolute inset-0 bg-opacity-30"></div>
@@ -134,6 +118,18 @@ export default function Premium360Tour({ houseName, houseSlug, description }: Pr
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
                 priority={false}
+                onError={(e) => {
+                  // Если PNG не загрузился, пробуем JPG
+                  const target = e.target as HTMLImageElement;
+                  const parent = target.parentElement?.parentElement;
+                  if (parent && parent.hasAttribute('data-jpg-path')) {
+                    const jpgPath = parent.getAttribute('data-jpg-path');
+                    if (jpgPath && target.src.endsWith('png')) {
+                      console.log('PNG не загрузился, пробуем JPG:', jpgPath);
+                      target.src = jpgPath;
+                    }
+                  }
+                }}
               />
             </div>
           </a>

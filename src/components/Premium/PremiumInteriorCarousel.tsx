@@ -2,6 +2,24 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 
+// Интерфейс для манифеста ассетов
+interface AssetManifest {
+  houses: {
+    [house: string]: {
+      rooms: {
+        [room: string]: {
+          photos: Array<{
+            filename: string;
+            path: string;
+            type: string;
+          }>;
+        };
+      };
+    };
+  };
+  generatedAt: string;
+}
+
 interface PremiumInteriorCarouselProps {
   houseId: string;
   availableRooms: string[];
@@ -22,123 +40,89 @@ export default function PremiumInteriorCarousel({
   const imageRef = useRef<HTMLImageElement>(null);
   const roomLabelRef = useRef<HTMLSpanElement>(null);
 
-  // Optimized function to check image existence
+  // Функция всегда возвращает true, чтобы избежать проверок существования файлов
   const checkImageExists = useCallback(async (path: string): Promise<boolean> => {
-    try {
-      // Используем GET вместо HEAD с range запросом для получения только заголовков
-      const response = await fetch(path, { 
-        method: 'GET',
-        headers: { 'Range': 'bytes=0-0' },
-        cache: 'force-cache'
-      });
-      return response.ok;
-    } catch (error) {
-      return false;
-    }
+    return true; // Всегда предполагаем, что изображение существует
   }, []);
 
-  // Динамически определяем доступные комнаты и их изображения
+  // Загружаем изображения из манифеста
   useEffect(() => {
-    const loadAllInteriorImages = async () => {
+    const loadImagesFromManifest = async () => {
       setIsLoading(true);
       
       const images: Array<{path: string, room: string}> = [];
       const placeholderPath = '/assets/placeholder.jpg';
       
-      // Проверяем изображения параллельно для ускорения загрузки
-      const checkPromises: Promise<void>[] = [];
-      
-      // Если список комнат предоставлен, используем его
-      if (availableRooms && availableRooms.length > 0) {
-        // Используем предоставленный список комнат
-        for (const room of availableRooms) {
-          for (let pk = 1; pk <= maxPK; pk++) {
-            const checkMainImage = async () => {
-              const formats = ['jpg', 'webp'];
-              for (const format of formats) {
-                const path = `/assets/premium/${houseId}/interior/${room}/pk${pk}.${format}`;
-                try {
-                  const exists = await checkImageExists(path);
-                  if (exists) {
-                    images.push({ path, room });
-                    break; // Если нашли изображение в одном формате, переходим к следующему pk
-                  }
-                } catch (error) {
-                  // Игнорируем ошибки
-                }
-              }
-              
-              // Если изображение не найдено и это первый pk, используем заглушку
-              if (pk === 1 && !images.some(img => img.room === room)) {
-                images.push({ path: placeholderPath, room });
-              }
-            };
-            checkPromises.push(checkMainImage());
+      try {
+        // Загружаем манифест
+        const manifestResponse = await fetch('/premium-interior-manifest.json');
+        if (!manifestResponse.ok) {
+          throw new Error('Не удалось загрузить манифест ассетов');
+        }
+        
+        const manifest: AssetManifest = await manifestResponse.json();
+        console.log(`Загружен манифест ассетов, дата генерации: ${manifest.generatedAt}`);
+        
+        // Получаем данные для текущего дома
+        const capitalizedHouseId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+        const houseData = manifest.houses[capitalizedHouseId];
+        
+        if (!houseData) {
+          console.warn(`Дом ${capitalizedHouseId} не найден в манифесте`);
+          images.push({ path: placeholderPath, room: 'No Room Available' });
+        } else {
+          // Если указан список комнат, используем только их
+          const roomsToUse = availableRooms && availableRooms.length > 0 
+            ? availableRooms 
+            : Object.keys(houseData.rooms);
+          
+          // Для каждой комнаты получаем фотографии
+          for (const room of roomsToUse) {
+            const roomData = houseData.rooms[room];
+            if (!roomData) continue;
+            
+            // Фильтруем только фотографии типа 'photo' (pk*)
+            const photos = roomData.photos.filter(photo => photo.type === 'photo');
+            
+            if (photos.length > 0) {
+              // Добавляем все найденные фотографии для комнаты
+              photos.forEach(photo => {
+                images.push({ path: photo.path, room });
+              });
+            } else {
+              // Если фотографий нет, добавляем плейсхолдер для комнаты
+              images.push({ path: placeholderPath, room });
+            }
           }
         }
-      } else {
-        // Если список комнат не предоставлен, импортируем список из утилиты
-        // Импортируем динамически для избежания проблем с серверным рендерингом
-        const { commonPremiumRooms, getPremiumRoomsForHouse } = await import('../../utils/clientPremiumRooms');
-        
-        // Получаем список комнат для конкретного дома или используем общий список
-        const commonRooms = getPremiumRoomsForHouse(houseId);
-        
-        for (const room of commonRooms) {
-          const checkRoom = async () => {
-            const path = `/assets/premium/${houseId}/interior/${room}/pk1.jpg`;
-            try {
-              const exists = await checkImageExists(path);
-              if (exists) {
-                images.push({ path, room });
-                
-                // Если первое изображение существует, проверяем остальные pk
-                for (let pk = 2; pk <= maxPK; pk++) {
-                  const formats = ['jpg', 'webp'];
-                  for (const format of formats) {
-                    const additionalPath = `/assets/premium/${houseId}/interior/${room}/pk${pk}.${format}`;
-                    try {
-                      const additionalExists = await checkImageExists(additionalPath);
-                      if (additionalExists) {
-                        images.push({ path: additionalPath, room });
-                        break;
-                      }
-                    } catch (error) {
-                      // Игнорируем ошибки
-                    }
-                  }
-                }
-              }
-            } catch (error) {
-              // Игнорируем ошибки
-            }
-          };
-          checkPromises.push(checkRoom());
-        }
+      } catch (error) {
+        console.error('Ошибка при загрузке манифеста:', error);
+        // В случае ошибки добавляем плейсхолдер
+        images.push({ path: placeholderPath, room: 'No Room Available' });
       }
       
-      await Promise.all(checkPromises);
-      
-      // If no images found, add placeholder
+      // Если изображений нет, добавляем плейсхолдер
       if (images.length === 0) {
         images.push({ path: placeholderPath, room: 'No Room Available' });
       }
       
-      // Sort images by room name for logical order
+      // Сортируем изображения по имени комнаты
       images.sort((a, b) => a.room.localeCompare(b.room));
+      
+      console.log(`Загружено ${images.length} изображений интерьера для ${houseId}`);
       
       setAllImages(images);
       setIsLoading(false);
       
-      // Preload next image
+      // Предзагружаем следующее изображение
       if (images.length > 1) {
         const nextImage = new window.Image();
         nextImage.src = images[1].path;
       }
     };
     
-    loadAllInteriorImages();
-  }, [houseId, availableRooms, maxPK, checkImageExists]);
+    loadImagesFromManifest();
+  }, [houseId, availableRooms]);
 
   // Логирование для отладки
   useEffect(() => {
