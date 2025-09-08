@@ -35,19 +35,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="preload" href="fonts/LeagueSpartan-Regular.ttf" as="font" crossOrigin="anonymous" />
-        <link rel="preload" href="fonts/LeagueSpartan-Bold.ttf" as="font" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/LeagueSpartan-Regular.ttf" as="font" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/LeagueSpartan-Bold.ttf" as="font" crossOrigin="anonymous" />
         
         {/* PWA Meta Tags */}
-        <link rel="manifest" href="manifest.json" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="360 Houses" />
-        <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         
         {/* Preload critical data for LCP optimization */}
-        <link rel="preload" href="data/index.json" as="fetch" crossOrigin="anonymous" />
-        <link rel="preload" href="Website.png" as="image" />
+        <link rel="preload" href="/data/index.json" as="fetch" crossOrigin="anonymous" />
+        <link rel="preload" href="/Website.png" as="image" />
 
       </head>
       <body className="antialiased font-sans">

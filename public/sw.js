@@ -96,14 +96,20 @@ async function cacheFirst(request, cacheName) {
     }
     
     const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
+    
+    // Не кэшируем HEAD запросы и частичные ответы (status 206)
+    if (networkResponse.ok && request.method !== 'HEAD' && networkResponse.status !== 206) {
+      try {
+        const cache = await caches.open(cacheName);
+        await cache.put(request, networkResponse.clone());
+      } catch (cacheError) {
+        console.warn(`⚠️ Failed to cache response for ${request.url}:`, cacheError);
+      }
     }
     
     return networkResponse;
   } catch (error) {
-    console.warn('⚠️ Cache First failed:', error);
+    console.warn(`⚠️ Cache First failed for ${request.url}:`, error);
     // Возвращаем offline fallback если есть
     return new Response('Offline - content not available', { 
       status: 503,
@@ -116,13 +122,20 @@ async function cacheFirst(request, cacheName) {
 async function networkFirst(request, cacheName) {
   try {
     const networkResponse = await fetch(request);
-    if (networkResponse.ok) {
-      const cache = await caches.open(cacheName);
-      cache.put(request, networkResponse.clone());
+    
+    // Не кэшируем HEAD запросы и частичные ответы (status 206)
+    if (networkResponse.ok && request.method !== 'HEAD' && networkResponse.status !== 206) {
+      try {
+        const cache = await caches.open(cacheName);
+        await cache.put(request, networkResponse.clone());
+      } catch (cacheError) {
+        console.warn(`⚠️ Failed to cache response for ${request.url}:`, cacheError);
+      }
     }
+    
     return networkResponse;
   } catch (error) {
-    console.warn('⚠️ Network failed, trying cache:', error);
+    console.warn(`⚠️ Network failed for ${request.url}, trying cache:`, error);
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
       return cachedResponse;
@@ -146,12 +159,17 @@ async function staleWhileRevalidate(request, cacheName) {
   
   // Запускаем обновление в фоне
   const fetchPromise = fetch(request).then(networkResponse => {
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
+    // Не кэшируем HEAD запросы и частичные ответы (status 206)
+    if (networkResponse.ok && request.method !== 'HEAD' && networkResponse.status !== 206) {
+      try {
+        cache.put(request, networkResponse.clone());
+      } catch (cacheError) {
+        console.warn(`⚠️ Failed to cache response for ${request.url}:`, cacheError);
+      }
     }
     return networkResponse;
   }).catch(error => {
-    console.warn('⚠️ Background fetch failed:', error);
+    console.warn(`⚠️ Background fetch failed for ${request.url}:`, error);
     return cachedResponse;
   });
   
