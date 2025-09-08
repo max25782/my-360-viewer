@@ -578,7 +578,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           mousewheelCtrlKey: false,
           keyboardActions: {},
         loadingImg: currentScene.thumbnail,
-        touchmoveTwoFingers: true,
+        touchmoveTwoFingers: false, // Позволяет использовать один палец для навигации на сенсорных экранах
           checkStylesheet: false,
           // Отключаем компоненты, вызывающие ошибку NaN
           loadingTxt: false,

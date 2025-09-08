@@ -498,7 +498,7 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
           mousewheelCtrlKey: false,
           keyboardActions: {},
           loadingImg: currentScene.thumbnail,
-          touchmoveTwoFingers: true,
+          touchmoveTwoFingers: false, // Позволяет использовать один палец для навигации на сенсорных экранах
           checkStylesheet: false,
         });
 

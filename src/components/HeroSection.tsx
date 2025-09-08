@@ -169,19 +169,28 @@ export default function HeroSection({ house }: HeroSectionProps) {
                 </div>
 
                 <div className="flex space-x-4">
-                  <Button 
-                    href={house.category === 'neo' ? `/neo/${house.id}/tour` : `/houses/${house.id}/tour`}
-                    variant="secondary"
-                    size="lg"
-                  >
-                    Virtual Tour
-                  </Button>
-                  <Button 
-                    variant="slate"
-                    size="lg"
+                  {house.category !== 'premium' ? (
+                    <a 
+                      href={house.category === 'neo' ? `/neo/${house.id}/tour` : `/houses/${house.id}/tour`}
+                      className="inline-flex items-center justify-center font-semibold rounded-lg bg-gray-600 text-white px-8 py-4 text-lg"
+                    >
+                      Virtual Tour
+                    </a>
+                  ) : (
+                    <a 
+                      href={`/assets/premium/${house.id.replace('premium-', '')}/hero.pdf`}
+                      className="inline-flex items-center justify-center font-semibold rounded-lg bg-gray-600 text-white px-8 py-4 text-lg"
+                      download
+                    >
+                      Download Plan
+                    </a>
+                  )}
+                  <a 
+                    href="#"
+                    className="inline-flex items-center justify-center font-semibold rounded-lg bg-slate-400 text-white px-8 py-4 text-lg"
                   >
                     Get a Quote
-                  </Button>
+                  </a>
                 </div>
               </div>
             </div>

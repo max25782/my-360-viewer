@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
+  download?: boolean | string;
 }
 
 export default function Button({ 
@@ -17,7 +18,8 @@ export default function Button({
   href, 
   onClick, 
   className = '',
-  type = 'button'
+  type = 'button',
+  download
 }: ButtonProps) {
   const baseClasses = 'inline-flex items-center justify-center font-semibold rounded-lg';
   
@@ -38,7 +40,7 @@ export default function Button({
   
   if (href) {
     return (
-      <Link href={href} className={allClasses}>
+      <Link href={href} className={allClasses} download={download}>
         {children}
       </Link>
     );
