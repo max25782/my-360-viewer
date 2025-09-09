@@ -128,52 +128,61 @@ export default function UniversalDesignSelectorRedux({
     dispatch(loadHouseAssets(houseId));
   }, [dispatch, houseId]);
   
-  // Автоматически применяем текстуру при инициализации компонента
-  const applyTexture = React.useCallback(() => {
-    if (isDataReady && selectedPackage) {
-      if (type === 'exterior') {
-        console.log(`Auto-applying exterior texture ${selectedTexture} for ${houseId}`);
-        const selectedTextureConfig = EXTERIOR_TEXTURES.find(t => t.id === selectedTexture);
-        if (selectedTextureConfig) {
-          dispatch(loadDesignImage({
-            houseId,
-            type,
-            packageData: selectedPackage,
-            room: '',
-            pk: selectedTextureConfig.pk
-          }));
-        }
-      } else if (type === 'interior') {
-        console.log(`Auto-applying interior texture ${selectedTexture} for ${houseId}`);
-        const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
-        if (selectedTextureConfig) {
-          dispatch(loadDesignImage({
-            houseId,
-            type,
-            packageData: selectedPackage,
-            room: selectedRoom,
-            pk: selectedTextureConfig.pk
-          }));
-        }
+  // Автоматически применяем текстуру для экстерьера при инициализации
+  const applyExteriorTexture = React.useCallback(() => {
+    if (isDataReady && selectedPackage && type === 'exterior') {
+      console.log(`Auto-applying exterior texture ${selectedTexture} for ${houseId}`);
+      const selectedTextureConfig = EXTERIOR_TEXTURES.find(t => t.id === selectedTexture);
+      if (selectedTextureConfig) {
+        dispatch(loadDesignImage({
+          houseId,
+          type,
+          packageData: selectedPackage,
+          room: '',
+          pk: selectedTextureConfig.pk
+        }));
       }
     }
-  }, [isDataReady, selectedPackage, selectedRoom, type, houseId, dispatch, selectedTexture]);
+  }, [isDataReady, selectedPackage, type, houseId, dispatch, selectedTexture]);
   
   useEffect(() => {
-    applyTexture();
-  }, [applyTexture]);
-
-  // Загрузка изображения при изменении выбора
+    applyExteriorTexture();
+  }, [applyExteriorTexture]);
+  
+  // Применяем глобальную текстуру при смене комнаты
   useEffect(() => {
-    if (selectedPackage && isDataReady) {
-      dispatch(loadDesignImage({
-        houseId,
-        type,
-        packageData: selectedPackage,
-        room: selectedRoom
-      }));
+    if (type === 'interior' && selectedPackage && selectedRoom && selectedTexture && isDataReady) {
+      const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
+      if (selectedTextureConfig) {
+        console.log(`🎨 Applying global texture ${selectedTexture} (PK${selectedTextureConfig.pk}) to room: ${selectedRoom}`);
+        dispatch(loadDesignImage({
+          houseId,
+          type,
+          packageData: selectedPackage,
+          room: selectedRoom,
+          pk: selectedTextureConfig.pk
+        }));
+      }
     }
-  }, [dispatch, houseId, type, selectedPackage, selectedRoom, isDataReady]);
+  }, [selectedRoom, selectedTexture, type, houseId, selectedPackage, dispatch, isDataReady]);
+
+  // Эффект для плавного перехода между изображениями
+  useEffect(() => {
+    if (currentImage) {
+      setImageTransitioning(true);
+      setImageLoaded(false);
+      
+      // Создаем новое изображение для предзагрузки
+      const img = new Image();
+      img.onload = () => {
+        setImageLoaded(true);
+        setTimeout(() => {
+          setImageTransitioning(false);
+        }, 100); // Задержка для более плавного перехода
+      };
+      img.src = getImageUrl(currentImage);
+    }
+  }, [currentImage, getImageUrl]);
 
   // Обработчики событий с optimistic updates
   const handlePackageChange = (packageIndex: number) => {
@@ -231,6 +240,10 @@ export default function UniversalDesignSelectorRedux({
 
   // State for current room index
   const [currentRoomIndex, setCurrentRoomIndex] = useState(0);
+  
+  // Состояние для плавного перехода изображений
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageTransitioning, setImageTransitioning] = useState(false);
 
   // Reset room index when interiorRooms changes
   useEffect(() => {
@@ -240,7 +253,7 @@ export default function UniversalDesignSelectorRedux({
   }, [interiorRooms, currentRoomIndex]);
 
   const handleTextureChange = async (textureId: number) => {
-    console.log(`🎨 Texture change: ${type} texture ${textureId} for house ${houseId}`);
+    console.log(`🎨 Global texture change: ${type} texture ${textureId} for house ${houseId}`);
     setSelectedTexture(textureId);
     
     if (type === 'exterior') {
@@ -260,9 +273,12 @@ export default function UniversalDesignSelectorRedux({
     } else if (type === 'interior') {
       const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === textureId);
       if (selectedTextureConfig && selectedPackage) {
-        // Используем текущую комнату из Redux, а не из interiorRooms
+        // Применяем выбранную текстуру к текущей комнате
         const currentRoom = selectedRoom;
+        
+        console.log(`🌈 Applying texture ${textureId} (PK${selectedTextureConfig.pk}) globally. Current room: ${currentRoom}`);
 
+        // Загружаем изображение для текущей комнаты с новой текстурой
         dispatch(loadDesignImage({
           houseId,
           type,
@@ -286,9 +302,12 @@ export default function UniversalDesignSelectorRedux({
     // Обновляем выбранную комнату в Redux
     dispatch(setSelectedRoom({ houseId, room: newRoom }));
 
+    // Применяем текущую глобальную текстуру к новой комнате
     const selectedTextureConfig = INTERIOR_TEXTURES.find(t => t.id === selectedTexture);
 
     if (type === 'interior' && selectedTextureConfig && selectedPackage) {
+      console.log(`🔄 Changing to room: ${newRoom} with global texture ${selectedTexture} (PK${selectedTextureConfig.pk})`);
+      
       dispatch(loadDesignImage({
         houseId,
         type,
@@ -298,18 +317,23 @@ export default function UniversalDesignSelectorRedux({
       }));
     }
     
-    console.log(`Changing room to: ${newRoom}, index: ${newIndex}, texture: ${selectedTexture}, package: ${selectedPackage?.id}`);
+    console.log(`Room changed: ${newRoom} (${newIndex + 1}/${interiorRooms.length}) with texture: ${selectedTexture}`);
   }
   
   // Функция для циклического перехода к следующей комнате
   const goToNextRoom = () => {
     if (interiorRooms.length <= 1) return;
     
-    const currentIndex = interiorRooms.indexOf(selectedRoom);
+    // Находим текущий индекс, используя currentRoomIndex как fallback
+    let currentIndex = interiorRooms.indexOf(selectedRoom);
+    if (currentIndex === -1) {
+      currentIndex = currentRoomIndex;
+    }
+    
     const nextIndex = (currentIndex + 1) % interiorRooms.length;
     const nextRoom = interiorRooms[nextIndex];
     
-    console.log(`🔄 goToNextRoom: current=${selectedRoom} (${currentIndex}) -> next=${nextRoom} (${nextIndex}), total=${interiorRooms.length}`);
+    console.log(`🔄 goToNextRoom: current=${selectedRoom} (${currentIndex}) -> next=${nextRoom} (${nextIndex}), total=${interiorRooms.length}, texture=${selectedTexture}`);
     handleRoomChange(nextRoom);
   }
   
@@ -317,11 +341,16 @@ export default function UniversalDesignSelectorRedux({
   const goToPrevRoom = () => {
     if (interiorRooms.length <= 1) return;
     
-    const currentIndex = interiorRooms.indexOf(selectedRoom);
+    // Находим текущий индекс, используя currentRoomIndex как fallback
+    let currentIndex = interiorRooms.indexOf(selectedRoom);
+    if (currentIndex === -1) {
+      currentIndex = currentRoomIndex;
+    }
+    
     const prevIndex = (currentIndex - 1 + interiorRooms.length) % interiorRooms.length;
     const prevRoom = interiorRooms[prevIndex];
     
-    console.log(`🔄 goToPrevRoom: current=${selectedRoom} (${currentIndex}) -> prev=${prevRoom} (${prevIndex}), total=${interiorRooms.length}`);
+    console.log(`🔄 goToPrevRoom: current=${selectedRoom} (${currentIndex}) -> prev=${prevRoom} (${prevIndex}), total=${interiorRooms.length}, texture=${selectedTexture}`);
     handleRoomChange(prevRoom);
   }
 
@@ -443,7 +472,14 @@ export default function UniversalDesignSelectorRedux({
                 alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
                 loading="lazy"
                 decoding="async"
-                className="absolute inset-0 w-full h-full object-cover"
+                className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${
+                  imageLoaded && !imageTransitioning 
+                    ? 'opacity-100 scale-100' 
+                    : 'opacity-0 scale-98'
+                }`}
+                onLoad={() => {
+                  setImageLoaded(true);
+                }}
                 onError={(e) => {
                   // Обработка ошибки загрузки изображения
                   console.error(`Failed to load image: ${currentImage}`);
@@ -461,6 +497,12 @@ export default function UniversalDesignSelectorRedux({
                 }}
               />
               
+              {/* Loading indicator */}
+              {imageTransitioning && (
+                <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                </div>
+              )}
             </>
           )}
           {type === 'interior' && (

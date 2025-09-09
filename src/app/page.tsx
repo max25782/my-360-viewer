@@ -7,7 +7,7 @@ import PWAInitializer from "../components/PWAInitializer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-800">
+    <div className="min-h-screen bg-violet-800">
       {/* PWA Initializer */}
       <PWAInitializer />
       
@@ -37,9 +37,6 @@ export default function Home() {
           <CategoriesGrid/>
         </div>
       </section>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

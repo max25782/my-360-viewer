@@ -148,119 +148,89 @@ export const loadDesignImage = createAsyncThunk(
           console.log(`Exterior photo not found for dp${pk ? pk : packageData.dp}`);
         }
       } else {
-        // Полностью динамическая загрузка всех доступных фотографий для интерьера
-        const maxPkToCheck = 5; // Проверяем до 5 основных пакетов (pk1, pk2, pk3, pk4, pk5)
-        const formats = isWebPSupported 
-          ? ['webp', 'jpg'] 
-          : ['jpg', 'webp'];
+        // Загрузка фотографий интерьера из манифеста
+        console.log(`Loading interior photos for ${houseId}, room: ${room}${pk ? `, specific pk: ${pk}` : ''}`);
         
-        // Если передан конкретный pk (от текстуры), используем его
-        const specificPk = pk ? [pk] : Array.from({length: maxPkToCheck}, (_, i) => i + 1);
-        
-        console.log(`Dynamically scanning interior photos for ${houseId}, room: ${room}${pk ? `, specific pk: ${pk}` : ''}`);
-        
-        // Функция для проверки существования файла без логирования ошибок
-        const checkFileExists = async (path: string): Promise<boolean> => {
-          try {
-            // Используем AbortController для предотвращения ошибок в консоли
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 500); // Таймаут 500мс
+        try {
+          // Загружаем манифест
+          const manifestResponse = await fetch('/skyline-interior-manifest.json');
+          if (!manifestResponse.ok) {
+            console.error('Не удалось загрузить манифест интерьеров Skyline');
+            return;
+          }
+          
+          const manifest = await manifestResponse.json();
+          
+          // Нормализуем ID дома (первая буква заглавная, остальные строчные)
+          const normalizedHouseId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+          
+          // Получаем данные дома из манифеста
+          const houseData = manifest.houses[houseId] || manifest.houses[normalizedHouseId];
+          
+          if (!houseData) {
+            console.error(`Дом ${houseId} не найден в манифесте`);
+            return;
+          }
+          
+          // Проверяем, есть ли комната в манифесте
+          if (!houseData.rooms[room]) {
+            console.log(`Комната ${room} не найдена в манифесте для дома ${houseId}, пробуем living`);
             
-            const response = await fetch(path, { 
-              method: 'HEAD',
-              signal: controller.signal,
-              // Подавляем логирование ошибок в консоли
-              cache: 'no-cache'
-            });
-            
-            clearTimeout(timeoutId);
-            return response.ok;
-          } catch {
-            // Тихо игнорируем ошибки (включая AbortError)
-            return false;
-          }
-        };
-        
-        // Оптимизированное сканирование пакетов
-        // Сначала определим, какие пакеты (pk) существуют для этой комнаты
-        const existingPkNumbers: number[] = [];
-        
-        // Проверяем только основные фото пакетов (pk1, pk2, pk3...) или конкретный pk
-        for (const pkNum of specificPk) {
-          let foundMainPhoto = false;
-          
-          // Проверяем оба формата
-          for (const format of formats) {
-            const mainPhotoPath = `/assets/skyline/${houseId}/interior/${room}/pk${pkNum}.${format}`;
-            if (await checkFileExists(mainPhotoPath)) {
-              console.log(`Found main photo: ${mainPhotoPath}`);
-              photos.push(mainPhotoPath);
-              existingPkNumbers.push(pkNum);
-              foundMainPhoto = true;
-              break; // Нашли основное фото, переходим к следующему пакету
-            }
-          }
-          
-          // Если не нашли основное фото для pk > 1 и не ищем конкретный pk, прекращаем поиск
-          // (предполагаем, что пакеты идут по порядку: pk1, pk2, pk3...)
-          if (!foundMainPhoto && pkNum > 1 && !pk) {
-            // Если это не pk1 и фото не найдено, вероятно дальше тоже не будет
-            break;
-          }
-        }
-        
-        console.log(`Found ${existingPkNumbers.length} package(s) for ${houseId}, room: ${room}: ${existingPkNumbers.join(', ')}`);
-        
-        // Теперь проверяем вариации только для найденных пакетов
-        for (const pkNum of existingPkNumbers) {
-          // Проверяем вариации (pk1.1, pk1.2, pk2.1...)
-          // Для экономии запросов проверяем только первую вариацию для каждого пакета
-          const hasVariations = await (async () => {
-            for (const format of formats) {
-              const firstVariantPath = `/assets/skyline/${houseId}/interior/${room}/pk${pkNum}.1.${format}`;
-              if (await checkFileExists(firstVariantPath)) {
-                console.log(`Found variant photo: ${firstVariantPath}`);
-                photos.push(firstVariantPath);
-                return true;
-              }
-            }
-            return false;
-          })();
-          
-          // Если нашли первую вариацию, проверяем остальные
-          if (hasVariations) {
-            // Проверяем вариации 2 и 3
-            for (let variant = 2; variant <= 3; variant++) {
-              for (const format of formats) {
-                const variantPath = `/assets/skyline/${houseId}/interior/${room}/pk${pkNum}.${variant}.${format}`;
-                if (await checkFileExists(variantPath)) {
-                  console.log(`Found variant photo: ${variantPath}`);
-                  photos.push(variantPath);
-                  break;
+            // Если комната не найдена, пробуем использовать living
+            if (houseData.rooms['living']) {
+              const livingPhotos = houseData.rooms['living'].photos;
+              
+              // Если передан конкретный pk, фильтруем фотографии
+              if (pk) {
+                const pkPhotos = livingPhotos.filter(photo => 
+                  photo.type === 'photo' && photo.filename.startsWith(`pk${pk}`)
+                );
+                
+                if (pkPhotos.length > 0) {
+                  pkPhotos.forEach(photo => photos.push(photo.path));
+                  console.log(`Found ${pkPhotos.length} photos for pk${pk} in living room`);
                 }
+              } else {
+                // Берем все фотографии
+                const allPhotos = livingPhotos.filter(photo => photo.type === 'photo');
+                allPhotos.forEach(photo => photos.push(photo.path));
+                console.log(`Found ${allPhotos.length} photos in living room`);
               }
             }
-          }
-        }
-        
-        // Если не нашли ни одного фото, используем запасной вариант из другой комнаты
-        if (photos.length === 0) {
-          console.log(`No photos found for ${houseId}, room: ${room}, trying fallback to living room`);
-          
-          // Пробуем найти фото в гостиной
-          if (room !== 'living') {
-            for (const format of formats) {
-              const fallbackPath = `/assets/skyline/${houseId}/interior/living/pk1.${format}`;
-              if (await checkFileExists(fallbackPath)) {
-                console.log(`Using fallback photo from living room: ${fallbackPath}`);
-                photos.push(fallbackPath);
-                break;
+          } else {
+            // Комната найдена, получаем фотографии
+            const roomPhotos = houseData.rooms[room].photos;
+            
+            // Если передан конкретный pk, фильтруем фотографии
+            if (pk) {
+              const pkPhotos = roomPhotos.filter(photo => 
+                photo.type === 'photo' && photo.filename.startsWith(`pk${pk}`)
+              );
+              
+              if (pkPhotos.length > 0) {
+                pkPhotos.forEach(photo => photos.push(photo.path));
+                console.log(`Found ${pkPhotos.length} photos for pk${pk} in ${room}`);
               }
+            } else {
+              // Берем все фотографии
+              const allPhotos = roomPhotos.filter(photo => photo.type === 'photo');
+              
+              // Сортируем фотографии по pk
+              allPhotos.sort((a, b) => {
+                const pkA = parseInt(a.filename.replace(/[^\d]/g, '')) || 0;
+                const pkB = parseInt(b.filename.replace(/[^\d]/g, '')) || 0;
+                return pkA - pkB;
+              });
+              
+              allPhotos.forEach(photo => photos.push(photo.path));
+              console.log(`Found ${allPhotos.length} photos in ${room}`);
             }
           }
+        } catch (error) {
+          console.error('Ошибка при загрузке фотографий из манифеста:', error);
         }
         
-        console.log(`Found ${photos.length} interior photos for ${houseId}, room: ${room}`);
+        console.log(`Loaded ${photos.length} interior photos for ${houseId}, room: ${room}`);
       }
 
       return {
