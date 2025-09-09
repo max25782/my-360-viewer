@@ -74,6 +74,62 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     );
   };
 
+  const [availablePlans, setAvailablePlans] = useState<{[key: string]: string}>({});
+  const [loadingPlans, setLoadingPlans] = useState(true);
+
+  // Загружаем планы из манифеста для Skyline домов
+  useEffect(() => {
+    const loadPlansFromManifest = async () => {
+      if (house.category !== 'skyline') {
+        setLoadingPlans(false);
+        return;
+      }
+
+      setLoadingPlans(true);
+      try {
+        // Загружаем манифест сравнительных изображений
+        const manifestResponse = await fetch('/skyline-comparison-manifest.json');
+        if (!manifestResponse.ok) {
+          throw new Error('Failed to load skyline comparison manifest');
+        }
+
+        const manifest = await manifestResponse.json();
+        
+        // Нормализуем ID дома (первая буква заглавная, остальные строчные)
+        const normalizedHouseId = house.id.charAt(0).toUpperCase() + house.id.slice(1).toLowerCase();
+        
+        // Получаем данные из манифеста
+        const houseData = manifest.houses[house.id] || manifest.houses[normalizedHouseId];
+        
+        if (!houseData || !houseData.comparison || !houseData.comparison.plans) {
+          console.log(`No comparison data found for house ${house.id}`);
+          setAvailablePlans({});
+        } else {
+          // Фильтруем только JPG и WebP изображения, начинающиеся с "plan"
+          const plans = houseData.comparison.plans
+            .filter((plan: {type: string, filename: string, path: string}) => 
+              (plan.type === 'jpg' || plan.type === 'webp') && 
+              plan.filename.startsWith('plan')
+            )
+            .reduce((acc: {[key: string]: string}, plan: {type: string, filename: string, path: string}) => {
+              const planName = plan.filename.split('.')[0]; // Убираем расширение
+              acc[planName] = plan.path;
+              return acc;
+            }, {} as {[key: string]: string});
+          
+          console.log(`Found ${Object.keys(plans).length} plans for house ${house.id}:`, plans);
+          setAvailablePlans(plans);
+        }
+      } catch (error) {
+        console.error('Error loading manifest:', error);
+        setAvailablePlans({});
+      }
+      setLoadingPlans(false);
+    };
+
+    loadPlansFromManifest();
+  }, [house.id, house.category]);
+
   const getImagePaths = () => {
     // Используем WebP формат для современных браузеров
     const format = 'webp'; // Можно сделать динамическим определением поддержки WebP
@@ -87,7 +143,15 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         return path;
       }
       
-      // Для Skyline домов используем существующую логику с WebP
+      // Для Skyline домов используем манифест для планов
+      if (house.category === 'skyline' && (variant === 'plan1' || variant === 'plan2')) {
+        const planKey = variant;
+        if (availablePlans[planKey]) {
+          return availablePlans[planKey];
+        }
+      }
+      
+      // Для остальных случаев используем существующую логику с WebP
       const basePath = assetPaths.comparison(house.id, type, variant);
       return basePath.replace('.jpg', `.${format}`);
     };
@@ -99,10 +163,10 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       goodPlan1: getComparisonPath('good', 'plan1'),
       betterPlan1: getComparisonPath('better', 'plan1'),
       bestPlan1: getComparisonPath('best', 'plan1'),
-      // Добавляем план 2 (специально для Walnut)
-      goodPlan2: house.id === 'walnut' ? getComparisonPath('good', 'plan2') : undefined,
-      betterPlan2: house.id === 'walnut' ? getComparisonPath('better', 'plan2') : undefined,
-      bestPlan2: house.id === 'walnut' ? getComparisonPath('best', 'plan2') : undefined,
+      // Добавляем план 2 (для всех домов, если он есть в манифесте)
+      goodPlan2: getComparisonPath('good', 'plan2'),
+      betterPlan2: getComparisonPath('better', 'plan2'),
+      bestPlan2: getComparisonPath('best', 'plan2'),
     };
 
     console.log('Generated Image Paths:', paths);
@@ -177,8 +241,8 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         better: renderImageWithErrorHandling(imagePaths.betterPlan1, `Better Package - ${house.name} Floor Plan 1`),
         best: renderImageWithErrorHandling(imagePaths.bestPlan1, `Best Package - ${house.name} Floor Plan 1`)
       },
-      // Добавляем второй план (только для Walnut)
-      ...(house.id === 'walnut' && imagePaths.goodPlan2 && imagePaths.betterPlan2 && imagePaths.bestPlan2 ? [{
+      // Добавляем второй план (если он доступен)
+      ...(availablePlans['plan2'] || (house.id === 'walnut' && imagePaths.goodPlan2) ? [{
         label: 'Floor Plan 2',
         good: renderImageWithErrorHandling(imagePaths.goodPlan2!, `Good Package - ${house.name} Floor Plan 2`),
         better: renderImageWithErrorHandling(imagePaths.betterPlan2!, `Better Package - ${house.name} Floor Plan 2`),

@@ -16,32 +16,78 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
   }
 
   // Состояние для хранения доступных изображений
-  const [availableImages, setAvailableImages] = useState<string[]>([]);
+  const [availableImages, setAvailableImages] = useState<{filename: string, path: string}[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Проверяем наличие изображений при загрузке компонента
+  // Интерфейсы для типизации
+  interface ManifestPlan {
+    filename: string;
+    path: string;
+    type: string;
+  }
+  
+  interface ComparisonManifest {
+    houses: {
+      [key: string]: {
+        comparison?: {
+          plans?: ManifestPlan[];
+        };
+      };
+    };
+  }
+
+  // Загружаем изображения из манифеста
   useEffect(() => {
-    const checkImages = async () => {
-      const imagesToCheck = ['plan1', 'plan2', 'plan3'];
-      const available = [];
+    const loadImagesFromManifest = async () => {
+      setIsLoading(true);
       
-      for (const plan of imagesToCheck) {
-        try {
-          // Проверяем доступность изображения
-          const response = await fetch(`/assets/premium/${houseId}/comparison/${plan}.jpg`, { method: 'HEAD' });
-          if (response.ok) {
-            available.push(plan);
-          }
-        } catch (e) {
-          console.log(`Image ${plan} not available for ${houseId}`);
+      try {
+        // Загружаем манифест сравнительных изображений
+        const response = await fetch('/premium-comparison-manifest.json');
+        if (!response.ok) {
+          throw new Error('Не удалось загрузить манифест сравнительных изображений');
         }
+        
+        const manifest = await response.json() as ComparisonManifest;
+        
+        // Нормализуем ID дома (первая буква заглавная, остальные строчные)
+        const normalizedHouseId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+        
+        // Получаем данные из манифеста
+        const houseData = manifest.houses[houseId] || manifest.houses[normalizedHouseId];
+        
+        if (!houseData || !houseData.comparison || !houseData.comparison.plans) {
+          console.log(`Нет данных о сравнительных изображениях для дома ${houseId}`);
+          setAvailableImages([]);
+        } else {
+          // Фильтруем только JPG и WebP изображения, начинающиеся с "plan"
+          const plans = houseData.comparison.plans
+            .filter((plan: ManifestPlan) => 
+              (plan.type === 'jpg' || plan.type === 'webp') && 
+              plan.filename.startsWith('plan')
+            )
+            .map((plan: ManifestPlan) => ({
+              filename: plan.filename.split('.')[0], // Убираем расширение
+              path: plan.path
+            }));
+          
+          // Удаляем дубликаты (если есть и jpg, и webp)
+          const uniquePlans = Array.from(new Map(
+            plans.map((plan: {filename: string, path: string}) => [plan.filename, plan])
+          ).values());
+          
+          console.log(`Найдено ${uniquePlans.length} планов для дома ${houseId}`);
+          setAvailableImages(uniquePlans);
+        }
+      } catch (error) {
+        console.error('Ошибка при загрузке манифеста:', error);
+        setAvailableImages([]);
       }
       
-      setAvailableImages(available);
       setIsLoading(false);
     };
     
-    checkImages();
+    loadImagesFromManifest();
   }, [houseId]);
 
   return (
@@ -56,18 +102,18 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
           <div className="mb-12">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {availableImages.map((plan, index) => (
-                <div key={plan} className="bg-slate-800 p-2 rounded-lg overflow-hidden">
+                <div key={plan.filename} className="bg-slate-800 p-2 rounded-lg overflow-hidden">
                   <div className="relative w-full" style={{ paddingBottom: '75%' }}>
                     <ZoomableImageModal 
-                      src={`/assets/premium/${houseId}/comparison/${plan}.jpg`} 
-                      alt={`${houseName} ${plan.replace(/(\d+)/, ' Plan $1')}`}
+                      src={plan.path} 
+                      alt={`${houseName} ${plan.filename.replace(/(\d+)/, ' Plan $1')}`}
                       width={800}
                       height={600}
                       className="absolute inset-0 w-full h-full object-cover rounded-md"
                     />
                   </div>
                   <p className="text-center text-gray-300 mt-2 font-medium">
-                    {plan.replace(/(\d+)/, ' Plan $1').replace('plan', 'Floor Plan')}
+                    {plan.filename.replace(/(\d+)/, ' Plan $1').replace('plan', 'Floor Plan')}
                   </p>
                 </div>
               ))}

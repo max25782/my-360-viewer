@@ -15,6 +15,13 @@ interface DesignPackage {
   pk?: number;
 }
 
+interface ManifestPhoto {
+  filename: string;
+  path: string;
+  type: string;
+  pk?: number;
+}
+
 interface HouseAssets {
   houseId: string;
   exteriorPackages: DesignPackage[];
@@ -182,18 +189,29 @@ export const loadDesignImage = createAsyncThunk(
               
               // Если передан конкретный pk, фильтруем фотографии
               if (pk) {
-                const pkPhotos = livingPhotos.filter(photo => 
-                  photo.type === 'photo' && photo.filename.startsWith(`pk${pk}`)
-                );
+                const pkPhotos = livingPhotos.filter((photo: ManifestPhoto) => {
+                  // Проверяем, что это фотография
+                  if (photo.type !== 'photo') return false;
+                  
+                  // Получаем имя файла без расширения
+                  const filename = photo.filename.split('.')[0];
+                  
+                  // Проверяем, начинается ли имя файла с pk1, pk2 и т.д.
+                  if (filename === `pk${pk}`) return true; // Точное совпадение (pk1, pk2)
+                  
+                  // Проверяем десятичные варианты (pk1.1, pk2.1)
+                  const decimalPattern = new RegExp(`^pk${pk}\\.\\d+$`);
+                  return decimalPattern.test(filename);
+                });
                 
                 if (pkPhotos.length > 0) {
-                  pkPhotos.forEach(photo => photos.push(photo.path));
+                  pkPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
                   console.log(`Found ${pkPhotos.length} photos for pk${pk} in living room`);
                 }
               } else {
                 // Берем все фотографии
-                const allPhotos = livingPhotos.filter(photo => photo.type === 'photo');
-                allPhotos.forEach(photo => photos.push(photo.path));
+                const allPhotos = livingPhotos.filter((photo: ManifestPhoto) => photo.type === 'photo');
+                allPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
                 console.log(`Found ${allPhotos.length} photos in living room`);
               }
             }
@@ -203,26 +221,37 @@ export const loadDesignImage = createAsyncThunk(
             
             // Если передан конкретный pk, фильтруем фотографии
             if (pk) {
-              const pkPhotos = roomPhotos.filter(photo => 
-                photo.type === 'photo' && photo.filename.startsWith(`pk${pk}`)
-              );
+              const pkPhotos = roomPhotos.filter((photo: ManifestPhoto) => {
+                // Проверяем, что это фотография
+                if (photo.type !== 'photo') return false;
+                
+                // Получаем имя файла без расширения
+                const filename = photo.filename.split('.')[0];
+                
+                // Проверяем, начинается ли имя файла с pk1, pk2 и т.д.
+                if (filename === `pk${pk}`) return true; // Точное совпадение (pk1, pk2)
+                
+                // Проверяем десятичные варианты (pk1.1, pk2.1)
+                const decimalPattern = new RegExp(`^pk${pk}\\.\\d+$`);
+                return decimalPattern.test(filename);
+              });
               
               if (pkPhotos.length > 0) {
-                pkPhotos.forEach(photo => photos.push(photo.path));
+                pkPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
                 console.log(`Found ${pkPhotos.length} photos for pk${pk} in ${room}`);
               }
             } else {
               // Берем все фотографии
-              const allPhotos = roomPhotos.filter(photo => photo.type === 'photo');
+              const allPhotos = roomPhotos.filter((photo: ManifestPhoto) => photo.type === 'photo');
               
               // Сортируем фотографии по pk
-              allPhotos.sort((a, b) => {
+              allPhotos.sort((a: ManifestPhoto, b: ManifestPhoto) => {
                 const pkA = parseInt(a.filename.replace(/[^\d]/g, '')) || 0;
                 const pkB = parseInt(b.filename.replace(/[^\d]/g, '')) || 0;
                 return pkA - pkB;
               });
               
-              allPhotos.forEach(photo => photos.push(photo.path));
+              allPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
               console.log(`Found ${allPhotos.length} photos in ${room}`);
             }
           }
@@ -351,6 +380,9 @@ const universalSlice = createSlice({
         state.loading[`${houseId}_image`] = true;
       })
       .addCase(loadDesignImage.fulfilled, (state, action) => {
+        // Проверяем, что payload не undefined
+        if (!action.payload) return;
+        
         const { houseId, type, photos, mainImage } = action.payload;
         state.loading[`${houseId}_image`] = false;
         

@@ -1,0 +1,85 @@
+{
+  "houses": {
+    "Aspen": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "plan1.jpg",
+            "path": "/assets/premium/Aspen/comparison/plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "plan2.jpg",
+            "path": "/assets/premium/Aspen/comparison/plan2.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "plan3.jpg",
+            "path": "/assets/premium/Aspen/comparison/plan3.jpg",
+            "type": "jpg"
+          }
+        ]
+      }
+    },
+    "Canyon": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "plan1.jpg",
+            "path": "/assets/premium/Canyon/comparison/plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "plan2.jpg",
+            "path": "/assets/premium/Canyon/comparison/plan2.jpg",
+            "type": "jpg"
+          }
+        ]
+      }
+    },
+    "Everest": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "plan1.jpg",
+            "path": "/assets/premium/Everest/comparison/plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "plan2.jpg",
+            "path": "/assets/premium/Everest/comparison/plan2.jpg",
+            "type": "jpg"
+          }
+        ]
+      }
+    },
+    "Redwood": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "plan1.jpg",
+            "path": "/assets/premium/Redwood/comparison/plan1.jpg",
+            "type": "jpg"
+          }
+        ]
+      }
+    },
+    "Willow": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "plan1.jpg",
+            "path": "/assets/premium/Willow/comparison/plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "plane2.jpg",
+            "path": "/assets/premium/Willow/comparison/plane2.jpg",
+            "type": "jpg"
+          }
+        ]
+      }
+    }
+  },
+  "generatedAt": "2025-09-09T18:52:11.334Z"
+}
