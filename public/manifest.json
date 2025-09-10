@@ -1,13 +1,16 @@
 {
-  "name": "360 Viewer",
-  "short_name": "360 Viewer",
-  "description": "Interactive 360-degree viewer for virtual tours",
+  "name": "360 House Viewer - ADU Collection",
+  "short_name": "360 Houses",
+  "description": "Interactive 360-degree viewer for virtual tours of Accessory Dwelling Units",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "theme_color": "#3730a3",
+  "categories": ["productivity", "utilities", "business"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

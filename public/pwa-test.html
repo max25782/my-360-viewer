@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test Page</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+        #log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 PWA Diagnostic Tool</h1>
+    
+    <div class="test-section">
+        <h2>📋 Browser Support</h2>
+        <div id="browser-support"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Service Worker Status</h2>
+        <div id="sw-status"></div>
+        <button onclick="registerServiceWorker()">Register Service Worker</button>
+        <button onclick="unregisterServiceWorker()">Unregister Service Worker</button>
+        <button onclick="updateServiceWorker()">Update Service Worker</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📱 PWA Installation</h2>
+        <div id="install-status"></div>
+        <button id="install-btn" onclick="installPWA()" disabled>Install PWA</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🌐 Network Status</h2>
+        <div id="network-status"></div>
+        <button onclick="testOfflineMode()">Test Offline Mode</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📄 Manifest Analysis</h2>
+        <div id="manifest-status"></div>
+        <button onclick="analyzeManifest()">Analyze Manifest</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Debug Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="log"></div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        let logElement;
+
+        function log(message, type = 'info') {
+            if (!logElement) logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}\n`;
+            logElement.textContent += logEntry;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLog() {
+            document.getElementById('log').textContent = '';
+        }
+
+        function setStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        // Check browser support
+        function checkBrowserSupport() {
+            const features = {
+                'Service Worker': 'serviceWorker' in navigator,
+                'Web App Manifest': 'onbeforeinstallprompt' in window,
+                'Cache API': 'caches' in window,
+                'Push Messaging': 'PushManager' in window,
+                'Notifications': 'Notification' in window,
+                'Background Sync': 'serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype
+            };
+
+            let html = '';
+            for (const [feature, supported] of Object.entries(features)) {
+                const status = supported ? 'success' : 'error';
+                const icon = supported ? '✅' : '❌';
+                html += `<div class="status ${status}">${icon} ${feature}: ${supported ? 'Supported' : 'Not Supported'}</div>`;
+            }
+            
+            document.getElementById('browser-support').innerHTML = html;
+            log('Browser support check completed');
+        }
+
+        // Service Worker functions
+        async function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js');
+                    setStatus('sw-status', `✅ Service Worker registered successfully. Scope: ${registration.scope}`, 'success');
+                    log(`Service Worker registered: ${registration.scope}`);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        log('Service Worker update found');
+                        setStatus('sw-status', '🔄 Service Worker update found', 'warning');
+                    });
+
+                    // Check current state
+                    if (registration.active) {
+                        log('Service Worker is active');
+                    }
+                    if (registration.installing) {
+                        log('Service Worker is installing');
+                    }
+                    if (registration.waiting) {
+                        log('Service Worker is waiting');
+                    }
+
+                } catch (error) {
+                    setStatus('sw-status', `❌ Service Worker registration failed: ${error.message}`, 'error');
+                    log(`Service Worker registration failed: ${error.message}`);
+                }
+            } else {
+                setStatus('sw-status', '❌ Service Workers not supported in this browser', 'error');
+                log('Service Workers not supported');
+            }
+        }
+
+        async function unregisterServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                        log(`Service Worker unregistered: ${registration.scope}`);
+                    }
+                    setStatus('sw-status', '✅ All Service Workers unregistered', 'success');
+                } catch (error) {
+                    setStatus('sw-status', `❌ Failed to unregister: ${error.message}`, 'error');
+                    log(`Failed to unregister Service Worker: ${error.message}`);
+                }
+            }
+        }
+
+        async function updateServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        await registration.update();
+                        setStatus('sw-status', '✅ Service Worker updated', 'success');
+                        log('Service Worker updated');
+                    } else {
+                        setStatus('sw-status', '⚠️ No Service Worker registered', 'warning');
+                        log('No Service Worker to update');
+                    }
+                } catch (error) {
+                    setStatus('sw-status', `❌ Update failed: ${error.message}`, 'error');
+                    log(`Service Worker update failed: ${error.message}`);
+                }
+            }
+        }
+
+        // PWA Installation
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        setStatus('install-status', '✅ PWA installation accepted', 'success');
+                        log('PWA installation accepted');
+                    } else {
+                        setStatus('install-status', '❌ PWA installation dismissed', 'warning');
+                        log('PWA installation dismissed');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('install-btn').disabled = true;
+                });
+            }
+        }
+
+        // Network status
+        function checkNetworkStatus() {
+            const online = navigator.onLine;
+            const status = online ? '✅ Online' : '❌ Offline';
+            const type = online ? 'success' : 'error';
+            setStatus('network-status', status, type);
+            log(`Network status: ${online ? 'online' : 'offline'}`);
+        }
+
+        function testOfflineMode() {
+            log('Testing offline functionality...');
+            // Try to fetch a resource
+            fetch('/manifest.json')
+                .then(response => {
+                    if (response.ok) {
+                        setStatus('network-status', '✅ Resource loaded successfully', 'success');
+                        log('Offline test: Resource loaded from cache or network');
+                    } else {
+                        setStatus('network-status', `❌ Resource failed to load: ${response.status}`, 'error');
+                        log(`Offline test failed: ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    setStatus('network-status', `❌ Network error: ${error.message}`, 'error');
+                    log(`Offline test error: ${error.message}`);
+                });
+        }
+
+        // Manifest analysis
+        async function analyzeManifest() {
+            try {
+                const response = await fetch('/manifest.json');
+                const manifest = await response.json();
+                
+                let html = '<h3>Manifest Properties:</h3>';
+                html += `<div class="status info">Name: ${manifest.name || 'Not specified'}</div>`;
+                html += `<div class="status info">Short Name: ${manifest.short_name || 'Not specified'}</div>`;
+                html += `<div class="status info">Start URL: ${manifest.start_url || 'Not specified'}</div>`;
+                html += `<div class="status info">Display: ${manifest.display || 'Not specified'}</div>`;
+                html += `<div class="status info">Theme Color: ${manifest.theme_color || 'Not specified'}</div>`;
+                html += `<div class="status info">Icons: ${manifest.icons ? manifest.icons.length : 0} found</div>`;
+
+                // Check for PWA requirements
+                const requirements = {
+                    'Name': manifest.name,
+                    'Icons (192px+)': manifest.icons && manifest.icons.some(icon => {
+                        const size = parseInt(icon.sizes.split('x')[0]);
+                        return size >= 192;
+                    }),
+                    'Start URL': manifest.start_url,
+                    'Display Mode': manifest.display && manifest.display !== 'browser'
+                };
+
+                html += '<h3>PWA Requirements:</h3>';
+                for (const [req, met] of Object.entries(requirements)) {
+                    const status = met ? 'success' : 'error';
+                    const icon = met ? '✅' : '❌';
+                    html += `<div class="status ${status}">${icon} ${req}</div>`;
+                }
+
+                document.getElementById('manifest-status').innerHTML = html;
+                log('Manifest analysis completed');
+                
+            } catch (error) {
+                setStatus('manifest-status', `❌ Failed to analyze manifest: ${error.message}`, 'error');
+                log(`Manifest analysis failed: ${error.message}`);
+            }
+        }
+
+        // Event listeners
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-btn').disabled = false;
+            setStatus('install-status', '✅ PWA can be installed', 'success');
+            log('PWA install prompt available');
+        });
+
+        window.addEventListener('appinstalled', (evt) => {
+            setStatus('install-status', '✅ PWA installed successfully', 'success');
+            log('PWA installed');
+        });
+
+        window.addEventListener('online', () => {
+            checkNetworkStatus();
+        });
+
+        window.addEventListener('offline', () => {
+            checkNetworkStatus();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            log('PWA Diagnostic Tool initialized');
+            checkBrowserSupport();
+            checkNetworkStatus();
+            registerServiceWorker();
+            analyzeManifest();
+            
+            // Check if already installed
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                setStatus('install-status', '✅ PWA is currently running in standalone mode', 'success');
+                log('PWA is running in standalone mode');
+            } else {
+                setStatus('install-status', '⚠️ PWA is running in browser mode', 'warning');
+                log('PWA is running in browser mode');
+            }
+        });
+    </script>
+</body>
+</html>

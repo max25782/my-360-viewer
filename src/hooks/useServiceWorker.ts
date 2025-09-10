@@ -23,34 +23,62 @@ export function useServiceWorker(): UseServiceWorkerResult {
   useEffect(() => {
     // Проверяем поддержку Service Worker
     if ('serviceWorker' in navigator) {
-      // Включаем Service Worker даже в режиме разработки для тестирования
-      // Раскомментируйте код ниже, если хотите отключить SW в режиме разработки
-      /*
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        // Удаляем существующие регистрации Service Worker
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          for (let registration of registrations) {
-            registration.unregister();
-            console.log('🧹 Service Worker удален в режиме разработки');
+      // Enhanced Service Worker registration with better error handling
+      const registerServiceWorker = async () => {
+        try {
+          // Check if we're in development mode and service worker is already registered
+          const existingRegistration = await navigator.serviceWorker.getRegistration();
+          
+          if (existingRegistration) {
+            console.log('🔄 Service Worker already registered, checking for updates...');
+            await existingRegistration.update();
           }
-        });
-        return;
-      }
-      */
-      
-      // Регистрируем Service Worker
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
+
+          const registration = await navigator.serviceWorker.register('/sw.js', {
+            scope: '/',
+            updateViaCache: 'none' // Always check for updates
+          });
+          
           console.log('✅ Service Worker зарегистрирован:', registration);
           
-          // Проверяем обновления
+          // Enhanced update handling
           registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
             console.log('🔄 Найдено обновление Service Worker');
+            
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('✨ Новый Service Worker готов к использованию');
+                  // Optionally show user notification about update
+                }
+              });
+            }
           });
-        })
-        .catch((error) => {
+
+          // Handle controlling service worker changes
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            console.log('🔄 Service Worker контроллер изменен');
+            // Optionally reload the page to use new service worker
+          });
+
+        } catch (error) {
           console.error('❌ Ошибка регистрации Service Worker:', error);
-        });
+          
+          // More detailed error logging
+          if (error instanceof Error) {
+            console.error('Error details:', {
+              name: error.name,
+              message: error.message,
+              stack: error.stack
+            });
+          }
+        }
+      };
+
+      registerServiceWorker();
+    } else {
+      console.warn('⚠️ Service Workers не поддерживаются в этом браузере');
     }
 
     // Отслеживаем состояние сети
@@ -65,18 +93,44 @@ export function useServiceWorker(): UseServiceWorkerResult {
     window.addEventListener('online', updateOnlineStatus);
     window.addEventListener('offline', updateOnlineStatus);
 
-    // PWA установка
+    // Enhanced PWA installation handling
     const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('🎯 PWA installation prompt available');
       e.preventDefault();
       setInstallPrompt(e);
       setIsInstallable(true);
+      
+      // Optionally show custom install banner
+      console.log('💡 App can be installed! Look for the install button in your browser.');
     };
 
     const handleAppInstalled = () => {
-      console.log('✅ PWA установлено');
+      console.log('✅ PWA установлено успешно');
       setIsInstallable(false);
       setInstallPrompt(null);
+      
+      // Track installation for analytics if needed
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'pwa_installed', {
+          event_category: 'PWA',
+          event_label: 'App Installation'
+        });
+      }
     };
+
+    // Check if app is already installed
+    const checkIfInstalled = () => {
+      // Check if running in standalone mode
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      const isIOSStandalone = (window.navigator as any).standalone === true;
+      
+      if (isStandalone || isIOSStandalone) {
+        console.log('✅ PWA уже установлено и запущено в standalone режиме');
+        setIsInstallable(false);
+      }
+    };
+
+    checkIfInstalled();
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
