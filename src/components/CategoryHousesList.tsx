@@ -137,7 +137,7 @@ export default function CategoryHousesList({ category, title, searchParams = {} 
   return (
     <div>
       <h2 className="text-3xl font-bold text-white mb-8">{displayTitle}</h2>
-      <div className="grid grid-cols-1 bg-slate-800 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-8">
         {houses.map((house) => (
         <div key={house.id} className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden hover:bg-white/20 transition-all duration-300 hover:transform hover:scale-105">
           {/* House Image */}

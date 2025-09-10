@@ -34,7 +34,7 @@ export function useServiceWorker(): UseServiceWorkerResult {
             await existingRegistration.update();
           }
 
-          const registration = await navigator.serviceWorker.register('/sw.js', {
+          const registration = await navigator.serviceWorker.register('/sw-simple.js', {
             scope: '/',
             updateViaCache: 'none' // Always check for updates
           });

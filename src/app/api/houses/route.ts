@@ -57,9 +57,10 @@ function getCategoryTitle(categoryId: string): string {
     'neo': 'Neo ADU Series',
     'skyline': 'Skyline Collection',
     'modern': 'Modern Collection',
+    'premium': 'Premium Collection',
     'A': 'Skyline Collection',
     'B': 'Neo ADU Series',  
-    'C': 'Modern Collection'
+    'C': 'Premium Collection'
   };
   return titles[categoryId] || `Category ${categoryId}`;
 }
@@ -69,9 +70,10 @@ function getCategoryDescription(categoryId: string): string {
     'neo': 'Modern designs with dual color schemes',
     'skyline': 'Traditional collection with beautiful views',
     'modern': 'Contemporary and innovative architectural designs with cutting-edge features',
+    'premium': 'Luxury homes with premium finishes and exceptional craftsmanship',
     'A': 'Traditional collection with beautiful views',
     'B': 'Modern designs with dual color schemes',
-    'C': 'Contemporary and innovative architectural designs with cutting-edge features'
+    'C': 'Luxury homes with premium finishes and exceptional craftsmanship'
   };
   return descriptions[categoryId] || `Houses in ${categoryId} category`;
 }

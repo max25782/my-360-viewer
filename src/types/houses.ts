@@ -2,7 +2,7 @@
  * Типы данных для домов и категорий
  */
 
-export type HouseCategory = 'A' | 'B' | 'C' | 'neo' | 'skyline' | 'modern';
+export type HouseCategory = 'A' | 'B' | 'C' | 'neo' | 'skyline' | 'modern' | 'premium';
 
 export interface CategoryMetadata {
   id: HouseCategory;

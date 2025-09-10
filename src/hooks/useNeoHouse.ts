@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getNeoHouseConfig, getNeoAssetPath } from '../utils/neoAssets';
+import { getNeoHouseConfig, getNeoAssetPath, getNeoHouses } from '../utils/neoAssets';
 
 export interface NeoHouse {
   id: string;
@@ -100,36 +100,47 @@ export function useNeoHouses() {
         setLoading(true);
         setError(null);
         
-        // For now, we'll load the single Apex house
-        // In the future, this will load all 15 Neo houses
-        const apexHouse = await getNeoHouseConfig('Apex');
+        // Загружаем все Neo дома из конфигурации
+        const neoHousesData = await getNeoHouses();
+        const neoHousesList: NeoHouse[] = [];
         
-        if (apexHouse) {
-          const heroPath = await getNeoAssetPath('hero', 'Apex', { 
-            color: 'white', 
-            format: 'jpg' 
-          });
+        for (const houseData of neoHousesData) {
+          try {
+            // Получаем полную конфигурацию дома
+            const houseConfig = await getNeoHouseConfig(houseData.id);
+            
+            if (houseConfig) {
+              const heroPath = await getNeoAssetPath('hero', houseData.id, { 
+                color: 'white', 
+                format: 'jpg' 
+              });
 
-          const neoHouse: NeoHouse = {
-            id: 'Apex',
-            name: apexHouse.name,
-            description: apexHouse.description,
-            maxDP: apexHouse.maxDP,
-            maxPK: apexHouse.maxPK,
-            availableRooms: apexHouse.availableRooms,
-            images: {
-              hero: heroPath,
-              whiteTexture: '/assets/neo/texrure/thumb-white.jpg',
-              darkTexture: '/assets/neo/texrure/thumb-dark.jpg'
-            },
-            tour360: apexHouse.tour360,
-            comparison: apexHouse.comparison
-          };
+              const neoHouse: NeoHouse = {
+                id: houseData.id,
+                name: houseConfig.name,
+                description: houseConfig.description,
+                maxDP: houseConfig.maxDP,
+                maxPK: houseConfig.maxPK,
+                availableRooms: houseConfig.availableRooms,
+                images: {
+                  hero: heroPath,
+                  whiteTexture: '/assets/neo/texrure/thumb-white.jpg',
+                  darkTexture: '/assets/neo/texrure/thumb-dark.jpg'
+                },
+                tour360: houseConfig.tour360,
+                comparison: houseConfig.comparison
+              };
 
-          setHouses([neoHouse]);
-        } else {
-          setHouses([]);
+              neoHousesList.push(neoHouse);
+            }
+          } catch (houseError) {
+            console.warn(`Failed to load Neo house ${houseData.id}:`, houseError);
+            // Продолжаем загрузку других домов
+          }
         }
+        
+        setHouses(neoHousesList);
+        
       } catch (err) {
         console.error('Error loading Neo houses:', err);
         setError(err instanceof Error ? err.message : 'Failed to load houses');

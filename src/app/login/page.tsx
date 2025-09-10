@@ -8,6 +8,7 @@ import { Switch } from '../../components/ui/switch';
 import { Card } from '../../components/ui/card';
 import { Eye, EyeOff, Shield, Zap, Home, Building, Building2, Castle, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 interface LoginCardProps {
   onForgotPassword: () => void;
@@ -173,7 +174,14 @@ export function LoginCard({ onForgotPassword, onSuccess }: LoginCardProps) {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/30 to-purple-400/30 rounded-full blur-2xl group-hover:blur-3xl transition-all duration-500" />
               <div className="absolute inset-2 bg-gradient-to-r from-blue-400/20 to-teal-400/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500" />
               <div className="relative w-full h-full flex items-center justify-center">
-                <Home className="w-16 h-16 text-cyan-400 drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500" />
+                <Image 
+                  src="/Website.png" 
+                  alt="360° House Viewer Logo" 
+                  width={200} 
+                  height={200}
+                  className="drop-shadow-2xl filter  rounded-full group-hover:brightness-110 transition-all duration-500 object-contain"
+                  priority
+                />
               </div>
               {/* Rotating ring around logo */}
               <div className="absolute inset-0 border-2 border-cyan-400/20 rounded-full animate-spin" 
@@ -495,7 +503,14 @@ export function ForgotPasswordCard({ onBackToLogin }: ForgotPasswordCardProps) {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/30 to-purple-400/30 rounded-full blur-2xl group-hover:blur-3xl transition-all duration-500" />
               <div className="absolute inset-2 bg-gradient-to-r from-blue-400/20 to-teal-400/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500" />
               <div className="relative w-full h-full flex items-center justify-center">
-                <Shield className="w-16 h-16 text-cyan-400 drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500" />
+                <Image 
+                  src="/Website.png" 
+                  alt="360° House Viewer Logo" 
+                  width={64} 
+                  height={64}
+                  className="drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500 object-contain"
+                  priority
+                />
               </div>
             </div>
             
