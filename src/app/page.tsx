@@ -3,40 +3,43 @@ import Footer from "../components/Footer";
 import CategoriesGrid from "../components/CategoriesGrid";
 import CategoryPage from "./category/[categoryId]/page";
 import PWAInitializer from "../components/PWAInitializer";
+import AuthGuard from "../components/AuthGuard";
 
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-violet-800">
-      {/* PWA Initializer */}
-      <PWAInitializer />
-      
-      {/* Header */}
-      <Header />
-
-      {/* Hero Section */}
-      <section className="py-7">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">
-            ADU Collection
-          </h1>
+    <AuthGuard>
+      <div className="min-h-screen bg-violet-800">
+        {/* PWA Initializer */}
+        <PWAInitializer />
         
-        </div>
-      </section>
+        {/* Header */}
+        <Header />
 
-      {/* Categories Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">Choose Your Collection</h2>
-            <p className="text-lg text-gray-300">
-              Each collection offers unique designs and features
-            </p>
-          </div>
+        {/* Hero Section */}
+        <section className="py-7">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-2">
+              ADU Collection
+            </h1>
           
-          <CategoriesGrid/>
-        </div>
-      </section>
-    </div>
+          </div>
+        </section>
+
+        {/* Categories Grid */}
+        <section className="py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-white mb-4">Choose Your Collection</h2>
+              <p className="text-lg text-gray-300">
+                Each collection offers unique designs and features
+              </p>
+            </div>
+            
+            <CategoriesGrid/>
+          </div>
+        </section>
+      </div>
+    </AuthGuard>
   );
 }

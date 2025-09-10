@@ -3,6 +3,7 @@ import "./globals.css";
 import ReduxProvider from "../providers/ReduxProvider";
 import WebPDetector from "../components/WebPDetector";
 import PWAStatus from "../components/PWAStatus";
+import { Toaster } from "../components/Toaster";
 
 export const metadata: Metadata = {
   title: "360 House Viewer - ADU Collection",
@@ -56,6 +57,7 @@ export default function RootLayout({
         <ReduxProvider>
           <PWAStatus />
           {children}
+          <Toaster />
         </ReduxProvider>
         {/* Service Worker registration moved to useServiceWorker hook */}
         <script dangerouslySetInnerHTML={{

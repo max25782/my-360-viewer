@@ -91,6 +91,15 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
             </div>
             
             <Link href="/premium" className="text-gray-900 hover:text-gray-900 font-bold">Premium</Link>
+            <button 
+              onClick={() => {
+                localStorage.removeItem('authToken');
+                window.location.href = '/login';
+              }}
+              className="text-gray-900 hover:text-gray-900 font-bold"
+            >
+              Logout
+            </button>
             <a href="#about" className="text-gray-900 hover:text-gray-900 font-bold">About</a>
             <a href="#contact" className="text-gray-900 hover:text-gray-900 font-bold">Contact</a>
           </nav>
