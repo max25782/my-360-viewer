@@ -3,6 +3,8 @@
  * CacheFirst для панорам, StaleWhileRevalidate для данных
  */
 
+console.log('🚀 Service Worker script loading...');
+
 const CACHE_NAME = 'house-viewer-v1';
 const DATA_CACHE = 'house-data-v1';
 const PANORAMA_CACHE = 'panorama-cache-v1';
@@ -35,6 +37,8 @@ const CACHE_STRATEGIES = {
 // Установка Service Worker
 self.addEventListener('install', (event) => {
   console.log('🔧 Service Worker: Установка...');
+  console.log('📍 Service Worker URL:', self.location.href);
+  console.log('📍 Service Worker Scope:', self.registration.scope);
   
   event.waitUntil(
     (async () => {
@@ -44,10 +48,20 @@ self.addEventListener('install', (event) => {
         // Кэшируем каждый URL отдельно с обработкой ошибок
         for (const url of STATIC_CACHE_URLS) {
           try {
-            await cache.add(url);
-            console.log(`✅ Закэширован: ${url}`);
+            // Создаем полный URL для кэширования
+            const request = new Request(url, {
+              cache: 'reload' // Форсируем загрузку из сети
+            });
+            const response = await fetch(request);
+            
+            if (response.ok) {
+              await cache.put(url, response);
+              console.log(`✅ Закэширован: ${url}`);
+            } else {
+              console.warn(`⚠️ Не удалось закэшировать ${url}: HTTP ${response.status}`);
+            }
           } catch (err) {
-            console.warn(`⚠️ Не удалось закэшировать ${url}:`, err);
+            console.warn(`⚠️ Не удалось закэшировать ${url}:`, err.message);
           }
         }
         
