@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ReduxProvider from "../providers/ReduxProvider";
 import WebPDetector from "../components/WebPDetector";
+import PWAStatus from "../components/PWAStatus";
 
 export const metadata: Metadata = {
   title: "360 House Viewer - ADU Collection",
@@ -53,6 +54,7 @@ export default function RootLayout({
       <body className="antialiased font-sans">
         <WebPDetector />
         <ReduxProvider>
+          <PWAStatus />
           {children}
         </ReduxProvider>
         {/* Service Worker registration moved to useServiceWorker hook */}
