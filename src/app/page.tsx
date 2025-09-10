@@ -2,15 +2,11 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CategoriesGrid from "../components/CategoriesGrid";
 import CategoryPage from "./category/[categoryId]/page";
-import PWAInitializer from "../components/PWAInitializer";
 
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-violet-800">
-      {/* PWA Initializer */}
-      <PWAInitializer />
-      
       {/* Header */}
       <Header />
 
