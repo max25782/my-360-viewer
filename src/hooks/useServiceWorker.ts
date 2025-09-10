@@ -22,35 +22,75 @@ export function useServiceWorker(): UseServiceWorkerResult {
 
   useEffect(() => {
     // Проверяем поддержку Service Worker
-    if ('serviceWorker' in navigator) {
-      // Включаем Service Worker даже в режиме разработки для тестирования
-      // Раскомментируйте код ниже, если хотите отключить SW в режиме разработки
-      /*
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        // Удаляем существующие регистрации Service Worker
-        navigator.serviceWorker.getRegistrations().then(registrations => {
+    if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
+      console.log('Service Worker not supported');
+      return;
+    }
+
+    // Ждем загрузки страницы для регистрации Service Worker
+    const registerSW = async () => {
+      try {
+        // Включаем Service Worker даже в режиме разработки для тестирования
+        // Раскомментируйте код ниже, если хотите отключить SW в режиме разработки
+        /*
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          // Удаляем существующие регистрации Service Worker
+          const registrations = await navigator.serviceWorker.getRegistrations();
           for (let registration of registrations) {
-            registration.unregister();
+            await registration.unregister();
             console.log('🧹 Service Worker удален в режиме разработки');
           }
+          return;
+        }
+        */
+        
+        // Проверяем, что мы в безопасном контексте
+        if (!window.isSecureContext && window.location.hostname !== 'localhost') {
+          console.warn('⚠️ Service Worker требует HTTPS или localhost');
+          return;
+        }
+        
+        // Регистрируем Service Worker
+        console.log('📝 Регистрация Service Worker...');
+        const registration = await navigator.serviceWorker.register('/sw.js', {
+          scope: '/'
         });
-        return;
-      }
-      */
-      
-      // Регистрируем Service Worker
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('✅ Service Worker зарегистрирован:', registration);
+        
+        console.log('✅ Service Worker зарегистрирован:', registration.scope);
+        
+        // Проверяем обновления
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          console.log('🔄 Найдено обновление Service Worker');
           
-          // Проверяем обновления
-          registration.addEventListener('updatefound', () => {
-            console.log('🔄 Найдено обновление Service Worker');
-          });
-        })
-        .catch((error) => {
-          console.error('❌ Ошибка регистрации Service Worker:', error);
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('🔄 Новая версия Service Worker доступна');
+              }
+            });
+          }
         });
+        
+        // Проверяем статус Service Worker
+        if (registration.active) {
+          console.log('✅ Service Worker активен');
+        } else if (registration.installing) {
+          console.log('⏳ Service Worker устанавливается');
+        } else if (registration.waiting) {
+          console.log('⏳ Service Worker ожидает активации');
+        }
+        
+      } catch (error) {
+        console.error('❌ Ошибка регистрации Service Worker:', error);
+      }
+    };
+    
+    // Регистрируем SW после загрузки страницы
+    if (document.readyState === 'complete') {
+      registerSW();
+    } else {
+      window.addEventListener('load', registerSW);
     }
 
     // Отслеживаем состояние сети

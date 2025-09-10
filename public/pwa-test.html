@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Debug Test</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .status {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { border-left: 4px solid #4caf50; }
+        .error { border-left: 4px solid #f44336; }
+        .warning { border-left: 4px solid #ff9800; }
+        .info { border-left: 4px solid #2196f3; }
+        pre {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Debug Test</h1>
+    
+    <div class="status info">
+        <h2>Environment Info</h2>
+        <pre id="env-info"></pre>
+    </div>
+    
+    <div class="status" id="manifest-status">
+        <h2>Manifest Status</h2>
+        <pre id="manifest-info">Checking...</pre>
+    </div>
+    
+    <div class="status" id="sw-status">
+        <h2>Service Worker Status</h2>
+        <pre id="sw-info">Checking...</pre>
+    </div>
+    
+    <div class="status" id="pwa-status">
+        <h2>PWA Install Status</h2>
+        <pre id="pwa-info">Checking...</pre>
+    </div>
+    
+    <div class="status info">
+        <h2>Actions</h2>
+        <button onclick="registerServiceWorker()">Register Service Worker</button>
+        <button onclick="unregisterServiceWorker()">Unregister Service Worker</button>
+        <button onclick="clearCaches()">Clear All Caches</button>
+        <button onclick="testFetch()">Test Fetch</button>
+    </div>
+    
+    <div class="status">
+        <h2>Console Log</h2>
+        <pre id="console-log" style="max-height: 300px; overflow-y: auto;"></pre>
+    </div>
+
+    <script>
+        const log = (message, type = 'info') => {
+            const consoleLog = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const color = {
+                info: '#2196f3',
+                success: '#4caf50',
+                error: '#f44336',
+                warning: '#ff9800'
+            }[type] || '#000';
+            
+            consoleLog.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span>\n`;
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+            console.log(`[${type}]`, message);
+        };
+
+        // Environment info
+        const updateEnvInfo = () => {
+            const envInfo = {
+                'URL': window.location.href,
+                'Protocol': window.location.protocol,
+                'Hostname': window.location.hostname,
+                'Port': window.location.port || '(default)',
+                'Secure Context': window.isSecureContext,
+                'Service Worker Support': 'serviceWorker' in navigator,
+                'User Agent': navigator.userAgent
+            };
+            
+            document.getElementById('env-info').textContent = JSON.stringify(envInfo, null, 2);
+            
+            if (!window.isSecureContext) {
+                log('⚠️ Not in secure context! PWA features may not work.', 'warning');
+                document.getElementById('sw-status').classList.add('warning');
+            }
+        };
+
+        // Check manifest
+        const checkManifest = async () => {
+            try {
+                log('Fetching manifest.json...', 'info');
+                const response = await fetch('/manifest.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const manifest = await response.json();
+                document.getElementById('manifest-info').textContent = JSON.stringify(manifest, null, 2);
+                document.getElementById('manifest-status').classList.add('success');
+                log('✅ Manifest loaded successfully', 'success');
+                
+                // Check icons
+                let iconsMissing = 0;
+                for (const icon of manifest.icons) {
+                    try {
+                        const iconResponse = await fetch(icon.src);
+                        if (!iconResponse.ok) {
+                            iconsMissing++;
+                            log(`❌ Icon missing: ${icon.src}`, 'error');
+                        }
+                    } catch (e) {
+                        iconsMissing++;
+                        log(`❌ Icon error: ${icon.src} - ${e.message}`, 'error');
+                    }
+                }
+                
+                if (iconsMissing === 0) {
+                    log(`✅ All ${manifest.icons.length} icons are accessible`, 'success');
+                }
+                
+            } catch (error) {
+                document.getElementById('manifest-info').textContent = `Error: ${error.message}`;
+                document.getElementById('manifest-status').classList.add('error');
+                log(`❌ Manifest error: ${error.message}`, 'error');
+            }
+        };
+
+        // Check service worker
+        const checkServiceWorker = async () => {
+            if (!('serviceWorker' in navigator)) {
+                document.getElementById('sw-info').textContent = 'Service Worker not supported';
+                document.getElementById('sw-status').classList.add('error');
+                log('❌ Service Worker not supported in this browser', 'error');
+                return;
+            }
+            
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                
+                if (registrations.length === 0) {
+                    document.getElementById('sw-info').textContent = 'No Service Worker registered';
+                    document.getElementById('sw-status').classList.add('warning');
+                    log('⚠️ No Service Worker registered', 'warning');
+                } else {
+                    const swInfo = registrations.map(reg => ({
+                        scope: reg.scope,
+                        active: reg.active ? {
+                            scriptURL: reg.active.scriptURL,
+                            state: reg.active.state
+                        } : null,
+                        installing: reg.installing ? reg.installing.state : null,
+                        waiting: reg.waiting ? reg.waiting.state : null
+                    }));
+                    
+                    document.getElementById('sw-info').textContent = JSON.stringify(swInfo, null, 2);
+                    document.getElementById('sw-status').classList.add('success');
+                    log(`✅ ${registrations.length} Service Worker(s) registered`, 'success');
+                }
+                
+                // Check SW file accessibility
+                try {
+                    const swResponse = await fetch('/sw.js');
+                    if (!swResponse.ok) {
+                        log(`⚠️ Service Worker file returns ${swResponse.status}`, 'warning');
+                    } else {
+                        log('✅ Service Worker file is accessible', 'success');
+                    }
+                } catch (e) {
+                    log(`❌ Cannot fetch Service Worker file: ${e.message}`, 'error');
+                }
+                
+            } catch (error) {
+                document.getElementById('sw-info').textContent = `Error: ${error.message}`;
+                document.getElementById('sw-status').classList.add('error');
+                log(`❌ Service Worker check error: ${error.message}`, 'error');
+            }
+        };
+
+        // Check PWA installability
+        const checkPWA = () => {
+            const pwaInfo = {
+                'Standalone Display': window.matchMedia('(display-mode: standalone)').matches,
+                'PWA Installed': window.matchMedia('(display-mode: standalone)').matches || 
+                               window.matchMedia('(display-mode: fullscreen)').matches ||
+                               window.matchMedia('(display-mode: minimal-ui)').matches
+            };
+            
+            document.getElementById('pwa-info').textContent = JSON.stringify(pwaInfo, null, 2);
+            
+            if (pwaInfo['PWA Installed']) {
+                document.getElementById('pwa-status').classList.add('success');
+                log('✅ PWA is installed', 'success');
+            } else {
+                document.getElementById('pwa-status').classList.add('info');
+                log('ℹ️ PWA not installed (running in browser)', 'info');
+            }
+        };
+
+        // Register service worker
+        const registerServiceWorker = async () => {
+            if (!('serviceWorker' in navigator)) {
+                log('❌ Service Worker not supported', 'error');
+                return;
+            }
+            
+            try {
+                log('Registering Service Worker...', 'info');
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                log(`✅ Service Worker registered with scope: ${registration.scope}`, 'success');
+                
+                registration.addEventListener('updatefound', () => {
+                    log('🔄 New Service Worker found', 'info');
+                });
+                
+                setTimeout(checkServiceWorker, 1000);
+            } catch (error) {
+                log(`❌ Registration failed: ${error.message}`, 'error');
+            }
+        };
+
+        // Unregister service worker
+        const unregisterServiceWorker = async () => {
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (const registration of registrations) {
+                    await registration.unregister();
+                    log(`✅ Unregistered SW with scope: ${registration.scope}`, 'success');
+                }
+                setTimeout(checkServiceWorker, 1000);
+            } catch (error) {
+                log(`❌ Unregister failed: ${error.message}`, 'error');
+            }
+        };
+
+        // Clear caches
+        const clearCaches = async () => {
+            try {
+                const cacheNames = await caches.keys();
+                log(`Found ${cacheNames.length} cache(s)`, 'info');
+                
+                for (const name of cacheNames) {
+                    await caches.delete(name);
+                    log(`✅ Deleted cache: ${name}`, 'success');
+                }
+                
+                log('✅ All caches cleared', 'success');
+            } catch (error) {
+                log(`❌ Clear caches failed: ${error.message}`, 'error');
+            }
+        };
+
+        // Test fetch
+        const testFetch = async () => {
+            try {
+                log('Testing fetch...', 'info');
+                const response = await fetch('/');
+                log(`✅ Fetch successful: ${response.status} ${response.statusText}`, 'success');
+            } catch (error) {
+                log(`❌ Fetch failed: ${error.message}`, 'error');
+            }
+        };
+
+        // Listen for install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            log('🎯 PWA install prompt available', 'success');
+            window.deferredPrompt = e;
+        });
+
+        window.addEventListener('appinstalled', () => {
+            log('✅ PWA was installed', 'success');
+        });
+
+        // Initialize checks
+        window.addEventListener('load', () => {
+            updateEnvInfo();
+            checkManifest();
+            checkServiceWorker();
+            checkPWA();
+            
+            // Listen for SW messages
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    log(`📨 SW Message: ${JSON.stringify(event.data)}`, 'info');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
