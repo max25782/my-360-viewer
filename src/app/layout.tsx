@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ReduxProvider from "../providers/ReduxProvider";
+import PWAInitializer from "../components/PWAInitializer";
 import WebPDetector from "../components/WebPDetector";
 
 export const metadata: Metadata = {
   title: "360 House Viewer - ADU Collection",
   description: "Explore our comprehensive collection of Accessory Dwelling Units with immersive 360° tours",
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
   // themeColor перенесен в viewport
   appleWebApp: {
     capable: true,
@@ -39,7 +40,7 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/LeagueSpartan-Bold.ttf" as="font" crossOrigin="anonymous" />
         
         {/* PWA Meta Tags */}
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="360 Houses" />
@@ -55,6 +56,7 @@ export default function RootLayout({
         <ReduxProvider>
           {children}
         </ReduxProvider>
+        <PWAInitializer />
         {/* Service Worker registration moved to useServiceWorker hook */}
         <script dangerouslySetInnerHTML={{
           __html: `
