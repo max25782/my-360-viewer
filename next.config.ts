@@ -61,6 +61,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  env: {
+    NEXT_PUBLIC_BASE_PATH: (isGitHubPages && !isVercel) ? `/${repoName}` : '',
+  },
   
   // Редиректы работают только в dev режиме и для Vercel (не для GitHub Pages)
   ...((isVercel || !isProd) && {

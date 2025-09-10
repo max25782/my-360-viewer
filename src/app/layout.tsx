@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ReduxProvider from "../providers/ReduxProvider";
+import PWAInitializer from "../components/PWAInitializer";
 import WebPDetector from "../components/WebPDetector";
 
 export const metadata: Metadata = {
@@ -51,6 +52,7 @@ export default function RootLayout({
 
       </head>
       <body className="antialiased font-sans">
+        <PWAInitializer />
         <WebPDetector />
         <ReduxProvider>
           {children}
