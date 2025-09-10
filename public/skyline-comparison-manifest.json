@@ -1,5 +1,172 @@
 {
   "houses": {
+    "Oak": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "best-exterior.jpg",
+            "path": "/assets/skyline/Oak/comparison/best-exterior.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "best-exterior.webp",
+            "path": "/assets/skyline/Oak/comparison/best-exterior.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "best-plan.webp",
+            "path": "/assets/skyline/Oak/comparison/best-plan.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "best-plan1.jpg",
+            "path": "/assets/skyline/Oak/comparison/best-plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "best-plan1.webp",
+            "path": "/assets/skyline/Oak/comparison/best-plan1.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "better-exterior.jpg",
+            "path": "/assets/skyline/Oak/comparison/better-exterior.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "better-exterior.webp",
+            "path": "/assets/skyline/Oak/comparison/better-exterior.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "better-plan.jpg",
+            "path": "/assets/skyline/Oak/comparison/better-plan.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "better-plan.webp",
+            "path": "/assets/skyline/Oak/comparison/better-plan.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "good-exterior.jpg",
+            "path": "/assets/skyline/Oak/comparison/good-exterior.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "good-exterior.webp",
+            "path": "/assets/skyline/Oak/comparison/good-exterior.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "good-plan.jpg",
+            "path": "/assets/skyline/Oak/comparison/good-plan.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "good-plan.webp",
+            "path": "/assets/skyline/Oak/comparison/good-plan.webp",
+            "type": "webp"
+          }
+        ]
+      }
+    },
+    "Walnut": {
+      "comparison": {
+        "plans": [
+          {
+            "filename": "best-exterior.jpg",
+            "path": "/assets/skyline/Walnut/comparison/best-exterior.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "best-exterior.webp",
+            "path": "/assets/skyline/Walnut/comparison/best-exterior.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "best-plan1.jpg",
+            "path": "/assets/skyline/Walnut/comparison/best-plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "best-plan1.webp",
+            "path": "/assets/skyline/Walnut/comparison/best-plan1.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "best-plan2.jpg",
+            "path": "/assets/skyline/Walnut/comparison/best-plan2.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "best-plan2.webp",
+            "path": "/assets/skyline/Walnut/comparison/best-plan2.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "better-exterior.jpg",
+            "path": "/assets/skyline/Walnut/comparison/better-exterior.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "better-exterior.webp",
+            "path": "/assets/skyline/Walnut/comparison/better-exterior.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "better-plan1.jpg",
+            "path": "/assets/skyline/Walnut/comparison/better-plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "better-plan1.webp",
+            "path": "/assets/skyline/Walnut/comparison/better-plan1.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "better-plan2.jpg",
+            "path": "/assets/skyline/Walnut/comparison/better-plan2.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "better-plan2.webp",
+            "path": "/assets/skyline/Walnut/comparison/better-plan2.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "good-exterior.jpg",
+            "path": "/assets/skyline/Walnut/comparison/good-exterior.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "good-exterior.webp",
+            "path": "/assets/skyline/Walnut/comparison/good-exterior.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "good-plan1.jpg",
+            "path": "/assets/skyline/Walnut/comparison/good-plan1.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "good-plan1.webp",
+            "path": "/assets/skyline/Walnut/comparison/good-plan1.webp",
+            "type": "webp"
+          },
+          {
+            "filename": "good-plan2.jpg",
+            "path": "/assets/skyline/Walnut/comparison/good-plan2.jpg",
+            "type": "jpg"
+          },
+          {
+            "filename": "good-plan2.webp",
+            "path": "/assets/skyline/Walnut/comparison/good-plan2.webp",
+            "type": "webp"
+          }
+        ]
+      }
+    },
     "birch": {
       "comparison": {
         "plans": [
@@ -325,77 +492,6 @@
           {
             "filename": "good-plan1.webp",
             "path": "/assets/skyline/laurel/comparison/good-plan1.webp",
-            "type": "webp"
-          }
-        ]
-      }
-    },
-    "Oak": {
-      "comparison": {
-        "plans": [
-          {
-            "filename": "best-exterior.jpg",
-            "path": "/assets/skyline/Oak/comparison/best-exterior.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "best-exterior.webp",
-            "path": "/assets/skyline/Oak/comparison/best-exterior.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "best-plan.webp",
-            "path": "/assets/skyline/Oak/comparison/best-plan.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "best-plan1.jpg",
-            "path": "/assets/skyline/Oak/comparison/best-plan1.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "best-plan1.webp",
-            "path": "/assets/skyline/Oak/comparison/best-plan1.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "better-exterior.jpg",
-            "path": "/assets/skyline/Oak/comparison/better-exterior.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "better-exterior.webp",
-            "path": "/assets/skyline/Oak/comparison/better-exterior.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "better-plan.jpg",
-            "path": "/assets/skyline/Oak/comparison/better-plan.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "better-plan.webp",
-            "path": "/assets/skyline/Oak/comparison/better-plan.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "good-exterior.jpg",
-            "path": "/assets/skyline/Oak/comparison/good-exterior.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "good-exterior.webp",
-            "path": "/assets/skyline/Oak/comparison/good-exterior.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "good-plan.jpg",
-            "path": "/assets/skyline/Oak/comparison/good-plan.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "good-plan.webp",
-            "path": "/assets/skyline/Oak/comparison/good-plan.webp",
             "type": "webp"
           }
         ]
@@ -806,103 +902,7 @@
           }
         ]
       }
-    },
-    "Walnut": {
-      "comparison": {
-        "plans": [
-          {
-            "filename": "best-exterior.jpg",
-            "path": "/assets/skyline/Walnut/comparison/best-exterior.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "best-exterior.webp",
-            "path": "/assets/skyline/Walnut/comparison/best-exterior.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "best-plan1.jpg",
-            "path": "/assets/skyline/Walnut/comparison/best-plan1.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "best-plan1.webp",
-            "path": "/assets/skyline/Walnut/comparison/best-plan1.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "best-plan2.jpg",
-            "path": "/assets/skyline/Walnut/comparison/best-plan2.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "best-plan2.webp",
-            "path": "/assets/skyline/Walnut/comparison/best-plan2.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "better-exterior.jpg",
-            "path": "/assets/skyline/Walnut/comparison/better-exterior.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "better-exterior.webp",
-            "path": "/assets/skyline/Walnut/comparison/better-exterior.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "better-plan1.jpg",
-            "path": "/assets/skyline/Walnut/comparison/better-plan1.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "better-plan1.webp",
-            "path": "/assets/skyline/Walnut/comparison/better-plan1.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "better-plan2.jpg",
-            "path": "/assets/skyline/Walnut/comparison/better-plan2.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "better-plan2.webp",
-            "path": "/assets/skyline/Walnut/comparison/better-plan2.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "good-exterior.jpg",
-            "path": "/assets/skyline/Walnut/comparison/good-exterior.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "good-exterior.webp",
-            "path": "/assets/skyline/Walnut/comparison/good-exterior.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "good-plan1.jpg",
-            "path": "/assets/skyline/Walnut/comparison/good-plan1.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "good-plan1.webp",
-            "path": "/assets/skyline/Walnut/comparison/good-plan1.webp",
-            "type": "webp"
-          },
-          {
-            "filename": "good-plan2.jpg",
-            "path": "/assets/skyline/Walnut/comparison/good-plan2.jpg",
-            "type": "jpg"
-          },
-          {
-            "filename": "good-plan2.webp",
-            "path": "/assets/skyline/Walnut/comparison/good-plan2.webp",
-            "type": "webp"
-          }
-        ]
-      }
     }
   },
-  "generatedAt": "2025-09-09T18:52:11.350Z"
+  "generatedAt": "2025-09-10T15:31:24.174Z"
 }

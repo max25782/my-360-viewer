@@ -1,5 +1,657 @@
 {
   "houses": {
+    "Oak": {
+      "rooms": {
+        "bathroom": {
+          "photos": [
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Oak/interior/bathroom/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            }
+          ]
+        },
+        "bedroom": {
+          "photos": [
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Oak/interior/bedroom/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            }
+          ]
+        },
+        "kitchen": {
+          "photos": [
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Oak/interior/kitchen/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            }
+          ]
+        },
+        "living": {
+          "photos": [
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Oak/interior/living/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Oak/interior/living/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Oak/interior/living/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Oak/interior/living/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Oak/interior/living/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Oak/interior/living/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Oak/interior/living/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Oak/interior/living/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            }
+          ]
+        }
+      }
+    },
+    "Walnut": {
+      "rooms": {
+        "bathroom": {
+          "photos": [
+            {
+              "filename": "pk1.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.1.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.1.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.1.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.1.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.1.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.1.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.1.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.1.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.1.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.1.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk5.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.1.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.1.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.1.webp",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.jpg",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.webp",
+              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.webp",
+              "type": "photo",
+              "pk": 5
+            }
+          ]
+        },
+        "bedroom": {
+          "photos": [
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk5.jpg",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk5.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.webp",
+              "path": "/assets/skyline/Walnut/interior/bedroom/pk5.webp",
+              "type": "photo",
+              "pk": 5
+            }
+          ]
+        },
+        "kitchen": {
+          "photos": [
+            {
+              "filename": "pk1.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.1.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.1.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.1.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.1.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.1.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.1.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.1.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.1.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.1.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.1.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk5.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.1.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.1.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.1.webp",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.jpg",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.webp",
+              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.webp",
+              "type": "photo",
+              "pk": 5
+            }
+          ]
+        },
+        "living": {
+          "photos": [
+            {
+              "filename": "pk1.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk1.1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.1.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk1.1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk1.jpg",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk1.webp",
+              "type": "photo",
+              "pk": 1
+            },
+            {
+              "filename": "pk2.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk2.1.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.1.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk2.1.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk2.jpg",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk2.webp",
+              "type": "photo",
+              "pk": 2
+            },
+            {
+              "filename": "pk3.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk3.1.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.1.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk3.1.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk3.jpg",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk3.webp",
+              "type": "photo",
+              "pk": 3
+            },
+            {
+              "filename": "pk4.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk4.1.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.1.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk4.1.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk4.jpg",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk4.webp",
+              "type": "photo",
+              "pk": 4
+            },
+            {
+              "filename": "pk5.1.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk5.1.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.1.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk5.1.webp",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.jpg",
+              "path": "/assets/skyline/Walnut/interior/living/pk5.jpg",
+              "type": "photo",
+              "pk": 5
+            },
+            {
+              "filename": "pk5.webp",
+              "path": "/assets/skyline/Walnut/interior/living/pk5.webp",
+              "type": "photo",
+              "pk": 5
+            }
+          ]
+        }
+      }
+    },
     "birch": {
       "rooms": {
         "bathroom": {
@@ -997,218 +1649,6 @@
             {
               "filename": "pk4.webp",
               "path": "/assets/skyline/laurel/interior/living/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            }
-          ]
-        }
-      }
-    },
-    "Oak": {
-      "rooms": {
-        "bathroom": {
-          "photos": [
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Oak/interior/bathroom/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            }
-          ]
-        },
-        "bedroom": {
-          "photos": [
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Oak/interior/bedroom/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            }
-          ]
-        },
-        "kitchen": {
-          "photos": [
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Oak/interior/kitchen/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            }
-          ]
-        },
-        "living": {
-          "photos": [
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Oak/interior/living/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Oak/interior/living/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Oak/interior/living/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Oak/interior/living/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Oak/interior/living/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Oak/interior/living/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Oak/interior/living/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Oak/interior/living/pk4.webp",
               "type": "photo",
               "pk": 4
             }
@@ -2496,447 +2936,7 @@
     },
     "texture": {
       "rooms": {}
-    },
-    "Walnut": {
-      "rooms": {
-        "bathroom": {
-          "photos": [
-            {
-              "filename": "pk1.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.1.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.1.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.1.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.1.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.1.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.1.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.1.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.1.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.1.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.1.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk5.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.1.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.1.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.1.webp",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.jpg",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.webp",
-              "path": "/assets/skyline/Walnut/interior/bathroom/pk5.webp",
-              "type": "photo",
-              "pk": 5
-            }
-          ]
-        },
-        "bedroom": {
-          "photos": [
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk5.jpg",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk5.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.webp",
-              "path": "/assets/skyline/Walnut/interior/bedroom/pk5.webp",
-              "type": "photo",
-              "pk": 5
-            }
-          ]
-        },
-        "kitchen": {
-          "photos": [
-            {
-              "filename": "pk1.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.1.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.1.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.1.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.1.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.1.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.1.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.1.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.1.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.1.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.1.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk5.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.1.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.1.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.1.webp",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.jpg",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.webp",
-              "path": "/assets/skyline/Walnut/interior/kitchen/pk5.webp",
-              "type": "photo",
-              "pk": 5
-            }
-          ]
-        },
-        "living": {
-          "photos": [
-            {
-              "filename": "pk1.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk1.1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.1.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk1.1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk1.jpg",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk1.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk1.webp",
-              "type": "photo",
-              "pk": 1
-            },
-            {
-              "filename": "pk2.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk2.1.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.1.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk2.1.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk2.jpg",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk2.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk2.webp",
-              "type": "photo",
-              "pk": 2
-            },
-            {
-              "filename": "pk3.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk3.1.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.1.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk3.1.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk3.jpg",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk3.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk3.webp",
-              "type": "photo",
-              "pk": 3
-            },
-            {
-              "filename": "pk4.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk4.1.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.1.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk4.1.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk4.jpg",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk4.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk4.webp",
-              "type": "photo",
-              "pk": 4
-            },
-            {
-              "filename": "pk5.1.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk5.1.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.1.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk5.1.webp",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.jpg",
-              "path": "/assets/skyline/Walnut/interior/living/pk5.jpg",
-              "type": "photo",
-              "pk": 5
-            },
-            {
-              "filename": "pk5.webp",
-              "path": "/assets/skyline/Walnut/interior/living/pk5.webp",
-              "type": "photo",
-              "pk": 5
-            }
-          ]
-        }
-      }
     }
   },
-  "generatedAt": "2025-09-09T18:52:11.195Z"
+  "generatedAt": "2025-09-10T15:31:24.167Z"
 }

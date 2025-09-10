@@ -38,8 +38,10 @@ export function useServiceWorker(): UseServiceWorkerResult {
       }
       */
       
-      // Регистрируем Service Worker
-      navigator.serviceWorker.register('/sw.js')
+      // Регистрируем Service Worker с учетом basePath (GitHub Pages)
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const swUrl = `${basePath}/sw.js`;
+      navigator.serviceWorker.register(swUrl)
         .then((registration) => {
           console.log('✅ Service Worker зарегистрирован:', registration);
           

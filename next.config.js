@@ -62,6 +62,11 @@ const nextConfig = {
     ],
   },
   
+  // Экспортируем basePath в клиент как публичную переменную окружения
+  env: {
+    NEXT_PUBLIC_BASE_PATH: (isGitHubPages && !isVercel) ? `/${repoName}` : '',
+  },
+  
   // Редиректы работают только в dev режиме и для Vercel (не для GitHub Pages)
   ...((isVercel || !isProd) && {
     async redirects() {
