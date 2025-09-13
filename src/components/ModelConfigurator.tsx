@@ -165,9 +165,9 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
       energyEfficiency: 5500,
     };
 
-    // Add interior design pricing
-    const selectedInteriorDesign = model.interiorDesigns.find(design => design.id === configuration.interiorDesign);
-    const interiorDesignAdjustment = selectedInteriorDesign?.priceAdjustment || 0;
+    // Add interior design pricing (guard for undefined interiorDesigns)
+    const selectedInteriorDesign = (model.interiorDesigns || []).find((design) => design.id === configuration.interiorDesign);
+    const interiorDesignAdjustment = selectedInteriorDesign?.price || 0;
 
     Object.entries(configuration.upgrades).forEach(([upgrade, enabled]) => {
       if (enabled) {
@@ -227,6 +227,8 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
   };
 
   const colors = getCollectionColors();
+  // Derived value used in render for clarity
+  const interiorDesignAdjustmentRender = ((model.interiorDesigns || []).find((d) => d.id === configuration.interiorDesign)?.price) || 0;
 
   const handleExteriorOptionChange = (type: string, optionId: string) => {
     setConfiguration(prev => ({
@@ -440,7 +442,7 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                 basePrice: configuration.basePrice,
                 floorPlanAdjustment: 0,
                 exteriorOptionsTotal: configuration.exteriorOptionsTotal || 0,
-                interiorDesignAdjustment: configuration.interiorDesignAdjustment || 0,
+                interiorDesignAdjustment: interiorDesignAdjustmentRender,
                 upgradesTotal: configuration.upgradesTotal || 0,
                 subtotal: configuration.subtotal || configuration.totalPrice,
                 taxRate: configuration.taxRate || 0.0875,
@@ -534,7 +536,7 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                   <h3 className="text-white font-semibold mb-4">Choose Floor Plan</h3>
                   
                   <div className="space-y-4">
-                    {model.floorPlans.map((plan) => (
+                    {(model.floorPlans || []).map((plan) => (
                       <motion.div
                         key={plan.id}
                         className={`p-4 rounded-lg cursor-pointer transition-all duration-300 ${
@@ -581,14 +583,7 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                     minHeight: '600px'
                   }}
                 >
-                  <AdvancedMaterialSelector
-                    modelName={model.name}
-                    baseImage={model.heroImage}
-                    exteriorOptions={model.exteriorOptions}
-                    currentSelections={configuration.exteriorOptions}
-                    onMaterialChange={handleExteriorOptionChange}
-                    collectionColors={colors}
-                  />
+                  <AdvancedMaterialSelector />
                 </Card>
               </TabsContent>
 
@@ -605,14 +600,7 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                     minHeight: '600px'
                   }}
                 >
-                  <InteriorFinishSelector
-                    modelName={model.name}
-                    baseImage={model.heroImage}
-                    interiorDesigns={model.interiorDesigns}
-                    currentSelection={configuration.interiorDesign}
-                    onInteriorChange={(designId) => setConfiguration(prev => ({ ...prev, interiorDesign: designId }))}
-                    collectionColors={colors}
-                  />
+                  <InteriorFinishSelector />
                 </Card>
               </TabsContent>
 

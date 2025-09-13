@@ -19,11 +19,12 @@ export const dynamic = 'force-dynamic';
 
 
 interface NeoHousePageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
 export async function generateMetadata({ params }: NeoHousePageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: NeoHousePageProps): Promise<M
 }
 
 export default async function NeoHousePage({ params }: NeoHousePageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   if (!slug || slug === 'undefined' || slug === 'null') {
     console.error(`❌ NeoHousePage: invalid slug received: "${slug}"`);
     notFound();

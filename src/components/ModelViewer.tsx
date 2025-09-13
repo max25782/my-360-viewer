@@ -225,7 +225,7 @@ export function ModelViewer({ model, onBack, onCompareToggle, isComparing = fals
             </motion.div>
 
             {/* Image Gallery - временно отключено */}
-            {model.features && model.features.length > 0 && (
+            {/* {model.features && model.features.length > 0 && (
               <motion.div
                 initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -237,7 +237,7 @@ export function ModelViewer({ model, onBack, onCompareToggle, isComparing = fals
                   <p className="text-slate-400 text-sm">Photo gallery for {model.name}</p>
                 </div>
               </motion.div>
-            )}
+            )} */}
           </div>
 
           {/* Model Info Tabs */}

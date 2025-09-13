@@ -27,6 +27,11 @@ export default function SkylineHousePage() {
     notFound();
   }
 
+  // Derive counts from availableRooms since House may not have bedrooms/bathrooms fields
+  const availableRooms = Array.isArray(house.availableRooms) ? house.availableRooms : [];
+  const bedroomCount = availableRooms.filter((r: string) => r === 'bedroom').length;
+  const bathroomCount = availableRooms.filter((r: string) => r === 'bathroom').length;
+
   return (
     <div className="min-h-screen bg-gray-900">
       <Header />
@@ -76,19 +81,13 @@ export default function SkylineHousePage() {
                   <svg className="w-5 h-5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  {house.bedrooms} Bedrooms
+                  {bedroomCount} Bedrooms
                 </li>
                 <li className="flex items-center">
                   <svg className="w-5 h-5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  {house.bathrooms} Bathrooms
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  {house.sqft} sq ft
+                  {bathroomCount} Bathrooms
                 </li>
               </ul>
             </div>

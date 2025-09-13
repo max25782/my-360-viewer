@@ -8,7 +8,7 @@
     "thumbnail": "assets/skyline/Walnut/hero.webp",
     "bedrooms": 2,
     "bathrooms": 2,
-    "sqft": 1600,
+    "sqft": 1400,
     "hasTour360": true,
     "hasComparison": true,
     "hasDesignPackages": true
@@ -21,8 +21,8 @@
     "image": "assets/skyline/laurel/hero.webp",
     "thumbnail": "assets/skyline/laurel/hero.webp",
     "bedrooms": 2,
-    "bathrooms": 1,
-    "sqft": 1350,
+    "bathrooms": 2,
+    "sqft": 1600,
     "hasTour360": true,
     "hasComparison": true,
     "hasDesignPackages": true

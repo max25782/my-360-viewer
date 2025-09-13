@@ -4,8 +4,8 @@
   "description": "The The Haven Legacy Series ADU offers 1056 square feet of versatile living space, featuring two bedrooms, one and a half baths, and an open two-story living area. An optional garage adds flexibility to this functional layout.",
   "category": "A",
   "bedrooms": 2,
-  "bathrooms": 1,
-  "sqft": 1350,
+  "bathrooms": 2,
+  "sqft": 1600,
   "hero": "assets/skyline/laurel/hero.webp",
   "gallery": [],
   "tour360": {
@@ -320,8 +320,14 @@
           "bedroom": [
             "assets/laurel/interior/bedroom/pk1.webp"
           ],
+          "bedroom2": [
+            "assets/laurel/interior/bedroom2/pk1.webp"
+          ],
           "bathroom": [
             "assets/laurel/interior/bathroom/pk1.webp"
+          ],
+          "bathroom2": [
+            "assets/laurel/interior/bathroom2/pk1.webp"
           ]
         }
       },
@@ -350,8 +356,14 @@
           "bedroom": [
             "assets/laurel/interior/bedroom/pk2.webp"
           ],
+          "bedroom2": [
+            "assets/laurel/interior/bedroom2/pk2.webp"
+          ],
           "bathroom": [
             "assets/laurel/interior/bathroom/pk2.webp"
+          ],
+          "bathroom2": [
+            "assets/laurel/interior/bathroom2/pk2.webp"
           ]
         }
       },
@@ -380,8 +392,14 @@
           "bedroom": [
             "assets/laurel/interior/bedroom/pk3.webp"
           ],
+          "bedroom2": [
+            "assets/laurel/interior/bedroom2/pk3.webp"
+          ],
           "bathroom": [
             "assets/laurel/interior/bathroom/pk3.webp"
+          ],
+          "bathroom2": [
+            "assets/laurel/interior/bathroom2/pk3.webp"
           ]
         }
       },
@@ -410,8 +428,14 @@
           "bedroom": [
             "assets/laurel/interior/bedroom/pk4.webp"
           ],
+          "bedroom2": [
+            "assets/laurel/interior/bedroom2/pk4.webp"
+          ],
           "bathroom": [
             "assets/laurel/interior/bathroom/pk4.webp"
+          ],
+          "bathroom2": [
+            "assets/laurel/interior/bathroom2/pk4.webp"
           ]
         }
       },
@@ -532,5 +556,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-12T21:36:15.429Z"
+  "lastUpdated": "2025-09-13T15:07:50.421Z"
 }

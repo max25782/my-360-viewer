@@ -98,10 +98,16 @@ export const loadHouseAssets = createAsyncThunk(
         tour360Config = await getTour360Config(houseId);
       }
 
+      const mappedPackages: DesignPackage[] = (designPackages || []).map((dp: number) => ({
+        id: `dp${dp}`,
+        name: `DP ${dp}`,
+        dp
+      }));
+
       const houseAssets: HouseAssets = {
         houseId,
-        exteriorPackages: designPackages,
-        interiorPackages: designPackages,
+        exteriorPackages: mappedPackages,
+        interiorPackages: mappedPackages,
         availableRooms,
         tour360Available,
         tour360Config,

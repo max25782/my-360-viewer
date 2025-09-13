@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Premium360Tour from './Premium/Premium360Tour';
 import Neo360Page from './Neo/Neo360';
-import Viewer360 from './Viewer360';
+
 import VirtualTourPreviewUniversal from './VirtualTourPreviewUniversal';
 import dynamic from 'next/dynamic';
 

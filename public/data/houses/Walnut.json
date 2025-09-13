@@ -5,7 +5,7 @@
   "category": "A",
   "bedrooms": 2,
   "bathrooms": 2,
-  "sqft": 1600,
+  "sqft": 1400,
   "hero": "assets/skyline/Walnut/hero.webp",
   "gallery": [],
   "tour360": {
@@ -256,9 +256,6 @@
           "assets/Walnut/exterior/dp1.webp"
         ],
         "interior": {
-          "living": [
-            "assets/Walnut/interior/living/pk1.webp"
-          ],
           "kitchen": [
             "assets/Walnut/interior/kitchen/pk1.webp"
           ],
@@ -286,9 +283,6 @@
           "assets/Walnut/exterior/dp2.webp"
         ],
         "interior": {
-          "living": [
-            "assets/Walnut/interior/living/pk2.webp"
-          ],
           "kitchen": [
             "assets/Walnut/interior/kitchen/pk2.webp"
           ],
@@ -316,9 +310,6 @@
           "assets/Walnut/exterior/dp3.webp"
         ],
         "interior": {
-          "living": [
-            "assets/Walnut/interior/living/pk3.webp"
-          ],
           "kitchen": [
             "assets/Walnut/interior/kitchen/pk3.webp"
           ],
@@ -346,9 +337,6 @@
           "assets/Walnut/exterior/dp4.webp"
         ],
         "interior": {
-          "living": [
-            "assets/Walnut/interior/living/pk4.webp"
-          ],
           "kitchen": [
             "assets/Walnut/interior/kitchen/pk4.webp"
           ],
@@ -376,9 +364,6 @@
           "assets/Walnut/exterior/dp5.webp"
         ],
         "interior": {
-          "living": [
-            "assets/Walnut/interior/living/pk5.webp"
-          ],
           "kitchen": [
             "assets/Walnut/interior/kitchen/pk5.webp"
           ],
@@ -497,5 +482,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-12T21:36:15.426Z"
+  "lastUpdated": "2025-09-13T15:07:50.419Z"
 }

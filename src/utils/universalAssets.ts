@@ -7,8 +7,8 @@
 export interface TourConfig {
   rooms: string[];
   availableFiles: Record<string, unknown>;
-  markerPositions?: Record<string, Record<string, { yaw: number; pitch: number }>>;
-  legacy?: boolean;
+  markerPositions: Record<string, Record<string, { yaw: number; pitch: number }>>;
+  legacy: boolean;
 }
 
 export interface AssetConfig {
@@ -189,7 +189,7 @@ export async function getTour360Config(houseId: string): Promise<TourConfig | nu
           
           // Получаем список комнат и маркеры из tour360
           const rooms: string[] = houseData.tour360?.rooms || [];
-          const markerPositions = houseData.tour360?.markerPositions || {};
+          const markerPositions = (houseData.tour360?.markerPositions || {}) as Record<string, Record<string, { yaw: number; pitch: number }>>;
           if (rooms.length > 0) {
             return {
               rooms,
@@ -216,7 +216,7 @@ export async function getTour360Config(houseId: string): Promise<TourConfig | nu
           return {
             rooms,
             availableFiles: {},
-            markerPositions: premiumHouse?.tour360?.markerPositions || {},
+            markerPositions: (premiumHouse?.tour360?.markerPositions || {}) as Record<string, Record<string, { yaw: number; pitch: number }>>,
             legacy: false,
           };
         }
@@ -264,7 +264,7 @@ export async function getTour360Config(houseId: string): Promise<TourConfig | nu
         return {
           rooms: config.rooms,
           availableFiles: config.availableFiles || {},
-          markerPositions: config.markerPositions || {},
+          markerPositions: (config.markerPositions || {}) as Record<string, Record<string, { yaw: number; pitch: number }>>,
           legacy: config.legacy || false,
         };
       }
@@ -374,6 +374,23 @@ export async function getAvailableDesignPackages(houseId: string): Promise<numbe
   } catch (error) {
     console.error(`Error checking design packages for ${houseId}:`, error);
     return [1]; // Fallback to DP1
+  }
+}
+
+/**
+ * Получает фичи сравнения (Good/Better/Best) из house-assets.json
+ */
+export async function getComparisonFeatures(houseId: string): Promise<Record<string, { good: string; better: string; best: string }>> {
+  try {
+    const res = await fetch(`/data/house-assets.json?ts=${Date.now()}` as any, { cache: 'no-store' as RequestCache });
+    if (!res.ok) return {};
+    const data = await res.json();
+    const houseData = (data?.houses && (data.houses[houseId] || data.houses[houseId.toLowerCase()] || data.houses[(houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase())])) || null;
+    const features = houseData?.comparison?.features;
+    return features && typeof features === 'object' ? features : {};
+  } catch (e) {
+    console.warn('[universalAssets.getComparisonFeatures] failed:', e);
+    return {};
   }
 }
 

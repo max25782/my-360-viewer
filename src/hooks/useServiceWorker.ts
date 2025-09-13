@@ -13,6 +13,7 @@ interface UseServiceWorkerResult {
   update: () => Promise<void>;
   preloadCategory: (categoryId: string) => void;
   registerAssets: (assets: string[]) => void;
+  resetServiceWorker: () => Promise<void>;
 }
 
 export function useServiceWorker(): UseServiceWorkerResult {
@@ -21,6 +22,12 @@ export function useServiceWorker(): UseServiceWorkerResult {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   useEffect(() => {
+    // Не регистрируем Service Worker в dev-режиме
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('⚠️ Service Worker disabled in development');
+      return;
+    }
+
     // Проверяем поддержку Service Worker
     if ('serviceWorker' in navigator) {
       // Enhanced Service Worker registration with better error handling

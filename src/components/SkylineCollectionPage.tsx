@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDrag } from 'react-dnd';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
@@ -183,8 +182,11 @@ export function SkylineCollectionPage({
         return parseInt(b.area) - parseInt(a.area);
       case 'popular':
         return (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0);
-      case 'newest':
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case 'newest': {
+        const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return bTime - aTime;
+      }
       default:
         return 0;
     }
@@ -1089,18 +1091,11 @@ export function SkylineCollectionPage({
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               {sortedModels.map((model, index) => {
-                const [{ isDragging }, drag] = useDrag({
-                  type: 'model',
-                  item: { model },
-                  collect: (monitor) => ({
-                    isDragging: monitor.isDragging(),
-                  }),
-                });
+                const isDragging = false;
 
                 return (
                   <motion.div
                     key={model.id}
-                    ref={drag}
                     initial={{ y: 50, opacity: 0, rotateX: 15 }}
                     animate={{ y: 0, opacity: 1, rotateX: 0 }}
                     transition={{ 
