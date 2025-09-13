@@ -57,6 +57,7 @@ import { PremierHouseConfigurator, PremierHouseConfig } from './PremierHouseConf
 import { NeoConfigurator, NeoConfig } from './NeoConfigurator';
 import { SkylineConfigurator, SkylineConfig } from './SkylineConfigurator';
 import { Virtual360Viewer } from './Virtual360Viewer';
+import CategorySpecific360Viewer from './CategorySpecific360Viewer';
 
 
 const seattleAduLogo = '/logo.png';
@@ -73,7 +74,7 @@ interface UnifiedModelBrowserProps {
 }
 
 type MainTab = 'collections' | 'model-details';
-type ModelTab = 'exterior' | 'interior' | 'floor-plan' | 'virtual-tour';
+type ModelTab = 'exterior' | 'interior' | 'virtual-tour';
 type Collection = 'skyline' | 'neo' | 'premier' | 'favorites';
 type ViewMode = 'grid' | 'list';
 
@@ -90,18 +91,31 @@ interface ModelTabContent {
     images: string[];
     features: string[];
   };
-  'floor-plan': {
-    title: string;
-    description: string;
-    images: string[];
-    features: string[];
-  };
   'virtual-tour': {
     title: string;
     description: string;
     images: string[];
     features: string[];
   };
+}
+
+// Build exterior images for Skyline models from public assets
+function getSkylineExteriorImagePaths(modelId: string): string[] {
+  const basePath = `/assets/skyline/${modelId}/exterior`;
+  const baseNames = ['1', '2', '3', '4', '5', '6', 'hero'];
+  const extensions = ['webp', 'jpg', 'png'];
+  const paths: string[] = [];
+  for (const name of baseNames) {
+    for (const ext of extensions) {
+      paths.push(`${basePath}/${name}.${ext}`);
+    }
+  }
+  return paths;
+}
+
+// Get 360° hero image for Skyline models
+function getSkyline360HeroImage(modelId: string): string {
+  return `/assets/skyline/${modelId}/360/hero.jpg`;
 }
 
 export function UnifiedModelBrowser({ 
@@ -303,11 +317,19 @@ export function UnifiedModelBrowser({
 
   // Generate model tab content based on selected model
   const getModelTabContent = (model: ModelData): ModelTabContent => {
+    const exteriorImages = model.collection === 'skyline'
+      ? getSkylineExteriorImagePaths(model.id)
+      : [model.heroImage, model.heroImage, model.heroImage];
+    
+    const virtualTourImage = model.collection === 'skyline'
+      ? getSkyline360HeroImage(model.id)
+      : model.heroImage;
+      
     return {
       exterior: {
         title: `${model.name} - Exterior Views`,
         description: 'Explore the stunning exterior design and architectural details',
-        images: [model.heroImage, model.heroImage, model.heroImage], // Placeholder - should be actual exterior images
+        images: exteriorImages,
         features: model.features || []
       },
       interior: {
@@ -316,24 +338,20 @@ export function UnifiedModelBrowser({
         images: [model.heroImage, model.heroImage], // Placeholder - should be actual interior images
         features: model.features || []
       },
-      'floor-plan': {
-        title: `${model.name} - Floor Plans`,
-        description: 'View detailed floor plans and room layouts',
-        images: [model.heroImage], // Placeholder - should be actual floor plan images
-        features: model.features || []
-      },
       'virtual-tour': {
         title: `${model.name} - Virtual Tour`,
         description: 'Take an immersive 360° virtual tour',
-        images: [model.heroImage], // Placeholder - should be actual tour preview
+        images: [virtualTourImage],
         features: model.features || []
       }
     };
   };
 
   const handleModelSelect = (model: ModelData) => {
+    console.log('🏠 UnifiedModelBrowser: Model selected:', { id: model.id, collection: model.collection, name: model.name });
     setSelectedModel(model);
     setMainTab('model-details');
+    setModelTab('virtual-tour');
     setCurrentImageIndex(0);
   };
 
@@ -769,8 +787,7 @@ export function UnifiedModelBrowser({
                       {[
                         { id: 'virtual-tour', icon: Play, label: 'Virtual Tour', gradient: 'from-purple-500 to-pink-500' },
                         { id: 'exterior', icon: Home, label: 'Exterior', gradient: 'from-blue-500 to-cyan-500' },
-                        { id: 'interior', icon: Layout, label: 'Interior', gradient: 'from-emerald-500 to-teal-500' },
-                        { id: 'floor-plan', icon: Ruler, label: 'Floor Plan & Features', gradient: 'from-orange-500 to-red-500' }
+                        { id: 'interior', icon: Layout, label: 'Interior', gradient: 'from-emerald-500 to-teal-500' }
                       ].map((tab, index) => {
                         const Icon = tab.icon;
                         const isActive = modelTab === tab.id;
@@ -857,56 +874,64 @@ export function UnifiedModelBrowser({
               <div className="flex-1 relative overflow-hidden">
                 {(() => {
                   const content = getModelTabContent(selectedModel)[modelTab as ModelTab];
+                  console.log('🎯 Current modelTab:', modelTab, 'isVirtualTour:', modelTab === 'virtual-tour');
                   return (
                     <>
-                      {/* FULLSCREEN IMAGE */}
-                      <img 
-                        key={`${modelTab}-${currentImageIndex}`}
-                        src={content.images[currentImageIndex]}
-                        alt={content.title}
-                        className="w-full h-full object-cover"
-                      />
-
-
-
-                      {/* NAVIGATION ARROWS - ONLY ARROWS */}
-                      {content.images.length > 1 && (
+                      {/* Показываем Virtual360Viewer непосредственно на вкладке Virtual Tour */}
+                      {modelTab === 'virtual-tour' ? (
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.6 }}
+                          className="absolute inset-0"
+                          style={{ minHeight: '60vh' }}
+                          onAnimationComplete={() => {
+                            try { console.log('🧭 UnifiedModelBrowser: rendering Virtual Tour with', { 
+                              category: (selectedModel.collection || 'skyline').toLowerCase() === 'premier' ? 'premium' : (selectedModel.collection || 'skyline'),
+                              slug: selectedModel.id,
+                              name: selectedModel.name
+                            }); } catch {}
+                          }}
+                        >
+                          <CategorySpecific360Viewer 
+                            category={(selectedModel.collection || 'skyline').toLowerCase() === 'premier' ? 'premium' : (selectedModel.collection || 'skyline')}
+                            slug={selectedModel.id || ''}
+                            name={selectedModel.name || ''}
+                            fullView={true}
+                          />
+                        </motion.div>
+                      ) : (
                         <>
-                          <Button
-                            variant="ghost"
-                            size="lg"
-                            onClick={prevImage}
-                            className="absolute left-8 top-1/2 transform -translate-y-1/2 z-30 w-20 h-20 rounded-full bg-black/30 hover:bg-black/50 text-white border-white/20 backdrop-blur-md"
-                          >
-                            <ChevronLeft className="w-10 h-10" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="lg"
-                            onClick={nextImage}
-                            className="absolute right-8 top-1/2 transform -translate-y-1/2 z-30 w-20 h-20 rounded-full bg-black/30 hover:bg-black/50 text-white border-white/20 backdrop-blur-md"
-                          >
-                            <ChevronRight className="w-10 h-10" />
-                          </Button>
-                        </>
-                      )}
+                          {/* FULLSCREEN IMAGE для других вкладок */}
+                          <img 
+                            key={`${modelTab}-${currentImageIndex}`}
+                            src={content.images[currentImageIndex]}
+                            alt={content.title}
+                            className="w-full h-full object-cover"
+                          />
 
-                      {/* VIRTUAL TOUR BUTTON - CENTER */}
-                      {modelTab === 'virtual-tour' && (
-                        <div className="absolute inset-0 flex items-center justify-center z-30">
-                          <Button
-                            size="lg"
-                            className="w-40 h-40 rounded-full bg-black/40 hover:bg-black/60 text-white border-white/20 backdrop-blur-md transition-all duration-300 hover:scale-110"
-                            onClick={() => {
-                              if (selectedModel) {
-                                handle360ViewerOpen(selectedModel);
-                              }
-                            }}
-                            aria-label="Open 360° Virtual Tour"
-                          >
-                            <Play className="w-16 h-16 ml-2" />
-                          </Button>
-                        </div>
+                          {/* NAVIGATION ARROWS - ONLY ARROWS */}
+                          {content.images.length > 1 && (
+                            <>
+                              <Button
+                                variant="ghost"
+                                size="lg"
+                                onClick={prevImage}
+                                className="absolute left-8 top-1/2 transform -translate-y-1/2 z-30 w-20 h-20 rounded-full bg-black/30 hover:bg-black/50 text-white border-white/20 backdrop-blur-md"
+                              >
+                                <ChevronLeft className="w-10 h-10" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="lg"
+                                onClick={nextImage}
+                                className="absolute right-8 top-1/2 transform -translate-y-1/2 z-30 w-20 h-20 rounded-full bg-black/30 hover:bg-black/50 text-white border-white/20 backdrop-blur-md"
+                              >
+                                <ChevronRight className="w-10 h-10" />
+                              </Button>
+                            </>
+                          )}
+                        </>
                       )}
                     </>
                   );

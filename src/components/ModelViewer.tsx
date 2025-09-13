@@ -206,39 +206,7 @@ export function ModelViewer({ model, onBack, onCompareToggle, isComparing = fals
         }}
       >
         <div className="py-8">
-          {/* Media Section - 360° Viewer + Gallery */}
-          <div className="mb-8 space-y-6">
-            {/* 360° Viewer Section */}
-            <motion.div
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <Virtual360Viewer 
-                model={model}
-                category={model.collection || 'skyline'}
-                slug={model.id || ''}
-                modelName={model.name || ''}
-                onClose={() => {}}
-                isDark={true}
-              />
-            </motion.div>
-
-            {/* Image Gallery - временно отключено */}
-            {/* {model.features && model.features.length > 0 && (
-              <motion.div
-                initial={{ y: 40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
-                <div className="bg-slate-800/60 border border-slate-700/50 rounded-lg p-8 text-center">
-                  <div className="text-4xl mb-4">🖼️</div>
-                  <h3 className="text-white font-medium mb-2">Image Gallery</h3>
-                  <p className="text-slate-400 text-sm">Photo gallery for {model.name}</p>
-                </div>
-              </motion.div>
-            )} */}
-          </div>
+         
 
           {/* Model Info Tabs */}
           <motion.div

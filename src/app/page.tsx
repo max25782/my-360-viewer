@@ -43,6 +43,10 @@ import { NeoConfigurator } from '../components/NeoConfigurator';
 import { PremierHouseConfigurator } from '../components/PremierHouseConfigurator';
 import { ModelViewer } from '../components/ModelViewer';
 import { convertHouseToModel } from '../data/realModelsData';
+import { House } from '../hooks/useHouses';
+import CategorySpecific360Viewer from '../components/CategorySpecific360Viewer';
+import UniversalDesignSelectorRedux from '../components/UniversalDesignSelectorRedux';
+import JsonGoodBetterBestComparison from '../components/JsonGoodBetterBestComparison';
 
 // Types
 type MainTab = 'collections' | 'model-details';
@@ -108,6 +112,32 @@ export default function Home() {
     setCurrentImageIndex((prev) => (prev - 1 + 4) % 4);
   };
 
+  // Convert ModelData to House for JsonGoodBetterBestComparison
+  const convertModelToHouse = (model: ModelData): House => {
+    return {
+      id: model.id,
+      name: model.name,
+      description: `${model.bedrooms} bed, ${model.bathrooms} bath ${model.area}`,
+      maxDP: 4, // Default values
+      maxPK: 4,
+      availableRooms: Array.from({ length: model.bedrooms }, () => 'bedroom')
+        .concat(Array.from({ length: model.bathrooms }, () => 'bathroom'))
+        .concat(['kitchen', 'living']),
+      category: model.collection as 'skyline' | 'neo' | 'premium',
+      pricing: {
+        good: model.basePrice,
+        better: model.basePrice * 1.2,
+        best: model.basePrice * 1.5
+      },
+      images: {
+        hero: model.heroImage,
+        gallery: [model.heroImage]
+      },
+      squareFeet: model.sqft || 1000,
+      features: model.features || []
+    };
+  };
+
   // Generate model tab content
   const getModelTabContent = (model: ModelData) => {
     return {
@@ -128,7 +158,7 @@ export default function Home() {
       },
       'virtual-tour': {
         title: 'Virtual Experience',
-        images: [model.heroImage, model.heroImage, model.heroImage, model.heroImage],
+        images: [model.collection === 'skyline' ? `/assets/skyline/${model.id}/360/hero.jpg` : model.heroImage],
         features: model.features || []
       }
     };
@@ -748,6 +778,29 @@ style={{
               <div className="flex-1 relative overflow-hidden">
                 {(() => {
                   const content = getModelTabContent(selectedModel)[modelTab as ModelTab];
+                  
+                  // Use UniversalDesignSelectorRedux for Skyline exterior and interior
+                  if (selectedModel.collection === 'skyline' && (modelTab === 'exterior' || modelTab === 'interior')) {
+                    return (
+                      <div className="absolute inset-0 p-8 overflow-y-auto">
+                        <UniversalDesignSelectorRedux
+                          houseId={selectedModel.id}
+                          type={modelTab as 'exterior' | 'interior'}
+                        />
+                      </div>
+                    );
+                  }
+                  
+                  // Use JsonGoodBetterBestComparison for Floor Plan tab
+                  if (modelTab === 'floor-plan') {
+                    const houseData = convertModelToHouse(selectedModel);
+                    return (
+                      <div className="absolute inset-0 p-8 overflow-y-auto">
+                        <JsonGoodBetterBestComparison house={houseData} />
+                      </div>
+                    );
+                  }
+                  
                   return (
                     <>
                       {/* FULLSCREEN IMAGE */}
@@ -797,7 +850,7 @@ style={{
                           >
                             <Play className="w-16 h-16 ml-2" />
                           </Button>
-</div>
+                        </div>
                       )}
                     </>
                   );
@@ -1503,18 +1556,24 @@ style={{
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-50 bg-black"
           >
-            {/* Virtual 360 Viewer Placeholder */}
-            <div className="flex items-center justify-center h-full">
-              <Card className="p-8 bg-black/80 text-white">
-                <div className="text-center">
-                  <Play className="w-16 h-16 mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold mb-2">360° Virtual Tour</h3>
-                  <p className="mb-4">Viewing: {current360Model?.name}</p>
-                  <Button onClick={handle360ViewerClose} variant="outline" className="text-white border-white">
-                    Close
-                  </Button>
-                </div>
-              </Card>
+            {/* Real 360° Viewer */}
+            <div className="relative w-full h-full">
+              <CategorySpecific360Viewer 
+                category={(current360Model.collection || 'skyline').toLowerCase() === 'premier' ? 'premium' : (current360Model.collection || 'skyline')}
+                slug={current360Model.id || ''}
+                name={current360Model.name || ''}
+                fullView={true}
+              />
+              
+              {/* Close button */}
+              <Button 
+                onClick={handle360ViewerClose} 
+                variant="outline" 
+                className="absolute top-4 right-4 z-50 text-white border-white bg-black/50 hover:bg-black/70"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Close
+              </Button>
             </div>
           </motion.div>
         )}
