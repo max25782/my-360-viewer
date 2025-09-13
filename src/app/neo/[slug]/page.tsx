@@ -13,12 +13,17 @@ import Neo360Page from '@/components/Neo/Neo360';
 import NeonStartColors from '@/components/Neo/NeoStartColors';
 
 
+// Всегда рендерим свежую версию страницы (обход статики/кэша)
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
+
 interface NeoHousePageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export async function generateMetadata({ params }: NeoHousePageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const houseConfig = await getServerNeoHouseConfig(slug);
   
   if (!houseConfig) {
@@ -36,7 +41,11 @@ export async function generateMetadata({ params }: NeoHousePageProps): Promise<M
 }
 
 export default async function NeoHousePage({ params }: NeoHousePageProps) {
-  const { slug } = await params;
+  const { slug } = params;
+  if (!slug || slug === 'undefined' || slug === 'null') {
+    console.error(`❌ NeoHousePage: invalid slug received: "${slug}"`);
+    notFound();
+  }
   console.log(`🏠 NeoHousePage called with slug: "${slug}"`);
   
   const houseConfig = await getServerNeoHouseConfig(slug);
@@ -155,7 +164,11 @@ export default async function NeoHousePage({ params }: NeoHousePageProps) {
       <HeroSection house={legacyHouse} />
 
      
-      <Neo360Page />
+      <Neo360Page 
+        slug={slug} 
+        {...(house.name && { name: house.name })}
+        {...(house.description && { description: house.description })}
+      />
       {/* Neo-specific color scheme showcase */}
       <section className="py-16 bg-slate-800">
         <>

@@ -1,0 +1,97 @@
+{
+  "houses": {
+    "Walnut": {
+      "name": "Walnut",
+      "description": "Modern Walnut design with spacious rooms and premium finishes",
+      "maxDP": 5,
+      "maxPK": 3,
+      "availableRooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {}
+      },
+      "comparison": {
+        "features": {
+          "Exterior": {
+            "good": "Standard siding",
+            "better": "Premium siding",
+            "best": "Custom siding with accent panels"
+          },
+          "Interior": {
+            "good": "Standard finishes",
+            "better": "Premium finishes",
+            "best": "Custom finishes"
+          },
+          "Kitchen": {
+            "good": "Standard appliances",
+            "better": "Premium appliances",
+            "best": "High-end appliances"
+          }
+        }
+      }
+    },
+    "Oak": {
+      "name": "Oak",
+      "description": "Elegant Oak design with premium finishes and spacious layout",
+      "maxDP": 5,
+      "maxPK": 3,
+      "availableRooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {}
+      },
+      "comparison": {
+        "features": {
+          "Exterior": {
+            "good": "Standard siding",
+            "better": "Premium siding",
+            "best": "Custom siding with accent panels"
+          },
+          "Interior": {
+            "good": "Standard finishes",
+            "better": "Premium finishes",
+            "best": "Custom finishes"
+          },
+          "Kitchen": {
+            "good": "Standard appliances",
+            "better": "Premium appliances",
+            "best": "High-end appliances"
+          }
+        }
+      }
+    },
+    "Tamarack": {
+      "name": "Tamarack",
+      "description": "Modern Tamarack design with open concept living",
+      "maxDP": 5,
+      "maxPK": 3,
+      "availableRooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {}
+      }
+    },
+    "Laurel": {
+      "name": "Laurel",
+      "description": "Spacious Laurel design with premium features",
+      "maxDP": 5,
+      "maxPK": 3,
+      "availableRooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {}
+      }
+    },
+    "Pine": {
+      "name": "Pine",
+      "description": "Cozy Pine design with efficient layout",
+      "maxDP": 5,
+      "maxPK": 3,
+      "availableRooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+      "tour360": {
+        "rooms": ["entry", "living", "kitchen", "bedroom", "bathroom"],
+        "availableFiles": {}
+      }
+    }
+  }
+}

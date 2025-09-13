@@ -2,7 +2,7 @@
  * Простой Service Worker для исправления PWA проблем
  */
 
-const CACHE_NAME = 'house-viewer-simple-v2';
+const CACHE_NAME = 'house-viewer-simple-v3';
 
 // Файлы для кэширования (только критически важные)
 const STATIC_CACHE_URLS = [
@@ -83,6 +83,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // ОБХОД КЭША: если URL содержит ?ts= параметр, всегда загружаем из сети
+  const url = new URL(event.request.url);
+  const hasTimestamp = url.searchParams.has('ts');
+  const isHtmlPage = event.request.mode === 'navigate' || 
+                     event.request.headers.get('accept')?.includes('text/html');
+
+  if (hasTimestamp && isHtmlPage) {
+    console.log('🔄 Service Worker: Bypassing cache due to timestamp', event.request.url);
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          // НЕ кэшируем страницы с timestamp - они должны быть всегда свежими
+          return response;
+        })
+        .catch((error) => {
+          console.error('❌ Service Worker: Fetch failed for timestamped request', error);
+          throw error;
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
@@ -101,8 +123,11 @@ self.addEventListener('fetch', (event) => {
               return response;
             }
 
-            // Кэшируем только GET запросы к нашему домену
-            if (event.request.url.startsWith(self.location.origin)) {
+            // НЕ кэшируем HTML страницы - они могут содержать динамический контент
+            const shouldCache = event.request.url.startsWith(self.location.origin) && 
+                               !isHtmlPage;
+
+            if (shouldCache) {
               const responseToCache = response.clone();
               caches.open(CACHE_NAME)
                 .then((cache) => {

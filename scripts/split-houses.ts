@@ -87,6 +87,12 @@ const CATEGORY_CONFIG: Record<HouseCategory, CategoryMetadata> = {
     title: 'Modern Collection',
     count: 0,
     description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
+  },
+  premium: {
+    id: 'premium',
+    title: 'Premium Collection',
+    count: 0,
+    description: 'Luxury and high-end ADU designs'
   }
 };
 
@@ -233,8 +239,8 @@ async function splitHouses(): Promise<void> {
   console.log(`📊 Найдено домов: ${houseIds.length}`);
   
   // Счетчики категорий
-  const categoryCounts: Record<HouseCategory, number> = { A: 0, B: 0, C: 0, skyline: 0, neo: 0, modern: 0 };
-  const categoryCards: Record<HouseCategory, HouseCard[]> = { A: [], B: [], C: [], skyline: [], neo: [], modern: [] };
+  const categoryCounts: Record<HouseCategory, number> = { A: 0, B: 0, C: 0, skyline: 0, neo: 0, modern: 0, premium: 0 };
+  const categoryCards: Record<HouseCategory, HouseCard[]> = { A: [], B: [], C: [], skyline: [], neo: [], modern: [], premium: [] };
   
   // Обработка каждого дома
   for (const houseId of houseIds) {

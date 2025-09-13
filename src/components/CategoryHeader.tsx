@@ -47,6 +47,12 @@ export default function CategoryHeader({ categoryId }: CategoryHeaderProps) {
       description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
       icon: '🏗️',
       gradient: 'from-emerald-600 to-green-800'
+    },
+    premium: {
+      title: 'Premium Collection',
+      description: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
+      icon: '🏗️',
+      gradient: 'from-emerald-600 to-green-800'
     }
   };
 

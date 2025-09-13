@@ -35,7 +35,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     C: 'Premium Collection',
     skyline: 'Skyline Collection',
     neo: 'Neo ADU Series',
-    modern: 'Premium Collection'
+    modern: 'Premium Collection',
+    premium: 'Premium Collection'
   };
 
   const categoryDescriptions = {
@@ -44,7 +45,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     C: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
     skyline: 'Traditional collection featuring a variety of house designs with beautiful skyline views.',
     neo: 'Modern designs with dual color schemes. Choose between elegant white or sophisticated dark interiors.',
-    modern: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
+    modern: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.',
+    premium: 'Contemporary and innovative architectural designs with cutting-edge features and smart home technology.'
   };
 
   const categoryName = categoryNames[categoryId.toLowerCase() as HouseCategory] || categoryNames[categoryId.toUpperCase() as HouseCategory];

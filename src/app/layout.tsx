@@ -45,7 +45,12 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="360 Houses" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        {/* iOS/iPadOS icons */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76x76.png" />
         
         {/* Preload critical data for LCP optimization */}
         <link rel="preload" href="/data/index.json" as="fetch" crossOrigin="anonymous" />

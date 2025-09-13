@@ -31,7 +31,14 @@ export function useServiceWorker(): UseServiceWorkerResult {
           
           if (existingRegistration) {
             console.log('🔄 Service Worker already registered, checking for updates...');
-            await existingRegistration.update();
+            try {
+              await existingRegistration.update();
+            } catch (updateError) {
+              console.warn('⚠️ Ошибка при обновлении SW, переустанавливаем:', updateError);
+              await existingRegistration.unregister();
+              // Небольшая задержка перед повторной регистрацией
+              await new Promise(resolve => setTimeout(resolve, 100));
+            }
           }
 
           const registration = await navigator.serviceWorker.register('/sw-simple.js', {
@@ -194,12 +201,45 @@ export function useServiceWorker(): UseServiceWorkerResult {
     }
   };
 
+  // Функция для полного сброса Service Worker
+  const resetServiceWorker = async () => {
+    if ('serviceWorker' in navigator) {
+      try {
+        console.log('🔄 Сбрасываем Service Worker...');
+        
+        // Получаем все регистрации
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        
+        // Отменяем все регистрации
+        for (const registration of registrations) {
+          await registration.unregister();
+          console.log('🗑️ Service Worker отменен:', registration.scope);
+        }
+        
+        // Очищаем все кэши
+        const cacheNames = await caches.keys();
+        for (const cacheName of cacheNames) {
+          await caches.delete(cacheName);
+          console.log('🗑️ Кэш очищен:', cacheName);
+        }
+        
+        console.log('✅ Service Worker полностью сброшен');
+        
+        // Перезагружаем страницу для чистого старта
+        window.location.reload();
+      } catch (error) {
+        console.error('❌ Ошибка при сбросе Service Worker:', error);
+      }
+    }
+  };
+
   return {
     isOffline,
     isInstallable,
     install,
     update,
     preloadCategory,
-    registerAssets
+    registerAssets,
+    resetServiceWorker
   };
 }

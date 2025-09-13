@@ -111,6 +111,7 @@ export default function CategoryHousesList({ category, title, searchParams = {} 
       skyline: 'Skyline Collection',
       neo: 'Neo ADU Series', 
       modern: 'Premium Collection',
+      premium: 'Premium Collection',
       A: 'Skyline Collection',
       B: 'Neo ADU Series',
       C: 'Premium Collection'

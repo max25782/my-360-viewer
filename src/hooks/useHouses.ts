@@ -233,15 +233,13 @@ export function getHouse(houseId: string): Promise<House | null> {
 export async function getAllHouses(): Promise<House[]> {
   try {
     const config = await loadAssetConfig();
-    const neoConfig = await loadNeoAssetConfig();
     const houseList: House[] = [];
     
 
     
-    // Добавляем Skyline дома
+    // Добавляем все Skyline дома
     for (const [houseId, houseConfig] of Object.entries(config.houses)) {
       const heroPath = await getAssetPath('hero', houseId, { format: 'webp' });
-      
       const house: House = {
         id: houseId,
         name: houseConfig.name,
@@ -259,36 +257,6 @@ export async function getAllHouses(): Promise<House[]> {
         fallbacks: houseConfig.fallbacks,
         category: 'skyline'
       };
-      
-      houseList.push(house);
-    }
-    
-    // Добавляем Neo дома
-    for (const [houseId, houseConfig] of Object.entries(neoConfig.neoHouses)) {
-      const heroPath = await getNeoAssetPath('hero', houseId, { 
-        color: 'white', 
-        format: 'jpg' 
-      });
-      
-      const house: House = {
-        id: `neo-${houseId}`, // Префикс для избежания конфликтов
-        name: houseConfig.name,
-        description: houseConfig.description || `Modern Neo ${houseConfig.name} with dual color schemes`,
-        maxDP: houseConfig.maxDP,
-        maxPK: houseConfig.maxPK,
-        availableRooms: houseConfig.availableRooms,
-        images: {
-          hero: heroPath,
-          gallery: []
-        },
-        tour360: {
-          rooms: [...houseConfig.tour360.white.rooms, ...houseConfig.tour360.dark.rooms],
-          availableFiles: {}
-        },
-        comparison: houseConfig.comparison,
-        category: 'neo'
-      };
-      
       houseList.push(house);
     }
     
@@ -299,5 +267,7 @@ export async function getAllHouses(): Promise<House[]> {
   }
 }
 
-// Совместимость со старым HOUSES константой
-export const HOUSES = getAllHouses();
+// Совместимость со старым HOUSES константой (не выполнять на сервере)
+export const HOUSES = typeof window !== 'undefined' ? getAllHouses() : Promise.resolve([]);
+
+

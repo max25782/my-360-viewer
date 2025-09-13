@@ -1,495 +1,504 @@
 /**
- * UNIVERSAL ASSET SYSTEM
- * 🎯 JSON-driven, zero hardcode, automatic fallbacks
- * Replace 1000+ lines of switch/case with 50 lines of universal code!
+ * Universal assets utilities for 360° tours
+ * Проверяет наличие туров и загружает конфигурацию
  */
 
-interface AssetConfig {
-  pathTemplates: {
-    hero: string;
-    exterior: string;
-    interior: string;
-    comparison: string;
-    tour360: {
-      thumbnail: string;
-      preview: string;
-      tiles: Record<string, string>;
-    };
-    textures: {
-      exterior: string;
-      interior: string;
-    };
-  };
+// Экспортируем интерфейсы для использования в других модулях
+export interface TourConfig {
   rooms: string[];
-  designPackages: Record<string, { dp: number; pk: number }>;
-  comparisonTypes: string[];
-  comparisonVariants: string[];
+  availableFiles: Record<string, unknown>;
+  markerPositions?: Record<string, Record<string, { yaw: number; pitch: number }>>;
+  legacy?: boolean;
 }
 
-interface HouseConfig {
-  name: string;
-  description?: string;
-  maxDP: number;
-  maxPK: number;
-  availableRooms: string[];
-  comparison?: {
-    features: Record<string, {
-      good: string;
-      better: string;
-      best: string;
-    }>;
-  };
-  tour360?: {
-    rooms: string[];
-    availableFiles: Record<string, {
-      thumbnail: boolean;
-      preview: boolean;
-      tiles: {
-        front: boolean;
-        back: boolean;
-        left: boolean;
-        right: boolean;
-        up: boolean;
-        down: boolean;
-      };
-    }>;
-    markerPositions?: Record<string, Record<string, { yaw: number; pitch: number }>>;
-  };
-  tour360Rooms?: string[]; // Legacy support
-  specialPaths?: Record<string, string>;
-  fallbacks?: Record<string, string>;
-}
-
-interface UniversalAssetData {
-  assetConfig: AssetConfig;
-  houses: Record<string, HouseConfig>;
-}
-
-// Cache for loaded config
-let assetData: UniversalAssetData | null = null;
-
-/**
- * Clear asset cache - useful for development and updates
- */
-export function clearAssetCache(): void {
-  assetData = null;
-  console.log('Asset cache cleared');
+export interface AssetConfig {
+  houses: Record<string, {
+    name: string;
+    description?: string;
+    maxDP: number;
+    maxPK: number;
+    availableRooms: string[];
+    tour360?: {
+      rooms: string[];
+      availableFiles: Record<string, unknown>;
+    };
+    comparison?: {
+      features: Record<string, {
+        good: string;
+        better: string;
+        best: string;
+      }>;
+    };
+    specialPaths?: Record<string, string>;
+    fallbacks?: Record<string, string>;
+  }>;
 }
 
 /**
- * Load asset configuration from JSON
+ * Загружает конфигурацию ассетов для всех домов
  */
-export async function loadAssetConfig(): Promise<UniversalAssetData> {
-  if (assetData) return assetData;
-  
+export async function loadAssetConfig(): Promise<AssetConfig> {
   try {
-    // Используем относительный путь для лучшей совместимости с Vercel
-    const response = await fetch('/data/house-assets.json');
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    // 1) Основной источник: house-assets.json (no-store, bust cache)
+    try {
+      const res = await fetch(`/data/house-assets.json?ts=${Date.now()}` as any, { cache: 'no-store' as RequestCache });
+      if (res.ok) {
+        const data = await res.json();
+        const housesSrc = data?.houses || {};
+        const mapped: AssetConfig['houses'] = {} as any;
+        for (const [id, h] of Object.entries(housesSrc)) {
+          const roomsFromTour = Array.isArray((h as any)?.tour360?.rooms) ? (h as any).tour360.rooms as string[] : [];
+          const availableRooms = Array.isArray((h as any)?.availableRooms) && (h as any).availableRooms.length > 0
+            ? (h as any).availableRooms as string[]
+            : roomsFromTour;
+          (mapped as any)[id] = {
+            name: (h as any)?.name || id,
+            description: (h as any)?.description,
+            maxDP: (h as any)?.maxDP ?? 5,
+            maxPK: (h as any)?.maxPK ?? 5,
+            availableRooms,
+            tour360: roomsFromTour.length > 0 ? { rooms: roomsFromTour, availableFiles: (h as any)?.tour360?.availableFiles || {} } : undefined,
+            comparison: (h as any)?.comparison,
+            specialPaths: (h as any)?.specialPaths,
+            fallbacks: (h as any)?.fallbacks,
+          };
+        }
+        return { houses: mapped };
+      }
+    } catch (e) {
+      console.warn('Failed to load house-assets.json, fallback to assets.json', e);
     }
-    assetData = await response.json();
-    return assetData!;
-  } catch (error) {
-    console.error('Failed to load asset config:', error);
-    // Return minimal fallback config
+
+    // 2) Запасной источник: assets.json
+    const response = await fetch('/data/assets.json');
+    if (response.ok) {
+      const config = await response.json();
+      return config;
+    }
+    
+    // Если не получилось, возвращаем базовую конфигурацию с Walnut
+    console.warn('Failed to load assets.json, using fallback configuration');
     return {
-      assetConfig: {
-        pathTemplates: {
-          hero: '/assets/skyline/{houseId}/hero.webp',
-          exterior: '/assets/skyline/{houseId}/exterior/dp{dp}.jpg',
-          interior: '/assets/skyline/{houseId}/interior/{room}/pk{pk}.jpg',
-          comparison: '/assets/skyline/{houseId}/comparison/{type}-{variant}.jpg',
+      houses: {
+        'Walnut': {
+          name: 'Walnut',
+          description: 'Modern Walnut design with spacious rooms',
+          maxDP: 5,
+          maxPK: 3,
+          availableRooms: ['entry', 'living', 'kitchen', 'bedroom', 'bathroom'],
           tour360: {
-            thumbnail: '/assets/skyline/{houseId}/360/{room}/thumbnail.jpg',
-            preview: '/assets/skyline/{houseId}/360/{room}/preview.jpg',
-            tiles: {}
-          },
-          textures: {
-            exterior: '/assets/skyline/texture/exterior/thumb{id}.jpg',
-            interior: '/assets/skyline/texture/interior/colors{id}.jpg'
+            rooms: ['entry', 'living', 'kitchen', 'bedroom', 'bathroom'],
+            availableFiles: {}
           }
         },
-        rooms: ['living', 'kitchen', 'bedroom', 'bathroom'],
-        designPackages: {
-          heritage: { dp: 1, pk: 1 },
-          haven: { dp: 2, pk: 2 },
-          serenity: { dp: 3, pk: 3 },
-          luxe: { dp: 4, pk: 4 }
-        },
-        comparisonTypes: ['good', 'better', 'best'],
-        comparisonVariants: ['exterior', 'plan1', 'plan2']
-      },
-      houses: {}
+        'Oak': {
+          name: 'Oak',
+          description: 'Elegant Oak design with premium finishes',
+          maxDP: 5,
+          maxPK: 3,
+          availableRooms: ['entry', 'living', 'kitchen', 'bedroom', 'bathroom'],
+          tour360: {
+            rooms: ['entry', 'living', 'kitchen', 'bedroom', 'bathroom'],
+            availableFiles: {}
+          }
+        }
+      }
+    };
+  } catch (error) {
+    console.error('Error loading asset configuration:', error);
+    // Возвращаем минимальную конфигурацию при ошибке
+    return {
+      houses: {
+        'Walnut': {
+          name: 'Walnut',
+          description: 'Modern Walnut design',
+          maxDP: 1,
+          maxPK: 1,
+          availableRooms: ['entry'],
+          tour360: {
+            rooms: ['entry'],
+            availableFiles: {}
+          }
+        }
+      }
     };
   }
 }
 
 /**
- * Map house ID to actual directory name (handle case sensitivity)
- */
-function getActualHouseDirectory(houseId: string): string {
-  const houseDirectoryMap: Record<string, string> = {
-    'walnut': 'Walnut',      // ✅ Заглавная W в файловой системе
-    'oak': 'Oak',            // ✅ Заглавная O в файловой системе
-    'tamarack': 'tamarack',  // ✅ lowercase в файловой системе
-    'laurel': 'laurel',      // ✅ lowercase в файловой системе
-    'pine': 'pine',          // ✅ lowercase в файловой системе
-    'ponderosa': 'ponderosa', // ✅ lowercase в файловой системе
-    'juniper': 'juniper',    // ✅ lowercase в файловой системе
-    'birch': 'birch',        // ✅ lowercase в файловой системе
-    'cypress': 'cypress',    // ✅ lowercase в файловой системе
-    'hemlock': 'hemlock',    // ✅ lowercase в файловой системе
-    'spruce': 'spruce',      // ✅ lowercase в файловой системе
-    'sage': 'sage',          // ✅ lowercase в файловой системе
-    'sapling': 'sapling'     // ✅ lowercase в файловой системе
-    // Add other case mappings as needed
-  };
-  
-  const houseName = houseDirectoryMap[houseId.toLowerCase()] || houseId;
-  console.log(`🏠 House directory mapping: ${houseId} → ${houseName}`);
-  
-  // Убеждаемся, что не возвращаем путь с skyline
-  if (houseName.includes('skyline')) {
-    console.error('❌ SKYLINE IN HOUSE NAME:', houseName);
-    return houseName.replace(/.*skyline\//, '');
-  }
-  
-  // Не добавляем skyline/ здесь, так как он уже есть в шаблонах путей
-  return houseName;
-}
-
-/**
- * Replace template variables in path
- */
-function replacePath(template: string, variables: Record<string, string | number>): string {
-  let result = template;
-  Object.entries(variables).forEach(([key, value]) => {
-    if (key === 'houseId') {
-      // Handle case sensitivity for house directories
-      result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), getActualHouseDirectory(String(value)));
-    } else {
-      result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
-    }
-  });
-  
-  // Добавляем логирование для отладки путей
-  console.log(`Generated path: ${result} from template: ${template}`);
-  
-  // Проверяем на дублирование skyline и автоматически исправляем
-  if (result.includes('/skyline/skyline/')) {
-    console.error('❌ DOUBLE SKYLINE DETECTED:', result);
-    console.error('Template was:', template);
-    console.error('Variables were:', variables);
-    // Исправляем дублирование
-    result = result.replace('/skyline/skyline/', '/skyline/');
-    console.log('✅ Fixed path:', result);
-  }
-  
-  // Для Vercel убеждаемся, что путь начинается с /
-  if (!result.startsWith('/')) {
-    result = '/' + result;
-  }
-  
-  return result;
-}
-
-/**
- * Get asset path with automatic fallbacks
- */
-export async function getAssetPath(
-  type: 'hero' | 'exterior' | 'interior' | 'comparison' | 'tour360' | 'texture',
-  houseId: string,
-  options: {
-    dp?: number;
-    pk?: number;
-    room?: string;
-    comparisonType?: string;
-    comparisonVariant?: string;
-    textureType?: 'exterior' | 'interior';
-    textureId?: number;
-    tour360Type?: 'thumbnail' | 'preview' | 'tiles';
-    tileDirection?: 'front' | 'back' | 'left' | 'right' | 'up' | 'down';
-    format?: 'jpg' | 'webp'; // Новый параметр
-  } = {}
-): Promise<string> {
-  const config = await loadAssetConfig();
-  const houseConfig = config.houses[houseId];
-  
-  let template = '';
-  const variables: Record<string, string | number> = { 
-    houseId,
-    format: options.format || 'jpg' // По умолчанию JPG
-  };
-  
-  // Проверяем специальные пути
-  if (type === 'hero' && houseConfig?.specialPaths?.hero) {
-    template = houseConfig.specialPaths.hero;
-    console.log(`Using special path for ${houseId}:`, template);
-    return replacePath(template, variables);
-  }
-  
-  switch (type) {
-    case 'hero':
-      template = config.assetConfig.pathTemplates.hero;
-      console.log(`Using default hero template for ${houseId}:`, template);
-      break;
-      
-    case 'exterior':
-      template = config.assetConfig.pathTemplates.exterior;
-      let dp = options.dp || 1;
-      
-      // Применяем fallbacks
-      if (houseConfig) {
-        const maxDP = houseConfig.maxDP;
-        if (dp > maxDP) {
-          dp = maxDP;
-        }
-        
-        // Проверяем специфические fallbacks
-        const fallbackKey = `dp${options.dp}`;
-        if (houseConfig.fallbacks?.[fallbackKey]) {
-          const fallbackDP = houseConfig.fallbacks[fallbackKey];
-          dp = parseInt(fallbackDP.replace('dp', ''));
-        }
-      }
-      
-      variables.dp = dp;
-      break;
-      
-    case 'interior':
-      template = config.assetConfig.pathTemplates.interior;
-      let room = options.room || 'living';
-      let pk = options.pk || 1;
-      
-      if (houseConfig) {
-        // Применяем fallbacks для комнат
-        if (!houseConfig.availableRooms.includes(room) && houseConfig.fallbacks?.[room]) {
-          room = houseConfig.fallbacks[room];
-        }
-        
-        // Применяем PK fallbacks
-        const maxPK = houseConfig.maxPK;
-        if (pk > maxPK) {
-          pk = maxPK;
-        }
-        
-        const fallbackKey = `pk${options.pk}`;
-        if (houseConfig.fallbacks?.[fallbackKey]) {
-          const fallbackPK = houseConfig.fallbacks[fallbackKey];
-          pk = parseInt(fallbackPK.replace('pk', ''));
-        }
-      }
-      
-      variables.room = room;
-      variables.pk = pk;
-      
-      // Проверяем формат изображения - сначала пробуем webp, потом jpg
-      if (!options.format) {
-        variables.format = 'webp'; // По умолчанию пробуем webp сначала
-      }
-      break;
-      
-    case 'comparison':
-      template = config.assetConfig.pathTemplates.comparison;
-      variables.type = options.comparisonType || 'good';
-      variables.variant = options.comparisonVariant || 'exterior';
-      break;
-      
-    case 'tour360':
-      const tour360Templates = config.assetConfig.pathTemplates.tour360;
-      const tour360Type = options.tour360Type || 'thumbnail';
-      
-      if (tour360Type === 'tiles' && options.tileDirection) {
-        template = tour360Templates.tiles[options.tileDirection] || tour360Templates.thumbnail;
-      } else if (tour360Type === 'thumbnail' || tour360Type === 'preview') {
-        template = tour360Templates[tour360Type] || tour360Templates.thumbnail;
-      } else {
-        template = tour360Templates.thumbnail;
-      }
-      
-      variables.room = options.room || 'living';
-      break;
-      
-    case 'texture':
-      const textureTemplates = config.assetConfig.pathTemplates.textures;
-      template = textureTemplates[options.textureType || 'exterior'];
-      variables.id = options.textureId || 1;
-      break;
-  }
-  
-  const finalPath = replacePath(template, variables);
-  console.log(`Final asset path for ${houseId} (${type}):`, finalPath);
-  return finalPath;
-}
-
-/**
- * Get all available design packages for a house
- */
-export async function getAvailableDesignPackages(houseId: string) {
-  const config = await loadAssetConfig();
-  const houseConfig = config.houses[houseId];
-  const maxDP = houseConfig?.maxDP || 4;
-  
-  return Object.entries(config.assetConfig.designPackages)
-    .filter(([_, packageConfig]) => packageConfig.dp <= maxDP)
-    .map(([name, packageConfig]) => ({
-      id: name,
-      name: name.charAt(0).toUpperCase() + name.slice(1),
-      dp: packageConfig.dp,
-      pk: packageConfig.pk
-    }));
-}
-
-/**
- * Get all available rooms for a house
- */
-export async function getAvailableRooms(houseId: string) {
-  const config = await loadAssetConfig();
-  const houseConfig = config.houses[houseId];
-  
-  return houseConfig?.availableRooms || config.assetConfig.rooms;
-}
-
-/**
- * Check if house has 360° tour
+ * Проверяет, доступен ли 360° тур для дома
  */
 export async function hasTour360(houseId: string): Promise<boolean> {
-  // Check if it's a Premium house first
-  if (houseId.toLowerCase().includes('premium') || await isPremiumHouse(houseId)) {
-    try {
-      const { hasPremiumTour360Client } = await import('./clientPremiumAssets');
-      return await hasPremiumTour360Client(houseId);
-    } catch (error) {
-      console.error('Failed to check Premium 360 tour:', error);
-      return false;
-    }
-  }
-
-  const config = await loadAssetConfig();
-  const houseConfig = config.houses[houseId];
-  
-  // Check new structure first, then fallback to legacy
-  if (houseConfig?.tour360?.rooms) {
-    return houseConfig.tour360.rooms.length > 0;
-  }
-  
-  return (houseConfig?.tour360Rooms || []).length > 0;
-}
-
-/**
- * Check if houseId belongs to Premium collection
- */
-async function isPremiumHouse(houseId: string): Promise<boolean> {
   try {
-    const { isPremiumHouseClient, knownPremiumHouses } = await import('./clientPremiumAssets');
-    // Quick check for known premium houses
-    if (knownPremiumHouses.includes(houseId)) {
-      return true;
+    // Premium JSON-driven config check first
+    try {
+      const premiumRes = await fetch('/data/premium-assets.json');
+      if (premiumRes.ok) {
+        const premiumData = await premiumRes.json();
+        const premiumHouse = premiumData?.premiumHouses?.[houseId];
+        if (premiumHouse?.tour360?.rooms?.length) {
+          console.log(`[universalAssets.hasTour360] premium-assets.json has rooms for ${houseId}`);
+          return true;
+        }
+      }
+    } catch (e) {
+      console.log(`[universalAssets.hasTour360] premium-assets.json check failed:`, e);
     }
-    return await isPremiumHouseClient(houseId);
+
+    // Проверяем house-assets.json для получения реальных комнат (только tour360.rooms)
+    try {
+      const houseAssetsRes = await fetch(`/data/house-assets.json?ts=${Date.now()}` as any, { cache: 'no-store' as RequestCache });
+      if (houseAssetsRes.ok) {
+        const houseAssetsData = await houseAssetsRes.json();
+        const houseData = resolveHouseData(houseAssetsData?.houses, houseId);
+        
+        const rooms: string[] | undefined = houseData?.tour360?.rooms;
+        if (Array.isArray(rooms) && rooms.length > 0) {
+          console.log(`[universalAssets.hasTour360] Found ${rooms.length} tour360 rooms for ${houseId} in house-assets.json`);
+          return true;
+        }
+      }
+    } catch (e) {
+      console.log(`[universalAssets.hasTour360] Error checking house-assets.json:`, e);
+    }
+
+    // Если есть комнаты в house-assets.json, считаем что тур доступен
+    // Реальную проверку файлов делаем только при загрузке тура
+    
+    return false;
   } catch (error) {
-    console.error('Error checking if house is premium:', error);
+    console.error(`Error checking 360° tour for ${houseId}:`, error);
     return false;
   }
 }
 
 /**
- * Get 360° tour configuration for a house
+ * Загружает конфигурацию 360° тура
  */
-export async function getTour360Config(houseId: string) {
-  // Check if it's a Premium house first
-  if (houseId.toLowerCase().includes('premium') || await isPremiumHouse(houseId)) {
-    try {
-      const { getPremium360ConfigClient } = await import('./clientPremiumAssets');
-      return await getPremium360ConfigClient(houseId);
-    } catch (error) {
-      console.error('Failed to get Premium 360 config:', error);
-      return null;
-    }
-  }
-
-  const config = await loadAssetConfig();
-  const houseConfig = config.houses[houseId];
-  
-  // Check new structure first
-  if (houseConfig?.tour360) {
-    return {
-      rooms: houseConfig.tour360.rooms,
-      availableFiles: houseConfig.tour360.availableFiles || {},
-      markerPositions: houseConfig.tour360.markerPositions || {},
-      legacy: false
-    };
-  }
-  
-  // Fallback to legacy structure
-  if (houseConfig?.tour360Rooms) {
-    return {
-      rooms: houseConfig.tour360Rooms,
-      availableFiles: {},
-      markerPositions: {},
-      legacy: true
-    };
-  }
-  
-  return null;
-}
-
-/**
- * Check if specific 360° file is available for a room
- */
-export async function is360FileAvailable(
-  houseId: string, 
-  room: string, 
-  fileType: 'thumbnail' | 'preview' | 'front' | 'back' | 'left' | 'right' | 'up' | 'down'
-): Promise<boolean> {
-  const config = await getTour360Config(houseId);
-  
-  if (!config || config.legacy) {
-    // For legacy structure, assume all files are available
-    return true;
-  }
-  
-  const availableFiles = config.availableFiles as Record<string, {
-    thumbnail: boolean;
-    preview: boolean;
-    tiles: {
-      front: boolean;
-      back: boolean;
-      left: boolean;
-      right: boolean;
-      up: boolean;
-      down: boolean;
-    };
-  }>;
-  
-  const roomConfig = availableFiles[room];
-  if (!roomConfig) return false;
-  
-  if (fileType === 'thumbnail' || fileType === 'preview') {
-    return roomConfig[fileType];
-  }
-  
-  // For tile files
-  return roomConfig.tiles[fileType];
-}
-
-/**
- * Get comparison features for a house from JSON
- */
-export async function getComparisonFeatures(houseId: string): Promise<Record<string, { good: string; better: string; best: string; }> | null> {
+export async function getTour360Config(houseId: string): Promise<TourConfig | null> {
   try {
-    const config = await loadAssetConfig();
-    const houseConfig = config.houses[houseId];
-    
-    if (!houseConfig?.comparison?.features) {
-      console.warn(`No comparison features found for house: ${houseId}`);
-      return null;
+    // Проверяем house-assets.json (основной источник данных, только tour360.rooms)
+    try {
+      const houseAssetsRes = await fetch(`/data/house-assets.json?ts=${Date.now()}` as any, { cache: 'no-store' as RequestCache });
+      if (houseAssetsRes.ok) {
+        const houseAssetsData = await houseAssetsRes.json();
+        const houseData = resolveHouseData(houseAssetsData?.houses, houseId);
+        
+        if (houseData) {
+          console.log(`[universalAssets.getTour360Config] Found house data in house-assets.json for ${houseId}`);
+          
+          // Получаем список комнат и маркеры из tour360
+          const rooms: string[] = houseData.tour360?.rooms || [];
+          const markerPositions = houseData.tour360?.markerPositions || {};
+          if (rooms.length > 0) {
+            return {
+              rooms,
+              availableFiles: {},
+              markerPositions,
+              legacy: false,
+            };
+          }
+        }
+      }
+    } catch (e) {
+      console.log(`[universalAssets.getTour360Config] Error loading house-assets.json:`, e);
     }
     
-    return houseConfig.comparison.features;
-  } catch (error) {
-    console.error('Failed to get comparison features:', error);
+    // Premium JSON-driven config (запасной вариант)
+    try {
+      const premiumRes = await fetch('/data/premium-assets.json');
+      if (premiumRes.ok) {
+        const premiumData = await premiumRes.json();
+        const premiumHouse = premiumData?.premiumHouses?.[houseId];
+        const rooms: string[] | undefined = premiumHouse?.tour360?.rooms;
+        if (Array.isArray(rooms) && rooms.length > 0) {
+          console.log(`[universalAssets.getTour360Config] using premium-assets.json for ${houseId}`);
+          return {
+            rooms,
+            availableFiles: {},
+            markerPositions: premiumHouse?.tour360?.markerPositions || {},
+            legacy: false,
+          };
+        }
+      }
+    } catch (e) {
+      console.log(`[universalAssets.getTour360Config] Error loading premium-assets.json:`, e);
+    }
+
+    // Проверяем assets.json (еще один запасной вариант)
+    try {
+      const assetsRes = await fetch('/data/assets.json');
+      if (assetsRes.ok) {
+        const assetsData = await assetsRes.json();
+        const houseData = assetsData?.houses?.[houseId];
+        
+        if (houseData?.tour360?.rooms) {
+          console.log(`[universalAssets.getTour360Config] Found house data in assets.json for ${houseId}`);
+          return {
+            rooms: houseData.tour360.rooms,
+            availableFiles: houseData.tour360.availableFiles || {},
+            markerPositions: {},
+            legacy: false,
+          };
+        }
+      }
+    } catch (e) {
+      console.log(`[universalAssets.getTour360Config] Error loading assets.json:`, e);
+    }
+
+    // Пробуем найти tour.json файлы
+    try {
+      const variants = buildTourJsonCandidates(houseId);
+      console.log(`[universalAssets.getTour360Config] candidates for ${houseId}:`, variants);
+      for (const url of variants) {
+        console.log(`[universalAssets.getTour360Config] GET ${url}`);
+        const response = await fetch(url);
+        if (!response.ok) continue;
+
+        const config = await response.json();
+        // Валидация конфигурации
+        if (!config.rooms || !Array.isArray(config.rooms)) {
+          console.error(`Invalid tour config for ${houseId} at ${url}: missing rooms array`);
+          continue;
+        }
+        return {
+          rooms: config.rooms,
+          availableFiles: config.availableFiles || {},
+          markerPositions: config.markerPositions || {},
+          legacy: config.legacy || false,
+        };
+      }
+    } catch (e) {
+      console.log(`[universalAssets.getTour360Config] Error checking tour.json files:`, e);
+    }
+    
+    // Если все методы не сработали, возвращаем null - нет тура
+    console.log(`[universalAssets.getTour360Config] No tour configuration found for ${houseId}`);
     return null;
+  } catch (error) {
+    console.error(`Error loading tour config for ${houseId}:`, error);
+    return null;
+  }
+}
+
+// Helpers
+function resolveHouseData(
+  houses: Record<string, any> | undefined,
+  houseId: string
+): any | undefined {
+  if (!houses) return undefined;
+  const direct = houses[houseId];
+  if (direct) return direct;
+  const lower = houses[houseId.toLowerCase()];
+  if (lower) return lower;
+  const capped = houses[capitalizeFirst(houseId.toLowerCase())];
+  if (capped) return capped;
+  return undefined;
+}
+
+function capitalizeFirst(input: string): string {
+  if (!input) return input;
+  return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
+function buildTourJsonCandidates(houseId: string): string[] {
+  const id = String(houseId);
+  const capped = capitalizeFirst(id);
+  // Порядок: premium (Cap, lower) → skyline (Cap, lower)
+  return [
+    `/assets/premium/${capped}/360/tour.json`,
+    `/assets/premium/${id}/360/tour.json`,
+    `/assets/skyline/${capped}/360/tour.json`,
+    `/assets/skyline/${id}/360/tour.json`,
+  ];
+}
+
+/**
+ * Проверяет наличие конкретной комнаты в туре
+ */
+export async function hasRoom360(houseId: string, roomName: string): Promise<boolean> {
+  try {
+    const config = await getTour360Config(houseId);
+    return config?.rooms.includes(roomName) || false;
+  } catch (error) {
+    console.error(`Error checking room ${roomName} for ${houseId}:`, error);
+    return false;
+  }
+}
+
+/**
+ * Получает список доступных комнат для дома
+ */
+export async function getAvailableRooms(houseId: string): Promise<string[]> {
+  try {
+    const config = await getTour360Config(houseId);
+    return config?.rooms || [];
+  } catch (error) {
+    console.error(`Error getting rooms for ${houseId}:`, error);
+    return [];
+  }
+}
+
+/**
+ * Проверяет наличие маркеров навигации для комнаты
+ */
+export function hasNavigationMarkers(config: TourConfig | null, roomName: string): boolean {
+  if (!config || !config.markerPositions) return false;
+  return roomName in config.markerPositions;
+}
+
+/**
+ * Получает позиции маркеров для комнаты
+ */
+export function getMarkerPositions(config: TourConfig | null, roomName: string): Record<string, { yaw: number; pitch: number }> | null {
+  if (!config || !config.markerPositions) return null;
+  return config.markerPositions[roomName] || null;
+}
+
+/**
+ * Получает доступные дизайн-пакеты для дома
+ */
+export async function getAvailableDesignPackages(houseId: string): Promise<number[]> {
+  try {
+    // Проверяем наличие дизайн-пакетов от DP1 до DP5
+    const packages: number[] = [];
+    
+    for (let dp = 1; dp <= 5; dp++) {
+      const response = await fetch(`/assets/skyline/${houseId}/exterior/dp${dp}.jpg`, { method: 'HEAD' });
+      if (response.ok) {
+        packages.push(dp);
+      }
+    }
+    
+    return packages;
+  } catch (error) {
+    console.error(`Error checking design packages for ${houseId}:`, error);
+    return [1]; // Fallback to DP1
+  }
+}
+
+/**
+ * Получает путь к ассету с проверкой доступности или с учетом типа и параметров
+ * Перегруженная функция для разных случаев использования
+ */
+export async function getAssetPath(
+  pathOrType: string, 
+  fallbackPathOrHouseId?: string, 
+  options?: { format?: string; dp?: number; pk?: number }
+): Promise<string> {
+  // Определяем, какая версия функции вызвана
+  if (fallbackPathOrHouseId && fallbackPathOrHouseId.startsWith('/')) {
+    // Базовая версия с путями
+    return getAssetPathBasic(pathOrType, fallbackPathOrHouseId);
+  } else {
+    // Расширенная версия с типом и домом
+    return getAssetPathExtended(pathOrType, fallbackPathOrHouseId || '', options);
+  }
+}
+
+/**
+ * Базовая версия getAssetPath
+ */
+async function getAssetPathBasic(basePath: string, fallbackPath?: string): Promise<string> {
+  try {
+    const response = await fetch(basePath, { method: 'HEAD' });
+    if (response.ok) {
+      return basePath;
+    }
+    
+    if (fallbackPath) {
+      const fallbackResponse = await fetch(fallbackPath, { method: 'HEAD' });
+      if (fallbackResponse.ok) {
+        return fallbackPath;
+      }
+    }
+    
+    return basePath; // Return original path even if not found
+  } catch (error) {
+    console.error(`Error checking asset path ${basePath}:`, error);
+    return fallbackPath || basePath;
+  }
+}
+
+/**
+ * Расширенная версия getAssetPath для совместимости с useHouses
+ */
+async function getAssetPathExtended(
+  assetType: string, 
+  houseId: string, 
+  options?: { format?: string; dp?: number; pk?: number }
+): Promise<string> {
+  try {
+    const format = options?.format || 'jpg';
+    const dp = options?.dp || 1;
+    const pk = options?.pk || 1;
+    
+    // Получаем правильное имя директории
+    const houseDirectoryMap: Record<string, string> = {
+      'walnut': 'Walnut',      // Заглавная W в файловой системе
+      'oak': 'Oak',            // Заглавная O в файловой системе
+      'tamarack': 'tamarack',  // lowercase в файловой системе
+      'laurel': 'laurel',      // lowercase в файловой системе
+      'pine': 'pine',          // lowercase в файловой системе
+      'ponderosa': 'ponderosa', // lowercase в файловой системе
+      'juniper': 'juniper',    // lowercase в файловой системе
+      'birch': 'birch',        // lowercase в файловой системе
+      'cypress': 'cypress',    // lowercase в файловой системе
+      'hemlock': 'hemlock',    // lowercase в файловой системе
+      'spruce': 'spruce',      // lowercase в файловой системе
+      'sage': 'sage',          // lowercase в файловой системе
+      'sapling': 'sapling'     // lowercase в файловой системе
+    };
+    
+    const actualHouseId = houseDirectoryMap[houseId.toLowerCase()] || houseId;
+    
+    // Строим путь в зависимости от типа ассета
+    let basePath = '';
+    let fallbackPath = '';
+    
+    switch (assetType) {
+      case 'hero':
+        basePath = `/assets/skyline/${actualHouseId}/hero.${format}`;
+        fallbackPath = `/assets/skyline/${actualHouseId}/hero.jpg`;
+        break;
+      case 'exterior':
+        basePath = `/assets/skyline/${actualHouseId}/exterior/dp${dp}.${format}`;
+        fallbackPath = `/assets/skyline/${actualHouseId}/exterior/dp${dp}.jpg`;
+        break;
+      case 'interior':
+        basePath = `/assets/skyline/${actualHouseId}/interior/pk${pk}.${format}`;
+        fallbackPath = `/assets/skyline/${actualHouseId}/interior/pk${pk}.jpg`;
+        break;
+      case 'floorplan':
+        basePath = `/assets/skyline/${actualHouseId}/floorplan.${format}`;
+        fallbackPath = `/assets/skyline/${actualHouseId}/floorplan.jpg`;
+        break;
+      default:
+        basePath = `/assets/skyline/${actualHouseId}/${assetType}.${format}`;
+        fallbackPath = `/assets/skyline/${actualHouseId}/${assetType}.jpg`;
+    }
+    
+    // Проверяем наличие файла
+    try {
+      const response = await fetch(basePath, { method: 'HEAD' });
+      if (response.ok) {
+        return basePath;
+      }
+      
+      // Если не найден, пробуем fallback
+      const fallbackResponse = await fetch(fallbackPath, { method: 'HEAD' });
+      if (fallbackResponse.ok) {
+        return fallbackPath;
+      }
+      
+      // Если и fallback не найден, возвращаем базовый путь
+      return basePath;
+    } catch (error) {
+      console.error(`Error checking asset path ${basePath}:`, error);
+      return basePath;
+    }
+  } catch (error) {
+    console.error(`Error in getAssetPath for ${houseId}:`, error);
+    return `/assets/skyline/${houseId}/hero.jpg`; // Default fallback
   }
 }

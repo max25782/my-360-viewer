@@ -34,8 +34,8 @@ export default function LoginPage() {
     // Сохраняем токен аутентификации
     localStorage.setItem('authToken', 'demo-token-' + Date.now());
     
-    // Redirect to main page
-    window.location.href = '/';
+    // Redirect to onboarding page
+    window.location.href = '/onboarding';
   };
 
   return (
@@ -49,7 +49,7 @@ export default function LoginPage() {
   );
 }
 
-export function LoginCard({ onForgotPassword, onSuccess }: LoginCardProps) {
+function LoginCard({ onForgotPassword, onSuccess }: LoginCardProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -175,7 +175,7 @@ export function LoginCard({ onForgotPassword, onSuccess }: LoginCardProps) {
               <div className="absolute inset-2 bg-gradient-to-r from-blue-400/20 to-teal-400/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500" />
               <div className="relative w-full h-full flex items-center justify-center">
                 <Image 
-                  src="/Website.png" 
+                  src="/logo.png" 
                   alt="360° House Viewer Logo" 
                   width={200} 
                   height={200}
@@ -385,7 +385,7 @@ export function LoginCard({ onForgotPassword, onSuccess }: LoginCardProps) {
   );
 }
 
-export function ForgotPasswordCard({ onBackToLogin }: ForgotPasswordCardProps) {
+function ForgotPasswordCard({ onBackToLogin }: ForgotPasswordCardProps) {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isLoading, setIsLoading] = useState(false);

@@ -171,7 +171,7 @@ export default function VirtualTourPreviewUniversal({
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <Link href={`/houses/${houseId}/tour`}>
+        <Link href={`/skyline/${houseId}/tour`}>
           {/* Dark overlay for better text visibility */}
           <div className="absolute inset-0 bg-opacity-40"></div>
           

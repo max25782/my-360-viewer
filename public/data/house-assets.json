@@ -90,7 +90,7 @@
       "maxDP": 5,
       "maxPK": 5,
       "availableRooms": [
-        "living",
+     
         "kitchen",
         "bedroom",
         "bedroom",
@@ -334,8 +334,9 @@
         "living",
         "kitchen",
         "bedroom",
-        "bedroom",
-        "bathroom"
+        "bedroom2",
+        "bathroom",
+        "bathroom2"
       ],
       "comparison": {
         "features": {

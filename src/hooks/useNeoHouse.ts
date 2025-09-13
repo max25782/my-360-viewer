@@ -37,6 +37,14 @@ export function useNeoHouse(houseId: string) {
 
   useEffect(() => {
     async function loadNeoHouse() {
+      // Проверяем, что houseId определен
+      if (!houseId || houseId === 'undefined' || houseId === 'null') {
+        console.error(`❌ useNeoHouse: Invalid houseId: "${houseId}"`);
+        setError(`Invalid house identifier: "${houseId}"`);
+        setLoading(false);
+        return;
+      }
+      
       try {
         setLoading(true);
         setError(null);

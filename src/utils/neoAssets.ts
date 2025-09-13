@@ -118,17 +118,29 @@ export async function loadNeoAssetConfig(): Promise<NeoAssetData> {
  * Map Neo house ID to actual directory name
  */
 function getNeoHouseDirectory(houseId: string): string {
+  // Проверяем, что houseId определен и не является строкой "undefined"
+  if (!houseId || houseId === 'undefined' || houseId === 'null') {
+    console.error(`❌ Invalid houseId passed to getNeoHouseDirectory: "${houseId}"`);
+    return 'Unknown';
+  }
+  
+  // Удаляем префикс neo- или Neo- если он есть
+  let cleanId = houseId;
+  if (cleanId.toLowerCase().startsWith('neo-')) {
+    cleanId = cleanId.substring(4);
+  }
+  
   // Сохраняем оригинальный регистр для специальных случаев
   const specialCases: Record<string, string> = {
     'HorizonX': 'HorizonX'
   };
   
-  if (specialCases[houseId]) {
-    return specialCases[houseId];
+  if (specialCases[cleanId]) {
+    return specialCases[cleanId];
   }
   
   // Для остальных делаем первую букву заглавной, остальные строчные
-  return houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+  return cleanId.charAt(0).toUpperCase() + cleanId.slice(1).toLowerCase();
 }
 
 /**
@@ -301,6 +313,12 @@ export async function getNeoHouses(): Promise<Array<{
  * Get Neo house configuration by ID
  */
 export async function getNeoHouseConfig(houseId: string): Promise<NeoHouseConfig | null> {
+  // Проверяем, что houseId определен и не является строкой "undefined"
+  if (!houseId || houseId === 'undefined' || houseId === 'null') {
+    console.error(`❌ Invalid Neo house ID: "${houseId}" (undefined, null, or empty)`);
+    return null;
+  }
+  
   const config = await loadNeoAssetConfig();
   
   console.log(`🔍 Looking for Neo house with ID: ${houseId}`);
