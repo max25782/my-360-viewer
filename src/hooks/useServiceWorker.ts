@@ -22,10 +22,8 @@ export function useServiceWorker(): UseServiceWorkerResult {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   useEffect(() => {
-    // Разрешаем Service Worker в development для тестирования PWA
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('🔧 Service Worker enabled in development for PWA testing');
-    }
+    // Service Worker работает и в development, и в production
+    console.log(`🔧 Service Worker initializing in ${process.env.NODE_ENV} mode`);
 
     // Проверяем поддержку Service Worker
     if ('serviceWorker' in navigator) {
