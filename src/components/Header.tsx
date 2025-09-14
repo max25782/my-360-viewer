@@ -93,8 +93,8 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
             <Link href="/premium" className="text-gray-900 hover:text-gray-900 font-bold">Premium</Link>
             <button 
               onClick={() => {
-                localStorage.removeItem('authToken');
-                window.location.href = '/login';
+                // Используем утилиту для выхода
+                import('../utils/auth').then(({ logout }) => logout());
               }}
               className="text-gray-900 hover:text-gray-900 font-bold"
             >

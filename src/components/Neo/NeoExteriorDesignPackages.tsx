@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NeoHouse } from '../../hooks/useNeoHouse';
+import { getNeoAssetPath } from '../../utils/neoAssets';
 
 interface NeoExteriorDesignPackagesProps {
   house: NeoHouse;
@@ -10,6 +11,8 @@ interface NeoExteriorDesignPackagesProps {
 export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPackagesProps) {
   const [activeScheme, setActiveScheme] = useState<'light' | 'dark'>('light');
   const [packageType, setPackageType] = useState<'good' | 'better' | 'best'>('good');
+  const [imagePath, setImagePath] = useState<string>('');
+  const [imageLoading, setImageLoading] = useState(true);
   
   // Максимальное количество пакетов для экстерьера
   const maxDP = house.maxDP || 3;
@@ -24,94 +27,160 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
     return packageType === 'good' ? 1 : packageType === 'better' ? 2 : 3;
   };
 
+  // Генерируем путь к изображению через Neo Asset система
+  const generateImagePath = async () => {
+    try {
+      setImageLoading(true);
+      // Используем правильный цветовой маппинг Neo системы
+      const colorValue = activeScheme === 'light' ? 'white' : 'dark';
+      const path = await getNeoAssetPath('exterior', house.id, {
+        color: colorValue,
+        dp: getPackageNumber(),
+        format: 'jpg'
+      });
+      console.log(`Generated Neo exterior path: ${path} for ${house.id}, color: ${colorValue}, dp: ${getPackageNumber()}`);
+      setImagePath(path);
+    } catch (error) {
+      console.error('Error generating Neo exterior path:', error);
+      // Fallback к прямому пути с правильным маппингом
+      const folderName = activeScheme === 'light' ? 'white' : 'black';
+      setImagePath(`/assets/neo/${house.id}/exterior/${folderName}/dp${getPackageNumber()}.jpg`);
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
+  // Обновляем путь к изображению при изменении параметров
+  useEffect(() => {
+    generateImagePath();
+  }, [activeScheme, packageType, house.id]);
+
   return (
-    <section className="py-16 bg-slate-">
+    <div className="bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-5xl font-bold uppercase tracking-widest text-gray-900 mb-2">
-            EXTERIOR
-          </h2>
-          <p className="text-lg text-gray-600">
-            Explore the exterior packages of our {house.name} ADU.
-          </p>
-        </div>
 
         {/* Main Image Display */}
         <div className="mb-8 relative">
-          <div className="relative">
-            <img
-              src={`/assets/neo/${house.id}/exterior/${getColorFolder()}/dp${getPackageNumber()}.jpg`}
-              alt={`${packageType.toUpperCase()} Package - ${activeScheme === 'light' ? 'White' : 'Dark'}`}
-              className="w-full h-[500px] object-cover rounded-lg shadow-lg"
-              onError={(e) => {
-                if (e.currentTarget) {
-                  // Fallback to dp1 if current dp is not found
-                  e.currentTarget.src = `/assets/neo/${house.id}/exterior/${getColorFolder()}/dp1.jpg`;
-                  e.currentTarget.onerror = () => {
-                    // Fallback to white/dp1 if specific color/dp is not found
-                    if (e.currentTarget) {
-                      e.currentTarget.src = `/assets/neo/${house.id}/exterior/white/dp1.jpg`;
-                    }
-                  };
-                }
-              }}
-            />
-            <div className="absolute bottom-1 flex justify-center items-center   bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">
-              {/* Package Selector */}
-        <div className="flex justify-center space-x-4 mb-1">
-          <button
-            className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'good' ? 'bg-slate-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-            onClick={() => setPackageType('good')}
-          >
-            Good
-          </button>
-          
-          {maxDP >= 2 && (
-            <button
-              className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'better' ? 'bg-slate-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-              onClick={() => setPackageType('better')}
-            >
-              Better
-            </button>
-          )}
-          
-          {maxDP >= 3 && (
-            <button
-              className={`px-6 py-3 rounded-lg font-semibold ${packageType === 'best' ? 'bg-slate-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
-              onClick={() => setPackageType('best')}
-            >
-              Best
-            </button>
-          )}
-        </div>
-            
+          {imageLoading && (
+            <div className="absolute inset-0 bg-gray-200 rounded-lg flex items-center justify-center z-10">
+              <div className="flex flex-col items-center space-y-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-600"></div>
+                <p className="text-gray-600">Загрузка изображения...</p>
+              </div>
             </div>
+          )}
+          
+          <div className="relative">
+            {imagePath && (
+              <img
+                src={imagePath}
+                alt={`${packageType.toUpperCase()} Package - ${activeScheme === 'light' ? 'White' : 'Dark'}`}
+                className="w-full h-[500px] object-cover rounded-lg shadow-lg"
+                onLoad={() => setImageLoading(false)}
+                onError={async (e) => {
+                  if (e.currentTarget) {
+                    try {
+                      // Fallback to dp1 if current dp is not found
+                      const colorValue = activeScheme === 'light' ? 'white' : 'dark';
+                      const fallbackPath = await getNeoAssetPath('exterior', house.id, {
+                        color: colorValue,
+                        dp: 1,
+                        format: 'jpg'
+                      });
+                      console.log(`Using fallback path: ${fallbackPath}`);
+                      e.currentTarget.src = fallbackPath;
+                    } catch {
+                      // Final fallback to direct path with correct folder mapping
+                      const folderName = activeScheme === 'light' ? 'white' : 'black';
+                      e.currentTarget.src = `/assets/neo/${house.id}/exterior/${folderName}/dp1.jpg`;
+                      console.log(`Using final fallback: /assets/neo/${house.id}/exterior/${folderName}/dp1.jpg`);
+                    }
+                  }
+                  setImageLoading(false);
+                }}
+              />
+            )}
+             <div className="absolute bottom-4 left-1/4 transform -translate-x-1/2 bg-opacity-60 rounded-lg px-6 py-3">
+               {/* Package Selector */}
+               <div className="flex justify-center space-x-3">
+                 <button
+                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                     packageType === 'good' 
+                       ? 'bg-slate-700 text-white shadow-lg' 
+                       : 'bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100'
+                   }`}
+                   onClick={() => setPackageType('good')}
+                 >
+                   Good
+                 </button>
+                 
+                 {maxDP >= 2 && (
+                   <button
+                     className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                       packageType === 'better' 
+                         ? 'bg-slate-700 text-white shadow-lg' 
+                         : 'bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100'
+                     }`}
+                     onClick={() => setPackageType('better')}
+                   >
+                     Better
+                   </button>
+                 )}
+                 
+                 {maxDP >= 3 && (
+                   <button
+                     className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                       packageType === 'best' 
+                         ? 'bg-slate-700 text-white shadow-lg' 
+                         : 'bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100'
+                     }`}
+                     onClick={() => setPackageType('best')}
+                   >
+                     Best
+                   </button>
+                 )}
+               </div>
+             </div>
           </div>
         </div>
 
         
 
         {/* Color Scheme Selector */}
-        <div className="flex justify-center space-x-4 mb-8">
-          <div
-            className={`w-24 h-24 cursor-pointer ${activeScheme === 'light' ? 'border-4 border-blue-500' : 'border border-gray-300'}`}
-            onClick={() => setActiveScheme('light')}
-          >
-            <div className="h-full w-full bg-gray-100 flex items-center justify-center">
-              <span className="text-gray-800">Light</span>
-            </div>
+        <div className="flex justify-center space-x-6 mb-8">
+          <div className="text-center">
+            <button
+              className={`w-24 h-24 cursor-pointer rounded-lg transition-all ${
+                activeScheme === 'light' 
+                  ? 'border-4 border-slate-700 shadow-lg transform scale-105' 
+                  : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md'
+              }`}
+              onClick={() => setActiveScheme('light')}
+            >
+              <div className="h-full w-full bg-gradient-to-br from-gray-50 to-gray-200 rounded-lg flex items-center justify-center">
+                <span className="text-gray-800 font-bold text-lg">WHITE</span>
+              </div>
+            </button>
+            <p className="mt-2 text-sm text-gray-600 font-medium">White Scheme</p>
           </div>
 
-          <div
-            className={`w-24 h-24 cursor-pointer ${activeScheme === 'dark' ? 'border-4 border-blue-500' : 'border border-gray-300'}`}
-            onClick={() => setActiveScheme('dark')}
-          >
-            <div className="h-full w-full bg-gray-800 flex items-center justify-center">
-              <span className="text-white">Dark</span>
-            </div>
+          <div className="text-center">
+            <button
+              className={`w-24 h-24 cursor-pointer rounded-lg transition-all ${
+                activeScheme === 'dark' 
+                  ? 'border-4 border-slate-700 shadow-lg transform scale-105' 
+                  : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md'
+              }`}
+              onClick={() => setActiveScheme('dark')}
+            >
+              <div className="h-full w-full bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">BLACK</span>
+              </div>
+            </button>
+            <p className="mt-2 text-sm text-gray-600 font-medium">Black Scheme</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

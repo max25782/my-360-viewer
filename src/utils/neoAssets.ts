@@ -229,6 +229,8 @@ export async function getNeoAssetPath(
       }
       
       variables.dp = dp;
+      // Для exterior используем colorFile (который правильно маппится dark->black)
+      variables.color = colorFile;
       break;
       
     case 'interior':
@@ -451,6 +453,20 @@ export async function getNeoTextures(): Promise<Array<{
 export function clearNeoAssetCache(): void {
   neoAssetData = null;
   console.log('Neo asset cache cleared');
+}
+
+/**
+ * Get Neo hero image path with color variant (hero_black, hero_white)
+ */
+export function getNeoHeroPath(houseSlug: string, color: 'black' | 'white' = 'black'): string {
+  // Удаляем префикс neo- если он есть
+  const cleanHouseId = houseSlug.startsWith('neo-') ? houseSlug.substring(4) : houseSlug;
+  // Нормализуем регистр имени дома
+  const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
+  
+  const path = `/assets/neo/${normalizedHouseId}/360/hero_${color}.jpg`;
+  console.log(`Generating Neo hero path: ${path}`);
+  return path;
 }
 
 export function getNeoComparisonPath(

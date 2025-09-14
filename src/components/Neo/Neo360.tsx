@@ -108,35 +108,25 @@ export default function Neo360Page({ slug: propSlug, name, description }: Neo360
     };
     
     return (
-        <section className="py-16 bg-slate-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                        {validName ? `Experience ${validName} in 360°` : 'Immersive 360° Experience'}
-                    </h2>
-                    <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                        {validDescription || 'Step inside and explore every corner of your future home with our interactive virtual tour.'}
-                    </p>
-                </div>
-
-                {/* Main Preview with Interactive Button */}
-                <div className="relative max-w-4xl mx-auto">
-                    <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl group cursor-pointer" onClick={handleStartTour}>
-                        {/* Preview Image with multiple fallbacks */}
+        <div className="w-full h-full relative">
+            {/* Main Preview with Interactive Button */}
+            <div className="relative w-full h-full">
+                <div className="relative w-full h-full group cursor-pointer" onClick={handleStartTour}>
+                        {/* Preview Image with optimized fallbacks for hero_black */}
                         <Image
-                            src={slug && slug !== 'undefined' ? `/assets/neo/${slug}/360/hero_black.jpg` : '/assets/neo/placeholder/360/hero_black.jpg'}
+                            src={slug && slug !== 'undefined' ? `/assets/neo/${slug}/360/hero_black.jpg` : '/assets/placeholder-360.jpg'}
                             alt="360° Tour Preview"
                             fill
                             className="object-cover transition-all duration-500 group-hover:scale-105"
                             onError={(e) => {
-                                console.log(`Trying fallback for Neo image: ${slug}`);
+                                console.log(`Trying fallback for Neo hero_black image: ${slug}`);
                                 if (!slug || slug === 'undefined') {
                                     console.log(`Invalid slug for fallback: ${slug}`);
                                     const target = e.currentTarget as HTMLImageElement;
                                     target.src = '/assets/placeholder-360.jpg';
                                     return;
                                 }
-                                // First fallback to white hero
+                                // First fallback to hero_white
                                 const target = e.currentTarget as HTMLImageElement;
                                 target.src = `/assets/neo/${slug}/360/hero_white.jpg`;
                                 target.onerror = () => {
@@ -145,16 +135,16 @@ export default function Neo360Page({ slug: propSlug, name, description }: Neo360
                                     target.src = `/assets/neo/${slug}/hero.jpg`;
                                     target.onerror = () => {
                                         console.log(`Trying third fallback for Neo image: ${slug}`);
-                                        // Third fallback to example images
-                                        target.src = `/assets/neo/${slug}/example/light.jpg`;
+                                        // Third fallback to 360 hero images
+                                        target.src = `/assets/neo/${slug}/360/hero_black.jpg`;
                                         target.onerror = () => {
-                                            console.log(`Trying final fallback for Neo image: ${slug}`);
-                                            // Final fallback to dark example
-                                            target.src = `/assets/neo/${slug}/example/dark.jpg`;
+                                            console.log(`Trying fourth fallback for Neo image: ${slug}`);
+                                            // Fourth fallback to 360 hero white
+                                            target.src = `/assets/neo/${slug}/360/hero_white.jpg`;
                                             target.onerror = () => {
                                                 console.log(`All fallbacks failed for Neo image: ${slug}`);
                                                 // Ultimate fallback to a generic placeholder
-                                                target.src = `/assets/placeholder-360.jpg`;
+                                                target.src = '/assets/placeholder-360.jpg';
                                             };
                                         };
                                     };
@@ -173,38 +163,11 @@ export default function Neo360Page({ slug: propSlug, name, description }: Neo360
                                     <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M8 5v14l11-7z"/>
                                     </svg>
-                                    
                                 </div>
                             </div>
                         </div>
-                        
-                      
-                        
-                      
-                        
-                        {/* Animated Border Effect */}
-                        <div className="absolute inset-0 border-4 border-transparent group-hover:border-blue-400 rounded-xl transition-all duration-300" />
-                    </div>
-                    
-                    {/* Call to Action Button */}
-                    <div className="text-center mt-8">
-                        <button 
-                            onClick={handleStartTour}
-                            className="inline-flex items-center px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold text-lg rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl"
-                        >
-                            <span className="mr-3 text-xl">🚀</span>
-                            Launch Virtual Tour
-                            <svg className="ml-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                        </button>
-                        
-                        <p className="text-gray-400 text-sm mt-4">
-                            🏠 Experience the immersive interior design of your future home
-                        </p>
                     </div>
                 </div>
             </div>
-        </section>
     );
 }

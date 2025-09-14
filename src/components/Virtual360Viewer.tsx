@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import CategorySpecific360Viewer from './CategorySpecific360Viewer';
 import Neo360Page from './Neo/Neo360';
 import Premium360Tour from './Premium/Premium360Tour';
+import { getNeoHeroPath } from '../utils/neoAssets';
 
 // Интерфейс для старого формата (обратная совместимость)
 interface ModelData {
@@ -74,10 +75,15 @@ export function Virtual360Viewer(props: Virtual360ViewerProps) {
   }
   
   // Формируем правильные пути к изображениям
-  // Приоритет: 1) явно указанный imageUrl, 2) путь к 360/hero, 3) heroImage модели
+  // Приоритет: 1) явно указанный imageUrl, 2) специальные пути для Neo (hero_black), 3) путь к 360/hero, 4) heroImage модели
   const get360HeroPath = () => {
     if (props.imageUrl) return props.imageUrl;
     if (category && slug) {
+      // Для Neo коллекции используем утилиту для получения hero_black.jpg
+      if (category === 'neo') {
+        return getNeoHeroPath(slug, 'black');
+      }
+      // Для других коллекций используем стандартный путь
       return `/assets/${category}/${slug}/360/hero.jpg`;
     }
     return model.heroImage || '';

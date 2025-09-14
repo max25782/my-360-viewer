@@ -26,24 +26,26 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
     return activeScheme === 'light' ? 1 : 2;
   };
   
+  // Получаем правильное имя папки дома (с заглавной буквы и без префикса neo-)
+  const getHouseDirectory = () => {
+    // Удаляем префикс neo- если он есть
+    const cleanId = house.id.startsWith('neo-') ? house.id.substring(4) : house.id;
+    // Первая буква заглавная
+    return cleanId.charAt(0).toUpperCase() + cleanId.slice(1);
+  };
+  
   // Функция для отладки - выводит полный путь к файлу
   const getFullPath = () => {
-    const path = `/assets/neo/${house.id}/interior/${getRoomPath(selectedRoom)}/pk${getPackageNumber()}.jpg`;
+    const path = `/assets/neo/${getHouseDirectory()}/interior/${getRoomPath(selectedRoom)}/pk${getPackageNumber()}.jpg`;
     console.log('Image path:', path);
     return path;
   };
 
   return (
-    <section className="py-16 bg-slate-800">
+    <section className="py-16 radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%)">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <h2 className="text-5xl font-bold uppercase tracking-widest text-gray-900 mb-2">
-            INTERIOR
-          </h2>
-          <p className="text-lg text-gray-600">
-            Explore the Dark and Light interior packages of each level of our {house.name} ADU.
-          </p>
-        </div>
 
         {/* Main Image Display */}
         <div className="mb-8 relative">
@@ -54,11 +56,11 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
               className="w-full h-[500px] object-cover rounded-lg shadow-lg"
               onError={(e) => {
                 // Если изображение не найдено, пробуем загрузить первый пакет для текущей комнаты
-                e.currentTarget.src = `/assets/neo/${house.id}/interior/${getRoomPath(selectedRoom)}/pk1.jpg`;
+                e.currentTarget.src = `/assets/neo/${getHouseDirectory()}/interior/${getRoomPath(selectedRoom)}/pk1.jpg`;
                 // Если и это не сработает, пробуем загрузить изображение для гостиной
                 e.currentTarget.onerror = () => {
                   if (e.currentTarget) {
-                    e.currentTarget.src = `/assets/neo/${house.id}/interior/living/pk1.jpg`;
+                    e.currentTarget.src = `/assets/neo/${getHouseDirectory()}/interior/living/pk1.jpg`;
                   }
                 };
               }}
@@ -68,13 +70,13 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
           {availableRooms.map((room) => (
             <button 
               key={room}
-              className={`px-4 py-2 m-1 rounded ${selectedRoom === room ? 'bg-blue-600 text-white' : 'bg-slate-400 text-gray-700 hover:bg-gray-300'}`}
+              className={`px-4 py-2 m-1 rounded ${selectedRoom === room ? 'bg-slate-700 text-white' : 'bg-slate-400 text-gray-700 hover:bg-gray-300'}`}
               onClick={() => setSelectedRoom(room)}
             >
               {room.charAt(0).toUpperCase() + room.slice(1)}
             </button>
           ))}
-            <div className="absolute bottom-15 left-8 bg-black bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">
+            <div className="absolute bottom-15 left-8 bg-slate-700 bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">
               {packageType.charAt(0).toUpperCase() + packageType.slice(1)} Package - {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)} - {activeScheme === 'light' ? 'White' : 'Dark'}
             </div>
         </div>
@@ -89,19 +91,19 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
         {/* Color Scheme Selector */}
         <div className="flex justify-center space-x-4 mb-8">
           <div 
-            className={`w-24 h-24 cursor-pointer ${activeScheme === 'light' ? 'border-4 border-blue-500' : 'border border-gray-300'}`}
+            className={`w-24 h-24 cursor-pointer ${activeScheme === 'light' ? 'border-4 border-slate-800 shadow-lg transform scale-105 rounded-lg' : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md rounded-lg'}`}
             onClick={() => setActiveScheme('light')}
           >
-            <div className="h-full w-full bg-gray-100 flex items-center justify-center">
+            <div className="h-full w-full bg-gray-100 rounded-lg flex items-center justify-center">
               <span className="text-gray-800">Light</span>
             </div>
           </div>
           
           <div 
-            className={`w-24 h-24 cursor-pointer ${activeScheme === 'dark' ? 'border-4 border-blue-500' : 'border border-gray-300'}`}
+            className={`w-24 h-24 cursor-pointer ${activeScheme === 'dark' ? 'border-4 border-slate-800 shadow-lg transform scale-105 rounded-lg' : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md rounded-lg'}`}
             onClick={() => setActiveScheme('dark')}
           >
-            <div className="h-full w-full bg-gray-800 flex items-center justify-center">
+            <div className="h-full w-full bg-slate-700 rounded-lg flex items-center justify-center">
               <span className="text-white">Dark</span>
             </div>
           </div>
