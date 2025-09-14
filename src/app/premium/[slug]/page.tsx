@@ -120,7 +120,7 @@ export default async function PremiumHousePage({ params }: { params: Promise<{ s
            <div className="grid grid-cols-1 gap-12">
             {/* Exterior Design */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-6">Exterior Options</h2>
+              <h2 className="text-2xl font-bold text-white mb-6"></h2>
               <PremiumExteriorCarousel 
                 houseId={premiumHouse.id} 
                 maxDP={premiumHouse.maxDP} 

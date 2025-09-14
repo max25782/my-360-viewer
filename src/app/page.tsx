@@ -368,7 +368,7 @@ export default function Home() {
                 </motion.div>
 
                 {/* ✨ IMAGE SECTION - CONNECTED TO FRAME */}
-                <div className="flex-1 relative overflow-hidden">
+                <div className="flex-1 relative mb-8 overflow-hidden">
                   {(() => {
                     const content = getModelTabContent(state.selectedModel)[state.modelTab as ModelTab];
                     
@@ -397,7 +397,7 @@ export default function Home() {
                     // Use UniversalDesignSelectorRedux for Skyline exterior and interior
                     if (state.selectedModel.collection === 'skyline' && (state.modelTab === 'exterior' || state.modelTab === 'interior')) {
                       return (
-                        <div className="absolute inset-0 p-8 overflow-y-auto">
+                        <div className="absolute inset-0 p-8 overflow-hidden">
                           <UniversalDesignSelectorRedux
                             houseId={state.selectedModel.id}
                             type={state.modelTab as 'exterior' | 'interior'}
@@ -419,7 +419,7 @@ export default function Home() {
                     // Use CategorySpecific360Viewer for Virtual Tour tab
                     if (state.modelTab === 'virtual-tour') {
                       return (
-                        <div className="absolute inset-0">
+                        <div className="relative inset-0 w-full h-full">
                           <CategorySpecific360Viewer
                             category={state.selectedModel.collection || 'skyline'}
                             slug={state.selectedModel.id}

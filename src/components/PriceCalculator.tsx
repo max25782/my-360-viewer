@@ -135,7 +135,7 @@ export function PriceCalculator({ priceBreakdown, collectionColors, className = 
         {/* Exterior Options */}
         {exteriorOptionsTotal > 0 && (
           <LineItem 
-            label="Exterior Upgrades" 
+            label="" 
             amount={exteriorOptionsTotal}
             description="Premium materials and finishes"
           />

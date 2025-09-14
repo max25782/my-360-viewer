@@ -56,7 +56,6 @@ export default function SkylineExteriorDesignPackages({ house }: SkylineExterior
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">
-            Exterior Options
           </h2>
           <p className="text-lg text-gray-600">
             Explore the exterior design options for the {house.name}.

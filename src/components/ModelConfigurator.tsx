@@ -506,7 +506,6 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                   value="exterior"
                   className="data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-400 text-slate-400"
                 >
-                  Exterior Options
                 </TabsTrigger>
                 <TabsTrigger 
                   value="interior"

@@ -452,7 +452,7 @@ export default function UniversalDesignSelectorRedux({
       {/* Title */}
       <h3 className={`text-xl font-semibold text-center ${type === 'exterior' ? 'text-gray-900' : 'text-white drop-shadow-lg'
         }`}>
-        {type === 'exterior' ? 'Exterior Options' : ''}
+        {type === 'exterior' ? '' : ''}
       </h3>
 
       {/* Texture Selection for Interior - функциональность сохранена, UI отключен */}
@@ -460,9 +460,10 @@ export default function UniversalDesignSelectorRedux({
       {/* Main Image Display - Lazy Loading Optimized */}
       <div className="rounded-lg overflow-hidden shadow-lg">
         <div
-          className="aspect-video relative overflow-hidden bg-gray-100"
+          className="relative overflow-hidden bg-gray-100"
           style={{
-            minHeight: '360px' // Prevent CLS
+            height: '500px', // Увеличенная высота для отображения всего контента
+            minHeight: '500px' // Prevent CLS
           }}
         >
           {currentImage && (

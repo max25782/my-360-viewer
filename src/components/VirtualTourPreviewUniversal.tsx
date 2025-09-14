@@ -131,11 +131,9 @@ export default function VirtualTourPreviewUniversal({
 
   if (loading) {
     return (
-      <div className="max-w-6xl mx-auto">
-        <div className="aspect-video rounded-lg overflow-hidden shadow-2xl bg-gray-300"></div>
-        <div className="mt-4 text-center">
-          <div className="h-6 bg-gray-300 rounded w-48 mx-auto mb-2"></div>
-          <div className="h-4 bg-gray-300 rounded w-32 mx-auto"></div>
+      <div className="w-full h-full">
+        <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl bg-gray-300 flex items-center justify-center">
+          <div className="w-12 h-12 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
         </div>
       </div>
     );
@@ -143,15 +141,14 @@ export default function VirtualTourPreviewUniversal({
 
   if (!hasTouring) {
     return (
-      <div className="max-w-6xl mx-auto">
-        <div className="aspect-video rounded-lg overflow-hidden shadow-2xl bg-gray-100 flex items-center justify-center">
+      <div className="w-full h-full">
+        <div className="w-full h-full rounded-lg overflow-hidden shadow-2xl bg-gray-100 flex items-center justify-center">
           <div className="text-center text-gray-500">
             <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center mb-4">
               <svg className="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold mb-2">360° Virtual Tour</h3>
             <p className="text-gray-400">Coming soon for {houseName}</p>
           </div>
         </div>
@@ -160,11 +157,10 @@ export default function VirtualTourPreviewUniversal({
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-full h-full">
       <div 
-        className="aspect-video rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
+        className="w-full h-full rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
         style={{
-          minHeight: '360px', // Prevent CLS
           backgroundImage: `url('${dynamicPreviewImage}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -186,14 +182,6 @@ export default function VirtualTourPreviewUniversal({
           
          
         </Link>
-      </div>
-      
-      {/* Preview Info - точно как в старом компоненте */}
-      <div className="mt-4 text-center">
-        <h3 className="text-2xl font-bold text-white mb-2">360° Virtual Tour</h3>
-        <p className="text-gray-300">
-          Experience in immersive 360° • Click to explore
-        </p>
       </div>
     </div>
   );
