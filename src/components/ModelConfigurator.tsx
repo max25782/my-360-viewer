@@ -32,7 +32,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ModelData, ExteriorOption, InteriorDesign } from '../data/realModelsData';
 import { Virtual360Viewer } from './Virtual360Viewer';
 import { PriceCalculator } from './PriceCalculator';
-import { AdvancedMaterialSelector } from './AdvancedMaterialSelector';
+
 import { InteriorFinishSelector } from './InteriorFinishSelector';
 const seattleAduLogo = '/logo.png';
 
@@ -581,7 +581,10 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                     minHeight: '600px'
                   }}
                 >
-                  <AdvancedMaterialSelector />
+                  {/* <AdvancedMaterialSelector /> Component removed */}
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    Advanced Material Selector - Coming Soon
+                  </div>
                 </Card>
               </TabsContent>
 

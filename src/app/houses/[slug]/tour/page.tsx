@@ -39,6 +39,7 @@ export default function TourPage() {
       window.location.href = `/neo/${house!.id}?ts=${ts}`;
     } else if (category === 'premium') {
       window.location.href = `/premium/${house!.id}?ts=${ts}`;
+    
     } else {
       window.location.href = `/houses/${house!.id}?ts=${ts}`;
     }
