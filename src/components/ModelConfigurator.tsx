@@ -512,7 +512,6 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
                   value="interior"
                   className="data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-400 text-slate-400"
                 >
-                  Interior Finishes
                 </TabsTrigger>
                 <TabsTrigger 
                   value="upgrades"

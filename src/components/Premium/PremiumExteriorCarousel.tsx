@@ -17,6 +17,12 @@ export default function PremiumExteriorCarousel({ houseId, maxDP }: PremiumExter
   const imageRef = useRef<HTMLImageElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
 
+  // Преобразуем houseId для правильного регистра и удаления префикса
+  const cleanHouseId = houseId.toLowerCase().startsWith('premium-') 
+    ? houseId.substring(8) // Удаляем "premium-" (8 символов)
+    : houseId;
+  const capitalizedHouseId = cleanHouseId.charAt(0).toUpperCase() + cleanHouseId.slice(1).toLowerCase();
+
   // Optimized function to check image existence
   const checkImageExists = useCallback(async (path: string): Promise<boolean> => {
     try {
@@ -45,8 +51,9 @@ export default function PremiumExteriorCarousel({ houseId, maxDP }: PremiumExter
       
       for (let dp = 1; dp <= maxDP; dp++) {
         const checkDPImage = async () => {
-          // Сразу используем jpg, так как мы создали заглушки только в этом формате
-          const path = `/assets/premium/${houseId}/exterior/dp${dp}.jpg`;
+          // Используем обработанный capitalizedHouseId для правильного пути
+          const path = `/assets/premium/${capitalizedHouseId}/exterior/dp${dp}.jpg`;
+          console.log(`🖼️ PREMIUM EXTERIOR: Checking path for ${houseId} → ${capitalizedHouseId}: ${path}`);
           try {
             const exists = await checkImageExists(path);
             if (exists) {
@@ -75,7 +82,7 @@ export default function PremiumExteriorCarousel({ houseId, maxDP }: PremiumExter
     };
     
     loadImages();
-  }, [houseId, maxDP, checkImageExists]);
+  }, [houseId, capitalizedHouseId, maxDP, checkImageExists]);
 
   // Update the DOM directly when image index changes
   useEffect(() => {
@@ -135,11 +142,11 @@ export default function PremiumExteriorCarousel({ houseId, maxDP }: PremiumExter
   const initialImage = exteriorImages[currentIndex];
 
   return (
-    <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg" 
+    <div className="relative w-full  rounded-lg overflow-hidden shadow-lg" 
          ref={imageContainerRef}
          style={{ 
-           height: "400px", 
-           minHeight: "400px",
+           height: "600px", 
+           minHeight: "600px",
            contain: "layout paint" 
          }}>
       {/* Fast loading placeholder for LCP */}

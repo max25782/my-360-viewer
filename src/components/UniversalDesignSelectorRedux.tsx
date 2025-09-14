@@ -452,7 +452,7 @@ export default function UniversalDesignSelectorRedux({
       {/* Title */}
       <h3 className={`text-xl font-semibold text-center ${type === 'exterior' ? 'text-gray-900' : 'text-white drop-shadow-lg'
         }`}>
-        {type === 'exterior' ? 'Exterior Options' : 'Interior Finishes'}
+        {type === 'exterior' ? 'Exterior Options' : ''}
       </h3>
 
       {/* Texture Selection for Interior - функциональность сохранена, UI отключен */}
@@ -606,7 +606,7 @@ export default function UniversalDesignSelectorRedux({
       {type === 'interior' && (
         <div className="mt-6">
           <h4 className="text-lg font-semibold text-white text-center mb-4 drop-shadow-lg">
-            Interior Finishes
+            Textures
           </h4>
           <div className="flex justify-center space-x-4">
             {INTERIOR_TEXTURES.map((texture) => (

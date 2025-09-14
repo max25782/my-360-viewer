@@ -40,6 +40,12 @@ export default function PremiumInteriorCarousel({
   const imageRef = useRef<HTMLImageElement>(null);
   const roomLabelRef = useRef<HTMLSpanElement>(null);
 
+  // Преобразуем houseId для правильного регистра и удаления префикса
+  const cleanHouseId = houseId.toLowerCase().startsWith('premium-') 
+    ? houseId.substring(8) // Удаляем "premium-" (8 символов)
+    : houseId;
+  const capitalizedHouseId = cleanHouseId.charAt(0).toUpperCase() + cleanHouseId.slice(1).toLowerCase();
+
   // Функция всегда возвращает true, чтобы избежать проверок существования файлов
   const checkImageExists = useCallback(async (path: string): Promise<boolean> => {
     return true; // Всегда предполагаем, что изображение существует
@@ -63,9 +69,9 @@ export default function PremiumInteriorCarousel({
         const manifest: AssetManifest = await manifestResponse.json();
         console.log(`Загружен манифест ассетов, дата генерации: ${manifest.generatedAt}`);
         
-        // Получаем данные для текущего дома
-        const capitalizedHouseId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
+        // Получаем данные для текущего дома (используем уже обработанный capitalizedHouseId)
         const houseData = manifest.houses[capitalizedHouseId];
+        console.log(`🏠 PREMIUM INTERIOR: Looking for house data: ${houseId} → ${capitalizedHouseId}`);
         
         if (!houseData) {
           console.warn(`Дом ${capitalizedHouseId} не найден в манифесте`);
@@ -122,7 +128,7 @@ export default function PremiumInteriorCarousel({
     };
     
     loadImagesFromManifest();
-  }, [houseId, availableRooms]);
+  }, [houseId, capitalizedHouseId, availableRooms]);
 
   // Логирование для отладки
   useEffect(() => {
@@ -182,7 +188,8 @@ export default function PremiumInteriorCarousel({
   // Loading state
   if (isLoading) {
     return (
-      <div className="w-full aspect-video bg-gray-200 animate-pulse rounded-lg flex items-center justify-center">
+      <div className="w-full bg-gray-200 animate-pulse rounded-lg flex items-center justify-center" 
+           style={{ height: "600px", minHeight: "600px" }}>
         <div className="text-gray-400" suppressHydrationWarning>Loading interior images...</div>
       </div>
     );
@@ -191,7 +198,8 @@ export default function PremiumInteriorCarousel({
   // No images state
   if (allImages.length === 0) {
     return (
-      <div className="w-full aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+      <div className="w-full bg-gray-100 rounded-lg flex items-center justify-center" 
+           style={{ height: "600px", minHeight: "600px" }}>
         <div className="text-gray-500" suppressHydrationWarning>No interior images available</div>
       </div>
     );
@@ -200,11 +208,11 @@ export default function PremiumInteriorCarousel({
   const initialImage = allImages[currentImageIndex];
 
   return (
-    <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg" 
+    <div className="relative w-full rounded-lg overflow-hidden shadow-lg" 
          ref={imageContainerRef}
          style={{ 
-           height: "400px", 
-           minHeight: "400px",
+           height: "600px", 
+           minHeight: "600px",
            contain: "layout paint" 
          }}>
       {/* Fast loading placeholder for LCP */}

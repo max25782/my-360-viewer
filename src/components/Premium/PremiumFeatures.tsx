@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import ZoomableImageModal from '../ZoomableImageModal';
 
@@ -11,13 +11,23 @@ interface PremiumFeaturesProps {
 }
 
 export default function PremiumFeatures({ features, houseName, houseId }: PremiumFeaturesProps) {
-  if (!features || !Array.isArray(features) || features.length === 0) {
-    return null;
-  }
+  // Преобразуем houseId для правильного регистра и удаления префикса
+  const cleanHouseId = houseId.toLowerCase().startsWith('premium-') 
+    ? houseId.substring(8) // Удаляем "premium-" (8 символов)
+    : houseId;
+  const capitalizedHouseId = cleanHouseId.charAt(0).toUpperCase() + cleanHouseId.slice(1).toLowerCase();
+
+  // Стабилизируем features для useEffect
+  const stableFeatures = useMemo(() => {
+    return features && Array.isArray(features) ? features : [];
+  }, [features]);
+
+  console.log('🏠 PREMIUM FEATURES: Received props:', { features: stableFeatures, houseName, houseId, capitalizedHouseId });
 
   // Состояние для хранения доступных изображений
   const [availableImages, setAvailableImages] = useState<{filename: string, path: string}[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [fallbackFeatures, setFallbackFeatures] = useState<string[]>([]);
 
   // Интерфейсы для типизации
   interface ManifestPlan {
@@ -36,6 +46,23 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
     };
   }
 
+  interface PremiumHouseData {
+    name: string;
+    description: string;
+    maxDP: number;
+    maxPK: number;
+    availableRooms: string[];
+    comparison?: {
+      features: string[];
+    };
+  }
+
+  interface PremiumAssetsData {
+    premiumHouses: {
+      [key: string]: PremiumHouseData;
+    };
+  }
+
   // Загружаем изображения из манифеста
   useEffect(() => {
     const loadImagesFromManifest = async () => {
@@ -50,11 +77,9 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
         
         const manifest = await response.json() as ComparisonManifest;
         
-        // Нормализуем ID дома (первая буква заглавная, остальные строчные)
-        const normalizedHouseId = houseId.charAt(0).toUpperCase() + houseId.slice(1).toLowerCase();
-        
-        // Получаем данные из манифеста
-        const houseData = manifest.houses[houseId] || manifest.houses[normalizedHouseId];
+        // Получаем данные из манифеста (используем уже обработанный capitalizedHouseId)
+        const houseData = manifest.houses[houseId] || manifest.houses[capitalizedHouseId];
+        console.log(`🏠 PREMIUM FEATURES: Looking for house data: ${houseId} → ${capitalizedHouseId}`);
         
         if (!houseData || !houseData.comparison || !houseData.comparison.plans) {
           console.log(`Нет данных о сравнительных изображениях для дома ${houseId}`);
@@ -83,12 +108,43 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
         console.error('Ошибка при загрузке манифеста:', error);
         setAvailableImages([]);
       }
+
+      // Если нет основных features, загружаем данные из premium-assets.json
+      if (stableFeatures.length === 0) {
+        try {
+          const premiumAssetsResponse = await fetch('/data/premium-assets.json');
+          if (premiumAssetsResponse.ok) {
+            const premiumData = await premiumAssetsResponse.json() as PremiumAssetsData;
+            const houseData = premiumData?.premiumHouses?.[capitalizedHouseId];
+            if (houseData) {
+              // Сначала пробуем загрузить comparison.features
+              if (houseData.comparison?.features && Array.isArray(houseData.comparison.features)) {
+                setFallbackFeatures(houseData.comparison.features);
+                console.log('🏠 PREMIUM FEATURES: Loaded comparison features from premium-assets.json:', houseData.comparison.features);
+              } else {
+                // Если нет comparison.features, используем базовую информацию
+                const basicFeatures = [
+                  houseData.description || `Spacious ${capitalizedHouseId} home`,
+                  `${houseData.maxDP || 4} Design Packages Available`,
+                  `${houseData.maxPK || 4} Interior Packages Available`,
+                  `${houseData.availableRooms?.length || 0} Room Types Available`,
+                  '360° Virtual Tour Available'
+                ];
+                setFallbackFeatures(basicFeatures);
+                console.log('🏠 PREMIUM FEATURES: Loaded basic fallback features:', basicFeatures);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Ошибка при загрузке premium-assets.json:', error);
+        }
+      }
       
       setIsLoading(false);
     };
     
     loadImagesFromManifest();
-  }, [houseId]);
+  }, [houseId, capitalizedHouseId, stableFeatures]);
 
   return (
     <section className="py-12">
@@ -122,18 +178,40 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
         )}
         
         {/* Список особенностей */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {features.map((feature: string, index: number) => (
-            <div key={index} className="bg-slate-800 p-4 rounded-lg flex items-start">
-              <div className="text-emerald-400 mr-3 mt-1">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
+        {(() => {
+          const displayFeatures = stableFeatures.length > 0 
+            ? stableFeatures 
+            : fallbackFeatures;
+          
+          if (displayFeatures.length > 0) {
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {displayFeatures.map((feature: string, index: number) => (
+                  <div key={index} className="bg-slate-800 p-4 rounded-lg flex items-start">
+                    <div className="text-emerald-400 mr-3 mt-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="text-gray-200">{feature}</div>
+                  </div>
+                ))}
               </div>
-              <div className="text-gray-200">{feature}</div>
-            </div>
-          ))}
-        </div>
+            );
+          } else {
+            return (
+              <div className="text-center py-8">
+                <div className="bg-slate-800 p-6 rounded-lg">
+                  <h3 className="text-xl font-semibold text-white mb-2">Floor Plans & Features</h3>
+                  <p className="text-gray-300">
+                    Detailed features information will be available soon. 
+                    {availableImages.length > 0 ? ' Please check the floor plans above.' : ''}
+                  </p>
+                </div>
+              </div>
+            );
+          }
+        })()}
       </div>
     </section>
   );
