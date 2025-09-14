@@ -126,13 +126,40 @@ export function getModelTabContent(model: ModelData) {
 export async function loadModelsFromAPI(): Promise<ModelData[]> {
   try {
     console.log('Загружаем модели из API...');
-    const response = await fetch('/api/houses');
+    
+    // Получаем токен аутентификации
+    const { getAuthToken } = await import('./auth');
+    const token = getAuthToken();
+    
+    // Создаем заголовки с токеном
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+      console.log('🔐 Adding auth token to API request');
+    } else {
+      console.warn('⚠️ No auth token found, making unauthenticated request');
+    }
+    
+    const response = await fetch('/api/houses', {
+      method: 'GET',
+      headers,
+      credentials: 'include' // Включаем cookies
+    });
     console.log('Ответ API:', response.status, response.statusText);
     
     if (!response.ok) {
       console.error('Failed to load models:', response.status, response.statusText);
       const errorText = await response.text();
       console.error('Error response:', errorText);
+      
+      // Если 401, бросаем ошибку для обработки в хуке
+      if (response.status === 401) {
+        throw new Error(`Authentication failed: ${response.status} ${response.statusText}`);
+      }
+      
       return [];
     }
 

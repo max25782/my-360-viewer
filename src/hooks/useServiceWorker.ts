@@ -22,10 +22,9 @@ export function useServiceWorker(): UseServiceWorkerResult {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   useEffect(() => {
-    // Не регистрируем Service Worker в dev-режиме
+    // Разрешаем Service Worker в development для тестирования PWA
     if (process.env.NODE_ENV !== 'production') {
-      console.warn('⚠️ Service Worker disabled in development');
-      return;
+      console.log('🔧 Service Worker enabled in development for PWA testing');
     }
 
     // Проверяем поддержку Service Worker
@@ -86,6 +85,23 @@ export function useServiceWorker(): UseServiceWorkerResult {
               message: error.message,
               stack: error.stack
             });
+            
+            // Show user-friendly error message
+            console.log('💡 To fix PWA issues, visit: /reset-pwa.html');
+            
+            // Optionally show notification to user
+            if (typeof window !== 'undefined' && 'Notification' in window) {
+              try {
+                new Notification('PWA Service Worker Error', {
+                  body: 'PWA features may not work properly. Click to fix.',
+                  icon: '/icons/icon-192x192.png',
+                  tag: 'sw-error'
+                });
+              } catch (notifError) {
+                // Notification permission not granted or other error
+                console.log('Could not show notification:', notifError);
+              }
+            }
           }
         }
       };

@@ -360,19 +360,46 @@ export function getMarkerPositions(config: TourConfig | null, roomName: string):
  */
 export async function getAvailableDesignPackages(houseId: string): Promise<number[]> {
   try {
-    // Проверяем наличие дизайн-пакетов от DP1 до DP5
+    console.log(`🔍 Getting available design packages for ${houseId}`);
+    
+    // Используем новый динамический API
+    const response = await fetch(`/api/skyline/${houseId}/packages`);
+    
+    if (response.ok) {
+      const data = await response.json();
+      
+      if (data.success && data.data?.maxDP) {
+        const maxDP = data.data.maxDP;
+        const packages = Array.from({ length: maxDP }, (_, i) => i + 1);
+        console.log(`✅ Found ${maxDP} design packages for ${houseId}:`, packages);
+        return packages;
+      }
+    }
+    
+    console.warn(`⚠️ Failed to get packages from API for ${houseId}, using fallback`);
+    
+    // Fallback: проверяем файлы напрямую с поддержкой WebP
     const packages: number[] = [];
     
     for (let dp = 1; dp <= 5; dp++) {
-      const response = await fetch(`/assets/skyline/${houseId}/exterior/dp${dp}.jpg`, { method: 'HEAD' });
-      if (response.ok) {
+      // Сначала пробуем .webp, потом .jpg
+      const webpResponse = await fetch(`/assets/skyline/${houseId}/exterior/dp${dp}.webp`, { method: 'HEAD' });
+      if (webpResponse.ok) {
+        packages.push(dp);
+        continue;
+      }
+      
+      const jpgResponse = await fetch(`/assets/skyline/${houseId}/exterior/dp${dp}.jpg`, { method: 'HEAD' });
+      if (jpgResponse.ok) {
         packages.push(dp);
       }
     }
     
-    return packages;
+    console.log(`🔄 Fallback packages for ${houseId}:`, packages);
+    return packages.length > 0 ? packages : [1]; // Fallback to DP1 if nothing found
+    
   } catch (error) {
-    console.error(`Error checking design packages for ${houseId}:`, error);
+    console.error(`❌ Error checking design packages for ${houseId}:`, error);
     return [1]; // Fallback to DP1
   }
 }

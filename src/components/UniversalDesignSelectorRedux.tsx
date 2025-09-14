@@ -17,6 +17,7 @@ import {
 } from '../store/slices/universalSlice';
 import * as universalSelectors from '../store/selectors/universalSelectors';
 import { useState } from 'react';
+import { formatRoomName, getSkylinePackages } from '../utils/skylineRooms';
 
 interface UniversalDesignSelectorReduxProps {
   houseId: string;
@@ -203,37 +204,32 @@ export default function UniversalDesignSelectorRedux({
 
   // Get actual interior rooms from file system structure
   const [actualInteriorRooms, setActualInteriorRooms] = useState<string[]>([]);
+  
+  // Dynamic package information
+  const [dynamicPackages, setDynamicPackages] = useState<{
+    maxDP: number;
+    maxPK: number;
+    availableRooms: string[];
+  }>({
+    maxDP: 4,
+    maxPK: 4,
+    availableRooms: []
+  });
 
   useEffect(() => {
-    if (type === 'interior') {
-      // Get rooms from actual file structure instead of availableRooms
-      const getActualInteriorRooms = async () => {
-        const possibleRooms = ['kitchen', 'bedroom', 'bathroom', 'living', 'great room'];
-        const existingRooms: string[] = [];
+    // Load dynamic package information for both exterior and interior
+    const loadDynamicPackages = async () => {
+      console.log(`🔄 Loading dynamic packages for ${houseId} (${type})`);
+      const packages = await getSkylinePackages(houseId);
+      setDynamicPackages(packages);
+      
+      // For interior, also set the rooms
+      if (type === 'interior') {
+        setActualInteriorRooms(packages.availableRooms);
+      }
+    };
 
-        for (const room of possibleRooms) {
-          try {
-            // Check if pk1.webp exists for this room
-            const response = await fetch(`/assets/skyline/${houseId}/interior/${room}/pk1.webp`, { method: 'HEAD' });
-            if (response.ok) {
-              existingRooms.push(room);
-            } else {
-              // Fallback to .jpg
-              const jpgResponse = await fetch(`/assets/skyline/${houseId}/interior/${room}/pk1.jpg`, { method: 'HEAD' });
-              if (jpgResponse.ok) {
-                existingRooms.push(room);
-              }
-            }
-          } catch (error) {
-            // Room doesn't exist, skip
-          }
-        }
-
-        setActualInteriorRooms(existingRooms);
-      };
-
-      getActualInteriorRooms();
-    }
+    loadDynamicPackages();
   }, [houseId, type]);
 
   const interiorRooms = actualInteriorRooms;
@@ -415,7 +411,7 @@ export default function UniversalDesignSelectorRedux({
       return (
         <div className="flex items-center space-x-4">
           <div className="text-sm font-medium text-white drop-shadow-lg">
-            {currentRoom.charAt(0).toUpperCase() + currentRoom.slice(1)}
+            {formatRoomName(currentRoom)}
           </div>
           {interiorRooms.length > 1 && (
             <div className="text-xs text-white/70">

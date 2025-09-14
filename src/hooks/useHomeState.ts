@@ -39,8 +39,28 @@ export function useHomeState() {
 
     // Load models from API
     const loadModels = async () => {
-      const loadedModels = await loadModelsFromAPI();
-      setModels(loadedModels);
+      try {
+        // Проверяем аутентификацию перед загрузкой
+        const { isAuthenticated } = await import('../utils/auth');
+        
+        if (!isAuthenticated()) {
+          console.warn('⚠️ User not authenticated, redirecting to login');
+          window.location.href = '/login';
+          return;
+        }
+        
+        const loadedModels = await loadModelsFromAPI();
+        setModels(loadedModels);
+        console.log('✅ Models loaded successfully:', loadedModels.length);
+      } catch (error) {
+        console.error('❌ Failed to load models:', error);
+        
+        // Если ошибка 401, перенаправляем на логин
+        if (error instanceof Error && error.message.includes('401')) {
+          console.log('🔐 Authentication failed, redirecting to login');
+          window.location.href = '/login';
+        }
+      }
     };
 
     loadModels();

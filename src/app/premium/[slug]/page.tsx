@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { getServerPremiumHouse, getServerPremiumAssetPath } from '../../../utils/serverPremiumAssets';
 import { PremiumHouse } from '../../../utils/clientPremiumAssets';
 import Header from '@/components/Header';
-import Breadcrumb from '@/components/Breadcrumb';
 import HeroSection from '@/components/HeroSection';
 import { House } from '../../../hooks/useHouses';
 import PremiumExteriorCarousel from '@/components/Premium/PremiumExteriorCarousel';
@@ -92,13 +91,7 @@ export default async function PremiumHousePage({ params }: { params: Promise<{ s
     <div className="min-h-screen bg-slate-800">
       <Header />
       
-      {/* Breadcrumbs */}
-      <Breadcrumb 
-        items={[
-          { label: 'Premium Collection', href: '/premium' },
-          { label: premiumHouse.name }
-        ]} 
-      />
+    
       
       {/* Hero Section - Optimized for LCP */}
       <section className="py-5">

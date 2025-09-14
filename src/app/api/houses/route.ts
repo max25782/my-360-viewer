@@ -2,8 +2,48 @@ import { NextResponse } from 'next/server';
 import { getAllServerHouses } from '../../../utils/serverHouses';
 import type { CategoriesIndex, CategoryMetadata } from '../../../types/houses';
 
-export async function GET() {
+/**
+ * Проверяет токен аутентификации
+ */
+function verifyAuthToken(request: Request): boolean {
+  // Проверяем Authorization header
+  const authHeader = request.headers.get('Authorization');
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    // Простая проверка токена (в реальном приложении нужна более сложная логика)
+    return token.startsWith('demo-token-');
+  }
+  
+  // Проверяем cookies
+  const cookieHeader = request.headers.get('Cookie');
+  if (cookieHeader) {
+    const cookies = cookieHeader.split(';');
+    const authCookie = cookies.find(cookie => cookie.trim().startsWith('authToken='));
+    if (authCookie) {
+      const token = authCookie.split('=')[1];
+      return token.startsWith('demo-token-');
+    }
+  }
+  
+  return false;
+}
+
+export async function GET(request: Request) {
   try {
+    // Проверяем аутентификацию
+    if (!verifyAuthToken(request)) {
+      console.log('🔐 Unauthorized API request to /api/houses');
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Authentication required',
+          timestamp: new Date().toISOString()
+        },
+        { status: 401 }
+      );
+    }
+    
+    console.log('🔐 Authenticated API request to /api/houses');
     const houses = await getAllServerHouses();
     
     // Группируем дома по категориям
