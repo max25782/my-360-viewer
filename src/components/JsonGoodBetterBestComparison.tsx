@@ -193,12 +193,11 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     const bedroomCount = availableRooms.filter(room => room === 'bedroom').length;
     const bathroomCount = availableRooms.filter(room => room === 'bathroom').length;
 
-    // Для Neo домов проверяем наличие данных сравнения непосредственно в объекте дома
-    if (house.category === 'neo' && house.comparison?.features) {
-      // Используем данные из neo-assets.comparison напрямую
+    // Для Neo домов объединяем данные из house.comparison и загруженные features
+    if (house.category === 'neo') {
       const items: ComparisonItem[] = [];
       
-      // Добавляем изображения только если они нужны
+      // Добавляем изображения
       items.push(
         {
           label: 'Front Elevation',
@@ -214,15 +213,54 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
         }
       );
       
-      // Добавляем данные из neo-assets.comparison.features напрямую
-      Object.entries(house.comparison.features).forEach(([featureLabel, featureValues]: [string, any]) => {
-        items.push({
-          label: featureLabel,
-          good: renderFeatureValue(featureValues.good),
-          better: renderFeatureValue(featureValues.better),
-          best: renderFeatureValue(featureValues.best)
+      // Добавляем базовую информацию о доме
+      items.push(
+        {
+          label: 'Bedrooms',
+          good: `${bedroomCount} Bedrooms`,
+          better: `${bedroomCount} Bedrooms`,
+          best: `${bedroomCount} Bedrooms`
+        },
+        {
+          label: 'Bathrooms',
+          good: `${bathroomCount} Bathrooms`,
+          better: `${bathroomCount} Bathrooms`,
+          best: `${bathroomCount} Bathrooms`
+        }
+      );
+      
+      // Добавляем данные из house.comparison.features (если есть)
+      if (house.comparison?.features) {
+        Object.entries(house.comparison.features).forEach(([featureLabel, featureValues]: [string, any]) => {
+          items.push({
+            label: featureLabel,
+            good: renderFeatureValue(featureValues.good),
+            better: renderFeatureValue(featureValues.better),
+            best: renderFeatureValue(featureValues.best)
+          });
         });
-      });
+      }
+      
+      // Добавляем дополнительные функции из JSON файла сравнения
+      if (features) {
+        console.log(`Loading additional features for Neo house ${house.id}:`, Object.keys(features));
+        Object.entries(features).forEach(([featureLabel, featureValues]) => {
+          // Проверяем, что эта функция еще не добавлена из house.comparison
+          const alreadyExists = house.comparison?.features && 
+            Object.keys(house.comparison.features).includes(featureLabel);
+          
+          if (!alreadyExists) {
+            items.push({
+              label: featureLabel,
+              good: renderFeatureValue(featureValues.good),
+              better: renderFeatureValue(featureValues.better),
+              best: renderFeatureValue(featureValues.best)
+            });
+          }
+        });
+      }
+      
+      console.log(`Total comparison items for Neo house ${house.id}: ${items.length}`);
       
       return items;
     }

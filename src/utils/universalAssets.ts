@@ -378,10 +378,34 @@ export async function getAvailableDesignPackages(houseId: string): Promise<numbe
 }
 
 /**
- * Получает фичи сравнения (Good/Better/Best) из house-assets.json
+ * Получает фичи сравнения (Good/Better/Best) из соответствующего JSON файла
  */
 export async function getComparisonFeatures(houseId: string): Promise<Record<string, { good: string; better: string; best: string }>> {
   try {
+    // Сначала пробуем загрузить из neo-assets.json для Neo домов
+    try {
+      const neoRes = await fetch(`/data/neo-assets.json?ts=${Date.now()}` as any, { cache: 'no-store' as RequestCache });
+      if (neoRes.ok) {
+        const neoData = await neoRes.json();
+        // Проверяем разные варианты ID для Neo домов
+        const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+        const neoHouseData = neoData?.neoHouses && (
+          neoData.neoHouses[houseId] || 
+          neoData.neoHouses[cleanHouseId] || 
+          neoData.neoHouses[cleanHouseId.toLowerCase()] || 
+          neoData.neoHouses[cleanHouseId.charAt(0).toUpperCase() + cleanHouseId.slice(1).toLowerCase()]
+        );
+        
+        if (neoHouseData?.comparison?.features) {
+          console.log(`Found Neo comparison features for ${houseId}:`, neoHouseData.comparison.features);
+          return neoHouseData.comparison.features;
+        }
+      }
+    } catch (neoError) {
+      console.log('Neo assets not found, trying house-assets.json');
+    }
+
+    // Если не найдено в neo-assets.json, пробуем house-assets.json
     const res = await fetch(`/data/house-assets.json?ts=${Date.now()}` as any, { cache: 'no-store' as RequestCache });
     if (!res.ok) return {};
     const data = await res.json();
