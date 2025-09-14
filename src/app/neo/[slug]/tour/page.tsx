@@ -114,65 +114,12 @@ export default function NeoTourPage() {
 
   // Show 360° tour with selected color
   return (
-    <div className="min-h-screen ">
-      {/* Tour Header */}
-      <div className="absolute top-0 left-0 right-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handleBackToSelection}
-              className="flex items-center gap-2 px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 text-white rounded-lg transition-all"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Change Color
-            </button>
-            
-            <div className="flex items-center gap-3">
-              <div className={`w-4 h-4 rounded-full ${
-                selectedColor === 'white' 
-                  ? 'bg-white border-2 border-gray-300' 
-                  : 'bg-gray-900 border-2 border-gray-600'
-              }`}></div>
-              <span className="text-white font-medium">
-                {selectedColor === 'white' ? 'White' : 'Dark'} Scheme
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="text-white text-sm">
-              <span className="font-semibold">{house.name}</span>
-              <span className="text-gray-300 ml-2">• Neo ADU Series</span>
-            </div>
-            
-            <button
-              onClick={handleBackToHouse}
-              className="px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-20 text-white rounded-lg transition-all"
-            >
-              Exit Tour
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 360° Panorama Viewer */}
-      <div className="pt-16">
-        <NeoPanoramaViewer 
-          houseId={house.id}
-          selectedColor={selectedColor!}
-        />
-      </div>
-
-      {/* Tour Controls - could be added later */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-        <div className="bg-black bg-opacity-50 backdrop-blur-sm rounded-lg px-4 py-2">
-          <p className="text-white text-sm text-center">
-            Click and drag to look around • Use markers to navigate between rooms
-          </p>
-        </div>
-      </div>
+    <div className="w-full h-screen overflow-hidden">
+      {/* 360° Panorama Viewer - Full Screen */}
+      <NeoPanoramaViewer 
+        houseId={house.id}
+        selectedColor={selectedColor!}
+      />
     </div>
   );
 }

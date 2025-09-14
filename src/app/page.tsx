@@ -45,6 +45,9 @@ import UniversalDesignSelectorRedux from '../components/UniversalDesignSelectorR
 import JsonGoodBetterBestComparison from '../components/JsonGoodBetterBestComparison';
 import NeoExteriorDesignPackages from '../components/Neo/NeoExteriorDesignPackages';
 import NeoInteriorDesignPackages from '../components/Neo/NeoInteriorDesignPackages';
+import PremiumExteriorCarousel from '../components/Premium/PremiumExteriorCarousel';
+import PremiumInteriorCarousel from '../components/Premium/PremiumInteriorCarousel';
+import PremiumFeatures from '../components/Premium/PremiumFeatures';
 
 // New modular components
 import { HeroAdvertisementBanner } from '../components/home/HeroAdvertisementBanner';
@@ -394,6 +397,39 @@ export default function Home() {
                       );
                     }
                     
+                    // Use PremiumExteriorCarousel for Premium exterior
+                    if (state.selectedModel.collection === 'premium' && state.modelTab === 'exterior') {
+                      return (
+                        <div className="absolute inset-0 p-8">
+                          <PremiumExteriorCarousel
+                            houseId={state.selectedModel.id}
+                            maxDP={4}
+                          />
+                        </div>
+                      );
+                    }
+                    
+                    // Use PremiumInteriorCarousel for Premium interior
+                    if (state.selectedModel.collection === 'premium' && state.modelTab === 'interior') {
+                      // Generate available rooms based on bedrooms and bathrooms
+                      const availableRooms = [
+                        'living',
+                        'kitchen',
+                        ...Array.from({ length: state.selectedModel.bedrooms }, (_, i) => `bedroom${i + 1 > 1 ? i + 1 : ''}`),
+                        ...Array.from({ length: state.selectedModel.bathrooms }, (_, i) => `bathroom${i + 1 > 1 ? i + 1 : ''}`)
+                      ];
+                      
+                      return (
+                        <div className="absolute inset-0 p-8">
+                          <PremiumInteriorCarousel
+                            houseId={state.selectedModel.id}
+                            availableRooms={availableRooms}
+                            maxPK={4}
+                          />
+                        </div>
+                      );
+                    }
+                    
                     // Use UniversalDesignSelectorRedux for Skyline exterior and interior
                     if (state.selectedModel.collection === 'skyline' && (state.modelTab === 'exterior' || state.modelTab === 'interior')) {
                       return (
@@ -406,7 +442,20 @@ export default function Home() {
                       );
                     }
                     
-                    // Use JsonGoodBetterBestComparison for Floor Plan tab
+                    // Use PremiumFeatures for Premium Floor Plan tab
+                    if (state.selectedModel.collection === 'premium' && state.modelTab === 'floor-plan') {
+                      return (
+                        <div className="absolute inset-0 p-8 overflow-y-auto">
+                          <PremiumFeatures
+                            features={state.selectedModel.features || []}
+                            houseName={state.selectedModel.name}
+                            houseId={state.selectedModel.id}
+                          />
+                        </div>
+                      );
+                    }
+                    
+                    // Use JsonGoodBetterBestComparison for Floor Plan tab (other collections)
                     if (state.modelTab === 'floor-plan') {
                       const houseData = convertModelToHouse(state.selectedModel);
                       return (

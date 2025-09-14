@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   setHouse,
@@ -67,6 +68,7 @@ let CubemapAdapter: any = null;
 let MarkersPlugin: any = null;
 
 export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initialColor }: NeoPanoramaViewerReduxProps) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const currentHouseId = useAppSelector(selectCurrentHouseId);
   const currentRoom = useAppSelector(selectCurrentRoom);
@@ -648,30 +650,32 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
 
   return (
     <div className="relative h-screen bg-black">
-      {/* Back Button */}
-      <button 
-        onClick={() => {
-          const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+      {/* Navigation buttons */}
+      {isViewerReady && (
+        <>
+          {/* Back button */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-4 left-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+            title="Go back"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
           
-          // Принудительно обновляем service worker
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-              registrations.forEach(registration => {
-                registration.update();
-              });
-            });
-          }
-          
-          // Cache-bust to avoid SW serving old HTML
-          window.location.href = `/neo/${cleanHouseId}?ts=${Date.now()}`;
-        }}
-        className="absolute top-4 left-4 z-[2000] bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-opacity-80 transition-all"
-        title="Back to house page"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-      </button>
+          {/* Close button */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+            title="Close"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </>
+      )}
       
       {/* PhotoSphere Viewer Container */}
       <div 
@@ -685,8 +689,7 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
         <div className="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[1000]">
           <div className="text-center text-white">
             <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <h3 className="text-xl font-semibold mb-3">Loading {currentRoomDisplayName}</h3>
-            <p className="text-gray-300">Preparing your {selectedColor} scheme experience...</p>
+            <p className="text-gray-300">Loading...</p>
           </div>
         </div>
       )}

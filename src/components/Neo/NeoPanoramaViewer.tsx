@@ -7,6 +7,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { getNeoAssetPath, getNeoMarkers } from '../../utils/neoAssets';
 import { useServiceWorker } from '../../hooks/useServiceWorker';
 
@@ -47,6 +48,7 @@ let CubemapAdapter: any = null;
 let MarkersPlugin: any = null;
 
 export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoramaViewerProps) {
+  const router = useRouter();
   const [currentRoom, setCurrentRoom] = useState<string>(`entry_${selectedColor}`);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -135,7 +137,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
               line-height: 1;
             ">${link.icon || roomIcon}</div>
             <div style="
-              background: rgba(0,0,0,0.8);
+            
               color: white;
               padding: 6px 12px;
               border-radius: 6px;
@@ -755,6 +757,33 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
 
   return (
     <div className="relative h-screen bg-black">
+      {/* Navigation buttons */}
+      {!isLoading && (
+        <>
+          {/* Back button */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-4 left-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+            title="Go back"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          {/* Close button */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+            title="Close"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </>
+      )}
+      
       {/* PhotoSphere Viewer Container */}
       <div 
         ref={viewerRef}
@@ -767,8 +796,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         <div className="absolute inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[1000]">
           <div className="text-center text-white">
             <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-            <h3 className="text-xl font-semibold mb-3">Loading {getRoomDisplayName(currentRoom)}</h3>
-            <p className="text-gray-300">Preparing your {selectedColor} scheme experience...</p>
+            <p className="text-gray-300">Loading...</p>
           </div>
         </div>
       )}

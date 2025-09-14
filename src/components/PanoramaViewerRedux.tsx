@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Viewer } from '@photo-sphere-viewer/core';
 import { CubemapAdapter } from '@photo-sphere-viewer/cubemap-adapter';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
@@ -39,6 +40,7 @@ interface PanoramaViewerProps {
 }
 
 export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
@@ -633,6 +635,33 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
   return (
     <div className="relative w-full h-full">
       
+      {/* Navigation buttons */}
+      {isViewerReady && (
+        <>
+          {/* Back button */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-4 left-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+            title="Go back"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          {/* Close button */}
+          <button
+            onClick={() => router.back()}
+            className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
+            title="Close"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </>
+      )}
+      
       {/* Instant CSS-only LCP placeholder [[memory:5988045]] */}
       {!isViewerReady && (
         <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-500 flex items-center justify-center">
@@ -658,11 +687,8 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-orange-800 mb-2">
-              {'360° Virtual Tour'}
-            </h1>
-            <p className="text-lg text-orange-600 mb-6">
-              {isLoading ? 'Loading immersive experience...' : 'Initializing viewer...'}
+            <p className="text-lg text-white mb-6">
+              {isLoading ? 'Loading...' : 'Initializing...'}
             </p>
             
             {/* Simple CSS spinner */}
