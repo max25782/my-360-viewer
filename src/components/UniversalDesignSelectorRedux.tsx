@@ -454,15 +454,11 @@ export default function UniversalDesignSelectorRedux({
       {/* Texture Selection for Interior - функциональность сохранена, UI отключен */}
 
       {/* Main Image Display - Lazy Loading Optimized */}
-      <div className="rounded-lg overflow-hidden shadow-lg">
-        <div
-          className="relative overflow-hidden bg-gray-100"
-          style={{
-            height: '500px', // Увеличенная высота для отображения всего контента
-            minHeight: '500px' // Prevent CLS
-          }}
-        >
-          {currentImage && (
+        <div className="rounded-lg overflow-hidden shadow-lg">
+          <div
+            className="relative overflow-hidden bg-gray-100 h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[500px]"
+          >
+            {currentImage && (
             <>
               <img
                 src={getImageUrl(currentImage)}

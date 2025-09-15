@@ -224,3 +224,41 @@ button, a, [role="button"] {
   transform: translateZ(0) !important;
   transition: opacity 0.1s ease !important; /* Быстрые переходы */
 }
+
+/* iPad-specific optimizations */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  /* iPad Portrait */
+  .image-container {
+    height: min(60vh, 600px) !important;
+    min-height: min(50vh, 500px) !important;
+  }
+  
+  .hero-image {
+    height: 60vh !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  /* iPad Landscape */
+  .image-container {
+    height: min(70vh, 700px) !important;
+    min-height: min(60vh, 600px) !important;
+  }
+  
+  .hero-image {
+    height: 70vh !important;
+  }
+}
+
+/* Ensure images are fully visible on all tablet devices */
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .responsive-image {
+    max-height: 70vh !important;
+    object-fit: contain !important;
+  }
+  
+  .model-viewer-image {
+    height: auto !important;
+    max-height: 65vh !important;
+  }
+}

@@ -68,7 +68,7 @@ export default function SkylineExteriorDesignPackages({ house }: SkylineExterior
             <img
               src={`/assets/skyline/${house.id}/exterior/dc${activePackage}.jpg`}
               alt={`${house.name} - Package DC${activePackage}`}
-              className="w-full h-[500px] object-cover rounded-lg shadow-lg"
+              className="w-full h-[min(500px,60vh)] object-cover rounded-lg shadow-lg"
               onError={handleImageError}
             />
             <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">

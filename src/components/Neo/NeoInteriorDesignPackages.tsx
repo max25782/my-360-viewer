@@ -42,14 +42,12 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
   };
 
   return (
-    <section className="py-16 radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%)">
+    <div className="bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Main Image Display */}
-        <div className="mb-8 relative">
-          <div className="relative">
+        <div className="mb-8  relative">
+          <div className="relative ">
             <img 
               src={getFullPath()} 
               alt={`Interior - ${selectedRoom} - ${activeScheme === 'light' ? 'White' : 'Dark'}`} 
@@ -80,10 +78,7 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
               {packageType.charAt(0).toUpperCase() + packageType.slice(1)} Package - {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)} - {activeScheme === 'light' ? 'White' : 'Dark'}
             </div>
         </div>
-           
-            
           </div>
-          
         </div>
 
       
@@ -111,6 +106,6 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
 
 
       </div>
-    </section>
+    </div>
   );
 }

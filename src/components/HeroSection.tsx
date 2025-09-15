@@ -13,7 +13,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
   // Проверяем наличие house и его images
   if (!house || !house.images || !house.images.hero) {
     return (
-      <div className="relative h-screen bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center">
+      <div className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 bg-gray-400 rounded-full mx-auto mb-4 flex items-center justify-center">
             <span className="text-2xl text-white">🏠</span>
@@ -122,7 +122,7 @@ export default function HeroSection({ house }: HeroSectionProps) {
       <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="">
           <div 
-            className="relative w-full h-screen rounded-lg overflow-hidden shadow-xl"
+            className="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] rounded-lg overflow-hidden shadow-xl"
           >
             <Image
               src={house.images.hero}
