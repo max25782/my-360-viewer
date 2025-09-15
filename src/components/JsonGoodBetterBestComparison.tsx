@@ -178,10 +178,10 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   // Helper to render feature value (handle ✓/✗ symbols)
   const renderFeatureValue = (value: string) => {
     if (value === '✓') {
-      return <span className="text-green-500">✓</span>;
+      return <span className="text-green-500 text-xl font-bold">✓</span>;
     }
     if (value === '✗') {
-      return <span className="text-red-500">✗</span>;
+      return <span className="text-red-500 text-xl font-bold">✗</span>;
     }
     return value;
   };
@@ -335,45 +335,40 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   }
 
   return (
-    <div className="bg-fuchsia-100 shadow-xl overflow-hidden min-h-[600px]">
+    <div className="bg-white shadow-xl overflow-hidden min-h-[600px]">
       {/* Headers */}
       <div className="grid grid-cols-4">
-        <div className="bg-fuchsia-100 text-white text-center py-4 px-6"></div>
-        <div className="bg-fuchsia-100 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">HERITAGE</h3>
-
+        <div className="bg-indigo-500 text-white text-center py-4 px-6"></div>
+        <div className="bg-indigo-600 text-white text-center py-4 px-6">
+          <h3 className="text-xl font-bold">QUARTZ</h3>
         </div>
-        <div className="bg-fuchsia-100 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">HAVEN</h3>
-      
+        <div className="bg-indigo-700 text-white text-center py-4 px-6">
+          <h3 className="text-xl font-bold">EMERALD</h3>
         </div>
-        <div className="bg-fuchsia-100 text-white text-center py-4 px-6">
-          <h3 className="text-xl font-bold">LUXE</h3>
-          
+        <div className="bg-indigo-800 text-white text-center py-4 px-6">
+          <h3 className="text-xl font-bold">DIAMOND</h3>
         </div>
       </div>
       
       {/* Comparison Items */}
       <div className="divide-y">
         {comparisonItems.map((item, index) => (
-          <div key={index} className="grid grid-cols-4 text-white">
-            <div className="bg-fuchsia-100 p-4 font-semibold text-white ">
+          <div key={index} className="grid grid-cols-4">
+            <div className="bg-indigo-400 p-4 font-semibold text-white">
               {item.label}
             </div>
-            <div className={`p-4 text-center  ${index < comparisonItems.length - 1 ? '' : ''}`}>
+            <div className="bg-indigo-50 p-4 text-center text-gray-900">
               {typeof item.good === 'string' ? item.good : item.good}
             </div>
-            <div className={`p-4 text-center ${index < comparisonItems.length - 1 ? '' : ''}`}>
+            <div className="bg-indigo-100 p-4 text-center text-gray-900">
               {typeof item.better === 'string' ? item.better : item.better}
             </div>
-            <div className="p-4 text-center">
+            <div className="bg-indigo-200 p-4 text-center text-gray-900">
               {typeof item.best === 'string' ? item.best : item.best}
             </div>
           </div>
         ))}
       </div>
-
- 
     </div>
   );
 }
