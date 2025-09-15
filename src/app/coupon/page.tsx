@@ -1,9 +1,11 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { CouponCard } from './CouponCard';
+import { Card } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
+import { Badge } from '../../components/ui/badge';
+import { CouponCard } from '../../components/CouponCard';
 import { 
   Gift, 
   Percent, 
@@ -324,29 +326,6 @@ export function OffersSection({ isDark, onOpenChat }: OffersSectionProps) {
     </div>
   );
 }
-```
-
-
-
-2. CouponCard.tsx - ׳›׳¨בƒ¢׳™׳¡׳™ ׳”׳§׳•׳₪׳•׳ ׳™׳
-
-
-```tsx
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  Gift, 
-  Clock, 
-  CheckCircle, 
-  ChevronDown, 
-  ChevronUp,
-  Sparkles,
-  AlertCircle,
-  MessageCircle
-} from 'lucide-react';
 
 
 
@@ -663,35 +642,10 @@ export function CouponCard({
     </motion.div>
   );
 }
-```
 
 
 
-3. PromotionsHub.tsx - ׳׳¨׳›׳– ׳”׳§׳™׳“׳•׳׳™׳
 
-
-```tsx
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  Gift,
-  Percent,
-  Clock,
-  Star,
-  Zap,
-  TrendingUp,
-  Calendar,
-  DollarSign,
-  Award,
-  Target,
-  MessageCircle,
-  Sparkles,
-  Crown,
-  Flame
-} from 'lucide-react';
 
 
 
@@ -1129,27 +1083,7 @@ export function PromotionsHub({ isDark, onOpenChat }: PromotionsHubProps) {
 
 
 ```tsx
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  DollarSign,
-  Gift,
-  Calendar,
-  TrendingUp,
-  Award,
-  Users,
-  Home,
-  MessageCircle,
-  Clock,
-  CheckCircle,
-  Star,
-  Zap,
-  Target,
-  Sparkles
-} from 'lucide-react';
+// MarketingIncentives component code would go here
 
 
 
@@ -1690,27 +1624,9 @@ export function MarketingIncentives({ isDark, onOpenChat }: MarketingIncentivesP
     </div>
   );
 }
-```
 
 
 
-5. PromotionalBanner.tsx - ׳‘׳׳ ׳¨ ׳§׳™׳“׳•׳׳™
-
-
-```tsx
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  X, 
-  Clock, 
-  Zap, 
-  Gift, 
-  MessageCircle,
-  Sparkles,
-  TrendingUp
-} from 'lucide-react';
 
 
 

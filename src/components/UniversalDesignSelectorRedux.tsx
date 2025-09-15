@@ -49,6 +49,12 @@ const EXTERIOR_TEXTURES = [
     name: 'Luxe',
     path: '/assets/skyline/texture/exterior/thumb4.webp',
     pk: 4
+  },
+  {
+    id: 5,
+    name: 'Sunset',
+    path: '/assets/skyline/texture/exterior/thumb5.webp',
+    pk: 5
   }
 ];
 
@@ -77,6 +83,12 @@ const INTERIOR_TEXTURES = [
     name: 'Luxe',
     path: '/assets/skyline/texture/interior/colors4.webp',
     pk: 4
+  },
+  {
+    id: 5,
+    name: 'Sunset',
+    path: '/assets/skyline/texture/interior/colors5.webp',
+    pk: 5
   }
 ];
 
@@ -559,7 +571,9 @@ export default function UniversalDesignSelectorRedux({
             Exterior Finishes
           </h4>
           <div className="flex justify-center space-x-4">
-            {EXTERIOR_TEXTURES.map((texture) => (
+            {EXTERIOR_TEXTURES.filter(texture => 
+              texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
+            ).map((texture) => (
               <div key={texture.id} className="text-center">
                 <button
                   onClick={() => handleTextureChange(texture.id)}
@@ -580,7 +594,8 @@ export default function UniversalDesignSelectorRedux({
                         const parent = e.currentTarget.parentElement;
                         parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
                                                      texture.id === 2 ? '#5e6266' : 
-                                                     texture.id === 3 ? '#9a9083' : '#4c4c4c';
+                                                     texture.id === 3 ? '#9a9083' : 
+                                                     texture.id === 4 ? '#4c4c4c' : '#b29a7d';
                         e.currentTarget.style.display = 'none';
                       }
                     }}
@@ -602,7 +617,9 @@ export default function UniversalDesignSelectorRedux({
             Textures
           </h4>
           <div className="flex justify-center space-x-4">
-            {INTERIOR_TEXTURES.map((texture) => (
+            {INTERIOR_TEXTURES.filter(texture => 
+              texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
+            ).map((texture) => (
               <div key={texture.id} className="text-center">
                 <button
                   onClick={() => handleTextureChange(texture.id)}
@@ -623,7 +640,8 @@ export default function UniversalDesignSelectorRedux({
                         const parent = e.currentTarget.parentElement;
                         parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
                                                      texture.id === 2 ? '#5e6266' : 
-                                                     texture.id === 3 ? '#9a9083' : '#4c4c4c';
+                                                     texture.id === 3 ? '#9a9083' : 
+                                                     texture.id === 4 ? '#4c4c4c' : '#b29a7d';
                         e.currentTarget.style.display = 'none';
                       }
                     }}

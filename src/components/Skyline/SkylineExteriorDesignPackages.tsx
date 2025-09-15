@@ -75,38 +75,38 @@ export default function SkylineExteriorDesignPackages({ house }: SkylineExterior
               {/* Package Selector */}
               <div className="flex justify-center space-x-4 mb-1">
                 <button
-                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300'}`}
                   onClick={() => setActivePackage(1)}
                 >
-                  Heritage
+                  Heritage(DC1)
                 </button>
                 
                 <button
-                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300'}`}
                   onClick={() => setActivePackage(2)}
                 >
                   Haven
                 </button>
                 
                 <button
-                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300'}`}
                   onClick={() => setActivePackage(3)}
                 >
-                  Serenity
+                  Serenity(DC3)
                 </button>
                 
                 <button
-                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 4 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 4 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300'}`}
                   onClick={() => setActivePackage(4)}
                 >
-                  Luxe
+                  Luxe(DC4)
                 </button>
                 
                 <button
-                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 5 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                  className={`px-6 py-3 rounded-lg font-semibold ${activePackage === 5 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300'}`}
                   onClick={() => setActivePackage(5)}
                 >
-                  Sunset
+                  Sunset(DC5)
                 </button>
               </div>
             </div>

@@ -335,29 +335,19 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   }
 
   return (
-    <div className="radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) shadow-xl overflow-hidden min-h-[600px]">
+    <div className="bg-fuchsia-100 shadow-xl overflow-hidden min-h-[600px]">
       {/* Headers */}
       <div className="grid grid-cols-4">
-        <div className="radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) text-white text-center py-4 px-6"></div>
-        <div className="radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) text-white text-center py-4 px-6">
+        <div className="bg-fuchsia-100 text-white text-center py-4 px-6"></div>
+        <div className="bg-fuchsia-100 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">HERITAGE</h3>
-         
+
         </div>
-        <div className="radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) text-white text-center py-4 px-6">
+        <div className="bg-fuchsia-100 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">HAVEN</h3>
       
         </div>
-        <div className="radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) text-white text-center py-4 px-6">
+        <div className="bg-fuchsia-100 text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">LUXE</h3>
           
         </div>
@@ -367,9 +357,7 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       <div className="divide-y">
         {comparisonItems.map((item, index) => (
           <div key={index} className="grid grid-cols-4 text-white">
-            <div className="radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) p-4 font-semibold text-white ">
+            <div className="bg-fuchsia-100 p-4 font-semibold text-white ">
               {item.label}
             </div>
             <div className={`p-4 text-center  ${index < comparisonItems.length - 1 ? '' : ''}`}>
