@@ -208,12 +208,10 @@ export default function PremiumInteriorCarousel({
   const initialImage = allImages[currentImageIndex];
 
   return (
-    <div className="relative w-full  rounded-lg overflow-hidden shadow-lg" 
+    <div className="relative w-full rounded-lg overflow-hidden shadow-lg h-[60vh] xl:h-[600px]" 
          ref={imageContainerRef}
          style={{ 
-           height: "600px", 
-           minHeight: "600px",
-           contain: "cover" 
+           contain: "layout paint" 
          }}>
       {/* Fast loading placeholder for LCP */}
       <div className="absolute inset-0 bg-slate-700 w-full h-full" style={{ zIndex: 1 }} />

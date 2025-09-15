@@ -70,12 +70,12 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
             </div>
           )}
           
-          <div className="relative">
+          <div className="relative h-[60vh] xl:h-[500px]">
             {imagePath && (
               <img
                 src={imagePath}
                 alt={`${packageType.toUpperCase()} Package - ${activeScheme === 'light' ? 'White' : 'Dark'}`}
-                className="w-full h-[500px] object-cover rounded-lg shadow-lg"
+                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
                 onLoad={() => setImageLoading(false)}
                 onError={async (e) => {
                   if (e.currentTarget) {
@@ -161,7 +161,6 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
                 <span className="text-gray-800 font-bold text-lg">WHITE</span>
               </div>
             </button>
-            <p className="mt-2 text-sm text-gray-600 font-medium">White Scheme</p>
           </div>
 
           <div className="text-center">
@@ -177,7 +176,6 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
                 <span className="text-white font-bold text-lg">BLACK</span>
               </div>
             </button>
-            <p className="mt-2 text-sm text-gray-600 font-medium">Black Scheme</p>
           </div>
         </div>
       </div>

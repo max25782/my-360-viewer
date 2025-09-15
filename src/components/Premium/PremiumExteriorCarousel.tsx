@@ -142,11 +142,9 @@ export default function PremiumExteriorCarousel({ houseId, maxDP }: PremiumExter
   const initialImage = exteriorImages[currentIndex];
 
   return (
-    <div className="relative w-full  rounded-lg overflow-hidden shadow-lg" 
+    <div className="relative w-full rounded-lg overflow-hidden shadow-lg h-[60vh] xl:h-[600px]" 
          ref={imageContainerRef}
          style={{ 
-           height: "600px", 
-           minHeight: "600px",
            contain: "layout paint" 
          }}>
       {/* Fast loading placeholder for LCP */}

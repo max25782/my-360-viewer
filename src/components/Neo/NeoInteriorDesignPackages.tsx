@@ -46,12 +46,12 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Main Image Display */}
-        <div className="mb-8  relative">
-          <div className="relative ">
+        <div className="mb-8 relative">
+          <div className="relative h-[60vh] xl:h-[500px]">
             <img 
               src={getFullPath()} 
               alt={`Interior - ${selectedRoom} - ${activeScheme === 'light' ? 'White' : 'Dark'}`} 
-              className="w-full h-[500px] object-cover rounded-lg shadow-lg"
+              className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
               onError={(e) => {
                 // Если изображение не найдено, пробуем загрузить первый пакет для текущей комнаты
                 e.currentTarget.src = `/assets/neo/${getHouseDirectory()}/interior/${getRoomPath(selectedRoom)}/pk1.jpg`;
