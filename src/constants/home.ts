@@ -32,6 +32,13 @@ export const COLLECTION_DATA: Record<Collection, CollectionData> = {
     primaryColor: '#EAB308', // Will be overridden based on favorites count
     gradient: 'linear-gradient(135deg, #ca8a04 0%, #eab308 100%)',
     activeGlow: 'rgba(234, 179, 8, 0.4)'
+  },
+  coupons: {
+    name: 'OFFERS',
+    code: 'CPN-2X',
+    primaryColor: '#F59E0B',
+    gradient: 'linear-gradient(135deg, #f59e0b 0%, #f97316 100%)',
+    activeGlow: 'rgba(245, 158, 11, 0.4)'
   }
 };
 
@@ -44,7 +51,7 @@ export const MODEL_TABS = [
 ] as const;
 
 // Collections array for iteration
-export const COLLECTIONS: Collection[] = ['skyline', 'neo', 'premium', 'favorites'];
+export const COLLECTIONS: Collection[] = ['skyline', 'neo', 'premium', 'favorites', 'coupons'];
 
 // Default values
 export const DEFAULT_VALUES = {

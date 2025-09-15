@@ -246,6 +246,10 @@ export function filterModels(
     if (selectedCollection === 'favorites') {
       return favorites.includes(model.id);
     }
+    if (selectedCollection === 'coupons') {
+      // For coupons, we don't filter models - we'll show the OffersSection instead
+      return false;
+    }
     return model.collection === selectedCollection;
   });
 }

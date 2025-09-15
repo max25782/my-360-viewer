@@ -45,9 +45,11 @@ export function CollectionSelector({
           <div className="flex gap-3">
             {COLLECTIONS.map((collection, index) => {
               const isActive = selectedCollection === collection;
-              const modelCount = collection !== 'favorites' 
-                ? models.filter(m => m.collection === collection).length
-                : favorites.length;
+              const modelCount = collection === 'favorites' 
+                ? favorites.length
+                : collection === 'coupons'
+                  ? 3 // Number of available offers
+                  : models.filter(m => m.collection === collection).length;
 
               // Get collection data with dynamic favorites handling
               const data = collection === 'favorites' 

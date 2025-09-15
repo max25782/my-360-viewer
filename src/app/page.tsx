@@ -53,6 +53,7 @@ import PremiumFeatures from '../components/Premium/PremiumFeatures';
 import { HeroAdvertisementBanner } from '../components/home/HeroAdvertisementBanner';
 import { CollectionSelector } from '../components/home/CollectionSelector';
 import { ModelCard } from '../components/home/ModelCard';
+import { OffersSection } from '../components/OffersSection';
 
 // Hooks and utilities
 import { useHomeState } from '../hooks/useHomeState';
@@ -575,82 +576,105 @@ export default function Home() {
                 {/* View Mode Toggle */}
                 <div className="flex items-center justify-between mb-6">
                   <div className={`text-lg ${state.isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                    Showing {filteredModels.length} model{filteredModels.length !== 1 ? 's' : ''}
-                    {state.selectedCollection === 'favorites' && filteredModels.length === 0 && (
-                      <span className="text-sm opacity-70 ml-2">- Add models to favorites to see them here</span>
+                    {state.selectedCollection === 'coupons' ? (
+                      'Special Offers & Promotions'
+                    ) : (
+                      <>
+                        Showing {filteredModels.length} model{filteredModels.length !== 1 ? 's' : ''}
+                        {state.selectedCollection === 'favorites' && filteredModels.length === 0 && (
+                          <span className="text-sm opacity-70 ml-2">- Add models to favorites to see them here</span>
+                        )}
+                      </>
                     )}
                   </div>
                   
-                  <div className="flex items-center gap-4">
-                    {/* Compare Button */}
-                    {state.compareList.length >= 2 && (
-                      <Button
-                        onClick={() => actions.setShowComparison(true)}
-                        className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-200 border border-purple-400/40 hover:from-purple-500/30 hover:to-pink-500/30 hover:scale-105 transition-all duration-300"
-                        style={{
-                          boxShadow: '0 4px 20px rgba(147, 51, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                        }}
-                      >
-                        <GitCompare className="w-5 h-5 mr-3" />
-                        <div className="flex flex-col items-start">
-                          <span className="text-sm font-medium">Compare Models</span>
-                          <span className="text-xs opacity-80">{state.compareList.length} selected</span>
-                        </div>
-                      </Button>
-                    )}
+                  {state.selectedCollection !== 'coupons' && (
+                    <div className="flex items-center gap-4">
+                      {/* Compare Button */}
+                      {state.compareList.length >= 2 && (
+                        <Button
+                          onClick={() => actions.setShowComparison(true)}
+                          className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-200 border border-purple-400/40 hover:from-purple-500/30 hover:to-pink-500/30 hover:scale-105 transition-all duration-300"
+                          style={{
+                            boxShadow: '0 4px 20px rgba(147, 51, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                          }}
+                        >
+                          <GitCompare className="w-5 h-5 mr-3" />
+                          <div className="flex flex-col items-start">
+                            <span className="text-sm font-medium">Compare Models</span>
+                            <span className="text-xs opacity-80">{state.compareList.length} selected</span>
+                          </div>
+                        </Button>
+                      )}
 
-                    {/* View Mode Toggle */}
-                    <div className={`inline-flex rounded-lg p-1 ${
-                      state.isDark ? 'bg-slate-800/50' : 'bg-white/50'
-                    } backdrop-blur-xl border border-white/10`}>
-                      <button
-                        onClick={() => actions.setViewMode('grid')}
-                        className={`p-2 rounded-md transition-all ${
-                          state.viewMode === 'grid'
-                            ? state.isDark ? 'bg-slate-700 text-white' : 'bg-white text-slate-800'
-                            : state.isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-800'
-                        }`}
-                      >
-                        <Grid3X3 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => actions.setViewMode('list')}
-                        className={`p-2 rounded-md transition-all ${
-                          state.viewMode === 'list'
-                            ? state.isDark ? 'bg-slate-700 text-white' : 'bg-white text-slate-800'
-                            : state.isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-800'
-                        }`}
-                      >
-                        <List className="w-4 h-4" />
-                      </button>
+                      {/* View Mode Toggle */}
+                      <div className={`inline-flex rounded-lg p-1 ${
+                        state.isDark ? 'bg-slate-800/50' : 'bg-white/50'
+                      } backdrop-blur-xl border border-white/10`}>
+                        <button
+                          onClick={() => actions.setViewMode('grid')}
+                          className={`p-2 rounded-md transition-all ${
+                            state.viewMode === 'grid'
+                              ? state.isDark ? 'bg-slate-700 text-white' : 'bg-white text-slate-800'
+                              : state.isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-800'
+                          }`}
+                        >
+                          <Grid3X3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => actions.setViewMode('list')}
+                          className={`p-2 rounded-md transition-all ${
+                            state.viewMode === 'list'
+                              ? state.isDark ? 'bg-slate-700 text-white' : 'bg-white text-slate-800'
+                              : state.isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-800'
+                          }`}
+                        >
+                          <List className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
-                {/* Models Grid/List */}
-                <motion.div
-                  className={state.viewMode === 'grid' 
-                    ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                    : "space-y-6"
-                  }
-                  layout
-                >
-                  <AnimatePresence>
-                    {filteredModels.map((model) => (
-                      <ModelCard
-                        key={model.id}
-                        model={model}
-                        isDark={state.isDark}
-                        favorites={state.favorites}
-                        compareList={state.compareList}
-                        onModelClick={homeActions.handleModelSelectForTab}
-                        onToggleFavorite={homeActions.toggleFavorite}
-                        onToggleCompare={homeActions.toggleCompare}
-                        onViewDetails={homeActions.handleModelSelect}
-                      />
-                    ))}
-                  </AnimatePresence>
-                </motion.div>
+                {/* Conditional Content Based on Selected Collection */}
+                {state.selectedCollection === 'coupons' ? (
+                  /* Coupons Section */
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                  >
+                    <OffersSection 
+                      isDark={state.isDark}
+                      onOpenChat={homeActions.onOpenChat}
+                    />
+                  </motion.div>
+                ) : (
+                  /* Models Grid/List */
+                  <motion.div
+                    className={state.viewMode === 'grid' 
+                      ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                      : "space-y-6"
+                    }
+                    layout
+                  >
+                    <AnimatePresence>
+                      {filteredModels.map((model) => (
+                        <ModelCard
+                          key={model.id}
+                          model={model}
+                          isDark={state.isDark}
+                          favorites={state.favorites}
+                          compareList={state.compareList}
+                          onModelClick={homeActions.handleModelSelectForTab}
+                          onToggleFavorite={homeActions.toggleFavorite}
+                          onToggleCompare={homeActions.toggleCompare}
+                          onViewDetails={homeActions.handleModelSelect}
+                        />
+                      ))}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
 
                 {/* Empty State */}
                 {filteredModels.length === 0 && state.selectedCollection === 'favorites' && (

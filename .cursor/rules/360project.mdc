@@ -1,0 +1,100 @@
+Before implementing the best practices, please adapt the globs according to your project's structure.
+
+---
+name: nextjs-best-practices.mdc
+description: Best practices for Next.js applications and routing
+globs: **/*.{ts,tsx}
+---
+
+- Use the App Router for better performance and organization.
+- Implement proper error boundaries to handle errors gracefully.
+- Optimize data fetching with `getServerSideProps` or `getStaticProps` as needed.
+- Utilize dynamic routing for cleaner URL structures.
+
+---
+name: typescript-best-practices.mdc 
+description: TypeScript coding standards and type safety guidelines
+globs: **/*.{ts,tsx}
+---
+
+- Enable strict mode in `tsconfig.json` for better type safety.
+- Prefer using interfaces over type aliases for object shapes.
+- Utilize type guards to ensure type safety in conditional logic.
+- Implement generics for reusable components and functions.
+
+---
+name: react-best-practices.mdc
+description: Best practices for React components and hooks
+globs: **/*.{ts,tsx,js,jsx}
+---
+
+- Use functional components and hooks for state management.
+- Memoize components with `React.memo` to prevent unnecessary re-renders.
+- Use the `useEffect` hook wisely to manage side effects.
+- Keep component logic clean by separating concerns into custom hooks.
+
+---
+name: redux-best-practices.mdc
+description: Best practices for state management with Redux
+globs: **/*.{ts,tsx}
+---
+
+- Use Redux Toolkit for simplified store setup and state management.
+- Structure slices logically to keep related state and actions together.
+- Use `createAsyncThunk` for handling asynchronous actions.
+- Leverage selectors for accessing state in a performant way.
+
+---
+name: tailwindcss-best-practices.mdc
+description: Guidelines for styling with Tailwind CSS
+globs: **/*.{ts,tsx,css}
+---
+
+- Use utility-first classes for rapid styling and layout.
+- Create custom components with Tailwind's `@apply` directive for reusability.
+- Ensure responsive design by utilizing Tailwind's responsive utilities.
+- Use `tailwind-merge` to handle conditional class names effectively.
+
+---
+name: framer-motion-best-practices.mdc
+description: Best practices for animations with Framer Motion
+globs: **/*.{ts,tsx}
+---
+
+- Use `motion` components for declarative animations.
+- Leverage `variants` for managing complex animations and transitions.
+- Optimize performance by using `shouldComponentUpdate` or `React.memo`.
+- Use `useAnimation` for programmatic control over animations.
+
+---
+name: photo-sphere-viewer-best-practices.mdc
+description: Best practices for using Photo Sphere Viewer
+globs: **/*.{ts,tsx}
+---
+
+- Optimize images for performance before loading them into the viewer.
+- Use the cubemap adapter for better 3D rendering.
+- Implement markers for interactive elements within the viewer.
+- Ensure accessibility by providing alternative text for images.
+
+---
+name: radix-ui-best-practices.mdc
+description: Best practices for using Radix UI components
+globs: **/*.{ts,tsx}
+---
+
+- Use Radix components for building accessible UI elements.
+- Customize components using the `class-variance-authority` for styling.
+- Ensure proper keyboard navigation and focus management.
+- Utilize the context API for managing shared state across components.
+
+---
+name: react-hook-form-best-practices.mdc
+description: Best practices for form handling with React Hook Form
+globs: **/*.{ts,tsx}
+---
+
+- Use `useForm` for managing form state and validation.
+- Leverage `Controller` for integrating with external UI libraries.
+- Implement validation schema with `Yup` or similar libraries for type safety.
+- Use `onSubmit` for handling form submissions efficiently.
