@@ -57,7 +57,7 @@ export function GoogleAddressAutocomplete({
 
       return () => {
         document.head.removeChild(script);
-        delete window.initGooglePlaces;
+        delete (window as any).initGooglePlaces;
       };
     };
 
