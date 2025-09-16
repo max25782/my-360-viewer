@@ -22,8 +22,7 @@ export async function GET(
     // Пути к папкам для Neo домов (у них есть white и black варианты)
     const exteriorWhitePath = join(process.cwd(), 'public', 'assets', 'neo', capitalizedHouseId, 'exterior', 'white');
     const exteriorBlackPath = join(process.cwd(), 'public', 'assets', 'neo', capitalizedHouseId, 'exterior', 'black');
-    const interiorWhitePath = join(process.cwd(), 'public', 'assets', 'neo', capitalizedHouseId, 'interior', 'white');
-    const interiorBlackPath = join(process.cwd(), 'public', 'assets', 'neo', capitalizedHouseId, 'interior', 'black');
+    const interiorPath = join(process.cwd(), 'public', 'assets', 'neo', capitalizedHouseId, 'interior');
     
     let maxDP = 0;
     let maxPK = 0;
@@ -60,45 +59,38 @@ export async function GET(
       console.warn(`⚠️ Neo exterior directories not found for ${capitalizedHouseId}:`, exteriorError);
     }
     
-    // Определяем maxPK и комнаты из файлов interior (проверяем оба цвета)
+    // Определяем maxPK и комнаты из файлов interior
     try {
-      const interiorPaths = [interiorWhitePath, interiorBlackPath];
       const pkNumbers: number[] = [];
       const roomsSet = new Set<string>();
       
-      for (const path of interiorPaths) {
+      // Читаем папки комнат напрямую из interior
+      const entries = await readdir(interiorPath, { withFileTypes: true });
+      const rooms = entries
+        .filter(entry => entry.isDirectory())
+        .map(entry => entry.name);
+      
+      rooms.forEach(room => roomsSet.add(room));
+      
+      // Для каждой комнаты определяем максимальный PK
+      for (const room of rooms) {
         try {
-          const entries = await readdir(path, { withFileTypes: true });
-          const rooms = entries
-            .filter(entry => entry.isDirectory())
-            .map(entry => entry.name);
+          const roomPath = join(interiorPath, room);
+          const roomFiles = await readdir(roomPath);
           
-          rooms.forEach(room => roomsSet.add(room));
+          const pkFiles = roomFiles.filter(file => 
+            file.match(/^pk\d+\.(jpg|webp)$/i)
+          );
           
-          // Для каждой комнаты определяем максимальный PK
-          for (const room of rooms) {
-            try {
-              const roomPath = join(path, room);
-              const roomFiles = await readdir(roomPath);
-              
-              const pkFiles = roomFiles.filter(file => 
-                file.match(/^pk\d+\.(jpg|webp)$/i)
-              );
-              
-              const roomPkNumbers = pkFiles.map(file => {
-                const match = file.match(/^pk(\d+)\./i);
-                return match ? parseInt(match[1], 10) : 0;
-              }).filter(num => num > 0);
-              
-              pkNumbers.push(...roomPkNumbers);
-              
-            } catch (roomError) {
-              console.warn(`⚠️ Could not read Neo room ${room}:`, roomError);
-            }
-          }
+          const roomPkNumbers = pkFiles.map(file => {
+            const match = file.match(/^pk(\d+)\./i);
+            return match ? parseInt(match[1], 10) : 0;
+          }).filter(num => num > 0);
           
-        } catch (pathError) {
-          // Игнорируем ошибки отдельных путей
+          pkNumbers.push(...roomPkNumbers);
+          
+        } catch (roomError) {
+          console.warn(`⚠️ Could not read Neo room ${room}:`, roomError);
         }
       }
       
@@ -109,7 +101,7 @@ export async function GET(
       console.log(`🎨 Neo interior PK numbers found: ${pkNumbers}, maxPK: ${maxPK}`);
       
     } catch (interiorError) {
-      console.warn(`⚠️ Neo interior directories not found for ${capitalizedHouseId}:`, interiorError);
+      console.warn(`⚠️ Neo interior directory not found for ${capitalizedHouseId}:`, interiorError);
     }
     
     const result = {

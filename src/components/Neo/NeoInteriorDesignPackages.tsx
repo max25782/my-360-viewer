@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NeoHouse } from '../../hooks/useNeoHouse';
+import { useNeoRooms } from '../../hooks/useNeoRooms';
 
 interface NeoInteriorDesignPackagesProps {
   house: NeoHouse;
@@ -12,8 +13,16 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
   const [packageType, setPackageType] = useState<'good' | 'better'>('good');
   const [selectedRoom, setSelectedRoom] = useState<string>('living');
 
-  // Доступные комнаты для Neo домов
-  const availableRooms = house.availableRooms || ['living', 'kitchen', 'bedroom', 'bathroom', 'wik'];
+  // Динамически получаем доступные комнаты для Neo дома
+  const { availableRooms, isLoading: roomsLoading, error: roomsError } = useNeoRooms(house.id);
+
+  // Обновляем выбранную комнату когда загружаются комнаты
+  useEffect(() => {
+    if (availableRooms.length > 0 && !availableRooms.includes(selectedRoom)) {
+      // Если текущая выбранная комната недоступна, выбираем первую доступную
+      setSelectedRoom(availableRooms[0]);
+    }
+  }, [availableRooms, selectedRoom]);
 
   // Преобразуем название комнаты для пути к файлу
   const getRoomPath = (room: string) => {
@@ -65,15 +74,29 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
             />
             {/* Room Selector */}
         <div className="absolute bottom-2 left-8 flex justify-center items-center flex-wrap space-x-2 ">
-          {availableRooms.map((room) => (
-            <button 
-              key={room}
-              className={`px-4 py-2 m-1 rounded ${selectedRoom === room ? 'bg-slate-700 text-white' : 'bg-slate-400 text-gray-700 hover:bg-gray-300'}`}
-              onClick={() => setSelectedRoom(room)}
-            >
-              {room.charAt(0).toUpperCase() + room.slice(1)}
-            </button>
-          ))}
+          {roomsLoading ? (
+            <div className="px-4 py-2 m-1 rounded bg-slate-600 text-white">
+              Loading rooms...
+            </div>
+          ) : roomsError ? (
+            <div className="px-4 py-2 m-1 rounded bg-red-600 text-white">
+              Error loading rooms
+            </div>
+          ) : availableRooms.length > 0 ? (
+            availableRooms.map((room) => (
+              <button 
+                key={room}
+                className={`px-4 py-2 m-1 rounded ${selectedRoom === room ? 'bg-slate-700 text-white' : 'bg-slate-400 text-gray-700 hover:bg-gray-300'}`}
+                onClick={() => setSelectedRoom(room)}
+              >
+                {room.charAt(0).toUpperCase() + room.slice(1)}
+              </button>
+            ))
+          ) : (
+            <div className="px-4 py-2 m-1 rounded bg-slate-600 text-white">
+              No rooms available
+            </div>
+          )}
             <div className="absolute bottom-15 left-8 bg-slate-700 bg-opacity-50 px-6 py-3 text-white text-xl font-semibold">
               {packageType.charAt(0).toUpperCase() + packageType.slice(1)} Package - {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)} - {activeScheme === 'light' ? 'White' : 'Dark'}
             </div>
