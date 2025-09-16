@@ -4,6 +4,7 @@ import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Star, GitCompare, Building2, Bed, Bath, Eye } from 'lucide-react';
 import { ModelData } from '../../types/home';
+import { useHouseSpecs } from '../../hooks/useHouseSpecs';
 
 interface ModelCardProps {
   model: ModelData;
@@ -28,6 +29,9 @@ export function ModelCard({
 }: ModelCardProps) {
   const isFavorite = favorites.includes(model.id);
   const isInCompare = compareList.includes(model.id);
+  
+  // Получаем динамические данные о доме
+  const { specs, isLoading } = useHouseSpecs(model.id, model.collection);
 
   return (
     <motion.div
@@ -128,6 +132,7 @@ export function ModelCard({
           
           {/* Enhanced Image Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-500" />
+          
           
           {/* Status Indicator Line */}
           <div className={`absolute top-0 left-0 right-0 h-[2px] ${
@@ -233,25 +238,47 @@ export function ModelCard({
               </div>
             </div>
             
+            {/* Description */}
+            {model.description && (
+              <div className="mb-4">
+                <p className={`text-sm leading-relaxed ${
+                  isDark ? 'text-slate-400' : 'text-slate-600'
+                }`} style={{ 
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden'
+                }}>
+                  {model.description}
+                </p>
+              </div>
+            )}
+            
             {/* Enhanced Specs */}
             <div className="flex items-center gap-4">
               <div className={`flex items-center gap-1.5 text-sm ${
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}>
                 <Building2 className="w-4 h-4 opacity-60" />
-                <span>{model.area}</span>
+                <span>
+                  {isLoading ? '...' : (specs?.area || model.area)}
+                </span>
               </div>
               <div className={`flex items-center gap-1.5 text-sm ${
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}>
                 <Bed className="w-4 h-4 opacity-60" />
-                <span>{model.bedrooms} BR</span>
+                <span>
+                  {isLoading ? '...' : `${specs?.bedrooms || model.bedrooms} BR`}
+                </span>
               </div>
               <div className={`flex items-center gap-1.5 text-sm ${
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}>
                 <Bath className="w-4 h-4 opacity-60" />
-                <span>{model.bathrooms} BA</span>
+                <span>
+                  {isLoading ? '...' : `${specs?.bathrooms || model.bathrooms} BA`}
+                </span>
               </div>
             </div>
           </div>
