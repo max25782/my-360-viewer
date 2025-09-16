@@ -669,7 +669,7 @@ export default function Home() {
                           onModelClick={homeActions.handleModelSelectForTab}
                           onToggleFavorite={homeActions.toggleFavorite}
                           onToggleCompare={homeActions.toggleCompare}
-                          onViewDetails={homeActions.handleModelSelect}
+                          onViewDetails={homeActions.handleModelSelectForTab}
                         />
                       ))}
                     </AnimatePresence>
