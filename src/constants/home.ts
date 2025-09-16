@@ -20,7 +20,7 @@ export const COLLECTION_DATA: Record<Collection, CollectionData> = {
     activeGlow: 'rgba(147, 51, 234, 0.4)'
   },
   premium: {
-    name: 'PREMIUM',
+    name: 'PREMIER',
     code: 'PRM-5E',
     primaryColor: '#06B6D4',
     gradient: 'linear-gradient(135deg, #0e7490 0%, #0891b2 100%)',

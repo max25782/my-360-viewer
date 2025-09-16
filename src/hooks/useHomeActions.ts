@@ -1,4 +1,4 @@
-import { ModelData, Collection } from '../types/home';
+import { ModelData, Collection, ModelTab } from '../types/home';
 import { convertHouseToModel } from '../data/realModelsData';
 import { toggleItemInArray, canAddToCompare, getNextImageIndex, getPreviousImageIndex } from '../utils/navigationHelpers';
 import { DEFAULT_VALUES } from '../constants/home';
@@ -7,6 +7,7 @@ interface UseHomeActionsProps {
   actions: {
     setSelectedModel: (model: ModelData | null) => void;
     setMainTab: (tab: 'collections' | 'model-details') => void;
+    setModelTab: (tab: ModelTab) => void;
     setCurrentImageIndex: (index: number) => void;
     setSelectedCollection: (collection: Collection) => void;
     setFavorites: (favorites: string[] | ((prev: string[]) => string[])) => void;
@@ -60,6 +61,8 @@ export function useHomeActions({ actions, state }: UseHomeActionsProps) {
     actions.setSelectedModel(model);
     actions.setMainTab('model-details');
     actions.setCurrentImageIndex(0);
+    // Устанавливаем таб "virtual-tour" по умолчанию при клике на карточку
+    actions.setModelTab('virtual-tour');
   };
 
   // Handle collection click

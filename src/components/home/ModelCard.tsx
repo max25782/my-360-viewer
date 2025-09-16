@@ -155,7 +155,7 @@ export function ModelCard({
                 textTransform: 'uppercase'
               }}
             >
-              {model.collection}
+              {model.collection === 'premium' ? 'PREMIER' : model.collection}
             </Badge>
           </div>
 
