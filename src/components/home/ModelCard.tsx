@@ -6,6 +6,31 @@ import { Star, GitCompare, Building2, Bed, Bath, Eye } from 'lucide-react';
 import { ModelData } from '../../types/home';
 import { useHouseSpecs } from '../../hooks/useHouseSpecs';
 
+// Trapezoid Text Component
+function TrapezoidText({ text }: { text: string }) {
+  const words = text.split(' ');
+  const wordsPerLine = [5, 4, 3, 2];
+  let wordIndex = 0;
+  
+  return (
+    <div className="text-white/95 text-xs leading-relaxed font-medium space-y-1" 
+         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
+      {wordsPerLine.map((count, lineIndex) => {
+        if (wordIndex >= words.length) return null;
+        
+        const lineWords = words.slice(wordIndex, wordIndex + count);
+        wordIndex += count;
+        
+        return (
+          <div key={lineIndex} className="text-left">
+            {lineWords.join(' ')}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 interface ModelCardProps {
   model: ModelData;
   isDark: boolean;
@@ -133,6 +158,15 @@ export function ModelCard({
           {/* Enhanced Image Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-500" />
           
+          {/* Description Overlay on Left Side - Trapezoid Shape */}
+          {model.description && (
+            <div className="absolute top-2 left-4 bottom-6 w-1/2 z-10 flex items-end">
+              <div className="bg-grey/60 backdrop-blur-sm rounded-lg p-3 ">
+                <TrapezoidText text={model.description} />
+              </div>
+            </div>
+          )}
+          
           
           {/* Status Indicator Line */}
           <div className={`absolute top-0 left-0 right-0 h-[2px] ${
@@ -238,21 +272,6 @@ export function ModelCard({
               </div>
             </div>
             
-            {/* Description */}
-            {model.description && (
-              <div className="mb-4">
-                <p className={`text-sm leading-relaxed ${
-                  isDark ? 'text-slate-400' : 'text-slate-600'
-                }`} style={{ 
-                  display: '-webkit-box',
-                  WebkitLineClamp: 3,
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden'
-                }}>
-                  {model.description}
-                </p>
-              </div>
-            )}
             
             {/* Enhanced Specs */}
             <div className="flex items-center gap-4">
