@@ -21,7 +21,6 @@ export function useHomeState() {
   const [recommendations, setRecommendations] = useState<any[]>([]);
   const [is360ViewerOpen, setIs360ViewerOpen] = useState(false);
   const [current360Model, setCurrent360Model] = useState<ModelData | null>(null);
-  const [detailedModel, setDetailedModel] = useState<ModelData | null>(null);
 
   // Load initial data
   useEffect(() => {
@@ -81,8 +80,7 @@ export function useHomeState() {
     userProfile,
     recommendations,
     is360ViewerOpen,
-    current360Model,
-    detailedModel
+    current360Model
   };
 
   const actions = {
@@ -99,8 +97,7 @@ export function useHomeState() {
     setUserProfile,
     setRecommendations,
     setIs360ViewerOpen,
-    setCurrent360Model,
-    setDetailedModel
+    setCurrent360Model
   };
 
   return { state, actions };

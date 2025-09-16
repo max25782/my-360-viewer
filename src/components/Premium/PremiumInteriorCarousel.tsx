@@ -112,8 +112,14 @@ export default function PremiumInteriorCarousel({
         images.push({ path: placeholderPath, room: 'No Room Available' });
       }
       
-      // Сортируем изображения по имени комнаты
-      images.sort((a, b) => a.room.localeCompare(b.room));
+      // Сортируем изображения: living первая, остальные по алфавиту
+      images.sort((a, b) => {
+        // Если одна из комнат - living, она идет первой
+        if (a.room === 'living' && b.room !== 'living') return -1;
+        if (b.room === 'living' && a.room !== 'living') return 1;
+        // Если обе или ни одна не living, сортируем по алфавиту
+        return a.room.localeCompare(b.room);
+      });
       
       console.log(`Загружено ${images.length} изображений интерьера для ${houseId}`);
       

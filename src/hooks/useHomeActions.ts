@@ -1,5 +1,4 @@
 import { ModelData, Collection, ModelTab } from '../types/home';
-import { convertHouseToModel } from '../data/realModelsData';
 import { toggleItemInArray, canAddToCompare, getNextImageIndex, getPreviousImageIndex } from '../utils/navigationHelpers';
 import { DEFAULT_VALUES } from '../constants/home';
 
@@ -15,7 +14,6 @@ interface UseHomeActionsProps {
     setShowComparison: (show: boolean) => void;
     setCurrent360Model: (model: ModelData | null) => void;
     setIs360ViewerOpen: (open: boolean) => void;
-    setDetailedModel: (model: ModelData | null) => void;
   };
   state: {
     currentImageIndex: number;
@@ -49,12 +47,6 @@ export function useHomeActions({ actions, state }: UseHomeActionsProps) {
     actions.setCurrentImageIndex(prevIndex);
   };
 
-  // Handle model selection
-  const handleModelSelect = (model: ModelData) => {
-    // Конвертируем модель в полный формат для детального просмотра
-    const fullModel = convertHouseToModel(model);
-    actions.setDetailedModel(fullModel);
-  };
 
   // Handle model selection for main tab (old functionality)
   const handleModelSelectForTab = (model: ModelData) => {
@@ -99,7 +91,6 @@ export function useHomeActions({ actions, state }: UseHomeActionsProps) {
     handle360ViewerClose,
     nextImage,
     prevImage,
-    handleModelSelect,
     handleModelSelectForTab,
     handleCollectionClick,
     toggleFavorite,

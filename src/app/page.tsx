@@ -39,7 +39,6 @@ import { ProjectManager } from '../components/ProjectManager';
 import { SkylineConfigurator } from '../components/SkylineConfigurator';
 import { NeoConfigurator } from '../components/NeoConfigurator';
 import { PremierHouseConfigurator } from '../components/PremierHouseConfigurator';
-import { ModelViewer } from '../components/ModelViewer';
 import CategorySpecific360Viewer from '../components/CategorySpecific360Viewer';
 import UniversalDesignSelectorRedux from '../components/UniversalDesignSelectorRedux';
 import JsonGoodBetterBestComparison from '../components/JsonGoodBetterBestComparison';
@@ -736,35 +735,6 @@ export default function Home() {
           )}
         </AnimatePresence>
 
-        {/* Model Viewer - Full Screen Overlay */}
-        <AnimatePresence>
-          {state.detailedModel && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-50 bg-slate-900"
-            >
-              <ModelViewer
-                model={state.detailedModel}
-                onBack={() => actions.setDetailedModel(null)}
-                onCompareToggle={() => homeActions.toggleCompare(state.detailedModel!.id)}
-                isComparing={state.compareList.includes(state.detailedModel!.id)}
-                onOpenConfigurator={() => {
-                  console.log('Open configurator for:', state.detailedModel!.id);
-                }}
-                onModelSelect={(modelId) => {
-                  // Найти модель по ID и открыть её
-                  const model = state.models.find(m => m.id === modelId);
-                  if (model) {
-                    homeActions.handleModelSelect(model);
-                  }
-                }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Project Manager - Fixed Position */}
         <ProjectManager 
