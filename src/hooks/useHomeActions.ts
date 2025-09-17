@@ -14,6 +14,8 @@ interface UseHomeActionsProps {
     setShowComparison: (show: boolean) => void;
     setCurrent360Model: (model: ModelData | null) => void;
     setIs360ViewerOpen: (open: boolean) => void;
+    setIsChatOpen: (open: boolean) => void;
+    setChatInitialMessage: (message: string | null) => void;
   };
   state: {
     currentImageIndex: number;
@@ -81,9 +83,18 @@ export function useHomeActions({ actions, state }: UseHomeActionsProps) {
     });
   };
 
-  // Chat handler
-  const onOpenChat = () => {
-    console.log('Opening chat...');
+  // Chat handlers
+  const onOpenChat = (initialMessage?: string) => {
+    console.log('Opening chat...', initialMessage);
+    if (initialMessage) {
+      actions.setChatInitialMessage(initialMessage);
+    }
+    actions.setIsChatOpen(true);
+  };
+
+  const onCloseChat = () => {
+    actions.setIsChatOpen(false);
+    actions.setChatInitialMessage(null);
   };
 
   return {
@@ -95,6 +106,7 @@ export function useHomeActions({ actions, state }: UseHomeActionsProps) {
     handleCollectionClick,
     toggleFavorite,
     toggleCompare,
-    onOpenChat
+    onOpenChat,
+    onCloseChat
   };
 }

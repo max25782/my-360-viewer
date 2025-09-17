@@ -21,6 +21,10 @@ export function useHomeState() {
   const [recommendations, setRecommendations] = useState<any[]>([]);
   const [is360ViewerOpen, setIs360ViewerOpen] = useState(false);
   const [current360Model, setCurrent360Model] = useState<ModelData | null>(null);
+  
+  // Chat state
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatInitialMessage, setChatInitialMessage] = useState<string | null>(null);
 
   // Load initial data
   useEffect(() => {
@@ -80,7 +84,9 @@ export function useHomeState() {
     userProfile,
     recommendations,
     is360ViewerOpen,
-    current360Model
+    current360Model,
+    isChatOpen,
+    chatInitialMessage
   };
 
   const actions = {
@@ -97,7 +103,9 @@ export function useHomeState() {
     setUserProfile,
     setRecommendations,
     setIs360ViewerOpen,
-    setCurrent360Model
+    setCurrent360Model,
+    setIsChatOpen,
+    setChatInitialMessage
   };
 
   return { state, actions };

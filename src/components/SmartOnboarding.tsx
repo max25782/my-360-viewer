@@ -702,7 +702,7 @@ export function SmartOnboarding({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                   >
-                    ג¨ Find Your Perfect Project
+                    Find Your Perfect Project
                   </motion.h1>
                   <motion.p
                     className={`${isDark ? 'text-slate-300' : 'text-slate-600'} text-lg`}
@@ -710,7 +710,7 @@ export function SmartOnboarding({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.5 }}
                   >
-                    נ¯ Answer a few questions to get personalized recommendations
+                    Answer a few questions to get personalized recommendations
                   </motion.p>
                 </div>
               </motion.div>
@@ -751,7 +751,7 @@ export function SmartOnboarding({
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    Skip for now ג†’
+                    Skip for now 
                   </motion.span>
                 </Button>
               </motion.div>

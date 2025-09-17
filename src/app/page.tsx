@@ -39,6 +39,8 @@ import { ProjectManager } from '../components/ProjectManager';
 import { SkylineConfigurator } from '../components/SkylineConfigurator';
 import { NeoConfigurator } from '../components/NeoConfigurator';
 import { PremierHouseConfigurator } from '../components/PremierHouseConfigurator';
+import { ChatPage } from './chat/ChatPage';
+import { ChatComingSoon } from './chat/ChatComingSoon';
 import CategorySpecific360Viewer from '../components/CategorySpecific360Viewer';
 import UniversalDesignSelectorRedux from '../components/UniversalDesignSelectorRedux';
 import JsonGoodBetterBestComparison from '../components/JsonGoodBetterBestComparison';
@@ -735,6 +737,25 @@ export default function Home() {
           )}
         </AnimatePresence>
 
+
+        {/* Chat Coming Soon - Fullscreen Overlay */}
+        <AnimatePresence>
+          {state.isChatOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 z-50"
+            >
+              <ChatComingSoon
+                isDark={state.isDark}
+                onClose={homeActions.onCloseChat}
+                onScheduleCall={() => console.log('Notify user')}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Project Manager - Fixed Position */}
         <ProjectManager 

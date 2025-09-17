@@ -50,4 +50,6 @@ export interface HomeState {
   recommendations: any[];
   is360ViewerOpen: boolean;
   current360Model: ModelData | null;
+  isChatOpen: boolean;
+  chatInitialMessage: string | null;
 }
