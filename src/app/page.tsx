@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { 
@@ -89,9 +90,28 @@ function convertToNeoHouse(house: any): NeoHouse {
 export default function Home() {
   const { state, actions } = useHomeState();
   const homeActions = useHomeActions({ actions, state });
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Filter models based on collection and favorites
   const filteredModels = filterModels(state.models, state.selectedCollection, state.favorites);
+
+  // Function to update URL search parameters
+  const updateSearchParams = (updates: Record<string, string | null>) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === 'any' || value === '') {
+        current.delete(key);
+      } else {
+        current.set(key, value);
+      }
+    });
+
+    const search = current.toString();
+    const query = search ? `?${search}` : '';
+    router.push(`${window.location.pathname}${query}`, { scroll: false });
+  };
 
   return (
     <AuthGuard>
@@ -547,6 +567,15 @@ export default function Home() {
                       isDark={state.isDark}
                       onConfigurationChange={(config) => {
                         console.log('Skyline config:', config);
+                        
+                        // Update URL search parameters
+                        updateSearchParams({
+                          bedrooms: config.bedrooms,
+                          bathrooms: config.bathrooms,
+                          sqftMin: config.squareFeet[0].toString(),
+                          sqftMax: config.squareFeet[1].toString(),
+                          features: config.features.length > 0 ? config.features.join(',') : null
+                        });
                       }}
                     />
                   </div>
@@ -558,6 +587,15 @@ export default function Home() {
                       isDark={state.isDark}
                       onConfigurationChange={(config) => {
                         console.log('Neo config:', config);
+                        
+                        // Update URL search parameters for Neo
+                        updateSearchParams({
+                          bedrooms: config.bedrooms,
+                          bathrooms: config.bathrooms,
+                          sqftMin: config.squareFeet[0].toString(),
+                          sqftMax: config.squareFeet[1].toString(),
+                          features: config.features.length > 0 ? config.features.join(',') : null
+                        });
                       }}
                     />
                   </div>
@@ -569,6 +607,15 @@ export default function Home() {
                       isDark={state.isDark}
                       onConfigurationChange={(config) => {
                         console.log('Premier config:', config);
+                        
+                        // Update URL search parameters for Premier
+                        updateSearchParams({
+                          bedrooms: config.bedrooms,
+                          bathrooms: config.bathrooms,
+                          sqftMin: config.squareFeet[0].toString(),
+                          sqftMax: config.squareFeet[1].toString(),
+                          features: config.features.length > 0 ? config.features.join(',') : null
+                        });
                       }}
                     />
                   </div>

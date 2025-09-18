@@ -90,6 +90,33 @@ export default function SkylineHousesList({ houses: allServerHouses }: SkylineHo
       }
     }
     
+    // Filter by features
+    const features = searchParams.get('features');
+    if (features) {
+      const selectedFeatures = features.split(',');
+      if (selectedFeatures.length > 0) {
+        filteredHouses = filteredHouses.filter(house => {
+          // Define Skyline house features mapping
+          const skylineFeaturesMap: Record<string, string[]> = {
+            "loft": ["birch", "juniper"],
+            "garage": ["cypress", "hemlock"],
+            "office": ["laurel", "Oak"],
+            "primary-suite": ["Walnut", "pine"],
+            "kitchen-island": ["Walnut", "ponderosa", "sage"],
+            "extra-storage": ["sapling", "spruce"],
+            "covered-patio": ["Walnut", "tamarack"],
+            "covered-porch": ["birch", "cypress"],
+            "bonus-room": ["hemlock", "juniper"]
+          };
+          
+          // Check if house has any of the selected features
+          return selectedFeatures.some(feature => 
+            skylineFeaturesMap[feature]?.includes(house.id)
+          );
+        });
+      }
+    }
+    
     setHouses(filteredHouses);
   }, [allServerHouses, searchParams, convertToHouseCard]);
 
