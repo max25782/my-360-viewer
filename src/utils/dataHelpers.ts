@@ -168,6 +168,8 @@ export async function loadModelsFromAPI(): Promise<ModelData[]> {
     
     // Извлекаем данные из структуры API
     const data = apiResponse.success ? apiResponse.data.categories : apiResponse;
+    console.log('🔍 Data structure:', Object.keys(data));
+    console.log('🔍 Premium data:', data.premium);
     const allModels: ModelData[] = [];
     
     // Process skyline models
@@ -232,17 +234,71 @@ export async function loadModelsFromAPI(): Promise<ModelData[]> {
   }
 }
 
+// Infer features from model content (description and comparison features)
+function getModelFeatureText(model: any): string {
+  const parts: string[] = [];
+  if (model?.description) parts.push(String(model.description));
+  const comparisonFeatures = model?.comparison?.features;
+  if (comparisonFeatures && typeof comparisonFeatures === 'object') {
+    for (const value of Object.values(comparisonFeatures)) {
+      if (value && typeof value === 'object') {
+        const v: any = value;
+        ['good', 'better', 'best'].forEach((k) => {
+          const t = v?.[k];
+          if (typeof t === 'string') parts.push(t);
+        });
+      } else if (typeof value === 'string') {
+        parts.push(value);
+      }
+    }
+  }
+  return parts.join(' ').toLowerCase();
+}
+
+function hasModelFeature(model: ModelData, featureId: string): boolean {
+  const text = getModelFeatureText(model);
+  switch (featureId) {
+    case 'garage':
+      return text.includes('garage');
+    case 'office':
+      return text.includes('office');
+    case 'primary-suite':
+      return (model.bedrooms ?? 0) >= 2 || text.includes('primary suite') || text.includes('primary bedroom');
+    case 'kitchen-island':
+      return text.includes('island');
+    case 'extra-storage':
+      return text.includes('storage') || text.includes('pantry') || text.includes('walk-in') || text.includes('closet');
+    case 'covered-patio':
+      return text.includes('covered patio');
+    case 'covered-porch':
+      return text.includes('covered porch');
+    case 'bonus-room':
+      return text.includes('bonus room') || text.includes('loft') || text.includes('flex room');
+    case 'covered-deck':
+      return text.includes('covered deck') || text.includes('deck');
+    default:
+      return false;
+  }
+}
+
 /**
- * Filter models based on collection and favorites
+ * Filter models based on collection, favorites, and configurator filters
  */
 export function filterModels(
   models: ModelData[], 
   selectedCollection: string, 
-  favorites: string[]
+  favorites: string[],
+  configuratorFilters?: {
+    bedrooms?: string;
+    bathrooms?: string;
+    sqftMin?: string;
+    sqftMax?: string;
+    features?: string[];
+  }
 ): ModelData[] {
   if (!Array.isArray(models)) return [];
   
-  return models.filter(model => {
+  let filteredModels = models.filter(model => {
     if (selectedCollection === 'favorites') {
       return favorites.includes(model.id);
     }
@@ -252,4 +308,45 @@ export function filterModels(
     }
     return model.collection === selectedCollection;
   });
+
+  // Apply configurator filters if provided
+  if (configuratorFilters) {
+    // Filter by bedrooms
+    if (configuratorFilters.bedrooms && configuratorFilters.bedrooms !== 'any') {
+      const bedroomCount = parseInt(configuratorFilters.bedrooms);
+      if (!isNaN(bedroomCount)) {
+        filteredModels = filteredModels.filter(model => (model.bedrooms || 1) === bedroomCount);
+      }
+    }
+
+    // Filter by bathrooms
+    if (configuratorFilters.bathrooms && configuratorFilters.bathrooms !== 'any') {
+      const bathroomCount = parseFloat(configuratorFilters.bathrooms);
+      if (!isNaN(bathroomCount)) {
+        filteredModels = filteredModels.filter(model => (model.bathrooms || 1) === bathroomCount);
+      }
+    }
+
+    // Filter by square feet
+    if (configuratorFilters.sqftMin || configuratorFilters.sqftMax) {
+      const minSqft = configuratorFilters.sqftMin ? parseInt(configuratorFilters.sqftMin) : 0;
+      const maxSqft = configuratorFilters.sqftMax ? parseInt(configuratorFilters.sqftMax) : Infinity;
+      
+      if (!isNaN(minSqft) && !isNaN(maxSqft)) {
+        filteredModels = filteredModels.filter(model => {
+          const modelSqft = model.sqft || 0;
+          return modelSqft >= minSqft && modelSqft <= maxSqft;
+        });
+      }
+    }
+
+    // Filter by features (dynamic inference from model data)
+    if (configuratorFilters.features && configuratorFilters.features.length > 0) {
+      filteredModels = filteredModels.filter(model =>
+        configuratorFilters.features!.some(featureId => hasModelFeature(model, featureId))
+      );
+    }
+  }
+
+  return filteredModels;
 }

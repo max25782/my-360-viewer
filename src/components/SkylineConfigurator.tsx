@@ -83,7 +83,7 @@ export function SkylineConfigurator({
 
   useEffect(() => {
     onConfigurationChange?.(config);
-  }, [config, onConfigurationChange]);
+  }, [config]);
 
   const updateConfig = (updates: Partial<SkylineConfig>) => {
     setConfig(prev => ({ ...prev, ...updates }));

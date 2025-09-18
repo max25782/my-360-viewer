@@ -212,6 +212,66 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
     for (const [houseId, houseConfig] of Object.entries(config.houses as Record<string, HouseConfig>)) {
       const heroPath = await getServerAssetPath('hero', houseId, { format: 'webp' });
       
+      // Extract bedrooms, bathrooms, and square feet
+      let bedrooms = 1;
+      let bathrooms = 1;
+      let squareFeet = 800;
+
+      // Extract from availableRooms
+      if (houseConfig.availableRooms && Array.isArray(houseConfig.availableRooms)) {
+        bedrooms = houseConfig.availableRooms.filter(room => 
+          room.toLowerCase().includes('bedroom')
+        ).length || 1;
+        
+        bathrooms = houseConfig.availableRooms.filter(room => 
+          room.toLowerCase().includes('bathroom')
+        ).length || 1;
+      }
+
+      // Extract square feet from comparison features
+      if (houseConfig.comparison?.features?.['Living Space']) {
+        const livingSpace = houseConfig.comparison.features['Living Space'];
+        if (typeof livingSpace === 'object' && livingSpace.good) {
+          const match = livingSpace.good.match(/(\d+)/);
+          if (match) {
+            squareFeet = parseInt(match[1], 10);
+          }
+        }
+      }
+
+      // Extract from description as fallback
+      if (houseConfig.description) {
+        const desc = houseConfig.description;
+        
+        // Extract bedrooms from description
+        const bedroomMatch = desc.match(/(\d+)\s+bedrooms?/i);
+        if (bedroomMatch && bedrooms === 1) {
+          bedrooms = parseInt(bedroomMatch[1]);
+        }
+        
+        // Extract bathrooms from description (including "two and a half baths")
+        const halfBathMatch = desc.match(/(two|three|four|five|\d+)\s+and\s+a\s+half\s+baths?/i);
+        if (halfBathMatch && bathrooms === 1) {
+          const numberWord = halfBathMatch[1].toLowerCase();
+          const wordToNumber: Record<string, number> = {
+            'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5
+          };
+          const baseNumber = wordToNumber[numberWord] || parseInt(halfBathMatch[1]);
+          bathrooms = baseNumber + 0.5;
+        } else {
+          const bathroomMatch = desc.match(/(\d+(?:\.\d+)?)\s+baths?/i);
+          if (bathroomMatch && bathrooms === 1) {
+            bathrooms = parseFloat(bathroomMatch[1]);
+          }
+        }
+        
+        // Extract square feet from description
+        const sqftMatch = desc.match(/(\d{1,3}(?:,\d{3})*)\s*square feet/i);
+        if (sqftMatch && squareFeet === 800) {
+          squareFeet = parseInt(sqftMatch[1].replace(/,/g, ''));
+        }
+      }
+      
       const house: ServerHouse = {
         id: houseId,
         name: houseConfig.name,
@@ -219,6 +279,9 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
         maxDP: houseConfig.maxDP,
         maxPK: houseConfig.maxPK,
         availableRooms: houseConfig.availableRooms,
+        squareFeet,
+        bedrooms,
+        bathrooms,
         images: {
           hero: heroPath,
           gallery: []
@@ -240,6 +303,31 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
         format: 'jpg' 
       });
       
+      // Extract bedrooms, bathrooms, and square feet for Neo houses
+      let bedrooms = 1;
+      let bathrooms = 1;
+      let squareFeet = 600;
+
+      // Extract from comparison features (Neo structure)
+      if (houseConfig.comparison?.features) {
+        const features = houseConfig.comparison.features;
+        
+        if (features.Bedrooms?.good) {
+          const match = features.Bedrooms.good.match(/(\d+)/);
+          if (match) bedrooms = parseInt(match[1]);
+        }
+
+        if (features.Bathrooms?.good) {
+          const match = features.Bathrooms.good.match(/(\d+(?:\.\d+)?)/);
+          if (match) bathrooms = parseFloat(match[1]);
+        }
+
+        if (features['Living Space']?.good) {
+          const match = features['Living Space'].good.match(/(\d+)/);
+          if (match) squareFeet = parseInt(match[1]);
+        }
+      }
+      
       const house: ServerHouse = {
         id: `neo-${houseId}`,
         name: houseConfig.name,
@@ -247,6 +335,9 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
         maxDP: houseConfig.maxDP,
         maxPK: houseConfig.maxPK,
         availableRooms: houseConfig.availableRooms,
+        squareFeet,
+        bedrooms,
+        bathrooms,
         images: {
           hero: heroPath,
           gallery: []
@@ -268,6 +359,66 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
       try {
         const heroPath = await getServerPremiumAssetPath('hero', premiumHouse.id, { format: 'jpg' });
         
+        // Extract bedrooms, bathrooms, and square feet for Premium houses
+        let bedrooms = 2;
+        let bathrooms = 2;
+        let squareFeet = 1200;
+
+        // Extract from comparison features (Premium structure)
+        if (premiumHouse.comparison?.features) {
+          const features = premiumHouse.comparison.features;
+          
+          // Look for bedroom info in features array
+          if (Array.isArray(features)) {
+            const bedroomFeature = features.find((feature: string) => 
+              feature.toLowerCase().includes('bedroom') && /\d+/.test(feature)
+            );
+            if (bedroomFeature) {
+              const match = bedroomFeature.match(/(\d+)/);
+              if (match) bedrooms = parseInt(match[1]);
+            }
+
+            const bathroomFeature = features.find((feature: string) => 
+              feature.toLowerCase().includes('bathroom') && /\d+/.test(feature)
+            );
+            if (bathroomFeature) {
+              const match = bathroomFeature.match(/(\d+(?:\.\d+)?)/);
+              if (match) bathrooms = parseFloat(match[1]);
+            }
+
+            const areaFeature = features.find((feature: string) => 
+              feature.toLowerCase().includes('sf') || feature.toLowerCase().includes('square feet')
+            );
+            if (areaFeature) {
+              const match = areaFeature.match(/(\d{1,3}(?:,\d{3})*)\s*sf/i);
+              if (match) squareFeet = parseInt(match[1].replace(/,/g, ''));
+            }
+          }
+        }
+
+        // Extract from description as fallback
+        if (premiumHouse.description) {
+          const desc = premiumHouse.description;
+          
+          // Extract bedrooms from description
+          const bedroomMatch = desc.match(/(\d+)-bedroom/i);
+          if (bedroomMatch && bedrooms === 2) {
+            bedrooms = parseInt(bedroomMatch[1]);
+          }
+          
+          // Extract bathrooms from description
+          const bathroomMatch = desc.match(/(\d+(?:\.\d+)?)-bath/i);
+          if (bathroomMatch && bathrooms === 2) {
+            bathrooms = parseFloat(bathroomMatch[1]);
+          }
+          
+          // Extract square feet from description
+          const sqftMatch = desc.match(/(\d{1,3}(?:,\d{3})*)\s*square feet/i);
+          if (sqftMatch && squareFeet === 1200) {
+            squareFeet = parseInt(sqftMatch[1].replace(/,/g, ''));
+          }
+        }
+        
         const house: ServerHouse = {
           id: `premium-${premiumHouse.id}`,
           name: premiumHouse.name,
@@ -275,6 +426,9 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
           maxDP: premiumHouse.maxDP,
           maxPK: premiumHouse.maxPK,
           availableRooms: premiumHouse.availableRooms,
+          squareFeet,
+          bedrooms,
+          bathrooms,
           images: {
             hero: heroPath,
             gallery: []
@@ -287,7 +441,7 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
           category: 'premium'
         };
         
-        console.log(`🏠 Premium house created: ${house.id}, category: ${house.category}`);
+        console.log(`🏠 Premium house created: ${house.id}, category: ${house.category}, bedrooms: ${bedrooms}, bathrooms: ${bathrooms}, sqft: ${squareFeet}`);
         houseList.push(house);
       } catch (error) {
         console.error(`Failed to process Premium house ${premiumHouse.id}:`, error);

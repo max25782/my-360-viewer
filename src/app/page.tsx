@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../components/ui/button';
@@ -93,11 +93,20 @@ export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Filter models based on collection and favorites
-  const filteredModels = filterModels(state.models, state.selectedCollection, state.favorites);
+  // Get configurator filters from URL search parameters
+  const configuratorFilters = {
+    bedrooms: searchParams.get('bedrooms') || undefined,
+    bathrooms: searchParams.get('bathrooms') || undefined,
+    sqftMin: searchParams.get('sqftMin') || undefined,
+    sqftMax: searchParams.get('sqftMax') || undefined,
+    features: searchParams.get('features')?.split(',').filter(f => f.length > 0) || []
+  };
+
+  // Filter models based on collection, favorites, and configurator filters
+  const filteredModels = filterModels(state.models, state.selectedCollection, state.favorites, configuratorFilters);
 
   // Function to update URL search parameters
-  const updateSearchParams = (updates: Record<string, string | null>) => {
+  const updateSearchParams = useCallback((updates: Record<string, string | null>) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     
     Object.entries(updates).forEach(([key, value]) => {
@@ -111,7 +120,49 @@ export default function Home() {
     const search = current.toString();
     const query = search ? `?${search}` : '';
     router.push(`${window.location.pathname}${query}`, { scroll: false });
-  };
+  }, [router, searchParams]);
+
+  // Skyline configuration change handler
+  const handleSkylineConfigChange = useCallback((config: any) => {
+    console.log('Skyline config:', config);
+    
+    // Update URL search parameters
+    updateSearchParams({
+      bedrooms: config.bedrooms,
+      bathrooms: config.bathrooms,
+      sqftMin: config.squareFeet[0].toString(),
+      sqftMax: config.squareFeet[1].toString(),
+      features: config.features.length > 0 ? config.features.join(',') : null
+    });
+  }, [updateSearchParams]);
+
+  // Neo configuration change handler
+  const handleNeoConfigChange = useCallback((config: any) => {
+    console.log('Neo config:', config);
+    
+    // Update URL search parameters for Neo
+    updateSearchParams({
+      bedrooms: config.bedrooms,
+      bathrooms: config.bathrooms,
+      sqftMin: config.squareFeet[0].toString(),
+      sqftMax: config.squareFeet[1].toString(),
+      features: config.features.length > 0 ? config.features.join(',') : null
+    });
+  }, [updateSearchParams]);
+
+  // Premier configuration change handler
+  const handlePremierConfigChange = useCallback((config: any) => {
+    console.log('Premier config:', config);
+    
+    // Update URL search parameters for Premier
+    updateSearchParams({
+      bedrooms: config.bedrooms,
+      bathrooms: config.bathrooms,
+      sqftMin: config.squareFeet[0].toString(),
+      sqftMax: config.squareFeet[1].toString(),
+      features: config.features.length > 0 ? config.features.join(',') : null
+    });
+  }, [updateSearchParams]);
 
   return (
     <AuthGuard>
@@ -565,18 +616,7 @@ export default function Home() {
                   <div className="mb-8">
                     <SkylineConfigurator 
                       isDark={state.isDark}
-                      onConfigurationChange={(config) => {
-                        console.log('Skyline config:', config);
-                        
-                        // Update URL search parameters
-                        updateSearchParams({
-                          bedrooms: config.bedrooms,
-                          bathrooms: config.bathrooms,
-                          sqftMin: config.squareFeet[0].toString(),
-                          sqftMax: config.squareFeet[1].toString(),
-                          features: config.features.length > 0 ? config.features.join(',') : null
-                        });
-                      }}
+                      onConfigurationChange={handleSkylineConfigChange}
                     />
                   </div>
                 )}
@@ -585,18 +625,7 @@ export default function Home() {
                   <div className="mb-8">
                     <NeoConfigurator 
                       isDark={state.isDark}
-                      onConfigurationChange={(config) => {
-                        console.log('Neo config:', config);
-                        
-                        // Update URL search parameters for Neo
-                        updateSearchParams({
-                          bedrooms: config.bedrooms,
-                          bathrooms: config.bathrooms,
-                          sqftMin: config.squareFeet[0].toString(),
-                          sqftMax: config.squareFeet[1].toString(),
-                          features: config.features.length > 0 ? config.features.join(',') : null
-                        });
-                      }}
+                      onConfigurationChange={handleNeoConfigChange}
                     />
                   </div>
                 )}
@@ -605,18 +634,7 @@ export default function Home() {
                   <div className="mb-8">
                     <PremierHouseConfigurator 
                       isDark={state.isDark}
-                      onConfigurationChange={(config) => {
-                        console.log('Premier config:', config);
-                        
-                        // Update URL search parameters for Premier
-                        updateSearchParams({
-                          bedrooms: config.bedrooms,
-                          bathrooms: config.bathrooms,
-                          sqftMin: config.squareFeet[0].toString(),
-                          sqftMax: config.squareFeet[1].toString(),
-                          features: config.features.length > 0 ? config.features.join(',') : null
-                        });
-                      }}
+                      onConfigurationChange={handlePremierConfigChange}
                     />
                   </div>
                 )}
