@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '../components/ui/button';
@@ -87,20 +87,22 @@ function convertToNeoHouse(house: any): NeoHouse {
   };
 }
 
-export default function Home() {
+function HomeContent() {
   const { state, actions } = useHomeState();
   const homeActions = useHomeActions({ actions, state });
   const router = useRouter();
+  
+  // Direct use of useSearchParams with proper client-side handling
   const searchParams = useSearchParams();
-
+  
   // Get configurator filters from URL search parameters
-  const configuratorFilters = {
+  const configuratorFilters = React.useMemo(() => ({
     bedrooms: searchParams.get('bedrooms') || undefined,
     bathrooms: searchParams.get('bathrooms') || undefined,
     sqftMin: searchParams.get('sqftMin') || undefined,
     sqftMax: searchParams.get('sqftMax') || undefined,
     features: searchParams.get('features')?.split(',').filter(f => f.length > 0) || []
-  };
+  }), [searchParams]);
 
   // Filter models based on collection, favorites, and configurator filters
   const filteredModels = filterModels(state.models, state.selectedCollection, state.favorites, configuratorFilters);
@@ -831,5 +833,20 @@ export default function Home() {
         />
       </div>
     </AuthGuard>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-500 mx-auto mb-4"></div>
+          <p className="text-lg text-slate-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   );
 }

@@ -34,7 +34,7 @@ interface OffersSectionProps {
   onContactProjectManager: (message?: string | any) => void;
 }
 
-export function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) {
+function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) {
   const offers = [
     {
       id: 'seattle-zero-outpocket',
@@ -677,4 +677,16 @@ export function OffersSection({ isDark, onContactProjectManager }: OffersSection
       </motion.div>
     </div>
   );
+}
+
+// Default Next.js Page export
+export default function Page() {
+  // Fallback no-op handler for standalone page usage
+  const handleContact = () => {
+    if (typeof window !== 'undefined') {
+      console.log('[Coupons] Contact Project Manager clicked');
+    }
+  };
+
+  return <OffersSection isDark={true} onContactProjectManager={handleContact} />;
 }
