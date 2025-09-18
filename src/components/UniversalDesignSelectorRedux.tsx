@@ -197,17 +197,96 @@ export default function UniversalDesignSelectorRedux({
     }
   }, [currentImage, getImageUrl]);
 
-  // Auto-cycle through pk pairs every 3 seconds
-  useEffect(() => {
-    if (type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 1) {
-      const interval = setInterval(() => {
-        const nextIndex = (currentPhotoIndex + 1) % currentPhotos.length;
-        dispatch(setCurrentPhotoIndex({ houseId, photoIndex: nextIndex }));
-      }, 3000); // Change photo every 3 seconds
+  // For Walnut: collect all photos from all rooms in order
+  const [allWalnutPhotos, setAllWalnutPhotos] = useState<string[]>([]);
+  const [currentWalnutIndex, setCurrentWalnutIndex] = useState(0);
 
-      return () => clearInterval(interval);
+  // Get house assets using selector
+  const houseAssets = useAppSelector(universalSelectors.selectHouseAssetsById(houseId));
+
+  // Collect all Walnut photos when house loads or texture changes
+  useEffect(() => {
+    if (houseId === 'Walnut' && type === 'interior') {
+      const loadWalnutPhotos = async () => {
+        try {
+          const manifestResponse = await fetch('/skyline-interior-manifest.json');
+          if (!manifestResponse.ok) {
+            console.error('Failed to load Skyline interior manifest');
+            return;
+          }
+          
+          const manifest = await manifestResponse.json();
+          const houseData = manifest.houses['Walnut'];
+          
+          if (!houseData) {
+            console.error('Walnut not found in manifest');
+            return;
+          }
+          
+          const roomOrder = ['living', 'kitchen', 'bedroom', 'bathroom'];
+          const allPhotos: string[] = [];
+          
+          // For each room, get pkN and pkN.1 photos based on selected texture
+          roomOrder.forEach(room => {
+            const roomData = houseData.rooms[room];
+            if (roomData && roomData.photos) {
+              // Helper function to pick preferred format (WebP over JPG)
+              const pickPreferredFormat = (candidates: any[]) => {
+                if (!candidates || candidates.length === 0) return null;
+                const webp = candidates.find((p) => p.filename.toLowerCase().endsWith('.webp'));
+                if (webp) return webp;
+                const jpg = candidates.find((p) => /\.(jpe?g)$/i.test(p.filename));
+                return jpg || candidates[0] || null;
+              };
+
+              // Find exact pkN (no decimal)
+              const exactCandidates = roomData.photos.filter((photo: any) => {
+                const filename = photo.filename.toLowerCase();
+                const nameNoExt = filename.substring(0, filename.lastIndexOf('.'));
+                return nameNoExt === `pk${selectedTexture}`;
+              });
+              const exactPicked = pickPreferredFormat(exactCandidates);
+
+              // Find pkN.1 (decimal variant)
+              const decimalCandidates = roomData.photos.filter((photo: any) => {
+                const filename = photo.filename.toLowerCase();
+                const nameNoExt = filename.substring(0, filename.lastIndexOf('.'));
+                return nameNoExt === `pk${selectedTexture}.1`;
+              });
+              const decimalPicked = pickPreferredFormat(decimalCandidates);
+
+              // Add to photos array (exact first, then decimal)
+              if (exactPicked) allPhotos.push(exactPicked.path);
+              if (decimalPicked) allPhotos.push(decimalPicked.path);
+            }
+          });
+          
+          console.log(`🖼️ Collected Walnut photos for texture PK${selectedTexture}:`, allPhotos);
+          setAllWalnutPhotos(allPhotos);
+          setCurrentWalnutIndex(0);
+        } catch (error) {
+          console.error('Error loading Walnut photos:', error);
+        }
+      };
+      
+      loadWalnutPhotos();
     }
-  }, [type, currentPhotos, currentPhotoIndex, houseId, dispatch]);
+  }, [houseId, type, selectedTexture]);
+
+  // Navigation functions for Walnut photos
+  const goToPrevWalnutPhoto = () => {
+    if (allWalnutPhotos.length > 0) {
+      const prevIndex = currentWalnutIndex === 0 ? allWalnutPhotos.length - 1 : currentWalnutIndex - 1;
+      setCurrentWalnutIndex(prevIndex);
+    }
+  };
+
+  const goToNextWalnutPhoto = () => {
+    if (allWalnutPhotos.length > 0) {
+      const nextIndex = (currentWalnutIndex + 1) % allWalnutPhotos.length;
+      setCurrentWalnutIndex(nextIndex);
+    }
+  };
 
   // Обработчики событий с optimistic updates
   const handlePackageChange = (packageIndex: number) => {
@@ -483,10 +562,15 @@ export default function UniversalDesignSelectorRedux({
               className="relative overflow-hidden bg-gray-100 h-[40vh] md:h-[350px] xl:h-[380px]"
             >
             {(() => {
-              // For interior with multiple photos, use current photo from array
-              const imageToShow = type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 0
-                ? currentPhotos[currentPhotoIndex] || currentImage
-                : currentImage;
+              // For Walnut interior, use sequential photo navigation
+              let imageToShow = currentImage;
+              
+              if (houseId === 'Walnut' && type === 'interior' && allWalnutPhotos.length > 0) {
+                imageToShow = allWalnutPhotos[currentWalnutIndex];
+              } else if (type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 0) {
+                // For other houses with multiple photos
+                imageToShow = currentPhotos[currentPhotoIndex] || currentImage;
+              }
               
               return imageToShow && (
                 <>
@@ -527,30 +611,84 @@ export default function UniversalDesignSelectorRedux({
                     </div>
                   )}
 
-                  {/* Photo indicator for pk pairs */}
-                  {type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 1 && (
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                      {currentPhotos.map((_, idx) => (
-                        <div
-                          key={idx}
-                          className={`w-2 h-2 rounded-full transition-all ${
-                            idx === currentPhotoIndex ? 'bg-white' : 'bg-white/50'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
+             {/* Navigation arrows for Walnut */}
+             {houseId === 'Walnut' && type === 'interior' && allWalnutPhotos.length > 1 && (
+               <>
+                 {/* Previous arrow */}
+                 <button
+                   onClick={goToPrevWalnutPhoto}
+                   className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
+                 >
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                   </svg>
+                 </button>
+                 
+                 {/* Next arrow */}
+                 <button
+                   onClick={goToNextWalnutPhoto}
+                   className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
+                 >
+                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                   </svg>
+                 </button>
+                 
+                 {/* Photo counter with room info */}
+                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm z-10">
+                   {(() => {
+                     // Calculate which room we're in based on photo distribution
+                     let photoIndex = 0;
+                     let currentRoom = 'living';
+                     let photoInRoom = 1;
+                     let totalInRoom = 1;
+                     
+                     // Count photos per room dynamically
+                     const roomOrder = ['living', 'kitchen', 'bedroom', 'bathroom'];
+                     const roomPhotoCounts = [2, 2, 1, 2]; // living:2, kitchen:2, bedroom:1, bathroom:2
+                     
+                     let accumulatedPhotos = 0;
+                     for (let i = 0; i < roomOrder.length; i++) {
+                       const roomPhotoCount = roomPhotoCounts[i];
+                       if (currentWalnutIndex < accumulatedPhotos + roomPhotoCount) {
+                         currentRoom = roomOrder[i];
+                         photoInRoom = (currentWalnutIndex - accumulatedPhotos) + 1;
+                         totalInRoom = roomPhotoCount;
+                         break;
+                       }
+                       accumulatedPhotos += roomPhotoCount;
+                     }
+                     
+                     return `PK${selectedTexture} ${currentRoom.toUpperCase()} ${photoInRoom}/${totalInRoom} (${currentWalnutIndex + 1}/${allWalnutPhotos.length})`;
+                   })()}
+                 </div>
+               </>
+             )}
+
+             {/* Photo indicator for other houses */}
+             {houseId !== 'Walnut' && type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 1 && (
+               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                 {currentPhotos.map((_, idx) => (
+                   <div
+                     key={idx}
+                     className={`w-2 h-2 rounded-full transition-all ${
+                       idx === currentPhotoIndex ? 'bg-white' : 'bg-white/50'
+                     }`}
+                   />
+                 ))}
+               </div>
+             )}
                 </>
               );
             })()}
-          {type === 'interior' && (
+          {type === 'interior' && houseId !== 'Walnut' && (
             <div className="flex flex-col items-center space-y-4">
               {/* Room Navigation */}
               {renderRoomNavigation()}
             </div>
           )}
           {/* Room Navigation Arrows */}
-          {type === 'interior' && interiorRooms.length > 1 && (
+          {type === 'interior' && houseId !== 'Walnut' && interiorRooms.length > 1 && (
             <>
               {/* Left Arrow */}
               <button
