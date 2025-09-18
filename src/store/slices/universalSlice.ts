@@ -185,81 +185,101 @@ export const loadDesignImage = createAsyncThunk(
             return;
           }
           
+          // Утилита: выбрать один путь с предпочтением WebP
+          const pickPreferredByExt = (candidates: ManifestPhoto[]): ManifestPhoto | null => {
+            if (!candidates || candidates.length === 0) return null;
+            const webp = candidates.find((p) => p.path.toLowerCase().endsWith('.webp'));
+            if (webp) return webp;
+            const jpg = candidates.find((p) => /\.(jpe?g)$/i.test(p.path));
+            return jpg || candidates[0] || null;
+          };
+
+          // Утилита: собрать пары (pkN и pkN.1) для каждого base pk; при pk — только для него
+          const collectPkPairs = (list: ManifestPhoto[], basePk?: number): string[] => {
+            const result: string[] = [];
+            const photosOnly = (list || []).filter((p) => p.type === 'photo');
+
+            const addPairForBase = (baseKey: string) => {
+              // Helper to get filename without extension (preserve decimal part)
+              const getNameNoExt = (filename: string) => {
+                const lastDotIndex = filename.lastIndexOf('.');
+                return lastDotIndex > 0 ? filename.substring(0, lastDotIndex) : filename;
+              };
+
+              // exact pkN (must match exactly, no decimals)
+              const exactCandidates = photosOnly.filter((p) => {
+                const nameNoExt = getNameNoExt(p.filename);
+                const isExactMatch = nameNoExt === baseKey;
+                const hasNoDecimal = !/\.\d+$/.test(nameNoExt);
+                return isExactMatch && hasNoDecimal;
+              });
+              const exactPicked = pickPreferredByExt(exactCandidates);
+
+              // decimal pkN.X — выбираем минимальный X, затем предпочитаем webp
+              const decimalsAll = photosOnly.filter((p) => {
+                const nameNoExt = getNameNoExt(p.filename);
+                return /^pk\d+\.\d+$/.test(nameNoExt) && nameNoExt.startsWith(baseKey + '.');
+              });
+              decimalsAll.sort((a, b) => {
+                const ax = parseFloat(getNameNoExt(a.filename).slice(2));
+                const bx = parseFloat(getNameNoExt(b.filename).slice(2));
+                return ax - bx;
+              });
+              let decimalPicked: ManifestPhoto | null = null;
+              if (decimalsAll.length > 0) {
+                const firstDecimalKey = getNameNoExt(decimalsAll[0].filename);
+                const sameDecimal = decimalsAll.filter((p) => getNameNoExt(p.filename) === firstDecimalKey);
+                decimalPicked = pickPreferredByExt(sameDecimal);
+              }
+
+              if (exactPicked) result.push(exactPicked.path);
+              if (decimalPicked) result.push(decimalPicked.path);
+            };
+
+            if (typeof basePk === 'number') {
+              addPairForBase(`pk${basePk}`);
+              return result;
+            }
+
+            // Helper to get filename without extension (preserve decimal part)
+            const getNameNoExt = (filename: string) => {
+              const lastDotIndex = filename.lastIndexOf('.');
+              return lastDotIndex > 0 ? filename.substring(0, lastDotIndex) : filename;
+            };
+
+            // Собираем все base pkN
+            const baseKeys = new Set<string>();
+            for (const p of photosOnly) {
+              const nameNoExt = getNameNoExt(p.filename);
+              const baseKey = nameNoExt.replace(/\.\d+$/, ''); // pkN
+              if (/^pk\d+$/.test(baseKey)) baseKeys.add(baseKey);
+            }
+            const sortedBase = Array.from(baseKeys).sort((a, b) => {
+              const na = parseInt(a.replace(/[^\d]/g, '')) || 0;
+              const nb = parseInt(b.replace(/[^\d]/g, '')) || 0;
+              return na - nb;
+            });
+            for (const baseKey of sortedBase) addPairForBase(baseKey);
+            return result;
+          };
+
           // Проверяем, есть ли комната в манифесте
           if (!houseData.rooms[room]) {
             console.log(`Комната ${room} не найдена в манифесте для дома ${houseId}, пробуем living`);
             
             // Если комната не найдена, пробуем использовать living
             if (houseData.rooms['living']) {
-              const livingPhotos = houseData.rooms['living'].photos;
-              
-              // Если передан конкретный pk, фильтруем фотографии
-              if (pk) {
-                const pkPhotos = livingPhotos.filter((photo: ManifestPhoto) => {
-                  // Проверяем, что это фотография
-                  if (photo.type !== 'photo') return false;
-                  
-                  // Получаем имя файла без расширения
-                  const filename = photo.filename.split('.')[0];
-                  
-                  // Проверяем, начинается ли имя файла с pk1, pk2 и т.д.
-                  if (filename === `pk${pk}`) return true; // Точное совпадение (pk1, pk2)
-                  
-                  // Проверяем десятичные варианты (pk1.1, pk2.1)
-                  const decimalPattern = new RegExp(`^pk${pk}\\.\\d+$`);
-                  return decimalPattern.test(filename);
-                });
-                
-                if (pkPhotos.length > 0) {
-                  pkPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
-                  console.log(`Found ${pkPhotos.length} photos for pk${pk} in living room`);
-                }
-              } else {
-                // Берем все фотографии
-                const allPhotos = livingPhotos.filter((photo: ManifestPhoto) => photo.type === 'photo');
-                allPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
-                console.log(`Found ${allPhotos.length} photos in living room`);
-              }
+              const livingPhotos = houseData.rooms['living'].photos as ManifestPhoto[];
+              const collected = collectPkPairs(livingPhotos, pk);
+              collected.forEach((p) => photos.push(p));
+              console.log(`Found ${collected.length} photos in living room (pk pairs, preferred format)`);
             }
           } else {
             // Комната найдена, получаем фотографии
-            const roomPhotos = houseData.rooms[room].photos;
-            
-            // Если передан конкретный pk, фильтруем фотографии
-            if (pk) {
-              const pkPhotos = roomPhotos.filter((photo: ManifestPhoto) => {
-                // Проверяем, что это фотография
-                if (photo.type !== 'photo') return false;
-                
-                // Получаем имя файла без расширения
-                const filename = photo.filename.split('.')[0];
-                
-                // Проверяем, начинается ли имя файла с pk1, pk2 и т.д.
-                if (filename === `pk${pk}`) return true; // Точное совпадение (pk1, pk2)
-                
-                // Проверяем десятичные варианты (pk1.1, pk2.1)
-                const decimalPattern = new RegExp(`^pk${pk}\\.\\d+$`);
-                return decimalPattern.test(filename);
-              });
-              
-              if (pkPhotos.length > 0) {
-                pkPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
-                console.log(`Found ${pkPhotos.length} photos for pk${pk} in ${room}`);
-              }
-            } else {
-              // Берем все фотографии
-              const allPhotos = roomPhotos.filter((photo: ManifestPhoto) => photo.type === 'photo');
-              
-              // Сортируем фотографии по pk
-              allPhotos.sort((a: ManifestPhoto, b: ManifestPhoto) => {
-                const pkA = parseInt(a.filename.replace(/[^\d]/g, '')) || 0;
-                const pkB = parseInt(b.filename.replace(/[^\d]/g, '')) || 0;
-                return pkA - pkB;
-              });
-              
-              allPhotos.forEach((photo: ManifestPhoto) => photos.push(photo.path));
-              console.log(`Found ${allPhotos.length} photos in ${room}`);
-            }
+            const roomPhotos = houseData.rooms[room].photos as ManifestPhoto[];
+            const collected = collectPkPairs(roomPhotos, pk);
+            collected.forEach((p) => photos.push(p));
+            console.log(`Found ${collected.length} photos in ${room} (pk pairs, preferred format)`);
           }
         } catch (error) {
           console.error('Ошибка при загрузке фотографий из манифеста:', error);
@@ -367,7 +387,7 @@ const universalSlice = createSlice({
             houseId: houseAssets.houseId,
             selectedExteriorPackage: 0,
             selectedInteriorPackage: 0,
-            selectedRoom: houseAssets.availableRooms[0] || 'living',
+            selectedRoom: 'living', // Always use 'living' as default for interior
             currentExteriorImage: '',
             currentInteriorImage: '',
             currentInteriorPhotos: [],

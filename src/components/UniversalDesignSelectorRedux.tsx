@@ -197,6 +197,18 @@ export default function UniversalDesignSelectorRedux({
     }
   }, [currentImage, getImageUrl]);
 
+  // Auto-cycle through pk pairs every 3 seconds
+  useEffect(() => {
+    if (type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 1) {
+      const interval = setInterval(() => {
+        const nextIndex = (currentPhotoIndex + 1) % currentPhotos.length;
+        dispatch(setCurrentPhotoIndex({ houseId, photoIndex: nextIndex }));
+      }, 3000); // Change photo every 3 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [type, currentPhotos, currentPhotoIndex, houseId, dispatch]);
+
   // Обработчики событий с optimistic updates
   const handlePackageChange = (packageIndex: number) => {
     // Optimistic update для мгновенного отклика UI
@@ -470,46 +482,67 @@ export default function UniversalDesignSelectorRedux({
             <div
               className="relative overflow-hidden bg-gray-100 h-[40vh] md:h-[350px] xl:h-[380px]"
             >
-            {currentImage && (
-            <>
-              <img
-                src={getImageUrl(currentImage)}
-                alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
-                loading="lazy"
-                decoding="async"
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${
-                  imageLoaded && !imageTransitioning 
-                    ? 'opacity-100 scale-100' 
-                    : 'opacity-0 scale-98'
-                }`}
-                onLoad={() => {
-                  setImageLoaded(true);
-                }}
-                onError={(e) => {
-                  // Обработка ошибки загрузки изображения
-                  console.error(`Failed to load image: ${currentImage}`);
-                  if (e.currentTarget && e.currentTarget.style) {
-                    e.currentTarget.style.display = 'none';
-                    // Показываем запасной вариант
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      const fallbackDiv = document.createElement('div');
-                      fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
-                      fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
-                      parent.appendChild(fallbackDiv);
-                    }
-                  }
-                }}
-              />
+            {(() => {
+              // For interior with multiple photos, use current photo from array
+              const imageToShow = type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 0
+                ? currentPhotos[currentPhotoIndex] || currentImage
+                : currentImage;
               
-              {/* Loading indicator */}
-              {imageTransitioning && (
-                <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
-                  <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                </div>
-              )}
-            </>
-          )}
+              return imageToShow && (
+                <>
+                  <img
+                    src={getImageUrl(imageToShow)}
+                    alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
+                    loading="lazy"
+                    decoding="async"
+                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${
+                      imageLoaded && !imageTransitioning 
+                        ? 'opacity-100 scale-100' 
+                        : 'opacity-0 scale-98'
+                    }`}
+                    onLoad={() => {
+                      setImageLoaded(true);
+                    }}
+                    onError={(e) => {
+                      // Обработка ошибки загрузки изображения
+                      console.error(`Failed to load image: ${imageToShow}`);
+                      if (e.currentTarget && e.currentTarget.style) {
+                        e.currentTarget.style.display = 'none';
+                        // Показываем запасной вариант
+                        const parent = e.currentTarget.parentElement;
+                        if (parent) {
+                          const fallbackDiv = document.createElement('div');
+                          fallbackDiv.className = 'absolute inset-0 bg-gray-200 flex items-center justify-center';
+                          fallbackDiv.innerHTML = '<div class="text-gray-500">Image not available</div>';
+                          parent.appendChild(fallbackDiv);
+                        }
+                      }
+                    }}
+                  />
+                  
+                  {/* Loading indicator */}
+                  {imageTransitioning && (
+                    <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                      <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                  )}
+
+                  {/* Photo indicator for pk pairs */}
+                  {type === 'interior' && currentPhotos && Array.isArray(currentPhotos) && currentPhotos.length > 1 && (
+                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+                      {currentPhotos.map((_, idx) => (
+                        <div
+                          key={idx}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            idx === currentPhotoIndex ? 'bg-white' : 'bg-white/50'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           {type === 'interior' && (
             <div className="flex flex-col items-center space-y-4">
               {/* Room Navigation */}
@@ -550,13 +583,6 @@ export default function UniversalDesignSelectorRedux({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-
-              {/* Current Room Label */}
-              {/* <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white/50 px-4 py-2 rounded-full z-10">
-                <span className="text-gray-800 text-sm font-semibold">
-                  {selectedRoom.charAt(0).toUpperCase() + selectedRoom.slice(1)}
-                </span>
-              </div> */}
             </>
           )}
 
