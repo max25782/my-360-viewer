@@ -564,9 +564,11 @@ export default function UniversalDesignSelectorRedux({
       {/* Texture Selection for Interior - функциональность сохранена, UI отключен */}
 
       {/* Main Image Display - Lazy Loading Optimized */}
-        <div className="rounded-lg overflow-hidden shadow-lg">
+        <div className="rounded-lg overflow-hidden shadow-lg ml-auto mr-auto">
             <div
-              className="relative overflow-hidden bg-gray-100 h-[40vh] md:h-[350px] xl:h-[380px]"
+              className="relative overflow-hidden bg-radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) min-h-[calc(100dvh-64px)] max-w-[60rem] mx-auto border-2 border-white"
             >
             {(() => {
               // For Walnut interior, use sequential photo navigation
@@ -586,7 +588,7 @@ export default function UniversalDesignSelectorRedux({
                     alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
                     loading="lazy"
                     decoding="async"
-                    className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${
+                    className={` absolute left-1/2 top-82 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] object-contain transition-all duration-1000 ease-out ${
                       imageLoaded && !imageTransitioning 
                         ? 'opacity-100 scale-100' 
                         : 'opacity-0 scale-98'
@@ -624,7 +626,7 @@ export default function UniversalDesignSelectorRedux({
                  {/* Previous arrow */}
                  <button
                    onClick={goToPrevWalnutPhoto}
-                   className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
+                   className="absolute left-10 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
                  >
                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -634,7 +636,7 @@ export default function UniversalDesignSelectorRedux({
                  {/* Next arrow */}
                  <button
                    onClick={goToNextWalnutPhoto}
-                   className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
+                   className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
                  >
                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -738,11 +740,12 @@ export default function UniversalDesignSelectorRedux({
 
       {/* Texture Selection for Exterior - Below Image */}
       {type === 'exterior' && (
-        <div className="mt-6">
-          <h4 className="text-lg font-semibold text-gray-900 text-center mb-4">
-            Exterior Finishes
-          </h4>
-          <div className="flex justify-center space-x-4">
+        <div className="mt-6 fixed z-50 bottom-45 left-60 top-45 right-auto">
+          {/* <h4 className="text-lg font-semibold text-white text-center mb-4">
+            Exterior
+            Finishes
+          </h4> */}
+          <div className="flex flex-col items-center md:items-start justify-center space-y-3">
             {EXTERIOR_TEXTURES.filter(texture => 
               texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
             ).map((texture) => (
@@ -773,7 +776,7 @@ export default function UniversalDesignSelectorRedux({
                     }}
                   />
                 </button>
-                <div className="text-sm text-gray-900 font-medium mt-2">
+                <div className="text-sm text-white font-medium mt-2">
                   {texture.name}
                 </div>
               </div>
@@ -784,11 +787,11 @@ export default function UniversalDesignSelectorRedux({
 
       {/* Texture Selection for Interior - Below Image */}
       {type === 'interior' && (
-        <div className="mt-6">
-          <h4 className="text-lg font-semibold text-white text-center mb-4 drop-shadow-lg">
+        <div className="mt-6 fixed z-50 bottom-45 left-60 top-37 right-auto">
+          {/* <h4 className="text-lg font-semibold text-white text-center mb-4 drop-shadow-lg">
             Textures
-          </h4>
-          <div className="flex justify-center space-x-4">
+          </h4> */}
+          <div className="flex flex-col items-center md:items-start justify-center space-y-3">
             {INTERIOR_TEXTURES.filter(texture => 
               texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
             ).map((texture) => (

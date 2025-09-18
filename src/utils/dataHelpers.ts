@@ -174,49 +174,61 @@ export async function loadModelsFromAPI(): Promise<ModelData[]> {
     
     // Process skyline models
     if (data.skyline && data.skyline.houses && Array.isArray(data.skyline.houses)) {
-      const skylineModels = data.skyline.houses.map((m: any) => ({
-        ...m,
-        collection: 'skyline',
-        sqft: m.squareFeet || 800,
-        basePrice: m.basePrice || m.price || 150000,
-        bedrooms: m.bedrooms || 1,
-        bathrooms: m.bathrooms || 1,
-        area: m.area || `${m.squareFeet || 800} sq ft`,
-        features: m.features || [],
-        heroImage: m.images?.hero || m.heroImage || '/assets/skyline/default/hero.webp'
-      }));
+      const skylineModels = data.skyline.houses.map((m: any) => {
+        const sqft = m.squareFeet || 800;
+        const basePrice = Math.round((sqft) * 340);
+        return {
+          ...m,
+          collection: 'skyline',
+          sqft,
+          basePrice,
+          bedrooms: m.bedrooms || 1,
+          bathrooms: m.bathrooms || 1,
+          area: m.area || `${sqft} sq ft`,
+          features: m.features || [],
+          heroImage: m.images?.hero || m.heroImage || '/assets/skyline/default/hero.webp'
+        };
+      });
       allModels.push(...skylineModels);
     }
     
     // Process neo models
     if (data.neo && data.neo.houses && Array.isArray(data.neo.houses)) {
-      const neoModels = data.neo.houses.map((m: any) => ({
-        ...m,
-        collection: 'neo',
-        sqft: m.squareFeet || 600,
-        basePrice: m.basePrice || m.price || 120000,
-        bedrooms: m.bedrooms || 1,
-        bathrooms: m.bathrooms || 1,
-        area: m.area || `${m.squareFeet || 600} sq ft`,
-        features: m.features || [],
-        heroImage: m.images?.hero || m.heroImage || '/assets/neo/default/hero.jpg'
-      }));
+      const neoModels = data.neo.houses.map((m: any) => {
+        const sqft = m.squareFeet || 600;
+        const basePrice = Math.round((sqft) * 340);
+        return {
+          ...m,
+          collection: 'neo',
+          sqft,
+          basePrice,
+          bedrooms: m.bedrooms || 1,
+          bathrooms: m.bathrooms || 1,
+          area: m.area || `${sqft} sq ft`,
+          features: m.features || [],
+          heroImage: m.images?.hero || m.heroImage || '/assets/neo/default/hero.jpg'
+        };
+      });
       allModels.push(...neoModels);
     }
     
     // Process premium models
     if (data.premium && data.premium.houses && Array.isArray(data.premium.houses)) {
-      const premiumModels = data.premium.houses.map((m: any) => ({
-        ...m,
-        collection: 'premium',
-        sqft: m.squareFeet || 1200,
-        basePrice: m.basePrice || m.price || 200000,
-        bedrooms: m.bedrooms || 2,
-        bathrooms: m.bathrooms || 2,
-        area: m.area || `${m.squareFeet || 1200} sq ft`,
-        features: m.features || [],
-        heroImage: m.images?.hero || m.heroImage || '/assets/premium/default/hero.jpg'
-      }));
+      const premiumModels = data.premium.houses.map((m: any) => {
+        const sqft = m.squareFeet || 1200;
+        const basePrice = Math.round((sqft) * 340);
+        return {
+          ...m,
+          collection: 'premium',
+          sqft,
+          basePrice,
+          bedrooms: m.bedrooms || 2,
+          bathrooms: m.bathrooms || 2,
+          area: m.area || `${sqft} sq ft`,
+          features: m.features || [],
+          heroImage: m.images?.hero || m.heroImage || '/assets/premium/default/hero.jpg'
+        };
+      });
       allModels.push(...premiumModels);
     }
     

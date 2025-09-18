@@ -567,24 +567,8 @@
             }
           },
           "bathroom2": {
-            "living": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "kitchen": {
-              "yaw": 72,
-              "pitch": 0
-            },
             "bedroom": {
-              "yaw": 144,
-              "pitch": 0
-            },
-            "bathroom": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "bedroom2": {
-              "yaw": 288,
+              "yaw": 320,
               "pitch": 0
             }
           },
