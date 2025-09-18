@@ -76,7 +76,7 @@ export function SkylineConfigurator({
   const [config, setConfig] = useState<SkylineConfig>({
     bedrooms: 'any',
     bathrooms: 'any',
-    squareFeet: [300, 1300],
+    squareFeet: [300, 1600],
     features: [],
     ...initialConfig
   });
@@ -101,7 +101,7 @@ export function SkylineConfigurator({
     setConfig({
       bedrooms: 'any',
       bathrooms: 'any',
-      squareFeet: [300, 1300],
+      squareFeet: [300, 1600],
       features: []
     });
   };
@@ -109,7 +109,7 @@ export function SkylineConfigurator({
   const hasActiveFilters = config.bedrooms !== 'any' || 
                           config.bathrooms !== 'any' || 
                           config.squareFeet[0] !== 300 || 
-                          config.squareFeet[1] !== 1300 || 
+                          config.squareFeet[1] !== 1600 || 
                           config.features.length > 0;
 
   return (
@@ -296,7 +296,7 @@ export function SkylineConfigurator({
                         value={config.squareFeet}
                         onValueChange={(value) => updateConfig({ squareFeet: value as [number, number] })}
                         min={300}
-                        max={1300}
+                        max={1600}
                         step={25}
                         className="w-full"
                       />
