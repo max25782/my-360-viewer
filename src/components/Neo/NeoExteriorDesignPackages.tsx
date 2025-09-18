@@ -70,7 +70,7 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
             </div>
           )}
           
-          <div className="relative h-[60vh] xl:h-[500px]">
+          <div className="relative h-[40vh] md:h-[350px] xl:h-[380px]">
             {imagePath && (
               <img
                 src={imagePath}
