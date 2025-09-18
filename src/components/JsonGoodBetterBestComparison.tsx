@@ -335,17 +335,26 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
   }
 
   return (
-    <div className="bg-white shadow-xl overflow-hidden min-h-[600px]">
+    <div
+      className="shadow-xl overflow-hidden min-h-[600px]"
+      style={{
+        background: `
+          radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
+          linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%)
+        `
+      }}
+    >
       {/* Headers */}
       <div className="grid grid-cols-4">
-        <div className="bg-indigo-500 text-white text-center py-4 px-6"></div>
-        <div className="bg-indigo-600 text-white text-center py-4 px-6">
+        <div className=" text-white text-center py-4 px-6"></div>
+        <div className="text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">QUARTZ</h3>
         </div>
-        <div className="bg-indigo-700 text-white text-center py-4 px-6">
+        <div className=" text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">EMERALD</h3>
         </div>
-        <div className="bg-indigo-800 text-white text-center py-4 px-6">
+        <div className=" text-white text-center py-4 px-6">
           <h3 className="text-xl font-bold">DIAMOND</h3>
         </div>
       </div>
@@ -354,16 +363,16 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       <div className="divide-y">
         {comparisonItems.map((item, index) => (
           <div key={index} className="grid grid-cols-4">
-            <div className="bg-indigo-400 p-4 font-semibold text-white">
+            <div className=" p-4 font-semibold text-white ">
               {item.label}
             </div>
-            <div className="bg-indigo-50 p-4 text-center text-gray-900">
+            <div className=" p-4 text-center text-white">
               {typeof item.good === 'string' ? item.good : item.good}
             </div>
-            <div className="bg-indigo-100 p-4 text-center text-gray-900">
+            <div className=" p-4 text-center text-white">
               {typeof item.better === 'string' ? item.better : item.better}
             </div>
-            <div className="bg-indigo-200 p-4 text-center text-gray-900">
+            <div className=" p-4 text-center text-white">
               {typeof item.best === 'string' ? item.best : item.best}
             </div>
           </div>

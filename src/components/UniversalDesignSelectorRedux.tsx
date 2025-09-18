@@ -328,7 +328,14 @@ export default function UniversalDesignSelectorRedux({
       
       // For interior, also set the rooms
       if (type === 'interior') {
-        setActualInteriorRooms(packages.availableRooms);
+        // Ensure order: living -> kitchen -> bedroom -> bathroom, then others
+        const desiredOrder = ['living', 'kitchen', 'bedroom', 'bathroom'];
+        const rooms = Array.isArray(packages.availableRooms) ? packages.availableRooms : [];
+        const lowerRooms = rooms.map(r => r.toLowerCase());
+        const orderedCore = desiredOrder.filter(r => lowerRooms.includes(r));
+        const rest = rooms.filter(r => !orderedCore.includes(r.toLowerCase()));
+        const ordered = [...orderedCore, ...rest];
+        setActualInteriorRooms(ordered);
       }
     };
 
@@ -659,7 +666,8 @@ export default function UniversalDesignSelectorRedux({
                        accumulatedPhotos += roomPhotoCount;
                      }
                      
-                     return `PK${selectedTexture} ${currentRoom.toUpperCase()} ${photoInRoom}/${totalInRoom} (${currentWalnutIndex + 1}/${allWalnutPhotos.length})`;
+                    const textureName = (INTERIOR_TEXTURES.find(t => t.id === selectedTexture)?.name || `PK${selectedTexture}`);
+                    return `${textureName} ${currentRoom.toUpperCase()} ${photoInRoom}/${totalInRoom} (${currentWalnutIndex + 1}/${allWalnutPhotos.length})`;
                    })()}
                  </div>
                </>

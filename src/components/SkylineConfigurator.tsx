@@ -141,7 +141,7 @@ export function SkylineConfigurator({
               <div className={`p-2 rounded-xl ${
                 isDark ? 'bg-blue-500/20' : 'bg-blue-500/10'
               }`}>
-                <Filter className="w-5 h-5 text-blue-500" />
+                <Filter className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h3 className={`font-medium ${
@@ -157,14 +157,14 @@ export function SkylineConfigurator({
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center text-white gap-3">
               {hasActiveFilters && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex items-center gap-2"
                 >
-                  <Badge className="bg-blue-500/20 text-blue-600 border-blue-500/30">
+                  <Badge className="bg-blue-500/20 text-white border-blue-500/30">
                     {config.features.length + 
                      (config.bedrooms !== 'any' ? 1 : 0) + 
                      (config.bathrooms !== 'any' ? 1 : 0) +
@@ -181,7 +181,7 @@ export function SkylineConfigurator({
                       isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-100/50'
                     }`}
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4 text-white" />
                   </Button>
                 </motion.div>
               )}
@@ -282,7 +282,7 @@ export function SkylineConfigurator({
                 {/* Square Feet */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <Ruler className="w-4 h-4 text-blue-500" />
+                    <Ruler className="w-4 h-4 text-white" />
                     <span className={`text-sm font-medium ${
                       isDark ? 'text-slate-300' : 'text-slate-700'
                     }`}>
@@ -303,18 +303,18 @@ export function SkylineConfigurator({
                     </div>
                     
                     <div className="flex justify-between items-center px-2">
-                      <span className={`text-sm ${
-                        isDark ? 'text-slate-400' : 'text-slate-600'
+                      <span className={`text-medium ${
+                        isDark ? 'text-white' : 'text-slate-600'
                       }`}>
                         {config.squareFeet[0]} sq ft
                       </span>
-                      <span className={`text-sm font-medium ${
-                        isDark ? 'text-blue-400' : 'text-blue-600'
+                      <span className={`text-medium font-medium ${
+                        isDark ? 'text-white' : 'text-blue-600'
                       }`}>
                         {config.squareFeet[0]} — {config.squareFeet[1]} sq ft
                       </span>
-                      <span className={`text-sm ${
-                        isDark ? 'text-slate-400' : 'text-slate-600'
+                      <span className={`text-medium ${
+                        isDark ? 'text-white' : 'text-slate-600'
                       }`}>
                         {config.squareFeet[1]} sq ft
                       </span>

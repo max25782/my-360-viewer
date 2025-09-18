@@ -60,8 +60,8 @@ export function extractPremiumHouseSpecs(houseData: any): HouseSpecs {
     }
     
     if (area === "N/A") {
-      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*square feet/i);
-      if (areaMatch) area = `${areaMatch[1]} sq ft`;
+      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?)/i);
+      if (areaMatch) area = `${areaMatch[1].replace(/,/g, '')} sq ft`;
     }
   }
 
@@ -89,8 +89,40 @@ export function extractNeoHouseSpecs(houseData: any): HouseSpecs {
     }
 
     if (features['Living Space']?.good) {
-      const match = features['Living Space'].good.match(/(\d+)/);
-      if (match) area = `${match[1]} sq ft`;
+      const match = features['Living Space'].good.match(/(\d{1,3}(?:,\d{3})*)/);
+      if (match) area = `${match[1].replace(/,/g, '')} sq ft`;
+    }
+
+    // Если нет прямой площади, пробуем вычислить из габаритов (например: 36'x14')
+    if (area === "N/A" && typeof features['Overall dimensions']?.good === 'string') {
+      const dims = features['Overall dimensions'].good;
+      const dm = dims.match(/(\d+(?:\.\d+)?)\s*(?:ft|')\s*x\s*(\d+(?:\.\d+)?)\s*(?:ft|')/i);
+      if (dm) {
+        const a = parseFloat(dm[1]);
+        const b = parseFloat(dm[2]);
+        const sqft = Math.round(a * b);
+        if (!Number.isNaN(sqft) && sqft > 0) area = `${sqft} sq ft`;
+      }
+    }
+  }
+
+  // Фоллбеки из описания (на случай отсутствия данных в features)
+  if (houseData?.description) {
+    const description = houseData.description;
+    
+    if (bedrooms === 1) {
+      const bedroomMatch = description.match(/(\d+)-bedroom/i);
+      if (bedroomMatch) bedrooms = parseInt(bedroomMatch[1]);
+    }
+    
+    if (bathrooms === 1) {
+      const bathroomMatch = description.match(/(\d+(?:\.\d+)?)-bath/i);
+      if (bathroomMatch) bathrooms = parseFloat(bathroomMatch[1]);
+    }
+    
+    if (area === "N/A") {
+      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?) /i) || description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?)$/i);
+      if (areaMatch) area = `${areaMatch[1].replace(/,/g, '')} sq ft`;
     }
   }
 
@@ -118,8 +150,8 @@ export function extractSkylineHouseSpecs(houseData: any): HouseSpecs {
     }
 
     if (features['Living Space']?.good) {
-      const match = features['Living Space'].good.match(/(\d+)/);
-      if (match) area = `${match[1]} sq ft`;
+      const match = features['Living Space'].good.match(/(\d{1,3}(?:,\d{3})*)/);
+      if (match) area = `${match[1].replace(/,/g, '')} sq ft`;
     }
   }
 
@@ -151,8 +183,8 @@ export function extractSkylineHouseSpecs(houseData: any): HouseSpecs {
     }
     
     if (area === "N/A") {
-      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*square feet/i);
-      if (areaMatch) area = `${areaMatch[1]} sq ft`;
+      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?)/i);
+      if (areaMatch) area = `${areaMatch[1].replace(/,/g, '')} sq ft`;
     }
   }
 
