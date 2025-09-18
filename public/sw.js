@@ -1,11 +1,15 @@
 /**
  * Service Worker для PWA с офлайн кэшированием
- * CacheFirst для панорам, StaleWhileRevalidate для данных
+ * - CacheFirst для панорам и статики
+ * - StaleWhileRevalidate для JSON данных
+ * - NetworkFirst для HTML
+ * - Navigation Preload включен
  */
 
-const CACHE_NAME = 'house-viewer-v1';
-const DATA_CACHE = 'house-data-v1';
-const PANORAMA_CACHE = 'panorama-cache-v1';
+const CACHE_VERSION = 'v3'; // 🚀 увеличивай при каждом деплое
+const CACHE_NAME = `house-viewer-${CACHE_VERSION}`;
+const DATA_CACHE = `house-data-${CACHE_VERSION}`;
+const PANORAMA_CACHE = `panorama-cache-${CACHE_VERSION}`;
 
 // Файлы для кэширования при установке
 const STATIC_CACHE_URLS = [
@@ -13,51 +17,21 @@ const STATIC_CACHE_URLS = [
   '/manifest.json'
 ];
 
-// Паттерны для разных стратегий кэширования
+// Паттерны
 const CACHE_PATTERNS = {
-  // Данные: StaleWhileRevalidate
   data: /\/data\/.*\.json$/,
-  // Панорамы: CacheFirst
   panoramas: /\/assets\/.*\/(360|panos)\/.*\.(jpg|jpeg|webp|png)$/i,
-  // Статичные ресурсы: CacheFirst
   static: /\.(js|css|png|jpg|jpeg|webp|svg|woff|woff2)$/,
-  // HTML страницы: NetworkFirst
-  pages: /\/.*$/
-};
-
-// Стратегии кэширования
-const CACHE_STRATEGIES = {
-  cacheFirst: 'cache-first',
-  networkFirst: 'network-first', 
-  staleWhileRevalidate: 'stale-while-revalidate'
 };
 
 // Установка Service Worker
 self.addEventListener('install', (event) => {
   console.log('🔧 Service Worker: Установка...');
-  
   event.waitUntil(
     (async () => {
-      try {
-        const cache = await caches.open(CACHE_NAME);
-        
-        // Кэшируем каждый URL отдельно с обработкой ошибок
-        for (const url of STATIC_CACHE_URLS) {
-          try {
-            await cache.add(url);
-            console.log(`✅ Закэширован: ${url}`);
-          } catch (err) {
-            console.warn(`⚠️ Не удалось закэшировать ${url}:`, err);
-          }
-        }
-        
-        console.log('✅ Service Worker: Установка завершена');
-        
-        // Принудительно активируем новый Service Worker
-        await self.skipWaiting();
-      } catch (error) {
-        console.error('❌ Service Worker: Ошибка установки:', error);
-      }
+      const cache = await caches.open(CACHE_NAME);
+      await Promise.allSettled(STATIC_CACHE_URLS.map(url => cache.add(url)));
+      await self.skipWaiting();
     })()
   );
 });
@@ -65,294 +39,164 @@ self.addEventListener('install', (event) => {
 // Активация Service Worker
 self.addEventListener('activate', (event) => {
   console.log('🚀 Service Worker: Активация...');
-  
   event.waitUntil(
     (async () => {
-      try {
-        // Очищаем старые кэши
-        const cacheNames = await caches.keys();
-        const deletePromises = cacheNames
-          .filter(name => name !== CACHE_NAME && name !== DATA_CACHE && name !== PANORAMA_CACHE)
-          .map(name => caches.delete(name));
-        
-        await Promise.all(deletePromises);
-        console.log('🧹 Service Worker: Старые кэши очищены');
-        
-        // Берем контроль над всеми клиентами
-        await self.clients.claim();
-      } catch (error) {
-        console.error('❌ Service Worker: Ошибка активации:', error);
+      // Включаем navigation preload
+      if ('navigationPreload' in self.registration) {
+        await self.registration.navigationPreload.enable();
+        console.log('⚡ Navigation Preload enabled');
       }
+
+      // Чистим старые кэши
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames
+          .filter(name => ![CACHE_NAME, DATA_CACHE, PANORAMA_CACHE].includes(name))
+          .map(name => caches.delete(name))
+      );
+      await self.clients.claim();
     })()
   );
 });
 
-// Стратегия Cache First (для панорам и статики)
+// Cache First
 async function cacheFirst(request, cacheName) {
+  const cachedResponse = await caches.match(request);
+  if (cachedResponse) return cachedResponse;
+
   try {
-    const cachedResponse = await caches.match(request);
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-    
     const networkResponse = await fetch(request);
-    
-    // Не кэшируем HEAD запросы и частичные ответы (status 206)
-    if (networkResponse.ok && request.method !== 'HEAD' && networkResponse.status !== 206) {
-      try {
-        const cache = await caches.open(cacheName);
-        await cache.put(request, networkResponse.clone());
-      } catch (cacheError) {
-        console.warn(`⚠️ Failed to cache response for ${request.url}:`, cacheError);
-      }
+    if (networkResponse.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, networkResponse.clone());
     }
-    
     return networkResponse;
-  } catch (error) {
-    console.warn(`⚠️ Cache First failed for ${request.url}:`, error);
-    // Возвращаем offline fallback если есть
-    return new Response('Offline - content not available', { 
-      status: 503,
-      statusText: 'Service Unavailable'
-    });
+  } catch {
+    return new Response('Offline - content not available', { status: 503 });
   }
 }
 
-// Стратегия Network First (для HTML страниц)
-async function networkFirst(request, cacheName) {
+// Network First (с navigation preload)
+async function networkFirst(request, cacheName, event) {
   try {
+    // ⚡ используем preload, если есть
+    const preloadResponse = event?.preloadResponse ? await event.preloadResponse : null;
+    if (preloadResponse) return preloadResponse;
+
     const networkResponse = await fetch(request);
-    
-    // Не кэшируем HEAD запросы и частичные ответы (status 206)
-    if (networkResponse.ok && request.method !== 'HEAD' && networkResponse.status !== 206) {
-      try {
-        const cache = await caches.open(cacheName);
-        await cache.put(request, networkResponse.clone());
-      } catch (cacheError) {
-        console.warn(`⚠️ Failed to cache response for ${request.url}:`, cacheError);
-      }
+    if (networkResponse.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, networkResponse.clone());
     }
-    
     return networkResponse;
-  } catch (error) {
-    console.warn(`⚠️ Network failed for ${request.url}, trying cache:`, error);
+  } catch {
     const cachedResponse = await caches.match(request);
-    if (cachedResponse) {
-      return cachedResponse;
-    }
-    
-    // Fallback для HTML страниц
-    if (request.headers.get('accept')?.includes('text/html')) {
-      const cache = await caches.open(CACHE_NAME);
-      const fallback = await cache.match('/');
-      if (fallback) return fallback;
-    }
-    
-    throw error;
+    return cachedResponse || new Response('Offline - page not available', { status: 503 });
   }
 }
 
-// Стратегия Stale While Revalidate (для данных)
+// Stale While Revalidate (с фиксами)
 async function staleWhileRevalidate(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cachedResponse = await cache.match(request);
-  
-  // Запускаем обновление в фоне
-  const fetchPromise = fetch(request).then(networkResponse => {
-    // Не кэшируем HEAD запросы и частичные ответы (status 206)
-    if (networkResponse.ok && request.method !== 'HEAD' && networkResponse.status !== 206) {
-      try {
+
+  if (!cachedResponse) {
+    // 🚀 Первый визит — ждём сеть
+    try {
+      const networkResponse = await fetch(request);
+      if (networkResponse.ok) {
         cache.put(request, networkResponse.clone());
-      } catch (cacheError) {
-        console.warn(`⚠️ Failed to cache response for ${request.url}:`, cacheError);
       }
+      return networkResponse;
+    } catch {
+      return new Response('Offline - no cached data', { status: 503 });
     }
-    return networkResponse;
-  }).catch(error => {
-    console.warn(`⚠️ Background fetch failed for ${request.url}:`, error);
-    return cachedResponse;
-  });
-  
-  // Возвращаем кэшированную версию сразу или ждем сеть
-  return cachedResponse || fetchPromise;
+  }
+
+  // Если кэш есть — отдаем и параллельно обновляем
+  fetch(request).then(networkResponse => {
+    if (networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+  }).catch(() => {});
+
+  return cachedResponse;
 }
 
-// Основной обработчик запросов
+// Fetch handler
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
-  // Пропускаем chrome-extension и другие схемы
-  if (!url.protocol.startsWith('http')) {
-    return;
-  }
-  
-  // Пропускаем запросы к API - пусть идут напрямую
-  if (url.pathname.startsWith('/api/')) {
-    return;
-  }
-  
-  // Пропускаем главную страницу в режиме разработки
-  if (url.hostname.includes('localhost') && (url.pathname === '/' || url.pathname === '/index.html')) {
-    return;
-  }
-  
+
+  if (!url.protocol.startsWith('http') || url.pathname.startsWith('/api/')) return;
+
   event.respondWith(
     (async () => {
-      try {
-        // Определяем стратегию кэширования
-        if (CACHE_PATTERNS.data.test(url.pathname)) {
-          // Данные: StaleWhileRevalidate
-          return await staleWhileRevalidate(request, DATA_CACHE);
-        }
-        
-        if (CACHE_PATTERNS.panoramas.test(url.pathname)) {
-          // Панорамы: CacheFirst
-          return await cacheFirst(request, PANORAMA_CACHE);
-        }
-        
-        if (CACHE_PATTERNS.static.test(url.pathname)) {
-          // Статичные ресурсы: CacheFirst
-          return await cacheFirst(request, CACHE_NAME);
-        }
-        
-        // HTML страницы: NetworkFirst
-        if (request.method === 'GET' && request.headers.get('accept')?.includes('text/html')) {
-          return await networkFirst(request, CACHE_NAME);
-        }
-        
-        // Все остальное - прямо из сети
-        return await fetch(request);
-        
-      } catch (error) {
-        console.error('❌ Service Worker: Ошибка обработки запроса:', error);
-        
-        // Универсальный fallback
-        if (request.headers.get('accept')?.includes('text/html')) {
-          const cache = await caches.open(CACHE_NAME);
-          const fallback = await cache.match('/');
-          if (fallback) return fallback;
-        }
-        
-        return new Response('Service Unavailable', { 
-          status: 503,
-          statusText: 'Service Unavailable'
-        });
+      if (CACHE_PATTERNS.data.test(url.pathname)) {
+        return staleWhileRevalidate(request, DATA_CACHE);
       }
+      if (CACHE_PATTERNS.panoramas.test(url.pathname)) {
+        return cacheFirst(request, PANORAMA_CACHE);
+      }
+      if (CACHE_PATTERNS.static.test(url.pathname)) {
+        return cacheFirst(request, CACHE_NAME);
+      }
+      if (request.headers.get('accept')?.includes('text/html')) {
+        return networkFirst(request, CACHE_NAME, event);
+      }
+      return fetch(request);
     })()
   );
 });
 
-// Предзагрузка данных категории (опционально)
+// Message handlers (предзагрузка ассетов/категорий)
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'PRELOAD_CATEGORY') {
+  if (!event.data) return;
+
+  if (event.data.type === 'PRELOAD_CATEGORY') {
     const { categoryId } = event.data;
-    
     (async () => {
-      try {
-        console.log(`🚀 Предзагрузка категории ${categoryId}...`);
-        
-        // Загружаем данные категории
-        const dataUrls = [
-          `/data/index.json`,
-          `/data/houses.${categoryId}.json`
-        ];
-        
-        const cache = await caches.open(DATA_CACHE);
-        const fetchPromises = dataUrls.map(url => 
-          fetch(url).then(response => {
-            if (response.ok) {
-              cache.put(url, response.clone());
-            }
-            return response;
-          }).catch(error => {
-            console.warn(`⚠️ Не удалось предзагрузить ${url}:`, error);
+      console.log(`🚀 Предзагрузка категории ${categoryId}...`);
+      const dataUrls = [
+        `/data/index.json`,
+        `/data/houses.${categoryId}.json`
+      ];
+      const cache = await caches.open(DATA_CACHE);
+      await Promise.allSettled(
+        dataUrls.map(url =>
+          fetch(url).then(res => {
+            if (res.ok) cache.put(url, res.clone());
           })
-        );
-        
-        await Promise.allSettled(fetchPromises);
-        console.log(`✅ Категория ${categoryId} предзагружена`);
-        
-      } catch (error) {
-        console.error('❌ Ошибка предзагрузки:', error);
-      }
+        )
+      );
     })();
   }
-});
 
-// Кэширование ассетов
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'CACHE_ASSETS') {
+  if (event.data.type === 'CACHE_ASSETS') {
     const { assets } = event.data;
-    
     (async () => {
-      try {
-        console.log(`🚀 Кэширование ${assets.length} ассетов...`);
-        
-        const cache = await caches.open(PANORAMA_CACHE);
-        
-        // Проверяем и фильтруем ассеты перед кэшированием
-        const validAssets = assets.filter(asset => {
-          // Проверяем, что путь не пустой и не содержит недопустимых значений
-          const isValid = asset && 
-                         typeof asset === 'string' && 
-                         asset.startsWith('/') && 
-                         !asset.includes('undefined') && 
-                         !asset.includes('null');
-          
-          if (!isValid) {
-            console.warn(`⚠️ Пропускаем некорректный ассет: ${asset}`);
-          }
-          return isValid;
-        });
-        
-        console.log(`🔍 Отфильтровано ${assets.length - validAssets.length} некорректных ассетов, кэширую ${validAssets.length}`);
-        
-        // Кэшируем каждый ассет индивидуально с обработкой ошибок
-        const results = await Promise.allSettled(
-          validAssets.map(async (asset) => {
-            try {
-              const response = await fetch(asset);
-              if (response.ok) {
-                await cache.put(asset, response);
-                return { status: 'cached', asset };
-              } else {
-                console.warn(`⚠️ Не удалось закэшировать ${asset}: HTTP ${response.status}`);
-                return { status: 'error', asset, reason: `HTTP ${response.status}` };
-              }
-            } catch (error) {
-              console.warn(`⚠️ Ошибка при кэшировании ${asset}: ${error.message}`);
-              return { status: 'error', asset, reason: error.message };
+      console.log(`🚀 Кэширование ${assets.length} ассетов...`);
+      const cache = await caches.open(PANORAMA_CACHE);
+      await Promise.allSettled(
+        assets.map(async (asset) => {
+          try {
+            const res = await fetch(asset);
+            if (res.ok) {
+              await cache.put(asset, res.clone());
             }
-          })
-        );
-        
-        const succeeded = results.filter(r => r.status === 'fulfilled' && r.value?.status === 'cached').length;
-        const failed = results.filter(r => r.status !== 'fulfilled' || r.value?.status !== 'cached').length;
-        
-        console.log(`✅ Кэширование завершено: ${succeeded} успешно, ${failed} с ошибками`);
-        
-        // Отправляем результат обратно
-        if (event.source && event.source.postMessage) {
-          event.source.postMessage({
-            type: 'CACHE_ASSETS_RESULT',
-            succeeded,
-            failed
-          });
-        }
-        
-      } catch (error) {
-        console.error('❌ Ошибка кэширования ассетов:', error);
-      }
+          } catch (err) {
+            console.warn(`⚠️ Ошибка при кэшировании ${asset}:`, err);
+          }
+        })
+      );
     })();
   }
 });
 
-// Обработка ошибок
+// Error logging
 self.addEventListener('error', (event) => {
   console.error('❌ Service Worker error:', event.error);
 });
-
 self.addEventListener('unhandledrejection', (event) => {
   console.error('❌ Service Worker unhandled rejection:', event.reason);
 });

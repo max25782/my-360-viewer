@@ -45,12 +45,21 @@ export function useServiceWorker(): UseServiceWorkerResult {
             }
           }
 
-          const registration = await navigator.serviceWorker.register('/sw-simple.js', {
-            scope: '/',
-            updateViaCache: 'none' // Always check for updates
-          });
-          
-          console.log('✅ Service Worker зарегистрирован:', registration);
+          let registration: ServiceWorkerRegistration | undefined;
+          try {
+            registration = await navigator.serviceWorker.register('/sw.js', {
+              scope: '/',
+              updateViaCache: 'none'
+            });
+            console.log('✅ Service Worker зарегистрирован: /sw.js', registration);
+          } catch (primaryError) {
+            console.warn('⚠️ Не удалось зарегистрировать /sw.js, пробуем /sw-simple.js', primaryError);
+            registration = await navigator.serviceWorker.register('/sw-simple.js', {
+              scope: '/',
+              updateViaCache: 'none'
+            });
+            console.log('✅ Service Worker зарегистрирован (fallback): /sw-simple.js', registration);
+          }
           
           // Enhanced update handling
           registration.addEventListener('updatefound', () => {
@@ -74,33 +83,11 @@ export function useServiceWorker(): UseServiceWorkerResult {
           });
 
         } catch (error) {
-          console.error('❌ Ошибка регистрации Service Worker:', error);
-          
-          // More detailed error logging
+          console.error('❌ Ошибка регистрации Service Worker (после fallback):', error);
           if (error instanceof Error) {
-            console.error('Error details:', {
-              name: error.name,
-              message: error.message,
-              stack: error.stack
-            });
-            
-            // Show user-friendly error message
-            console.log('💡 To fix PWA issues, visit: /reset-pwa.html');
-            
-            // Optionally show notification to user
-            if (typeof window !== 'undefined' && 'Notification' in window) {
-              try {
-                new Notification('PWA Service Worker Error', {
-                  body: 'PWA features may not work properly. Click to fix.',
-                  icon: '/icons/icon-192x192.png',
-                  tag: 'sw-error'
-                });
-              } catch (notifError) {
-                // Notification permission not granted or other error
-                console.log('Could not show notification:', notifError);
-              }
-            }
+            console.error('Error details:', { name: error.name, message: error.message, stack: error.stack });
           }
+          console.log('💡 Для сброса PWA: выполните clearAppCache() и обновите страницу.');
         }
       };
 

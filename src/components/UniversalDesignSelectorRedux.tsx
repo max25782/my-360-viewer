@@ -467,9 +467,9 @@ export default function UniversalDesignSelectorRedux({
 
       {/* Main Image Display - Lazy Loading Optimized */}
         <div className="rounded-lg overflow-hidden shadow-lg">
-          <div
-            className="relative overflow-hidden bg-gray-100 h-[60vh] xl:h-[500px]"
-          >
+            <div
+              className="relative overflow-hidden bg-gray-100 h-[40vh] md:h-[350px] xl:h-[380px]"
+            >
             {currentImage && (
             <>
               <img

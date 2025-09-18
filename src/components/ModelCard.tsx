@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 interface LegacyModelData {
   id: string;
   title: string;
+  description?: string;
   area: string;
   bedrooms: number;
   bathrooms: number;
