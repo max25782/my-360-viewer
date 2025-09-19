@@ -121,6 +121,127 @@ export function getModelTabContent(model: ModelData) {
 }
 
 /**
+ * Build human-readable feature badges from comparison.features if present
+ */
+export function getReadableFeatureBadges(model: Partial<ModelData> & { comparison?: any }): string[] {
+  const badges: string[] = [];
+  const cmp = model?.comparison?.features;
+  
+  if (!cmp) {
+    // Fallback to model.features if available
+    if (Array.isArray((model as any).features)) {
+      return ((model as any).features as string[]).slice(0, 4);
+    }
+    return [];
+  }
+
+  // Handle Premium format: comparison.features is an array of strings
+  if (Array.isArray(cmp)) {
+    const premiumFeatures: string[] = [];
+    
+    cmp.forEach((feature: string) => {
+      // Extract key information from feature strings
+      if (feature.includes('SF of') && feature.includes('Living Space')) {
+        const match = feature.match(/(\d{1,3}(?:,\d{3})*)\s*SF/);
+        if (match) premiumFeatures.push(`${match[1]} SF`);
+      } else if (feature.includes('Bedroom')) {
+        const match = feature.match(/(\d+)\s+.*Bedroom/);
+        if (match) premiumFeatures.push(`${match[1]} BR`);
+      } else if (feature.includes('Bathroom')) {
+        const match = feature.match(/(\d+)\s+.*Bathroom/);
+        if (match) premiumFeatures.push(`${match[1]} BA`);
+      } else if (feature.includes('Garage')) {
+        premiumFeatures.push('Garage');
+      } else if (feature.includes('Office') || feature.includes('Flex Room')) {
+        premiumFeatures.push('Office');
+      } else if (feature.includes('Covered Porch')) {
+        premiumFeatures.push('Covered Porch');
+      } else if (feature.includes('Covered Deck')) {
+        premiumFeatures.push('Covered Deck');
+      } else if (feature.includes('ADU')) {
+        premiumFeatures.push('ADU');
+      }
+    });
+    
+    return premiumFeatures.slice(0, 4);
+  }
+
+  // Handle Skyline/Neo format: comparison.features is an object with {good, better, best}
+  if (typeof cmp === 'object') {
+    const pickNumeric = (label: string, short?: string) => {
+      const v = cmp[label];
+      if (v && typeof v === 'object') {
+        const text = v.best || v.better || v.good || '';
+        if (typeof text === 'string') {
+          const m = text.replace(/,/g, '').match(/(\d+(?:\.\d+)?)/);
+          if (m) {
+            const value = m[1];
+            badges.push(short ? `${value} ${short}` : `${label}: ${value}`);
+          }
+        }
+      }
+    };
+
+    // Common numeric badges
+    pickNumeric('Bedrooms', 'BR');
+    pickNumeric('Baths'); // sometimes labeled differently
+    pickNumeric('Bathrooms', 'BA');
+    pickNumeric('Living Space', 'SF');
+
+    // Boolean-like features shown with ✓
+    const boolKeys = [
+      'Garage',
+      'Office',
+      'Kitchen Island',
+      'Extra Storage',
+      'Covered Patio',
+      'Covered Porch',
+      'Bonus Room',
+      'Loft',
+      'Vaulted Ceiling',
+      'Garbage Disposal',
+      'Electric Fireplace'
+    ];
+    
+    for (const key of boolKeys) {
+      const v = cmp[key];
+      if (v && typeof v === 'object') {
+        const has = ['best', 'better', 'good'].some((k) => typeof v[k] === 'string' && v[k].includes('✓'));
+        if (has) badges.push(key);
+      }
+    }
+
+    // Special text features that are meaningful
+    const textKeys = [
+      'Kitchen',
+      'Shower',
+      'Flooring',
+      'Exterior Siding'
+    ];
+    
+    for (const key of textKeys) {
+      const v = cmp[key];
+      if (v && typeof v === 'object') {
+        const text = v.best || v.better || v.good || '';
+        if (typeof text === 'string' && text !== '✗' && text.length > 0) {
+          // Simplify common text values
+          if (key === 'Kitchen' && text.includes('Island')) {
+            badges.push('Kitchen Island');
+          } else if (key === 'Shower' && text.includes('Tile')) {
+            badges.push('Tile Shower');
+          } else if (key === 'Flooring' && (text.includes('Tile') || text.includes('Designer'))) {
+            badges.push('Premium Flooring');
+          }
+        }
+      }
+    }
+  }
+
+  // Ensure uniqueness and limit
+  return Array.from(new Set(badges)).slice(0, 4);
+}
+
+/**
  * Load models from API
  */
 export async function loadModelsFromAPI(): Promise<ModelData[]> {

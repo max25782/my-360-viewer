@@ -70,12 +70,15 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
             </div>
           )}
           
-          <div className="relative h-[40vh] md:h-[350px] xl:h-[380px]">
+          <div className="relative overflow-hidden bg-radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) min-h-[calc(100dvh-64px)] max-w-full mx-auto ml-10">
             {imagePath && (
               <img
                 src={imagePath}
                 alt={`${packageType.toUpperCase()} Package - ${activeScheme === 'light' ? 'White' : 'Dark'}`}
-                className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-lg"
+                className={` absolute left-1/2 top-82 -translate-x-1/2 -translate-y-1/2 w-100% min-h-[calc(100dvh-64px)] object-contain transition-all duration-2500 ease-out-quad 
+                   `}
                 onLoad={() => setImageLoading(false)}
                 onError={async (e) => {
                   if (e.currentTarget) {
@@ -100,7 +103,7 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
                 }}
               />
             )}
-             <div className="absolute bottom-4 left-1/4 transform -translate-x-1/2 bg-opacity-60 rounded-lg px-6 py-3">
+             <div className="absolute bottom-30  left-1/2 transform -translate-x-1/2 bg-opacity-60 rounded-lg px-6 py-3">
                {/* Package Selector */}
                <div className="flex justify-center space-x-3">
                  <button
@@ -147,10 +150,10 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
         
 
         {/* Color Scheme Selector */}
-        <div className="flex justify-center space-x-6 mb-8">
+        <div className="mt-6 absolute  bottom-100 left-1 flex-row justify-center space-y-4 mb-8 ">
           <div className="text-center">
             <button
-              className={`w-24 h-24 cursor-pointer rounded-lg transition-all ${
+              className={`w-[5rem] h-[5rem] cursor-pointer rounded-lg transition-all ${
                 activeScheme === 'light' 
                   ? 'border-4 border-slate-700 shadow-lg transform scale-105' 
                   : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md'
@@ -158,14 +161,14 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
               onClick={() => setActiveScheme('light')}
             >
               <div className="h-full w-full bg-gradient-to-br from-gray-50 to-gray-200 rounded-lg flex items-center justify-center">
-                <span className="text-gray-800 font-bold text-lg">WHITE</span>
+                <span className="text-gray-800 font-bold text-sm">WHITE</span>
               </div>
             </button>
           </div>
 
           <div className="text-center">
             <button
-              className={`w-24 h-24 cursor-pointer rounded-lg transition-all ${
+              className={`w-[5rem] h-[5rem] cursor-pointer rounded-lg transition-all ${
                 activeScheme === 'dark' 
                   ? 'border-4 border-slate-700 shadow-lg transform scale-105' 
                   : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md'
@@ -173,7 +176,7 @@ export default function NeoExteriorDesignPackages({ house }: NeoExteriorDesignPa
               onClick={() => setActiveScheme('dark')}
             >
               <div className="h-full w-full bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">BLACK</span>
+                <span className="text-white font-bold text-sm">BLACK</span>
               </div>
             </button>
           </div>

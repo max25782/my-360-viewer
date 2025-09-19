@@ -61,7 +61,7 @@ import { OffersSection } from '../components/OffersSection';
 import { useHomeState } from '../hooks/useHomeState';
 import { useHomeActions } from '../hooks/useHomeActions';
 import { convertHouseToModel } from '../data/realModelsData';
-import { convertModelToHouse, getModelTabContent, filterModels } from '../utils/dataHelpers';
+import { convertModelToHouse, getModelTabContent, filterModels, getReadableFeatureBadges } from '../utils/dataHelpers';
 import { NeoHouse } from '../hooks/useNeoHouse';
 import { MODEL_TABS } from '../constants/home';
 
@@ -268,7 +268,13 @@ function HomeContent() {
                     <GitCompare className="w-12 h-12 mx-auto mb-4 opacity-50" />
                     <h3 className="text-xl font-semibold mb-2">Model Comparison</h3>
                     <p className="mb-4">Comparing {state.compareList.length} selected models</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className={`grid gap-4 ${
+                      state.compareList.length === 2 
+                        ? 'grid-cols-2 justify-between' 
+                        : state.compareList.length === 3 
+                        ? 'grid-cols-1 md:grid-cols-3' 
+                        : 'grid-cols-1'
+                    }`}>
                       {state.compareList.slice(0, 3).map((modelId) => {
                         const model = state.models.find(m => m.id === modelId);
                         return model ? (
@@ -276,6 +282,39 @@ function HomeContent() {
                             <img src={model.heroImage} alt={model.name} className="w-full h-32 object-cover rounded mb-2" />
                             <h4 className="font-semibold">{model.name}</h4>
                             <p className="text-sm opacity-70">{model.area} • ${(model.basePrice || 0).toLocaleString()}</p>
+                            
+                            {/* Show ALL features from comparison.features */}
+                            <div className="mt-2 space-y-1 max-h-48 overflow-y-auto">
+                              {(() => {
+                                const cmp = (model as any)?.comparison?.features;
+                                const allFeatures: string[] = [];
+                                
+                                if (Array.isArray(cmp)) {
+                                  // Premium format: array of strings - показываем ВСЕ
+                                  allFeatures.push(...cmp);
+                                } else if (cmp && typeof cmp === 'object') {
+                                  // Skyline/Neo format: object with {good, better, best} - показываем ВСЕ
+                                  Object.entries(cmp).forEach(([key, value]: [string, any]) => {
+                                    if (value && typeof value === 'object') {
+                                      const text = value.best || value.better || value.good || '';
+                                      if (typeof text === 'string' && text !== '✗' && text.trim() !== '') {
+                                        allFeatures.push(`${key}: ${text}`);
+                                      }
+                                    }
+                                  });
+                                }
+                                
+                                // Показываем ВСЕ фичи без ограничений
+                                return allFeatures.map((feature: string, idx: number) => (
+                                  <div
+                                    key={`${model.id}-feature-${idx}`}
+                                    className={`text-xs px-2 py-1 rounded border ${state.isDark ? 'border-slate-600/50 text-slate-300 bg-slate-700/30' : 'border-slate-300/50 text-slate-700 bg-slate-100/30'}`}
+                                  >
+                                    {feature.length > 60 ? `${feature.substring(0, 60)}...` : feature}
+                                  </div>
+                                ));
+                              })()}
+                            </div>
                           </div>
                         ) : null;
                       })}
@@ -831,6 +870,7 @@ function HomeContent() {
           onScheduleCall={() => console.log('Schedule call')}
           onSendEmail={() => console.log('Send email')}
         />
+
       </div>
     </AuthGuard>
   );

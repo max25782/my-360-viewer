@@ -537,7 +537,7 @@ export default function UniversalDesignSelectorRedux({
   // Loading state
   if (isLoading || !isDataReady) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-1">
         <div className="rounded-lg overflow-hidden shadow-lg">
           <div className="aspect-video relative bg-gray-300"></div>
         </div>
@@ -554,21 +554,104 @@ export default function UniversalDesignSelectorRedux({
     (type === 'exterior' ? selection.selectedExteriorPackage : selection.selectedInteriorPackage) : 0;
 
   return (
-    <div className="space-y-4">
-      {/* Title */}
-      <h3 className={`text-xl font-semibold text-center ${type === 'exterior' ? 'text-gray-900' : 'text-white drop-shadow-lg'
-        }`}>
-        {type === 'exterior' ? '' : ''}
-      </h3>
+    <div className="relative flex flex-row ">
 
-      {/* Texture Selection for Interior - функциональность сохранена, UI отключен */}
+      {/* Texture Selection for Exterior - Below Image */}
+      <div className="flex flex-row items-center space-x-3 ml-10">
+      {type === 'exterior' && (
+        <div className="mt-0 mb-20">
+         
+            {EXTERIOR_TEXTURES.filter(texture => 
+              texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
+            ).map((texture) => (
+              <div key={texture.id} className="text-center">
+                <button
+                  onClick={() => handleTextureChange(texture.id)}
+                  className={`w-[4em] h-[4em] rounded-lg overflow-hidden transition-all hover:scale-105 block relative ${
+                    selectedTexture === texture.id
+                      ? 'ring-4 ring-gray-900 shadow-lg'
+                      : 'ring-2 ring-gray-300 hover:ring-gray-500'
+                  }`}
+                  title={`Select ${texture.name}`}
+                >
+                  <img
+                    src={getImageUrl(texture.path)}
+                    alt={`${texture.name} texture`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to solid color if image fails
+                      if (e.currentTarget && e.currentTarget.parentElement) {
+                        const parent = e.currentTarget.parentElement;
+                        parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
+                                                     texture.id === 2 ? '#5e6266' : 
+                                                     texture.id === 3 ? '#9a9083' : 
+                                                     texture.id === 4 ? '#4c4c4c' : '#b29a7d';
+                        e.currentTarget.style.display = 'none';
+                      }
+                    }}
+                  />
+                </button>
+                <div className="text-sm text-white font-medium mt-2">
+                  {texture.name}
+                </div>
+              </div>
+            ))}
+          </div>
+       
+        )}
+        
 
+        {/* Texture Selection for Interior - Below Image */}
+      {type === 'interior' && (
+        <div className="mt-0 mb-20 ">
+          {/* <h4 className="text-lg font-semibold text-white text-center mb-4 drop-shadow-lg">
+            Textures
+          </h4> */}
+          <div className="flex flex-col items-center items-start justify-center space-y-3 ipad-pro:flex-row ipad-pro:items-start ipad-pro:space-x-3 ">
+            {INTERIOR_TEXTURES.filter(texture => 
+              texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
+            ).map((texture) => (
+              <div key={texture.id} className="text-center">
+                <button
+                  onClick={() => handleTextureChange(texture.id)}
+                  className={`w-[4em] h-[4em]  rounded-lg overflow-hidden transition-all hover:scale-105 block relative ${
+                    selectedTexture === texture.id
+                      ? 'ring-4 ring-white shadow-lg'
+                      : 'ring-2 ring-white/30 hover:ring-white/50'
+                  }`}
+                  title={`Select ${texture.name}`}
+                >
+                  <img
+                    src={getImageUrl(texture.path)}
+                    alt={`${texture.name} texture`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to solid color if image fails
+                      if (e.currentTarget && e.currentTarget.parentElement) {
+                        const parent = e.currentTarget.parentElement;
+                        parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
+                                                     texture.id === 2 ? '#5e6266' : 
+                                                     texture.id === 3 ? '#9a9083' : 
+                                                     texture.id === 4 ? '#4c4c4c' : '#b29a7d';
+                        e.currentTarget.style.display = 'none';
+                      }
+                    }}
+                  />
+                </button>
+                <div className="text-sm text-white font-medium mt-2 drop-shadow">
+                  {texture.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {/* Main Image Display - Lazy Loading Optimized */}
-        <div className="rounded-lg overflow-hidden shadow-lg ml-auto mr-auto">
+        <div className="rounded-lg overflow-hidden shadow-lg ml-15">
             <div
               className="relative overflow-hidden bg-radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
-                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) min-h-[calc(100dvh-64px)] max-w-[60rem] mx-auto border-2 border-white"
+                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) min-h-[calc(100dvh-64px)] max-w-[60rem] mx-auto "
             >
             {(() => {
               // For Walnut interior, use sequential photo navigation
@@ -588,10 +671,10 @@ export default function UniversalDesignSelectorRedux({
                     alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
                     loading="lazy"
                     decoding="async"
-                    className={` absolute left-1/2 top-82 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] object-contain transition-all duration-1000 ease-out ${
+                    className={` relative left-1/2 top-82 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] object-contain transition-all duration-2500 ease-out-quad ${
                       imageLoaded && !imageTransitioning 
-                        ? 'opacity-100 scale-100' 
-                        : 'opacity-0 scale-98'
+                        ? 'opacity-100 ' 
+                        : 'opacity-0 '
                     }`}
                     onLoad={() => {
                       setImageLoaded(true);
@@ -734,103 +817,10 @@ export default function UniversalDesignSelectorRedux({
             </>
           )}
 
-       
-        </div>
+       </div>
       </div>
-
-      {/* Texture Selection for Exterior - Below Image */}
-      {type === 'exterior' && (
-        <div className="mt-6 fixed z-50 bottom-45 left-60 top-45 right-auto">
-          {/* <h4 className="text-lg font-semibold text-white text-center mb-4">
-            Exterior
-            Finishes
-          </h4> */}
-          <div className="flex flex-col items-center md:items-start justify-center space-y-3">
-            {EXTERIOR_TEXTURES.filter(texture => 
-              texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
-            ).map((texture) => (
-              <div key={texture.id} className="text-center">
-                <button
-                  onClick={() => handleTextureChange(texture.id)}
-                  className={`w-20 h-16 rounded-lg overflow-hidden transition-all hover:scale-105 block relative ${
-                    selectedTexture === texture.id
-                      ? 'ring-4 ring-gray-900 shadow-lg'
-                      : 'ring-2 ring-gray-300 hover:ring-gray-500'
-                  }`}
-                  title={`Select ${texture.name}`}
-                >
-                  <img
-                    src={getImageUrl(texture.path)}
-                    alt={`${texture.name} texture`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Fallback to solid color if image fails
-                      if (e.currentTarget && e.currentTarget.parentElement) {
-                        const parent = e.currentTarget.parentElement;
-                        parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
-                                                     texture.id === 2 ? '#5e6266' : 
-                                                     texture.id === 3 ? '#9a9083' : 
-                                                     texture.id === 4 ? '#4c4c4c' : '#b29a7d';
-                        e.currentTarget.style.display = 'none';
-                      }
-                    }}
-                  />
-                </button>
-                <div className="text-sm text-white font-medium mt-2">
-                  {texture.name}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Texture Selection for Interior - Below Image */}
-      {type === 'interior' && (
-        <div className="mt-6 fixed z-50 bottom-45 left-60 top-37 right-auto">
-          {/* <h4 className="text-lg font-semibold text-white text-center mb-4 drop-shadow-lg">
-            Textures
-          </h4> */}
-          <div className="flex flex-col items-center md:items-start justify-center space-y-3">
-            {INTERIOR_TEXTURES.filter(texture => 
-              texture.id === 5 ? houseId.toLowerCase() === 'walnut' : true
-            ).map((texture) => (
-              <div key={texture.id} className="text-center">
-                <button
-                  onClick={() => handleTextureChange(texture.id)}
-                  className={`w-20 h-16 rounded-lg overflow-hidden transition-all hover:scale-105 block relative ${
-                    selectedTexture === texture.id
-                      ? 'ring-4 ring-white shadow-lg'
-                      : 'ring-2 ring-white/30 hover:ring-white/50'
-                  }`}
-                  title={`Select ${texture.name}`}
-                >
-                  <img
-                    src={getImageUrl(texture.path)}
-                    alt={`${texture.name} texture`}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Fallback to solid color if image fails
-                      if (e.currentTarget && e.currentTarget.parentElement) {
-                        const parent = e.currentTarget.parentElement;
-                        parent.style.backgroundColor = texture.id === 1 ? '#e9e5dc' : 
-                                                     texture.id === 2 ? '#5e6266' : 
-                                                     texture.id === 3 ? '#9a9083' : 
-                                                     texture.id === 4 ? '#4c4c4c' : '#b29a7d';
-                        e.currentTarget.style.display = 'none';
-                      }
-                    }}
-                  />
-                </button>
-                <div className="text-sm text-white font-medium mt-2 drop-shadow">
-                  {texture.name}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      
+      </div>
     </div>
   );
+  
 }

@@ -56,7 +56,9 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
 
         {/* Main Image Display */}
         <div className="mb-8 relative">
-          <div className="relative h-[40vh] md:h-[350px] xl:h-[380px]">
+          <div className=" relative overflow-hidden bg-radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #020617 0%, #0f172a 25%, #1e293b 50%, #334155 75%, #475569 100%) min-h-[calc(100dvh-64px)] max-w-full mx-auto ml-10">
             <img 
               src={getFullPath()} 
               alt={`Interior - ${selectedRoom} - ${activeScheme === 'light' ? 'White' : 'Dark'}`} 
@@ -73,7 +75,7 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
               }}
             />
             {/* Room Selector */}
-        <div className="absolute bottom-2 left-8 flex justify-center items-center flex-wrap space-x-2 ">
+        <div className="absolute bottom-25 left-8 flex justify-center items-center flex-wrap space-x-2 ">
           {roomsLoading ? (
             <div className="px-4 py-2 m-1 rounded bg-slate-600 text-white">
               Loading rooms...
@@ -107,9 +109,9 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
       
 
         {/* Color Scheme Selector */}
-        <div className="flex justify-center space-x-4 mb-8">
+        <div className="absolute bottom-100 left-1 flex-row justify-center space-y-4 mb-8">
           <div 
-            className={`w-24 h-24 cursor-pointer ${activeScheme === 'light' ? 'border-4 border-slate-800 shadow-lg transform scale-105 rounded-lg' : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md rounded-lg'}`}
+            className={`w-[5rem] h-[5rem] cursor-pointer ${activeScheme === 'light' ? 'border-4 border-slate-800 shadow-lg transform scale-105 rounded-lg' : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md rounded-lg'}`}
             onClick={() => setActiveScheme('light')}
           >
             <div className="h-full w-full bg-gray-100 rounded-lg flex items-center justify-center">
@@ -118,7 +120,7 @@ export default function NeoInteriorDesignPackages({ house }: NeoInteriorDesignPa
           </div>
           
           <div 
-            className={`w-24 h-24 cursor-pointer ${activeScheme === 'dark' ? 'border-4 border-slate-800 shadow-lg transform scale-105 rounded-lg' : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md rounded-lg'}`}
+            className={`w-[5rem] h-[5rem] cursor-pointer ${activeScheme === 'dark' ? 'border-4 border-slate-800 shadow-lg transform scale-105 rounded-lg' : 'border-2 border-gray-300 hover:border-gray-400 hover:shadow-md rounded-lg'}`}
             onClick={() => setActiveScheme('dark')}
           >
             <div className="h-full w-full bg-slate-700 rounded-lg flex items-center justify-center">

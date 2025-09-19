@@ -24,6 +24,34 @@ interface ComparisonItem {
   best: string | React.ReactNode;
 }
 
+function ImageWithErrorHandling({ src, alt, className, width = 300, height = 200 }: { src: string; alt: string; className?: string; width?: number; height?: number; }) {
+  const [isError, setIsError] = useState(false);
+
+  const handleError = () => {
+    console.error(`Failed to load image: ${src}`);
+    setIsError(true);
+  };
+
+  if (isError) {
+    return (
+      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+        Image Not Available
+      </div>
+    );
+  }
+
+  return (
+    <SimpleImageModal 
+      src={src} 
+      alt={alt} 
+      className={className ?? 'w-full h-full object-cover'}
+      width={width}
+      height={height}
+      onError={handleError}
+    />
+  );
+}
+
 export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBestComparisonProps) {
   const [features, setFeatures] = useState<Record<string, { good: string; better: string; best: string; }> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,34 +73,6 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
 
     loadFeatures();
   }, [house.id]);
-
-  const renderImageWithErrorHandling = (src: string, alt: string) => {
-    const [isError, setIsError] = useState(false);
-
-    const handleError = () => {
-      console.error(`Failed to load image: ${src}`);
-      setIsError(true);
-    };
-
-    if (isError) {
-      return (
-        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-          Image Not Available
-        </div>
-      );
-    }
-
-    return (
-      <SimpleImageModal 
-        src={src} 
-        alt={alt} 
-        className="w-full h-full object-cover"
-        width={300}
-        height={200}
-        onError={handleError}
-      />
-    );
-  };
 
   const [availablePlans, setAvailablePlans] = useState<{[key: string]: string}>({});
   const [loadingPlans, setLoadingPlans] = useState(true);
@@ -105,18 +105,17 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
           console.log(`No comparison data found for house ${house.id}`);
           setAvailablePlans({});
         } else {
-          // Фильтруем только JPG и WebP изображения, начинающиеся с "plan"
+          // Выбираем JPG/WebP планы и нормализуем ключи к plan1/plan2, предпочитая WebP
           const plans = houseData.comparison.plans
-            .filter((plan: {type: string, filename: string, path: string}) => 
-              (plan.type === 'jpg' || plan.type === 'webp') && 
-              plan.filename.startsWith('plan')
-            )
             .reduce((acc: {[key: string]: string}, plan: {type: string, filename: string, path: string}) => {
-              const planName = plan.filename.split('.')[0]; // Убираем расширение
-              acc[planName] = plan.path;
+              if (plan.type !== 'jpg' && plan.type !== 'webp') return acc;
+              const match = plan.filename.match(/plan(\d+)/);
+              if (!match) return acc;
+              const key = `plan${match[1]}`; // plan1 | plan2
+              if (!acc[key] || plan.type === 'webp') acc[key] = plan.path;
               return acc;
             }, {} as {[key: string]: string});
-          
+
           console.log(`Found ${Object.keys(plans).length} plans for house ${house.id}:`, plans);
           setAvailablePlans(plans);
         }
@@ -193,6 +192,40 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
     const bedroomCount = availableRooms.filter(room => room === 'bedroom').length;
     const bathroomCount = availableRooms.filter(room => room === 'bathroom').length;
 
+    // Для Premium домов обрабатываем массив features
+    if (house.category === 'premium' && house.comparison?.features && Array.isArray(house.comparison.features)) {
+      const items: ComparisonItem[] = [];
+      
+      // Добавляем изображения
+      items.push(
+        {
+          label: 'Front Elevation',
+          good: <ImageWithErrorHandling src={imagePaths.goodExterior} alt={`Good Package - ${house.name} Front Elevation`} />,
+          better: <ImageWithErrorHandling src={imagePaths.betterExterior} alt={`Better Package - ${house.name} Front Elevation`} />,
+          best: <ImageWithErrorHandling src={imagePaths.bestExterior} alt={`Best Package - ${house.name} Front Elevation`} />
+        },
+        {
+          label: 'Floor Plan 1',
+          good: <ImageWithErrorHandling src={imagePaths.goodPlan1} alt={`Good Package - ${house.name} Floor Plan 1`} />,
+          better: <ImageWithErrorHandling src={imagePaths.betterPlan1} alt={`Better Package - ${house.name} Floor Plan 1`} />,
+          best: <ImageWithErrorHandling src={imagePaths.bestPlan1} alt={`Best Package - ${house.name} Floor Plan 1`} />
+        }
+      );
+
+      // Добавляем все фичи из массива как общие для всех пакетов
+      house.comparison.features.forEach((feature: string) => {
+        items.push({
+          label: feature,
+          good: '✓',
+          better: '✓',
+          best: '✓'
+        });
+      });
+
+      console.log(`Total comparison items for Premium house ${house.id}: ${items.length}`);
+      return items;
+    }
+
     // Для Neo домов объединяем данные из house.comparison и загруженные features
     if (house.category === 'neo') {
       const items: ComparisonItem[] = [];
@@ -201,15 +234,15 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       items.push(
         {
           label: 'Front Elevation',
-          good: renderImageWithErrorHandling(imagePaths.goodExterior, `Good Package - ${house.name} Front Elevation`),
-          better: renderImageWithErrorHandling(imagePaths.betterExterior, `Better Package - ${house.name} Front Elevation`),
-          best: renderImageWithErrorHandling(imagePaths.bestExterior, `Best Package - ${house.name} Front Elevation`)
+          good: <ImageWithErrorHandling src={imagePaths.goodExterior} alt={`Good Package - ${house.name} Front Elevation`} />,
+          better: <ImageWithErrorHandling src={imagePaths.betterExterior} alt={`Better Package - ${house.name} Front Elevation`} />,
+          best: <ImageWithErrorHandling src={imagePaths.bestExterior} alt={`Best Package - ${house.name} Front Elevation`} />
         },
         {
           label: 'Floor Plan 1',
-          good: renderImageWithErrorHandling(imagePaths.goodPlan1, `Good Package - ${house.name} Floor Plan 1`),
-          better: renderImageWithErrorHandling(imagePaths.betterPlan1, `Better Package - ${house.name} Floor Plan 1`),
-          best: renderImageWithErrorHandling(imagePaths.bestPlan1, `Best Package - ${house.name} Floor Plan 1`)
+          good: <ImageWithErrorHandling src={imagePaths.goodPlan1} alt={`Good Package - ${house.name} Floor Plan 1`} />,
+          better: <ImageWithErrorHandling src={imagePaths.betterPlan1} alt={`Better Package - ${house.name} Floor Plan 1`} />,
+          best: <ImageWithErrorHandling src={imagePaths.bestPlan1} alt={`Best Package - ${house.name} Floor Plan 1`} />
         }
       );
       
@@ -269,22 +302,22 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       // Fixed items (images and basic house data)
       {
         label: 'Front Elevation',
-        good: renderImageWithErrorHandling(imagePaths.goodExterior, `Good Package - ${house.name} Front Elevation`),
-        better: renderImageWithErrorHandling(imagePaths.betterExterior, `Better Package - ${house.name} Front Elevation`),
-        best: renderImageWithErrorHandling(imagePaths.bestExterior, `Best Package - ${house.name} Front Elevation`)
+        good: <ImageWithErrorHandling src={imagePaths.goodExterior} alt={`Good Package - ${house.name} Front Elevation`} />,
+        better: <ImageWithErrorHandling src={imagePaths.betterExterior} alt={`Better Package - ${house.name} Front Elevation`} />,
+        best: <ImageWithErrorHandling src={imagePaths.bestExterior} alt={`Best Package - ${house.name} Front Elevation`} />
       },
       {
         label: 'Floor Plan 1',
-        good: renderImageWithErrorHandling(imagePaths.goodPlan1, `Good Package - ${house.name} Floor Plan 1`),
-        better: renderImageWithErrorHandling(imagePaths.betterPlan1, `Better Package - ${house.name} Floor Plan 1`),
-        best: renderImageWithErrorHandling(imagePaths.bestPlan1, `Best Package - ${house.name} Floor Plan 1`)
+        good: <ImageWithErrorHandling src={imagePaths.goodPlan1} alt={`Good Package - ${house.name} Floor Plan 1`} />,
+        better: <ImageWithErrorHandling src={imagePaths.betterPlan1} alt={`Better Package - ${house.name} Floor Plan 1`} />,
+        best: <ImageWithErrorHandling src={imagePaths.bestPlan1} alt={`Best Package - ${house.name} Floor Plan 1`} />
       },
       // Добавляем второй план (если он доступен)
-      ...(availablePlans['plan2'] || (house.id === 'walnut' && imagePaths.goodPlan2) ? [{
+      ...(availablePlans['plan2'] ? [{
         label: 'Floor Plan 2',
-        good: renderImageWithErrorHandling(imagePaths.goodPlan2!, `Good Package - ${house.name} Floor Plan 2`),
-        better: renderImageWithErrorHandling(imagePaths.betterPlan2!, `Better Package - ${house.name} Floor Plan 2`),
-        best: renderImageWithErrorHandling(imagePaths.bestPlan2!, `Best Package - ${house.name} Floor Plan 2`)
+        good: <ImageWithErrorHandling src={imagePaths.goodPlan2!} alt={`Good Package - ${house.name} Floor Plan 2`} />,
+        better: <ImageWithErrorHandling src={imagePaths.betterPlan2!} alt={`Better Package - ${house.name} Floor Plan 2`} />,
+        best: <ImageWithErrorHandling src={imagePaths.bestPlan2!} alt={`Best Package - ${house.name} Floor Plan 2`} />
       }] : []),
       // Basic house info (from JSON config)
           {
@@ -301,15 +334,38 @@ export default function JsonGoodBetterBestComparison({ house }: JsonGoodBetterBe
       },
     ];
 
-    // Add dynamic features from JSON
+    // Add ALL features from house.comparison.features (if exists)
+    if (house.comparison?.features && typeof house.comparison.features === 'object' && !Array.isArray(house.comparison.features)) {
+      Object.entries(house.comparison.features).forEach(([featureLabel, featureValues]: [string, any]) => {
+        // Skip basic info we already added
+        if (!['Bedrooms', 'Bathrooms'].includes(featureLabel)) {
+          items.push({
+            label: featureLabel,
+            good: renderFeatureValue(featureValues.good),
+            better: renderFeatureValue(featureValues.better),
+            best: renderFeatureValue(featureValues.best)
+          });
+        }
+      });
+    }
+
+    // Add dynamic features from JSON (additional features file)
     if (features) {
       Object.entries(features).forEach(([featureLabel, featureValues]) => {
-        items.push({
-          label: featureLabel,
-          good: renderFeatureValue(featureValues.good),
-          better: renderFeatureValue(featureValues.better),
-          best: renderFeatureValue(featureValues.best)
-        });
+        // Check if this feature is not already added from house.comparison
+        const alreadyExists = house.comparison?.features && 
+          typeof house.comparison.features === 'object' && 
+          !Array.isArray(house.comparison.features) &&
+          Object.keys(house.comparison.features).includes(featureLabel);
+        
+        if (!alreadyExists) {
+          items.push({
+            label: featureLabel,
+            good: renderFeatureValue(featureValues.good),
+            better: renderFeatureValue(featureValues.better),
+            best: renderFeatureValue(featureValues.best)
+          });
+        }
       });
     }
 
