@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../../components/ui/card';
@@ -28,7 +29,7 @@ interface OffersSectionProps {
   onContactProjectManager: (message?: string | any) => void;
 }
 
-export function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) {
+function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) {
   const offers = [
     {
       id: 'seattle-zero-outpocket',
@@ -686,6 +687,19 @@ export function OffersSection({ isDark, onContactProjectManager }: OffersSection
           </div>
         </div>
       </motion.div>
+    </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <div className="p-8">
+      <OffersSection 
+        isDark={true} 
+        onContactProjectManager={(message?: string | any) => {
+          console.log('Contact Project Manager:', message);
+        }}
+      />
     </div>
   );
 }

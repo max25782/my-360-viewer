@@ -197,58 +197,14 @@
         },
         "markers": [
           {
-            "id": "marker-bathroom2-to-living",
-            "type": "room",
-            "position": {
-              "yaw": 0,
-              "pitch": 0
-            },
-            "targetPanoramaId": "laurel-living",
-            "label": "Living",
-            "icon": "🚪"
-          },
-          {
-            "id": "marker-bathroom2-to-kitchen",
-            "type": "room",
-            "position": {
-              "yaw": 72,
-              "pitch": 0
-            },
-            "targetPanoramaId": "laurel-kitchen",
-            "label": "Kitchen",
-            "icon": "🚪"
-          },
-          {
             "id": "marker-bathroom2-to-bedroom",
             "type": "room",
             "position": {
-              "yaw": 144,
+              "yaw": 320,
               "pitch": 0
             },
             "targetPanoramaId": "laurel-bedroom",
             "label": "Bedroom",
-            "icon": "🚪"
-          },
-          {
-            "id": "marker-bathroom2-to-bathroom",
-            "type": "room",
-            "position": {
-              "yaw": 216,
-              "pitch": 0
-            },
-            "targetPanoramaId": "laurel-bathroom",
-            "label": "Bathroom",
-            "icon": "🚪"
-          },
-          {
-            "id": "marker-bathroom2-to-bedroom2",
-            "type": "room",
-            "position": {
-              "yaw": 288,
-              "pitch": 0
-            },
-            "targetPanoramaId": "laurel-bedroom2",
-            "label": "Bedroom2",
             "icon": "🚪"
           }
         ]
@@ -556,5 +512,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-18T11:36:01.854Z"
+  "lastUpdated": "2025-09-19T21:39:55.501Z"
 }
