@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { CouponCard } from './CouponCard';
+import { CouponCard } from '../app/coupon/CouponCard';
 import { 
   Gift, 
   Percent, 
@@ -180,24 +180,31 @@ export function OffersSection({ isDark, onOpenChat }: OffersSectionProps) {
               transition: { duration: 0.2 }
             }}
           >
-            <CouponCard
-              title={offer.title}
-              subtitle={offer.subtitle}
-              discount={offer.discount}
-              originalPrice={offer.originalPrice}
-              salePrice={offer.salePrice}
-              savings={offer.savings}
-              validUntil={offer.validUntil}
-              description={offer.description}
-              features={offer.features}
-              urgency={offer.urgency}
-              gradient={offer.gradient}
-              icon={offer.icon}
-              isDark={isDark}
-              onClaim={() => handleClaimOffer(offer)}
-              isSelected={selectedOffer === offer.id}
-              onSelect={() => setSelectedOffer(selectedOffer === offer.id ? null : offer.id)}
-            />
+            {(() => {
+              const mappedOffer = {
+                id: offer.id,
+                title: offer.title,
+                description: offer.description,
+                value: offer.discount,
+                originalPrice: offer.originalPrice || 'N/A',
+                color: 'emerald',
+                badge: 'Special Offer',
+                features: offer.features,
+                terms: 'Limited-time promotional offer',
+                expiryDate: offer.validUntil || 'Ongoing'
+              } as any;
+
+              const couponCode = `ADU${offer.id.toUpperCase().replace(/-/g, '')}${new Date().getFullYear()}`;
+
+              return (
+                <CouponCard
+                  offer={mappedOffer}
+                  couponCode={couponCode}
+                  isDark={isDark}
+                  onContactDaniel={(data) => onOpenChat(typeof data === 'string' ? data : 'I want to claim this offer')}
+                />
+              );
+            })()}
           </motion.div>
         ))}
       </div>

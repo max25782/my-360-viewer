@@ -36,6 +36,9 @@ interface CouponCardProps {
 }
 
 export function CouponCard({ offer, couponCode, isDark = true, onContactDaniel }: CouponCardProps) {
+  if (!offer) {
+    return null;
+  }
   const getColorClasses = (color: string) => {
     switch (color) {
       case 'emerald':
@@ -66,10 +69,10 @@ export function CouponCard({ offer, couponCode, isDark = true, onContactDaniel }
           glow: 'rgba(107, 114, 128, 0.4)',
           badge: 'bg-gray-500/20 text-gray-300 border-gray-400/40'
         };
-    }
+    };
   };
 
-  const colors = getColorClasses(offer.color);
+  const colors = getColorClasses(offer.color || 'emerald');
   const IconComponent = offer.id === 'referral-bonus' ? Users : Gift;
 
   return (
@@ -210,7 +213,7 @@ export function CouponCard({ offer, couponCode, isDark = true, onContactDaniel }
               ✅ What's Included:
             </h4>
             <div className="space-y-2">
-              {offer.features.map((feature, index) => (
+              {(offer.features || []).map((feature, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <CheckCircle2 
                     className="w-4 h-4 mt-0.5 flex-shrink-0"

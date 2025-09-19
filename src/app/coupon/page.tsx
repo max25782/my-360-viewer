@@ -1,16 +1,16 @@
-'use client';
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
+import { ModelDealBadge } from './ModelDealBadge';
+import { MarketingIncentives } from './MarketingIncentives';
 import { 
   Gift, 
   FileText, 
   DollarSign, 
   Clock, 
-  Star,
+  Star, 
   MessageCircle,
   Building2,
   Percent,
@@ -23,18 +23,12 @@ import {
   Zap
 } from 'lucide-react';
 
-// Import new coupon components
-import { MarketingIncentives } from './MarketingIncentives';
-import { ModelDealBadge } from './ModelDealBadge';
-import { ChatOffersDisplay } from './ChatOffersDisplay';
-import { CouponCard } from './CouponCard';
-
 interface OffersSectionProps {
   isDark: boolean;
   onContactProjectManager: (message?: string | any) => void;
 }
 
-function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) {
+export function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) {
   const offers = [
     {
       id: 'seattle-zero-outpocket',
@@ -145,7 +139,7 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
               }}
             >
               <Gift className="w-6 h-6 text-white" />
-        </div>
+            </div>
             <h1 className={`text-3xl font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>
               Exclusive Seattle ADU Offers
             </h1>
@@ -153,10 +147,10 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
           <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
             Limited-time incentives designed to make your ADU project more affordable and profitable
           </p>
-          </div>
+        </div>
 
         {/* Project Manager Spotlight */}
-          <motion.div
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -178,14 +172,14 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
               <div className="w-2 h-2 bg-white rounded-full" />
               LIVE
             </div>
-      </div>
+          </div>
 
           <div className="flex items-center gap-4">
             {/* Avatar */}
             <div className="relative">
               <div 
                 className="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold"
-          style={{
+                style={{
                   background: 'linear-gradient(135deg, #0e7490 0%, #06b6d4 100%)',
                   boxShadow: '0 8px 25px rgba(6, 182, 212, 0.4)'
                 }}
@@ -213,7 +207,7 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={(e: React.MouseEvent) => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   console.log('🔥 Header chat button clicked!');
@@ -232,13 +226,13 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
               >
                 <MessageCircle className="w-4 h-4" />
               </motion.button>
-                  </div>
             </div>
+          </div>
         </motion.div>
       </motion.div>
 
       {/* Enhanced Offers Grid */}
-            <motion.div 
+      <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
@@ -256,15 +250,15 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
             <Zap className="w-3 h-3 mr-1" />
             Limited Time
           </Badge>
-          </div>
+        </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" style={{ alignItems: 'stretch' }}>
           {offers.map((offer, index) => {
             const colors = getColorClasses(offer.color);
             const IconComponent = offer.icon;
 
-  return (
-    <motion.div
+            return (
+              <motion.div
                 key={offer.id}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -278,13 +272,13 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                 className="relative group"
               >
               {/* Enhanced offer card */}
-      <Card 
+              <Card 
                 className={`relative overflow-hidden border transition-all duration-500 hover:shadow-2xl h-full flex flex-col ${
                   isDark 
                     ? 'bg-slate-800/70 border-slate-700/50 hover:border-emerald-400/70' 
                     : 'bg-white/80 border-slate-200/50 hover:border-emerald-400/70'
                 }`}
-        style={{
+                style={{ 
                   backdropFilter: 'blur(32px)',
                   borderRadius: '24px',
                   boxShadow: isDark 
@@ -293,6 +287,12 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                   minHeight: '600px'
                 }}
               >
+                  {/* Deal badge overlay */}
+                  <ModelDealBadge 
+                    dealType={index === 0 ? 'exclusive' : index === 1 ? 'new' : 'popular'}
+                    value={offer.value}
+                    className="pointer-events-none"
+                  />
                 {/* Premium indicator for exclusive offers */}
                 {index === 0 && (
                   <div className="absolute top-0 left-0 right-0">
@@ -327,7 +327,7 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                           🏆 Most Popular
                         </Badge>
                       )}
-              </div>
+                    </div>
                     {offer.expiryDate !== 'Ongoing' && (
                       <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded-lg ${
                         isDark ? 'text-red-300 bg-red-500/10' : 'text-red-600 bg-red-50'
@@ -336,14 +336,14 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                         <span>Until {offer.expiryDate}</span>
                       </div>
                     )}
-            </div>
+                  </div>
 
                   {/* Enhanced Icon and Title */}
                   <div className="flex items-start gap-4 mb-4">
                     <div className="relative">
                       <div 
                         className="w-14 h-14 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300"
-                style={{
+                        style={{
                           background: colors.gradient,
                           boxShadow: `0 8px 30px ${colors.glow}`
                         }}
@@ -360,8 +360,8 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                           }}
                         />
                       )}
-          </div>
-
+                    </div>
+                    
                     <div className="flex-1">
                       <h3 className={`text-lg font-semibold leading-tight mb-2 ${
                         isDark ? 'text-white' : 'text-slate-800'
@@ -370,22 +370,22 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                       </h3>
                       
                       {/* Enhanced Value Display */}
-            <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3">
                         <div className="flex items-baseline gap-2">
                           <span 
                             className="text-2xl font-bold"
                             style={{ color: colors.border }}
                           >
                             {offer.value}
-              </span>
+                          </span>
                           {offer.originalPrice !== 'N/A' && (
                             <span className={`text-sm line-through opacity-60 ${
                               isDark ? 'text-slate-400' : 'text-slate-500'
                             }`}>
                               {offer.originalPrice}
-              </span>
+                            </span>
                           )}
-            </div>
+                        </div>
                         {index === 0 && (
                           <Badge className="bg-green-500/20 text-green-300 text-xs px-2 py-0.5">
                             <CheckCircle2 className="w-3 h-3 mr-1" />
@@ -393,8 +393,8 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                           </Badge>
                         )}
                       </div>
-            </div>
-          </div>
+                    </div>
+                  </div>
 
                   {/* Enhanced Description */}
                   <p className={`text-sm leading-relaxed ${
@@ -410,13 +410,13 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                     isDark ? 'text-slate-200' : 'text-slate-700'
                   }`}>
                     What's Included:
-                </h4>
+                  </h4>
                   <div className="space-y-2.5">
                     {offer.features.map((feature, featIndex) => (
-                    <motion.div
+                      <motion.div 
                         key={featIndex} 
                         initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
+                        animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: featIndex * 0.1 }}
                         className="flex items-start gap-3"
                       >
@@ -427,11 +427,11 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                         <span className={`text-xs leading-relaxed ${
                           isDark ? 'text-slate-300' : 'text-slate-600'
                         }`}>
-                        {feature}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
+                          {feature}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Terms */}
@@ -450,9 +450,9 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                   {/* Primary CTA */}
                   <button
                     type="button"
-                    onClick={(e: React.MouseEvent) => {
+                    onClick={(e) => {
                       e.preventDefault();
-                e.stopPropagation();
+                      e.stopPropagation();
                       console.log('🔥 CLAIM BUTTON CLICKED FOR:', offer.title);
                       console.log('🔥 onContactProjectManager function:', typeof onContactProjectManager);
                       
@@ -480,7 +480,7 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                       }
                     }}
                     className="w-full text-white transition-all duration-300 hover:scale-105 relative group pointer-events-auto cursor-pointer z-10"
-              style={{
+                    style={{
                       background: colors.gradient,
                       border: `1px solid ${colors.border}`,
                       boxShadow: `0 6px 25px ${colors.glow}`,
@@ -492,9 +492,9 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                     }}
                   >
                     <div className="flex items-center justify-center gap-2">
-              <MessageCircle className="w-4 h-4" />
+                      <MessageCircle className="w-4 h-4" />
                       <span className="font-medium">Claim with Daniel</span>
-          </div>
+                    </div>
                     {/* Animated shine effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl" />
                   </button>
@@ -504,8 +504,8 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                     isDark ? 'text-slate-400' : 'text-slate-500'
                   }`}>
                     Response within 2 hours • Free consultation
-          </div>
-        </div>
+                  </div>
+                </div>
 
                 {/* Enhanced Hover Effects */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1200 pointer-events-none rounded-3xl" />
@@ -515,17 +515,28 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                   className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500 rounded-3xl pointer-events-none"
                   style={{
                     background: `radial-gradient(circle at center, ${colors.glow} 0%, transparent 70%)`
-          }}
-        />
-      </Card>
-    </motion.div>
-  );
+                  }}
+                />
+              </Card>
+            </motion.div>
+          );
         })}
         </div>
       </motion.div>
 
       {/* Enhanced Bottom Section with Daniel's Guarantee */}
-      <motion.div 
+      {/* Marketing incentives block */}
+      <MarketingIncentives 
+        isDark={isDark} 
+        onContactProjectManager={() => {
+          // Reuse header CTA handler
+          const generalMessage = "Hi Daniel! I'd like to discuss current incentives and how to claim them.";
+          onContactProjectManager(generalMessage);
+        }}
+      />
+
+      {/* Enhanced Bottom Section with Daniel's Guarantee */}
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8 }}
@@ -534,13 +545,13 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
         {/* Guarantee Section */}
         <div 
           className={`relative p-8 rounded-3xl border ${
-                  isDark 
+            isDark 
               ? 'bg-gradient-to-br from-slate-800/60 to-slate-900/60 border-slate-700/40' 
               : 'bg-gradient-to-br from-white/80 to-slate-50/80 border-slate-200/40'
           }`}
-                style={{
+          style={{ 
             backdropFilter: 'blur(32px)',
-                  boxShadow: isDark 
+            boxShadow: isDark 
               ? '0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
               : '0 20px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
           }}
@@ -559,7 +570,7 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
           </div>
 
           <div className="relative z-10">
-                  {/* Header */}
+            {/* Header */}
             <div className="text-center mb-6">
               <div className="flex items-center justify-center gap-3 mb-3">
                 <div 
@@ -573,12 +584,12 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                 </div>
                 <h3 className={`text-2xl font-semibold ${isDark ? 'text-white' : 'text-slate-800'}`}>
                   Daniel's Personal Guarantee
-                        </h3>
+                </h3>
               </div>
               <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 As your dedicated project manager, I personally ensure every offer delivers exactly what's promised
-                        </p>
-                    </div>
+              </p>
+            </div>
 
             {/* Guarantee Points */}
             <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -622,12 +633,12 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                   </p>
                 </motion.div>
               ))}
-                    </div>
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button
-                onClick={(e: React.MouseEvent) => {
+              <Button
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   console.log('🔥 Bottom chat button clicked!');
@@ -652,10 +663,10 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
                 <MessageCircle className="w-5 h-5 mr-2" />
                 Start Chat with Daniel
               </Button>
-
-            <Button
+              
+              <Button
                 variant="outline"
-              size="lg"
+                size="lg"
                 className={`${
                   isDark 
                     ? 'bg-slate-700/50 border-slate-600/50 text-slate-300 hover:bg-slate-600/50' 
@@ -665,8 +676,8 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
               >
                 <Phone className="w-5 h-5 mr-2" />
                 Schedule Call
-            </Button>
-          </div>
+              </Button>
+            </div>
 
             {/* Contact Info */}
             <div className={`text-center text-sm mt-6 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
@@ -677,16 +688,4 @@ function OffersSection({ isDark, onContactProjectManager }: OffersSectionProps) 
       </motion.div>
     </div>
   );
-}
-
-// Default Next.js Page export
-export default function Page() {
-  // Fallback no-op handler for standalone page usage
-  const handleContact = () => {
-    if (typeof window !== 'undefined') {
-      console.log('[Coupons] Contact Project Manager clicked');
-    }
-  };
-
-  return <OffersSection isDark={true} onContactProjectManager={handleContact} />;
 }
