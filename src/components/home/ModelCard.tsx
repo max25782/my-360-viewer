@@ -62,15 +62,81 @@ export function ModelCard({
     return `/assets/${collection}/${clean}/360/hero.${ext}`;
   }
 
+  // Build fallback chain: /360/hero.{ext} then /360/preview-hero.{ext} then root /hero.{ext}
+  const heroCandidates = React.useMemo(() => {
+    const candidates: string[] = [];
+    const coll = (model.collection || '').toLowerCase();
+    let clean = String(model.id || '');
+    const lower = clean.toLowerCase();
+    const possiblePrefix = `${coll}-`;
+    if (lower.startsWith(possiblePrefix)) clean = clean.slice(possiblePrefix.length);
+    
+    // Special cases for problematic models
+    if (lower === 'oak' || lower === 'retreat') {
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/skyline/Oak/360/hero.${ext}`);
+      });
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/skyline/Oak/360/preview-hero.${ext}`);
+      });
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/skyline/Oak/hero.${ext}`);
+      });
+      return candidates;
+    }
+    
+    // Special case for pine
+    if (lower === 'pine') {
+      candidates.push('/assets/skyline/pine/360/hero.png');
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/skyline/pine/hero.${ext}`);
+      });
+      return candidates;
+    }
+    
+    // Special case for ponderosa
+    if (lower === 'ponderosa') {
+      candidates.push('/assets/skyline/ponderosa/360/hero.png');
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/skyline/ponderosa/hero.${ext}`);
+      });
+      return candidates;
+    }
+    
+    // Regular case: try all paths
+    extCandidates.forEach(ext => {
+      candidates.push(buildHeroPath(model.collection, model.id, ext));
+    });
+    
+    // For non-Neo, try preview-hero
+    if (coll !== 'neo') {
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/${coll}/${clean}/360/preview-hero.${ext}`);
+      });
+      // Then try root hero
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/${coll}/${clean}/hero.${ext}`);
+      });
+    } else {
+      // Neo: try root hero without _white suffix
+      if (lower.startsWith('neo-')) clean = clean.slice(4);
+      const normalized = lower === 'horizonx'
+        ? 'HorizonX'
+        : clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
+      extCandidates.forEach(ext => {
+        candidates.push(`/assets/neo/${normalized}/hero.${ext}`);
+      });
+    }
+    return candidates;
+  }, [model.collection, model.id, extCandidates]);
+
   const [heroFallbackIndex, setHeroFallbackIndex] = React.useState<number>(0);
-  const [heroSrc, setHeroSrc] = React.useState<string>(
-    buildHeroPath(model.collection, model.id, extCandidates[0])
-  );
+  const [heroSrc, setHeroSrc] = React.useState<string>(heroCandidates[0]);
 
   React.useEffect(function resetHeroOnModelChange() {
     setHeroFallbackIndex(0);
-    setHeroSrc(buildHeroPath(model.collection, model.id, extCandidates[0]));
-  }, [model.id, model.collection]);
+    setHeroSrc(heroCandidates[0]);
+  }, [model.id, model.collection, heroCandidates]);
 
   // Derive a robust sqft display string from specs.area or model.area
   const displaySqft: string = React.useMemo(() => {
@@ -182,9 +248,9 @@ export function ModelCard({
               className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
               onError={() => {
                 const nextIndex = heroFallbackIndex + 1;
-                if (nextIndex < extCandidates.length) {
+                if (nextIndex < heroCandidates.length) {
                   setHeroFallbackIndex(nextIndex);
-                  setHeroSrc(buildHeroPath(model.collection, model.id, extCandidates[nextIndex]));
+                  setHeroSrc(heroCandidates[nextIndex]);
                 }
               }}
             />
