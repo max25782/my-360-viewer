@@ -7,13 +7,13 @@ import { ModelData } from '../../types/home';
 import { useHouseSpecs } from '../../hooks/useHouseSpecs';
 
 // Trapezoid Text Component
-function TrapezoidText({ text }: { text: string }) {
+function TrapezoidText({ text, isNeo }: { text: string; isNeo?: boolean }) {
   const words = text.split(' ');
   const wordsPerLine = [5, 4, 3, 2];
   let wordIndex = 0;
   
   return (
-    <div className="text-white/95 text-xs leading-relaxed font-medium space-y-1" 
+    <div className={`${isNeo ? 'text-black' : 'text-white/95'} text-xs leading-relaxed font-medium space-y-1`} 
          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
       {wordsPerLine.map((count, lineIndex) => {
         if (wordIndex >= words.length) return null;
@@ -161,8 +161,8 @@ export function ModelCard({
           {/* Description Overlay on Left Side - Trapezoid Shape */}
           {model.description && (
             <div className="absolute top-2 left-4 bottom-6 w-1/2 z-10 flex items-end">
-              <div className="bg-grey/60 backdrop-blur-sm rounded-lg p-3 ">
-                <TrapezoidText text={model.description} />
+              <div className="bg-grey/60 rounded-lg p-3 ">
+                <TrapezoidText text={model.description} isNeo={model.collection === 'neo'} />
               </div>
             </div>
           )}

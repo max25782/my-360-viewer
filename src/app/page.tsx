@@ -192,7 +192,7 @@ function HomeContent() {
           className="relative z-10 border-b transition-all duration-1000"
           style={{
             borderColor: state.isDark ? 'rgba(6, 182, 212, 0.2)' : 'rgba(6, 182, 212, 0.15)',
-            backdropFilter: 'blur(25px) saturate(180%)',
+            backdropFilter: ' saturate(180%)',
             background: state.isDark 
               ? 'rgba(11, 15, 20, 0.95)'
               : 'rgba(248, 250, 252, 0.95)'
@@ -226,7 +226,7 @@ function HomeContent() {
                 <div className="mb-6">
                   <Card className={`p-4 ${
                     state.isDark ? 'bg-slate-800/50' : 'bg-white/50'
-                  }`} style={{ backdropFilter: 'blur(20px)' }}>
+                  }`}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <Button
@@ -263,7 +263,7 @@ function HomeContent() {
                 </div>
 
                 {/* Model Comparison Placeholder */}
-                <Card className={`p-8 ${state.isDark ? 'bg-slate-800/50' : 'bg-white/50'}`} style={{ backdropFilter: 'blur(20px)' }}>
+                <Card className={`p-8 ${state.isDark ? 'bg-slate-800/50' : 'bg-white/50'}`}>
                   <div className={`text-center ${state.isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                     <GitCompare className="w-12 h-12 mx-auto mb-4 opacity-50" />
                     <h3 className="text-xl font-semibold mb-2">Model Comparison</h3>
@@ -358,7 +358,7 @@ function HomeContent() {
                           rgba(203, 213, 225, 0.95) 100%),
                         radial-gradient(ellipse at 20% 50%, rgba(6, 182, 212, 0.04) 0%, transparent 50%),
                         radial-gradient(ellipse at 80% 20%, rgba(147, 51, 234, 0.03) 0%, transparent 50%)`,
-                    backdropFilter: 'blur(25px)',
+                   
                     borderBottom: state.isDark 
                       ? '1px solid rgba(255, 255, 255, 0.1)' 
                       : '1px solid rgba(0, 0, 0, 0.05)',
@@ -651,6 +651,11 @@ function HomeContent() {
                   favorites={state.favorites}
                   onCollectionSelect={homeActions.handleCollectionClick}
                 />
+
+                {/* App Short Description (no background) */}
+                <p className={`mt-3 mb-6 text-sm ${state.isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  Browse modular ADU models, compare features and pricing, and preview immersive 360° tours.
+                </p>
 
                 {/* Collection Specific Configurators */}
                 {state.selectedCollection === 'skyline' && (

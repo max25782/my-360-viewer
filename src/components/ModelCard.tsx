@@ -91,7 +91,6 @@ export function ModelCard({ model, viewMode, isComparing = false, onSelect, onCo
           style={{
             borderRadius: '20px',
             background: 'linear-gradient(135deg, rgba(17, 25, 39, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)',
-            backdropFilter: 'blur(40px)',
             border: `1px solid ${colors.border}30`,
             boxShadow: isHovered ? `0 0 40px -10px ${colors.border}40` : 'none',
             minHeight: '160px'
@@ -238,7 +237,6 @@ export function ModelCard({ model, viewMode, isComparing = false, onSelect, onCo
         style={{
           borderRadius: '20px',
           background: 'linear-gradient(135deg, rgba(17, 25, 39, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)',
-          backdropFilter: 'blur(40px)',
           border: `1px solid ${colors.border}30`,
           boxShadow: isHovered ? `0 0 40px -10px ${colors.border}40` : 'none'
         }}
