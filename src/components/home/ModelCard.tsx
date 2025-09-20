@@ -72,6 +72,20 @@ export function ModelCard({
     setHeroSrc(buildHeroPath(model.collection, model.id, extCandidates[0]));
   }, [model.id, model.collection]);
 
+  // Derive a robust sqft display string from specs.area or model.area
+  const displaySqft: string = React.useMemo(() => {
+    const source = (specs?.area || model.area || '').toString();
+    if (!source) return '';
+    // Grab the last numeric group to avoid truncation issues (e.g., pick 1008 from "1008 SF")
+    const numericGroups = source.replace(/,/g, '').match(/\d+/g);
+    if (numericGroups && numericGroups.length > 0) {
+      const last = numericGroups[numericGroups.length - 1];
+      const parsed = parseInt(last, 10);
+      if (!Number.isNaN(parsed) && parsed > 0) return `${parsed} SF`;
+    }
+    return source; // fallback to raw string
+  }, [specs?.area, model.area]);
+
   return (
     <motion.div
       layout
@@ -293,8 +307,8 @@ export function ModelCard({
                 isDark ? 'text-slate-300' : 'text-slate-600'
               }`}>
                 <Building2 className="w-4 h-4 opacity-60" />
-                <span>
-                  {isLoading ? '...' : (specs?.area || model.area)}
+                <span className="inline-block font-mono tabular-nums whitespace-nowrap min-w-[80px]">
+                  {displaySqft || (model.sqft ? `${model.sqft} SF` : 'N/A')}
                 </span>
               </div>
               <div className={`flex items-center gap-1.5 text-sm ${

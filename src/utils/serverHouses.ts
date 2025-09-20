@@ -208,6 +208,17 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
       console.log('🔍 First Premium house keys:', Object.keys(premiumHouses[0] || {}));
     }
     
+    // Вспомогательный парсер площади: учитывает запятые и выбирает наибольшее число
+    const parseSqft = (text?: string): number | null => {
+      if (!text || typeof text !== 'string') return null;
+      const cleaned = text.replace(/,/g, '');
+      // Найти все числа от 3 до 6 цифр и взять наибольшее
+      const matches = cleaned.match(/\d{3,6}/g);
+      if (!matches) return null;
+      const numbers = matches.map(m => parseInt(m, 10));
+      return Math.max(...numbers);
+    };
+
     // Добавляем Skyline дома
     for (const [houseId, houseConfig] of Object.entries(config.houses as Record<string, HouseConfig>)) {
       const heroPath = await getServerAssetPath('hero', houseId, { format: 'webp' });
@@ -228,14 +239,13 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
         ).length || 1;
       }
 
-      // Extract square feet from comparison features
+      // Extract square feet from comparison features (best -> better -> good), корректно обрабатываем запятые
       if (houseConfig.comparison?.features?.['Living Space']) {
         const livingSpace = houseConfig.comparison.features['Living Space'];
-        if (typeof livingSpace === 'object' && livingSpace.good) {
-          const match = livingSpace.good.match(/(\d+)/);
-          if (match) {
-            squareFeet = parseInt(match[1], 10);
-          }
+        if (typeof livingSpace === 'object') {
+          const candidate = livingSpace.best || livingSpace.better || livingSpace.good || '';
+          const parsed = parseSqft(candidate);
+          if (parsed) squareFeet = parsed;
         }
       }
 
@@ -266,9 +276,10 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
         }
         
         // Extract square feet from description
-        const sqftMatch = desc.match(/(\d{1,3}(?:,\d{3})*)\s*square feet/i);
-        if (sqftMatch && squareFeet === 800) {
-          squareFeet = parseInt(sqftMatch[1].replace(/,/g, ''));
+        const sqftMatch = desc.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square\s*feet|sf)/i);
+        if (sqftMatch) {
+          const parsed = parseInt(sqftMatch[1].replace(/,/g, ''));
+          if (!Number.isNaN(parsed)) squareFeet = parsed;
         }
       }
       
@@ -312,19 +323,22 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
       if (houseConfig.comparison?.features) {
         const features = houseConfig.comparison.features;
         
-        if (features.Bedrooms?.good) {
-          const match = features.Bedrooms.good.match(/(\d+)/);
-          if (match) bedrooms = parseInt(match[1]);
-        }
+        const bedroomsText = features.Bedrooms?.best || features.Bedrooms?.better || features.Bedrooms?.good;
+        const bathroomsText = features.Bathrooms?.best || features.Bathrooms?.better || features.Bathrooms?.good;
+        const livingSpaceText = features['Living Space']?.best || features['Living Space']?.better || features['Living Space']?.good;
 
-        if (features.Bathrooms?.good) {
-          const match = features.Bathrooms.good.match(/(\d+(?:\.\d+)?)/);
-          if (match) bathrooms = parseFloat(match[1]);
-        }
+        const bMatch = bedroomsText ? bedroomsText.match(/(\d+)/) : null;
+        if (bMatch) bedrooms = parseInt(bMatch[1]);
 
-        if (features['Living Space']?.good) {
-          const match = features['Living Space'].good.match(/(\d+)/);
-          if (match) squareFeet = parseInt(match[1]);
+        const baMatch = bathroomsText ? bathroomsText.replace(/,/g, '').match(/(\d+(?:\.\d+)?)/) : null;
+        if (baMatch) bathrooms = parseFloat(baMatch[1]);
+
+        const parsedSqft = parseSqft(livingSpaceText);
+        if (parsedSqft) {
+          squareFeet = parsedSqft;
+          if (houseId === 'Arcos') {
+            console.log(`🔍 Neo Arcos Living Space: "${livingSpaceText}" -> ${parsedSqft} SF`);
+          }
         }
       }
       

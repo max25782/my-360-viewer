@@ -39,8 +39,13 @@ export function extractPremiumHouseSpecs(houseData: any): HouseSpecs {
       feature.toLowerCase().includes('sf') || feature.toLowerCase().includes('square feet')
     );
     if (areaFeature) {
-      const match = areaFeature.match(/(\d{1,3}(?:,\d{3})*)\s*sf/i);
-      if (match) area = `${match[1]} sq ft`;
+      const clean = areaFeature.replace(/,/g, '');
+      const matches = clean.match(/\d{3,6}/g);
+      if (matches) {
+        const numbers = matches.map(m => parseInt(m, 10));
+        const maxNumber = Math.max(...numbers);
+        area = `${maxNumber} sq ft`;
+      }
     }
   }
 
@@ -60,8 +65,13 @@ export function extractPremiumHouseSpecs(houseData: any): HouseSpecs {
     }
     
     if (area === "N/A") {
-      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?)/i);
-      if (areaMatch) area = `${areaMatch[1].replace(/,/g, '')} sq ft`;
+      const clean = description.replace(/,/g, '');
+      const matches = clean.match(/\d{3,6}/g);
+      if (matches) {
+        const numbers = matches.map(m => parseInt(m, 10));
+        const maxNumber = Math.max(...numbers);
+        area = `${maxNumber} sq ft`;
+      }
     }
   }
 
@@ -89,8 +99,14 @@ export function extractNeoHouseSpecs(houseData: any): HouseSpecs {
     }
 
     if (features['Living Space']?.good) {
-      const match = features['Living Space'].good.match(/(\d{1,3}(?:,\d{3})*)/);
-      if (match) area = `${match[1].replace(/,/g, '')} sq ft`;
+      const text = String(features['Living Space'].good).replace(/,/g, '');
+      // Найти все числа от 3 до 6 цифр и взять наибольшее
+      const matches = text.match(/\d{3,6}/g);
+      if (matches) {
+        const numbers = matches.map(m => parseInt(m, 10));
+        const maxNumber = Math.max(...numbers);
+        area = `${maxNumber} sq ft`;
+      }
     }
 
     // Если нет прямой площади, пробуем вычислить из габаритов (например: 36'x14')
@@ -121,8 +137,13 @@ export function extractNeoHouseSpecs(houseData: any): HouseSpecs {
     }
     
     if (area === "N/A") {
-      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?) /i) || description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?)$/i);
-      if (areaMatch) area = `${areaMatch[1].replace(/,/g, '')} sq ft`;
+      const clean = description.replace(/,/g, '');
+      const matches = clean.match(/\d{3,6}/g);
+      if (matches) {
+        const numbers = matches.map(m => parseInt(m, 10));
+        const maxNumber = Math.max(...numbers);
+        area = `${maxNumber} sq ft`;
+      }
     }
   }
 
@@ -150,8 +171,14 @@ export function extractSkylineHouseSpecs(houseData: any): HouseSpecs {
     }
 
     if (features['Living Space']?.good) {
-      const match = features['Living Space'].good.match(/(\d{1,3}(?:,\d{3})*)/);
-      if (match) area = `${match[1].replace(/,/g, '')} sq ft`;
+      const text = String(features['Living Space'].good).replace(/,/g, '');
+      // Найти все числа от 3 до 6 цифр и взять наибольшее
+      const matches = text.match(/\d{3,6}/g);
+      if (matches) {
+        const numbers = matches.map(m => parseInt(m, 10));
+        const maxNumber = Math.max(...numbers);
+        area = `${maxNumber} sq ft`;
+      }
     }
   }
 
@@ -183,8 +210,13 @@ export function extractSkylineHouseSpecs(houseData: any): HouseSpecs {
     }
     
     if (area === "N/A") {
-      const areaMatch = description.match(/(\d{1,3}(?:,\d{3})*)\s*(?:square feet|sq\.?\s*ft\.?)/i);
-      if (areaMatch) area = `${areaMatch[1].replace(/,/g, '')} sq ft`;
+      const clean = description.replace(/,/g, '');
+      const matches = clean.match(/\d{3,6}/g);
+      if (matches) {
+        const numbers = matches.map(m => parseInt(m, 10));
+        const maxNumber = Math.max(...numbers);
+        area = `${maxNumber} sq ft`;
+      }
     }
   }
 

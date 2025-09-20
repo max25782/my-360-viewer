@@ -57,6 +57,14 @@ export async function GET(request: Request) {
     
     // Извлекаем спецификации
     const specs = extractHouseSpecs(houseData, collection);
+    
+    // Отладка для Neo Arcos
+    if (collection === 'neo' && houseId === 'Arcos') {
+      console.log(`🔍 Neo Arcos API specs:`, {
+        livingSpace: houseData?.comparison?.features?.['Living Space']?.good,
+        extractedArea: specs.area
+      });
+    }
 
     return NextResponse.json({
       success: true,
