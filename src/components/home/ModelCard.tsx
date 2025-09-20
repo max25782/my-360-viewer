@@ -6,30 +6,7 @@ import { Star, GitCompare, Building2, Bed, Bath, Eye } from 'lucide-react';
 import { ModelData } from '../../types/home';
 import { useHouseSpecs } from '../../hooks/useHouseSpecs';
 
-// Trapezoid Text Component
-function TrapezoidText({ text, isNeo }: { text: string; isNeo?: boolean }) {
-  const words = text.split(' ');
-  const wordsPerLine = [5, 4, 3, 2];
-  let wordIndex = 0;
-  
-  return (
-    <div className={`${isNeo ? 'text-black' : 'text-white/95'} text-xs leading-relaxed font-medium space-y-1`} 
-         style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}>
-      {wordsPerLine.map((count, lineIndex) => {
-        if (wordIndex >= words.length) return null;
-        
-        const lineWords = words.slice(wordIndex, wordIndex + count);
-        wordIndex += count;
-        
-        return (
-          <div key={lineIndex} className="text-left">
-            {lineWords.join(' ')}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+//
 
 interface ModelCardProps {
   model: ModelData;
@@ -57,6 +34,43 @@ export function ModelCard({
   
   // Получаем динамические данные о доме
   const { specs, isLoading } = useHouseSpecs(model.id, model.collection);
+
+  // Build hero image path from public assets with fallback across extensions
+  const extCandidates: Array<'webp' | 'jpg' | 'png'> = (
+    (model.collection || '').toLowerCase() === 'neo'
+      ? ['jpg', 'webp', 'png']
+      : ['webp', 'jpg', 'png']
+  );
+  function buildHeroPath(collection: string, houseId: string, ext: string): string {
+    if ((collection || '').toLowerCase() === 'neo') {
+      let clean = String(houseId || '');
+      const lower = clean.toLowerCase();
+      if (lower.startsWith('neo-')) clean = clean.slice(4);
+      // Normalize case, keeping special HorizonX capitalization
+      const normalized = clean.toLowerCase() === 'horizonx'
+        ? 'HorizonX'
+        : clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
+      // Neo hero files are color-specific; default to white
+      return `/assets/neo/${normalized}/360/hero_white.${ext}`;
+    }
+    // Remove collection prefix if present, e.g., premium-Redwood or skyline-walnut
+    const coll = (collection || '').toLowerCase();
+    let clean = String(houseId || '');
+    const lower = clean.toLowerCase();
+    const possiblePrefix = `${coll}-`;
+    if (lower.startsWith(possiblePrefix)) clean = clean.slice(possiblePrefix.length);
+    return `/assets/${collection}/${clean}/360/hero.${ext}`;
+  }
+
+  const [heroFallbackIndex, setHeroFallbackIndex] = React.useState<number>(0);
+  const [heroSrc, setHeroSrc] = React.useState<string>(
+    buildHeroPath(model.collection, model.id, extCandidates[0])
+  );
+
+  React.useEffect(function resetHeroOnModelChange() {
+    setHeroFallbackIndex(0);
+    setHeroSrc(buildHeroPath(model.collection, model.id, extCandidates[0]));
+  }, [model.id, model.collection]);
 
   return (
     <motion.div
@@ -149,23 +163,23 @@ export function ModelCard({
         <div className="relative overflow-hidden" style={{ borderRadius: '20px 20px 0 0' }}>
           <div className="aspect-[16/10] overflow-hidden">
             <img 
-              src={model.heroImage}
+              src={heroSrc}
               alt={model.name}
               className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+              onError={() => {
+                const nextIndex = heroFallbackIndex + 1;
+                if (nextIndex < extCandidates.length) {
+                  setHeroFallbackIndex(nextIndex);
+                  setHeroSrc(buildHeroPath(model.collection, model.id, extCandidates[nextIndex]));
+                }
+              }}
             />
           </div>
           
           {/* Enhanced Image Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-500" />
           
-          {/* Description Overlay on Left Side - Trapezoid Shape */}
-          {model.description && (
-            <div className="absolute top-2 left-4 bottom-6 w-1/2 z-10 flex items-end">
-              <div className="bg-grey/60 rounded-lg p-3 ">
-                <TrapezoidText text={model.description} isNeo={model.collection === 'neo'} />
-              </div>
-            </div>
-          )}
+          {/* Description overlay removed by request */}
           
           
           {/* Status Indicator Line */}

@@ -51,13 +51,10 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#3730a3" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         
-        {/* iOS/iPadOS icons */}
+        {/* iOS/iPadOS icons (avoid broken 144x144) */}
+        <link rel="apple-touch-icon" href="/icons/icon-180x180.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
         <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76x76.png" />
         <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
         <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120x120.png" />
         <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76x76.png" />

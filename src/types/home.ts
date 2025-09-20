@@ -1,6 +1,6 @@
 // Types for Home page
 export type MainTab = 'collections' | 'model-details';
-export type ModelTab = 'exterior' | 'interior' | 'floor-plan' | 'virtual-tour';
+export type ModelTab = 'exterior' | 'interior' | 'floor-plan' | 'virtual-tour' | 'about';
 export type Collection = 'skyline' | 'neo' | 'premium' | 'favorites' | 'coupons';
 export type ViewMode = 'grid' | 'list';
 

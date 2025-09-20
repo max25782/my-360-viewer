@@ -479,6 +479,52 @@ function HomeContent() {
                             </motion.button>
                           );
                         })}
+
+                        {/* About tab - labeled with model name */}
+                        {state.selectedModel && (
+                          <motion.button
+                            key="about"
+                            onClick={() => actions.setModelTab('about')}
+                            className={`relative px-6 py-3 rounded-2xl transition-all duration-500 group overflow-hidden ${
+                              state.modelTab === 'about' ? 'shadow-2xl scale-105' : 'hover:scale-102'
+                            }`}
+                            style={{
+                              background: state.modelTab === 'about'
+                                ? 'linear-gradient(135deg, #64748b, #0ea5e9)'
+                                : state.isDark
+                                  ? 'rgba(255, 255, 255, 0.08)'
+                                  : 'rgba(0, 0, 0, 0.05)',
+                              backdropFilter: 'blur(12px)',
+                              border: state.modelTab === 'about'
+                                ? '1px solid rgba(255, 255, 255, 0.3)'
+                                : state.isDark
+                                  ? '1px solid rgba(255, 255, 255, 0.1)'
+                                  : '1px solid rgba(0, 0, 0, 0.1)',
+                              color: state.modelTab === 'about'
+                                ? 'white'
+                                : state.isDark
+                                  ? 'rgba(255, 255, 255, 0.7)'
+                                  : 'rgba(0, 0, 0, 0.7)',
+                              boxShadow: state.modelTab === 'about'
+                                ? '0 8px 32px rgba(59, 130, 246, 0.4)'
+                                : '0 4px 16px rgba(0, 0, 0, 0.1)'
+                            }}
+                            whileHover={{
+                              scale: 1.02,
+                              boxShadow: state.modelTab === 'about'
+                                ? '0 12px 48px rgba(59, 130, 246, 0.5)'
+                                : '0 6px 24px rgba(0, 0, 0, 0.15)'
+                            }}
+                            whileTap={{ scale: 0.98 }}
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3, delay: MODEL_TABS.length * 0.1 }}
+                          >
+                            <span className="text-sm font-medium">
+                              {state.selectedModel.name}
+                            </span>
+                          </motion.button>
+                        )}
                       </motion.div>
                     </div>
                   </div>
@@ -487,7 +533,10 @@ function HomeContent() {
                 {/* ✨ IMAGE SECTION - CONNECTED TO FRAME */}
                 <div className="flex-1 relative mb-8 overflow-hidden">
                   {(() => {
-                    const content = getModelTabContent(state.selectedModel)[state.modelTab as ModelTab];
+                    const tabContent = getModelTabContent(state.selectedModel);
+                    const content = state.modelTab in tabContent 
+                      ? (tabContent as any)[state.modelTab as Exclude<ModelTab, 'about'>]
+                      : (tabContent as any)['exterior'];
                     
                     // Use NeoExteriorDesignPackages for Neo exterior
                     if (state.selectedModel.collection === 'neo' && state.modelTab === 'exterior') {
@@ -579,6 +628,20 @@ function HomeContent() {
                       );
                     }
                     
+                    // About tab - show description
+                    if (state.modelTab === 'about') {
+                      return (
+                        <div className="absolute inset-0 p-8 overflow-y-auto">
+                          <div className={`${state.isDark ? 'text-slate-200' : 'text-slate-800'} max-w-3xl`}>
+                            <h2 className="text-2xl font-semibold mb-3">{state.selectedModel.name}</h2>
+                            <p className="text-base leading-relaxed whitespace-pre-line">
+                              {state.selectedModel.description || 'No description available.'}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    }
+
                     // Use CategorySpecific360Viewer for Virtual Tour tab
                     if (state.modelTab === 'virtual-tour') {
                       return (
