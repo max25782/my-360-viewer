@@ -41,15 +41,6 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/LeagueSpartan-Regular.ttf" as="font" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/LeagueSpartan-Bold.ttf" as="font" crossOrigin="anonymous" />
         
-        {/* PWA Meta Tags */}
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="360 Houses" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="application-name" content="360 Houses" />
-        <meta name="msapplication-TileColor" content="#3730a3" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
         
         {/* iOS/iPadOS icons (avoid broken 144x144) */}
         <link rel="apple-touch-icon" href="/icons/icon-180x180.png" />
