@@ -42,7 +42,7 @@ export function extractPremiumHouseSpecs(houseData: any): HouseSpecs {
       const clean = areaFeature.replace(/,/g, '');
       const matches = clean.match(/\d{3,6}/g);
       if (matches) {
-        const numbers = matches.map(m => parseInt(m, 10));
+        const numbers = matches.map((m: string) => parseInt(m, 10));
         const maxNumber = Math.max(...numbers);
         area = `${maxNumber} sq ft`;
       }
@@ -68,7 +68,7 @@ export function extractPremiumHouseSpecs(houseData: any): HouseSpecs {
       const clean = description.replace(/,/g, '');
       const matches = clean.match(/\d{3,6}/g);
       if (matches) {
-        const numbers = matches.map(m => parseInt(m, 10));
+        const numbers = matches.map((m: string) => parseInt(m, 10));
         const maxNumber = Math.max(...numbers);
         area = `${maxNumber} sq ft`;
       }
@@ -103,7 +103,7 @@ export function extractNeoHouseSpecs(houseData: any): HouseSpecs {
       // Найти все числа от 3 до 6 цифр и взять наибольшее
       const matches = text.match(/\d{3,6}/g);
       if (matches) {
-        const numbers = matches.map(m => parseInt(m, 10));
+        const numbers = matches.map((m: string) => parseInt(m, 10));
         const maxNumber = Math.max(...numbers);
         area = `${maxNumber} sq ft`;
       }
@@ -140,7 +140,7 @@ export function extractNeoHouseSpecs(houseData: any): HouseSpecs {
       const clean = description.replace(/,/g, '');
       const matches = clean.match(/\d{3,6}/g);
       if (matches) {
-        const numbers = matches.map(m => parseInt(m, 10));
+        const numbers = matches.map((m: string) => parseInt(m, 10));
         const maxNumber = Math.max(...numbers);
         area = `${maxNumber} sq ft`;
       }
@@ -175,7 +175,7 @@ export function extractSkylineHouseSpecs(houseData: any): HouseSpecs {
       // Найти все числа от 3 до 6 цифр и взять наибольшее
       const matches = text.match(/\d{3,6}/g);
       if (matches) {
-        const numbers = matches.map(m => parseInt(m, 10));
+        const numbers = matches.map((m: string) => parseInt(m, 10));
         const maxNumber = Math.max(...numbers);
         area = `${maxNumber} sq ft`;
       }
@@ -213,7 +213,7 @@ export function extractSkylineHouseSpecs(houseData: any): HouseSpecs {
       const clean = description.replace(/,/g, '');
       const matches = clean.match(/\d{3,6}/g);
       if (matches) {
-        const numbers = matches.map(m => parseInt(m, 10));
+        const numbers = matches.map((m: string) => parseInt(m, 10));
         const maxNumber = Math.max(...numbers);
         area = `${maxNumber} sq ft`;
       }

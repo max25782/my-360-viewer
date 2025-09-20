@@ -115,7 +115,7 @@ async function getServerAssetPath(
   let template = '';
   
   if (type === 'hero') {
-    template = houseConfig?.pathTemplates?.hero || '/assets/skyline/{houseId}/hero.webp';
+    template = houseConfig?.pathTemplates?.hero || '/assets/skyline/{houseId}/360/hero.webp||/assets/skyline/{houseId}/hero.png';
   }
   
   const directoryMapping = getActualHouseDirectory(houseId);
@@ -245,6 +245,9 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
         if (typeof livingSpace === 'object') {
           const candidate = livingSpace.best || livingSpace.better || livingSpace.good || '';
           const parsed = parseSqft(candidate);
+          if (houseId === 'laurel' || houseId.toLowerCase() === 'walnut') {
+            console.log(`🔍 Skyline ${houseId} Living Space: "${candidate}" -> ${parsed ?? 'null'} SF`);
+          }
           if (parsed) squareFeet = parsed;
         }
       }

@@ -2032,8 +2032,68 @@
         "bedroom",
         "bathroom"
       ],
-      "comparison": {
+  "comparison": {
     "features": {
+      "Living Space": {
+        "good": "960 SF",
+        "better": "960 SF",
+        "best": "960 SF"
+      },
+      "Outdoor Space": {
+        "good": "✗",
+        "better": "52 SF",
+        "best": "52 SF"
+      },
+      "Overall Dimensions": {
+        "good": "40'x24'",
+        "better": "40'x30'",
+        "best": "54'x30'"
+      },
+      "Bedrooms": {
+        "good": "1 Bedroom & Office",
+        "better": "1 Bedroom & Office",
+        "best": "1 Bedroom & Office"
+      },
+      "Bathrooms": {
+        "good": "2 Bathrooms",
+        "better": "2 Bathrooms",
+        "best": "2 Bathrooms"
+      },
+      "Garage": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Ceiling Height": {
+        "good": "8 Feet",
+        "better": "9 Feet",
+        "best": "9 Feet"
+      },
+      "Vaulted Ceiling": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Kitchen": {
+        "good": "Kitchenette",
+        "better": "Full Kitchen with Upper Cabs",
+        "best": "Full Kitchen with Upper and Pantry Cabs"
+      },
+      "Kitchen Island": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Garbage Disposal": {
+        "good": "✗",
+        "better": "✗",
+        "best": "✓"
+      },
+      "Vanity": {
+        "good": "Pedestal Sink",
+        "better": "Built-in Vanity w/ Single Sink",
+        "best": "Built-in Vanity w/ Two Sinks at Primary Bathroom and Single Sink at Secondary Bathroom"
+      },
       "Shower": {
         "good": "Tub/Shower Unit",
         "better": "Shower Unit",
