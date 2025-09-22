@@ -10,8 +10,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Aspen/interior/bathroom/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Aspen/interior/bathroom/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Aspen/interior/bathroom/pk2.webp",
               "type": "photo"
             }
           ]
@@ -22,6 +32,11 @@
               "filename": "pk1.jpg",
               "path": "/assets/premium/Aspen/interior/bedroom/pk1.jpg",
               "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Aspen/interior/bedroom/pk1.webp",
+              "type": "photo"
             }
           ]
         },
@@ -30,6 +45,11 @@
             {
               "filename": "pk1.jpg",
               "path": "/assets/premium/Aspen/interior/dining/pk1.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Aspen/interior/dining/pk1.webp",
               "type": "photo"
             }
           ]
@@ -42,13 +62,28 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Aspen/interior/kitchen/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Aspen/interior/kitchen/pk2.jpg",
               "type": "photo"
             },
             {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Aspen/interior/kitchen/pk2.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk3.jpg",
               "path": "/assets/premium/Aspen/interior/kitchen/pk3.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/premium/Aspen/interior/kitchen/pk3.webp",
               "type": "photo"
             }
           ]
@@ -61,8 +96,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Aspen/interior/living/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Aspen/interior/living/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Aspen/interior/living/pk2.webp",
               "type": "photo"
             },
             {
@@ -71,8 +116,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk3.webp",
+              "path": "/assets/premium/Aspen/interior/living/pk3.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk4.jpg",
               "path": "/assets/premium/Aspen/interior/living/pk4.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk4.webp",
+              "path": "/assets/premium/Aspen/interior/living/pk4.webp",
               "type": "photo"
             }
           ]
@@ -89,8 +144,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Canyon/interior/bathroom/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Canyon/interior/bathroom/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Canyon/interior/bathroom/pk2.webp",
               "type": "photo"
             }
           ]
@@ -100,6 +165,11 @@
             {
               "filename": "pk1.jpg",
               "path": "/assets/premium/Canyon/interior/bedroom/pk1.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Canyon/interior/bedroom/pk1.webp",
               "type": "photo"
             }
           ]
@@ -112,8 +182,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Canyon/interior/dining/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Canyon/interior/dining/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Canyon/interior/dining/pk2.webp",
               "type": "photo"
             }
           ]
@@ -126,8 +206,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Canyon/interior/entry/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Canyon/interior/entry/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Canyon/interior/entry/pk2.webp",
               "type": "photo"
             }
           ]
@@ -140,8 +230,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Canyon/interior/kitchen/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Canyon/interior/kitchen/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Canyon/interior/kitchen/pk2.webp",
               "type": "photo"
             }
           ]
@@ -154,8 +254,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Canyon/interior/living/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Canyon/interior/living/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Canyon/interior/living/pk2.webp",
               "type": "photo"
             }
           ]
@@ -170,6 +280,11 @@
               "filename": "pk1.jpg",
               "path": "/assets/premium/Everest/interior/bathroom/pk1.jpg",
               "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/bathroom/pk1.webp",
+              "type": "photo"
             }
           ]
         },
@@ -178,6 +293,11 @@
             {
               "filename": "pk1.jpg",
               "path": "/assets/premium/Everest/interior/bedroom/pk1.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/bedroom/pk1.webp",
               "type": "photo"
             }
           ]
@@ -190,8 +310,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/dining/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Everest/interior/dining/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Everest/interior/dining/pk2.webp",
               "type": "photo"
             }
           ]
@@ -202,6 +332,11 @@
               "filename": "pk1.jpg",
               "path": "/assets/premium/Everest/interior/entry/pk1.jpg",
               "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/entry/pk1.webp",
+              "type": "photo"
             }
           ]
         },
@@ -210,6 +345,11 @@
             {
               "filename": "pk1.jpg",
               "path": "/assets/premium/Everest/interior/great room/pk1.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/great room/pk1.webp",
               "type": "photo"
             }
           ]
@@ -222,8 +362,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/kitchen/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Everest/interior/kitchen/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Everest/interior/kitchen/pk2.webp",
               "type": "photo"
             }
           ]
@@ -236,8 +386,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Everest/interior/living/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Everest/interior/living/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Everest/interior/living/pk2.webp",
               "type": "photo"
             }
           ]
@@ -252,6 +412,11 @@
               "filename": "pk1.jpg",
               "path": "/assets/premium/Redwood/interior/bathroom/pk1.jpg",
               "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Redwood/interior/bathroom/pk1.webp",
+              "type": "photo"
             }
           ]
         },
@@ -263,8 +428,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Redwood/interior/bedroom/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Redwood/interior/bedroom/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Redwood/interior/bedroom/pk2.webp",
               "type": "photo"
             }
           ]
@@ -274,6 +449,11 @@
             {
               "filename": "pk1.jpg",
               "path": "/assets/premium/Redwood/interior/dining/pk1.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Redwood/interior/dining/pk1.webp",
               "type": "photo"
             }
           ]
@@ -286,13 +466,28 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Redwood/interior/kitchen/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Redwood/interior/kitchen/pk2.jpg",
               "type": "photo"
             },
             {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Redwood/interior/kitchen/pk2.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk3.jpg",
               "path": "/assets/premium/Redwood/interior/kitchen/pk3.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/premium/Redwood/interior/kitchen/pk3.webp",
               "type": "photo"
             }
           ]
@@ -305,13 +500,28 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Redwood/interior/living/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Redwood/interior/living/pk2.jpg",
               "type": "photo"
             },
             {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Redwood/interior/living/pk2.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk3.jpg",
               "path": "/assets/premium/Redwood/interior/living/pk3.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/premium/Redwood/interior/living/pk3.webp",
               "type": "photo"
             }
           ]
@@ -326,6 +536,11 @@
               "filename": "pk1.jpg",
               "path": "/assets/premium/Willow/interior/bathroom/pk1.jpg",
               "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Willow/interior/bathroom/pk1.webp",
+              "type": "photo"
             }
           ]
         },
@@ -335,6 +550,11 @@
               "filename": "pk1.jpg",
               "path": "/assets/premium/Willow/interior/bedroom/pk1.jpg",
               "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Willow/interior/bedroom/pk1.webp",
+              "type": "photo"
             }
           ]
         },
@@ -343,6 +563,11 @@
             {
               "filename": "pk1.jpg",
               "path": "/assets/premium/Willow/interior/dining/pk1.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Willow/interior/dining/pk1.webp",
               "type": "photo"
             }
           ]
@@ -355,13 +580,28 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Willow/interior/kitchen/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Willow/interior/kitchen/pk2.jpg",
               "type": "photo"
             },
             {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Willow/interior/kitchen/pk2.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk3.jpg",
               "path": "/assets/premium/Willow/interior/kitchen/pk3.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk3.webp",
+              "path": "/assets/premium/Willow/interior/kitchen/pk3.webp",
               "type": "photo"
             }
           ]
@@ -374,8 +614,18 @@
               "type": "photo"
             },
             {
+              "filename": "pk1.webp",
+              "path": "/assets/premium/Willow/interior/living/pk1.webp",
+              "type": "photo"
+            },
+            {
               "filename": "pk2.jpg",
               "path": "/assets/premium/Willow/interior/living/pk2.jpg",
+              "type": "photo"
+            },
+            {
+              "filename": "pk2.webp",
+              "path": "/assets/premium/Willow/interior/living/pk2.webp",
               "type": "photo"
             }
           ]
@@ -383,5 +633,5 @@
       }
     }
   },
-  "generatedAt": "2025-09-20T20:22:18.979Z"
+  "generatedAt": "2025-09-22T13:05:31.830Z"
 }
