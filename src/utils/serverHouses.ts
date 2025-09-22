@@ -108,34 +108,43 @@ async function getServerAssetPath(
     pk?: number;
   } = {}
 ): Promise<string> {
-  const config = await loadServerAssetConfig();
-  const houseConfig = config.houses[houseId];
-  
-  // Используем default template если дом не найден в конфиге
-  let template = '';
-  
   if (type === 'hero') {
-    template = houseConfig?.pathTemplates?.hero || '/assets/skyline/{houseId}/360/hero.webp||/assets/skyline/{houseId}/hero.png';
-  }
-  
-  const directoryMapping = getActualHouseDirectory(houseId);
-  const variables: Record<string, string | number> = {
-    houseId: directoryMapping,
-    format: options.format || 'webp',
-    room: options.room || '',
-    variant: options.variant || '',
-    dp: options.dp || 1,
-    pk: options.pk || 1
-  };
+    const directory = getActualHouseDirectory(houseId);
+    const exts: Array<'jpg' | 'webp' | 'png'> = ['jpg', 'webp', 'png'];
+    const candidates: string[] = [];
 
-  // Заменяем переменные в шаблоне
-  let path = template;
-  for (const [key, value] of Object.entries(variables)) {
-    path = path.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+    // 360/hero -> 360/preview-hero -> root/hero
+    exts.forEach(ext => candidates.push(`/assets/skyline/${directory}/360/hero.${ext}`));
+    exts.forEach(ext => candidates.push(`/assets/skyline/${directory}/360/preview-hero.${ext}`));
+    exts.forEach(ext => candidates.push(`/assets/skyline/${directory}/hero.${ext}`));
+
+    // Возвращаем первый существующий файл
+    for (const rel of candidates) {
+      const abs = path.join(process.cwd(), 'public', rel.replace(/^\//, ''));
+      try {
+        if (fs.existsSync(abs)) {
+          return rel;
+        }
+      } catch (_) {
+        // ignore
+      }
+    }
+    // Если ничего не нашли, возвращаем первый кандидат (пусть клиент обработает)
+    return candidates[0];
   }
 
-  console.log(`Generated path: ${path} from template: ${template}`);
-  return path;
+  // Для остальных типов (если потребуется в будущем) можно добавить похожую логику
+  // Пока возвращаем дефолтный путь по формату
+  const directory = getActualHouseDirectory(houseId);
+  const fmt = options.format || 'jpg';
+  switch (type) {
+    case 'exterior':
+      return `/assets/skyline/${directory}/exterior/dp${options.dp || 1}.${fmt}`;
+    case 'interior':
+      return `/assets/skyline/${directory}/interior/pk${options.pk || 1}.${fmt}`;
+    default:
+      return `/assets/skyline/${directory}/${type}.${fmt}`;
+  }
 }
 
 // Функция для нормализации регистра Neo домов (серверная версия)

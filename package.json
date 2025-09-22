@@ -15,6 +15,7 @@
     "data:validate": "ts-node --project scripts/tsconfig.json scripts/validate-data.ts",
     "data:prepare": "npm run data:split && npm run icons:generate && node scripts/generate-all-manifests.js",
     "icons:generate": "node scripts/generate-icons.js",
+    "images:skyline:webp": "node scripts/generate-skyline-webp.js",
     "pwa:test": "npm run build && npm start"
   },
   "dependencies": {

@@ -39,7 +39,7 @@ export function ModelCard({
   const extCandidates: Array<'webp' | 'jpg' | 'png'> = (
     (model.collection || '').toLowerCase() === 'neo'
       ? ['jpg', 'webp', 'png']
-      : ['webp', 'jpg', 'png']
+      : ['jpg', 'webp', 'png']
   );
   function buildHeroPath(collection: string, houseId: string, ext: string): string {
     if ((collection || '').toLowerCase() === 'neo') {
