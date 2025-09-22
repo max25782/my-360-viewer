@@ -1,8 +1,9 @@
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Star, GitCompare, Building2, Bed, Bath, Eye } from 'lucide-react';
+import { Star, GitCompare, Building2, Bed, Bath, Eye, Download } from 'lucide-react';
 import { ModelData } from '../../types/home';
 import { useHouseSpecs } from '../../hooks/useHouseSpecs';
 
@@ -36,11 +37,13 @@ export function ModelCard({
   const { specs, isLoading } = useHouseSpecs(model.id, model.collection);
 
   // Build hero image path from public assets with fallback across extensions
-  const extCandidates: Array<'webp' | 'jpg' | 'png'> = (
-    (model.collection || '').toLowerCase() === 'neo'
-      ? ['jpg', 'webp', 'png']
-      : ['jpg', 'webp', 'png']
-  );
+  const extCandidates: Array<'webp' | 'jpg' | 'png'> = (() => {
+    const coll = (model.collection || '').toLowerCase();
+    if (coll === 'neo') return ['jpg', 'webp', 'png'];
+    if (coll === 'premium') return ['webp', 'jpg', 'png'];
+    // skyline and others → WEBP first
+    return ['webp', 'jpg', 'png'];
+  })();
   function buildHeroPath(collection: string, houseId: string, ext: string): string {
     if ((collection || '').toLowerCase() === 'neo') {
       let clean = String(houseId || '');
@@ -137,6 +140,17 @@ export function ModelCard({
     setHeroFallbackIndex(0);
     setHeroSrc(heroCandidates[0]);
   }, [model.id, model.collection, heroCandidates]);
+
+  // Premium PDF URL
+  const premiumPdfUrl = React.useMemo(() => {
+    const coll = (model.collection || '').toLowerCase();
+    if (coll !== 'premium') return '';
+    let clean = String(model.id || '');
+    const lower = clean.toLowerCase();
+    const possiblePrefix = `${coll}-`;
+    if (lower.startsWith(possiblePrefix)) clean = clean.slice(possiblePrefix.length);
+    return `/assets/premium/${clean}/hero.pdf`;
+  }, [model.id, model.collection]);
 
   // Derive a robust sqft display string from specs.area or model.area
   const displaySqft: string = React.useMemo(() => {
@@ -241,11 +255,18 @@ export function ModelCard({
 
         {/* Model Image */}
         <div className="relative overflow-hidden" style={{ borderRadius: '20px 20px 0 0' }}>
-          <div className="aspect-[16/10] overflow-hidden">
-            <img 
+          <div className="aspect-[16/10] overflow-hidden relative">
+            <Image
               src={heroSrc}
               alt={model.name}
-              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+              fill
+              unoptimized={(model.collection || '').toLowerCase() === 'premium'}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={false}
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAqMB2h1l1X8AAAAASUVORK5CYII="
+              className="object-cover transition-all duration-700 group-hover:scale-110"
               onError={() => {
                 const nextIndex = heroFallbackIndex + 1;
                 if (nextIndex < heroCandidates.length) {
@@ -312,6 +333,7 @@ export function ModelCard({
                 isFavorite ? 'fill-current' : ''
               }`} />
             </motion.button>
+            {/* Removed top-right premium download button per request */}
             
             <motion.button
               whileHover={{ scale: 1.15, y: -2 }}
@@ -365,6 +387,28 @@ export function ModelCard({
                 </span>
               </div>
             </div>
+
+            {model.collection === 'premium' && premiumPdfUrl && (
+              <div className="mt-2">
+                <a
+                  href={premiumPdfUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors ${
+                    model.collection === 'premium'
+                      ? 'bg-gradient-to-r from-cyan-500/85 to-cyan-600/85 hover:from-cyan-400/95 hover:to-cyan-500/95'
+                      : model.collection === 'neo'
+                      ? 'bg-gradient-to-r from-purple-600/85 to-pink-500/85 hover:from-purple-500/95 hover:to-pink-400/95'
+                      : 'bg-gradient-to-r from-blue-600/85 to-indigo-500/85 hover:from-blue-500/95 hover:to-indigo-400/95'
+                  }`}
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download plan</span>
+                </a>
+              </div>
+            )}
             
             
             {/* Enhanced Specs */}

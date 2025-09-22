@@ -42,10 +42,18 @@ const nextConfig = {
   
   images: {
     unoptimized: isGitHubPages && !isVercel, // Отключаем оптимизацию только для GitHub Pages, не для Vercel
+    domains: ['localhost', '127.0.0.1'],
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'http',
         hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
         port: '3000',
         pathname: '/**',
       },
@@ -56,10 +64,38 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: '127.0.0.1',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: '*.vercel.app',
         pathname: '/**',
       },
     ],
+  },
+  async headers() {
+    // Aggressive caching for static assets under /public
+    return [
+      {
+        source: '/assets/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/icons/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      {
+        source: '/data/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=60, stale-while-revalidate=600' },
+        ],
+      },
+    ];
   },
   
   // Редиректы работают только в dev режиме и для Vercel (не для GitHub Pages)

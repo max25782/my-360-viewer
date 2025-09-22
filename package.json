@@ -16,6 +16,8 @@
     "data:prepare": "npm run data:split && npm run icons:generate && node scripts/generate-all-manifests.js",
     "icons:generate": "node scripts/generate-icons.js",
     "images:skyline:webp": "node scripts/generate-skyline-webp.js",
+    "images:premium:webp": "node scripts/generate-webp-dir.js public/assets/premium",
+    "images:neo:webp": "node scripts/generate-webp-dir.js public/assets/neo",
     "pwa:test": "npm run build && npm start"
   },
   "dependencies": {

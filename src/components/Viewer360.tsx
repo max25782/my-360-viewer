@@ -138,6 +138,32 @@ export default function Viewer360({
     };
   }, []);
 
+  // Prefetch neighbor panoramas (simple best-effort, cache in-memory via Image)
+  const prefetchNeighbors = useCallback((panorama: Panorama) => {
+    if (!panorama.markers || panorama.markers.length === 0) return;
+    const neighbors = panorama.markers
+      .filter(m => m.targetPanoramaId)
+      .map(m => panoramas.find(p => p.id === m.targetPanoramaId))
+      .filter((p): p is Panorama => Boolean(p));
+    const toPrefetch = neighbors.slice(0, 2); // cap
+    for (const next of toPrefetch) {
+      const urls = [
+        next.tiles.front,
+        next.tiles.back,
+        next.tiles.left,
+        next.tiles.right,
+        next.tiles.up,
+        next.tiles.down,
+      ].map(publicUrl);
+      urls.forEach((u) => {
+        const img = new Image();
+        img.decoding = 'async' as any;
+        img.loading = 'eager' as any;
+        img.src = u;
+      });
+    }
+  }, [panoramas]);
+
   // Смена панорамы
   const changePanorama = useCallback(async (panorama: Panorama) => {
     if (!viewerRef.current || !markersPluginRef.current) return;
@@ -166,11 +192,14 @@ export default function Viewer360({
       onPanoramaChange?.(panorama.id);
       setError(null);
 
+      // Prefetch neighbors right after setting current panorama
+      prefetchNeighbors(panorama);
+
     } catch (error) {
       console.error('Ошибка смены панорамы:', error);
       setError('Ошибка загрузки панорамы');
     }
-  }, [getCubemapUrls, createMarkers, onPanoramaChange]);
+  }, [getCubemapUrls, createMarkers, onPanoramaChange, prefetchNeighbors]);
 
   // Инициализация вьюера
   useEffect(() => {
