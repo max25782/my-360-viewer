@@ -7,6 +7,8 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Bed, Bathtub, Car, Door, ForkKnife, Laptop, MapPin, Monitor, Package, Armchair, Stairs, Sun, Tree, WashingMachine } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { getNeoAssetPath, getNeoMarkers } from '../../utils/neoAssets';
 import { useServiceWorker } from '../../hooks/useServiceWorker';
@@ -85,22 +87,76 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
     }
   };
   
-  // Room icon function (local version)
+  // Room icon slug
   const getRoomIcon = (roomName: string): string => {
     const baseName = roomName.replace(/_white$|_dark$/, '').replace(/2$/, '');
-    
+    // Возвращаем slug иконки Lucide (lucide-static)
     switch (baseName) {
-      case 'entry': return '🏠';
-      case 'living': return '🛋️';
-      case 'kitchen': return '🍽️';
-      case 'hall': return '🚪';
-      case 'bedroom': return '🛏️';
-      case 'bathroom': return '🛁';
-      case 'wik': return '👔';
-      case 'office': return '💼';
-      default: return '📍';
+      case 'living': return 'sofa'; // Гостиная
+      case 'bedroom': return 'bed'; // Спальня
+      case 'bathroom': return 'bath'; // Ванная (альт: shower-head)
+      case 'kitchen': return 'utensils-crossed'; // Кухня
+      case 'dining': return 'utensils'; // Столовая (альт: wine)
+      case 'office': return 'monitor'; // Кабинет (альт: laptop)
+      case 'garage': return 'car'; // Гараж
+      case 'balcony':
+      case 'outdoor': return 'trees'; // Балкон / Улица (альт: sun)
+      case 'hall':
+      case 'entry': return 'door-closed'; // Прихожая
+      case 'stairs':
+      case 'basement': return 'stairs'; // Лестница / Подвал
+      case 'laundry': return 'washing-machine'; // Прачечная
+      case 'wik':
+      case 'closet':
+      case 'storage': return 'package'; // Гардероб / Кладовка (альт: boxes)
+      default: return 'map-pin'; // По умолчанию
     }
   };
+
+  // Map various incoming icon values (emoji or arbitrary) to our Phosphor slugs
+  function mapIconToSlug(icon: string | undefined, toRoom: string): string {
+    const emojiMap: Record<string, string> = {
+      '🛋️': 'sofa',
+      '🛏️': 'bed',
+      '🛁': 'bath',
+      '🚪': 'door-closed',
+      '🚶': 'door-closed',
+      '🍽️': 'utensils',
+      '🍳': 'utensils-crossed',
+      '💼': 'monitor',
+      '👔': 'package',
+      '🏠': 'door-closed',
+      '🚗': 'car',
+      '🌳': 'trees',
+    };
+    const allowed = new Set([
+      'sofa','bed','bath','utensils-crossed','utensils','monitor','laptop','car','trees','sun','door-closed','stairs','washing-machine','package','map-pin'
+    ]);
+    if (icon && emojiMap[icon]) return emojiMap[icon];
+    if (icon && allowed.has(icon)) return icon;
+    return getRoomIcon(toRoom);
+  }
+
+  function getPhosphorIconComponent(slug: string): any {
+    const map: Record<string, any> = {
+      'sofa': Armchair,
+      'bed': Bed,
+      'bath': Bathtub,
+      'utensils-crossed': ForkKnife,
+      'utensils': ForkKnife,
+      'monitor': Monitor,
+      'laptop': Laptop,
+      'car': Car,
+      'trees': Tree,
+      'sun': Sun,
+      'door-closed': Door,
+      'stairs': Stairs,
+      'washing-machine': WashingMachine,
+      'package': Package,
+      'map-pin': MapPin,
+    };
+    return map[slug] || MapPin;
+  }
 
   // Build markers from scene links (similar to Skyline Viewer360)
   const buildNeoMarkers = useCallback((links: NeoMarker[]) => {
@@ -109,7 +165,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
     
     // Используем HTML маркеры в стиле Skyline
     const markers = links.map((link, index) => {
-      const roomIcon = getRoomIcon(link.to);
+      const iconSlug = mapIconToSlug(link.icon as string | undefined, link.to);
       const roomLabel = link.label || getRoomDisplayName(link.to);
       
       return {
@@ -118,41 +174,26 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           yaw: toRad(link.yaw || 0),
           pitch: toRad(link.pitch || 0),
         },
-        html: `
-          <div style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-            pointer-events: auto;
-            z-index: 1000;
-            position: relative;
-          ">
-            <div style="
-              font-size: 48px;
-              margin-bottom: 4px;
-              text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-              line-height: 1;
-            ">${link.icon || roomIcon}</div>
-            <div style="
-            
-              color: white;
-              padding: 6px 12px;
-              border-radius: 6px;
-              font-size: 14px;
-              font-weight: 500;
-              white-space: nowrap;
-              max-width: 120px;
-              text-align: center;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              border: 2px solid rgba(255,255,255,0.3);
-            ">${roomLabel}</div>
-          </div>
-        `,
-        tooltip: roomLabel,
+        html: (() => {
+          const Icon = getPhosphorIconComponent(iconSlug);
+          const svg = renderToStaticMarkup(
+            React.createElement(Icon, { size: 28, color: '#fff', weight: 'bold' })
+          );
+          const src = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+          return `
+            <div class="neo-marker" style="
+              cursor: pointer;
+              user-select: none;
+              z-index: 1000;
+              position: relative;
+            ">
+              <div class="neo-chip">
+                <img class="neo-icon-img" src="${src}" alt="" />
+                <div class="neo-chip-label">${roomLabel}</div>
+              </div>
+            </div>
+          `;
+        })(),
         anchor: 'center' as const,
         className: 'psv-room-marker',
         data: {
@@ -348,6 +389,26 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
                 z-index: 1000 !important;
                 pointer-events: auto !important;
               }
+
+              /* Neo marker layout: icon with right-sliding label (pill grows out of the circle) */
+              .psv-room-marker .neo-marker { display: inline-flex; align-items: center; pointer-events: auto; }
+              .psv-room-marker .neo-chip {
+                display: inline-flex;
+                align-items: center;
+                height: 48px;
+                max-width: 48px;
+                background: rgba(0,0,0,0.45);
+                border-radius: 9999px;
+                overflow: hidden;
+             
+                transition: max-width .28s ease, padding-right .28s ease;
+                padding-left: 10px;
+                padding-right: 0;
+              }
+              .psv-room-marker:hover .neo-chip { max-width: 280px; padding-right: 10px; }
+              .psv-room-marker .neo-icon-img { width: 26px; height: 26px; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+              .psv-room-marker .neo-chip-label { margin-left: 8px; color: #fff; white-space: nowrap; opacity: 0; transform: translateX(-8px); transition: opacity .22s ease, transform .22s ease; }
+              .psv-room-marker:hover .neo-chip-label { opacity: 1; transform: translateX(0); }
             `;
             fakeStyle.setAttribute('data-psv-stylesheet', 'core');
             document.head.appendChild(fakeStyle);

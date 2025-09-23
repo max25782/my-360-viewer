@@ -21,6 +21,7 @@
     "pwa:test": "npm run build && npm start"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@photo-sphere-viewer/core": "^5.13.4",
     "@photo-sphere-viewer/cubemap-adapter": "^5.13.4",
     "@photo-sphere-viewer/markers-plugin": "^5.13.4",

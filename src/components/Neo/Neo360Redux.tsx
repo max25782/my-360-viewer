@@ -12,9 +12,9 @@ export default function Neo360Redux() {
         return (
             <div className="h-screen w-full flex items-center justify-center bg-slate-900">
                 <div className="text-center max-w-md mx-auto p-6">
-                    <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    {/* <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span className="text-2xl">⚠️</span>
-                    </div>
+                    </div> */}
                     <h2 className="text-xl font-semibold mb-2 text-white">Error Loading Neo 360° Tour</h2>
                     <p className="text-gray-300 mb-4">House identifier is missing or invalid.</p>
                     <a 

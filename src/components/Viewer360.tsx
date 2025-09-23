@@ -93,20 +93,7 @@ export default function Viewer360({
             margin-bottom: 4px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.5);
           ">${marker.icon || '🚪'}</div>
-          <div style="
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-            max-width: 120px;
-            text-align: center;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            border: 2px solid rgba(255,255,255,0.3);
-          ">${marker.label || 'Room'}</div>
+     
         </div>
       ` : `
         <div style="

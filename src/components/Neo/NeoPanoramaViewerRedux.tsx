@@ -7,6 +7,8 @@
 'use client';
 
 import React, { useEffect, useRef, useCallback } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Bed, Bathtub, Car, Door, ForkKnife, Laptop, MapPin, Monitor, Package, Armchair, Stairs, Sun, Tree, WashingMachine } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
@@ -103,25 +105,78 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
   // Utility functions
   const toRad = (deg: number) => (deg * Math.PI) / 180;
 
-  // Room icon function
+  // Room icon function (Lucide slugs)
   const getRoomIcon = (roomName: string): string => {
-    if (!roomName) return '📍';
+    if (!roomName) return 'map-pin';
     
     const baseName = roomName.replace(/_white$|_dark$/, '').replace(/2$/, '');
     
     switch (baseName) {
-      case 'entry': return '🏠';
-      case 'living': return '🛋️';
-      case 'kitchen': return '🍽️';
-      case 'hall': return '🚪';
-      case 'bedroom': return '🛏️';
-      // Используем только bedroom
-      case 'bathroom': return '🛁';
-      case 'wik': return '👔';
-      case 'office': return '💼';
-      default: return '📍';
+      case 'living': return 'sofa';
+      case 'bedroom': return 'bed';
+      case 'bathroom': return 'bath'; // alt: shower-head
+      case 'kitchen': return 'utensils-crossed';
+      case 'dining': return 'utensils'; // alt: wine
+      case 'office': return 'monitor'; // alt: laptop
+      case 'garage': return 'car';
+      case 'balcony':
+      case 'outdoor': return 'trees'; // alt: sun
+      case 'hall':
+      case 'entry': return 'door-closed';
+      case 'stairs':
+      case 'basement': return 'stairs';
+      case 'laundry': return 'washing-machine';
+      case 'wik':
+      case 'closet':
+      case 'storage': return 'package'; // alt: boxes
+      default: return 'map-pin';
     }
   };
+
+  // Map incoming icon values (emoji or arbitrary) to our Phosphor slugs
+  function mapIconToSlug(icon: string | undefined, toRoom: string): string {
+    const emojiMap: Record<string, string> = {
+      '🛋️': 'sofa',
+      '🛏️': 'bed',
+      '🛁': 'bath',
+      '🚪': 'door-closed',
+      '🚶': 'door-closed',
+      '🍽️': 'utensils',
+      '🍳': 'utensils-crossed',
+      '💼': 'monitor',
+      '👔': 'package',
+      '🏠': 'door-closed',
+      '🚗': 'car',
+      '🌳': 'trees',
+    };
+    const allowed = new Set([
+      'sofa','bed','bath','utensils-crossed','utensils','monitor','laptop','car','trees','sun','door-closed','stairs','washing-machine','package','map-pin'
+    ]);
+    if (icon && emojiMap[icon]) return emojiMap[icon];
+    if (icon && allowed.has(icon)) return icon;
+    return getRoomIcon(toRoom);
+  }
+
+  function getPhosphorIconComponent(slug: string): any {
+    const map: Record<string, any> = {
+      'sofa': Armchair,
+      'bed': Bed,
+      'bath': Bathtub,
+      'utensils-crossed': ForkKnife,
+      'utensils': ForkKnife,
+      'monitor': Monitor,
+      'laptop': Laptop,
+      'car': Car,
+      'trees': Tree,
+      'sun': Sun,
+      'door-closed': Door,
+      'stairs': Stairs,
+      'washing-machine': WashingMachine,
+      'package': Package,
+      'map-pin': MapPin,
+    };
+    return map[slug] || MapPin;
+  }
 
   // Build markers from scene links (similar to Viewer360)
   const buildNeoMarkers = useCallback((links: any[]) => {
@@ -131,46 +186,35 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
       return [];
     }
     
-    // Используем HTML маркеры в стиле Viewer360
+    // Используем HTML маркеры с Lucide без текстовых лейблов
     const markers = links.map((link, index) => {
-      const roomIcon = getRoomIcon(link.to);
+      const iconSlug = mapIconToSlug(link.icon as string | undefined, link.to);
       return {
         id: `neo-marker-${index}`,
         position: {
           yaw: toRad(link.yaw || 0),
           pitch: toRad(link.pitch || 0),
         },
-        html: `
-          <div class="room-marker" style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-          ">
-            <div style="
-              font-size: 48px;
-              margin-bottom: 4px;
-              text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-            ">${link.icon || roomIcon}</div>
-            <div style="
-              background: rgba(0,0,0,0.8);
-              color: white;
-              padding: 6px 12px;
-              border-radius: 6px;
-              font-size: 14px;
-              font-weight: 500;
-              white-space: nowrap;
-              max-width: 120px;
-              text-align: center;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              border: 2px solid rgba(255,255,255,0.3);
-            ">${link.label}</div>
-          </div>
-        `,
-        tooltip: link.label,
+        html: (() => {
+          const Icon = getPhosphorIconComponent(iconSlug);
+          const svg = renderToStaticMarkup(
+            React.createElement(Icon, { size: 28, color: '#fff', weight: 'bold' })
+          );
+          const src = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+          return `
+            <div class="neo-marker" style="
+              cursor: pointer;
+              user-select: none;
+              z-index: 1000;
+              position: relative;
+            ">
+              <div class="neo-chip">
+                <img class="neo-icon-img" src="${src}" alt="" />
+                <div class="neo-chip-label">${link.label}</div>
+              </div>
+            </div>
+          `;
+        })(),
         anchor: 'center' as const,
         className: 'psv-room-marker',
         data: {
@@ -369,6 +413,25 @@ export default function NeoPanoramaViewerRedux({ houseId, selectedColor: initial
         if (!Viewer) {
           console.log('Loading PhotoSphere Viewer libraries...');
           
+          // Вставляем стили для маркеров (если ещё не вставлены)
+          try {
+            if (!document.querySelector('style[data-neo-marker-styles]')) {
+              const markerStyle = document.createElement('style');
+              markerStyle.setAttribute('data-neo-marker-styles', 'true');
+              markerStyle.textContent = `
+                .psv-room-marker { z-index: 1000 !important; pointer-events: auto !important; }
+                .psv-room-marker .neo-marker { display: inline-flex; align-items: center; pointer-events: auto; }
+                .psv-room-marker .neo-icon { display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; line-height:0; border-radius: 9999px; background: rgba(0,0,0,0.45); box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+                .psv-room-marker .neo-icon img { width:26px; height:26px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+                .psv-room-marker .neo-label { margin-left:8px; background: rgba(0,0,0,0.6); color:#fff; padding:6px 10px; border-radius:9999px; white-space:nowrap; transform: translateX(-12px); opacity:0; max-width:0; overflow:hidden; border:1px solid rgba(255,255,255,0.15); backdrop-filter: blur(4px); transition: transform .25s ease, opacity .25s ease, max-width .25s ease; }
+                .psv-room-marker:hover .neo-label { opacity:1; transform: translateX(0); max-width:260px; }
+              `;
+              document.head.appendChild(markerStyle);
+            }
+          } catch (e) {
+            // no-op, стили не критичны
+          }
+
           // Глобально отключаем все проверки CSS для PhotoSphere
           if (typeof window !== 'undefined') {
             // Патчим глобальную функцию проверки CSS
