@@ -110,27 +110,9 @@ async function getServerAssetPath(
 ): Promise<string> {
   if (type === 'hero') {
     const directory = getActualHouseDirectory(houseId);
-    const exts: Array<'jpg' | 'webp' | 'png'> = ['jpg', 'webp', 'png'];
-    const candidates: string[] = [];
-
-    // 360/hero -> 360/preview-hero -> root/hero
-    exts.forEach(ext => candidates.push(`/assets/skyline/${directory}/360/hero.${ext}`));
-    exts.forEach(ext => candidates.push(`/assets/skyline/${directory}/360/preview-hero.${ext}`));
-    exts.forEach(ext => candidates.push(`/assets/skyline/${directory}/hero.${ext}`));
-
-    // Возвращаем первый существующий файл
-    for (const rel of candidates) {
-      const abs = path.join(process.cwd(), 'public', rel.replace(/^\//, ''));
-      try {
-        if (fs.existsSync(abs)) {
-          return rel;
-        }
-      } catch (_) {
-        // ignore
-      }
-    }
-    // Если ничего не нашли, возвращаем первый кандидат (пусть клиент обработает)
-    return candidates[0];
+    // Не трогаем файловую систему на сервере, просто возвращаем предсказуемый URL
+    // Порядок предпочтений: webp → jpg → png. Берём webp как дефолт.
+    return `/assets/skyline/${directory}/360/hero.webp`;
   }
 
   // Для остальных типов (если потребуется в будущем) можно добавить похожую логику

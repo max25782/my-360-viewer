@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+// Import only code that reads small JSON and returns URLs; avoid bundling public assets
 import { getAllServerHouses } from '../../../utils/serverHouses';
 import type { CategoriesIndex, CategoryMetadata } from '../../../types/houses';
 
