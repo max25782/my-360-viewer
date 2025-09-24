@@ -396,7 +396,7 @@ export function ModelConfigurator({ model, onBack, onSaveConfiguration }: ModelC
           <div className="text-right">
             <p className="text-slate-400 text-sm">Total Price</p>
             <p className={`font-bold text-xl ${colors.accent}`}>
-              ${configuration.totalPrice.toLocaleString()}
+              ${(Math.ceil(configuration.totalPrice / 10000) * 10000).toLocaleString()}
             </p>
           </div>
           <Button

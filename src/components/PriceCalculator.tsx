@@ -120,7 +120,7 @@ export function PriceCalculator({ priceBreakdown, collectionColors, className = 
         <LineItem 
           label="Base Model" 
           amount={0}
-          description={`Starting at $${basePrice.toLocaleString()}`}
+          description={`Starting at $${Math.ceil(basePrice / 10000) * 10000}`}
         />
 
         {/* Floor Plan Adjustment */}
@@ -164,7 +164,7 @@ export function PriceCalculator({ priceBreakdown, collectionColors, className = 
           label="Subtotal" 
           amount={0}
           isSubtotal={true}
-          description={`$${subtotal.toLocaleString()}`}
+          description={`$${(Math.ceil(subtotal / 10000) * 10000).toLocaleString()}`}
         />
 
         {/* Discount/Savings */}
@@ -224,7 +224,7 @@ export function PriceCalculator({ priceBreakdown, collectionColors, className = 
           label="Total Investment" 
           amount={0}
           isFinal={true}
-          description={`$${totalPrice.toLocaleString()}`}
+          description={`$${(Math.ceil(totalPrice / 10000) * 10000).toLocaleString()}`}
         />
 
         {/* Financing Info */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatCurrencyCeilTo10k } from '../../utils/formatters';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/card';
@@ -358,7 +359,7 @@ export function ModelCard({
           <div className="absolute bottom-5 right-5">
             <div className="bg-black/60 backdrop-blur-lg text-white px-4 py-2 rounded-xl border border-white/10 transition-all duration-300 group-hover:bg-black/70 group-hover:scale-105">
               <div className="text-xs opacity-70 font-medium">Starting at</div>
-              <div className="text-sm font-semibold">${(model.basePrice || 0).toLocaleString()}</div>
+              <div className="text-sm font-semibold">{formatCurrencyCeilTo10k(model.basePrice || 0)}</div>
             </div>
           </div>
         </div>

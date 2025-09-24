@@ -55,6 +55,7 @@ import PremiumFeatures from '../components/Premium/PremiumFeatures';
 import { HeroAdvertisementBanner } from '../components/home/HeroAdvertisementBanner';
 import { CollectionSelector } from '../components/home/CollectionSelector';
 import { ModelCard } from '../components/home/ModelCard';
+import { formatCurrencyCeilTo10k } from '../utils/formatters';
 import { OffersSection } from '../components/OffersSection';
 
 // Hooks and utilities
@@ -281,7 +282,7 @@ function HomeContent() {
                           <div key={modelId} className={`p-4 rounded-lg border ${state.isDark ? 'border-slate-600' : 'border-slate-300'}`}>
                             <img src={model.heroImage} alt={model.name} className="w-full h-32 object-cover rounded mb-2" />
                             <h4 className="font-semibold">{model.name}</h4>
-                            <p className="text-sm opacity-70">{model.area} • ${(model.basePrice || 0).toLocaleString()}</p>
+                            <p className="text-sm opacity-70">{model.area} • {formatCurrencyCeilTo10k(model.basePrice || 0)}</p>
                             
                             {/* Show ALL features from comparison.features */}
                             <div className="mt-2 space-y-1 max-h-48 overflow-y-auto">
