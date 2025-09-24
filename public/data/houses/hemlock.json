@@ -35,7 +35,7 @@
             "id": "marker-kitchen-to-bathroom",
             "type": "room",
             "position": {
-              "yaw": 120,
+              "yaw": 115,
               "pitch": 0
             },
             "targetPanoramaId": "hemlock-bathroom",
@@ -51,6 +51,28 @@
             },
             "targetPanoramaId": "hemlock-bedroom",
             "label": "Bedroom",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-laundry",
+            "type": "room",
+            "position": {
+              "yaw": 125,
+              "pitch": 0
+            },
+            "targetPanoramaId": "hemlock-laundry",
+            "label": "Laundry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-kitchen-to-loft above(10'-0 X 10'-0)",
+            "type": "room",
+            "position": {
+              "yaw": 95,
+              "pitch": 45
+            },
+            "targetPanoramaId": "hemlock-loft above(10'-0 X 10'-0)",
+            "label": "Loft above(10'-0 X 10'-0)",
             "icon": "🚪"
           }
         ]
@@ -376,5 +398,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-23T19:07:25.357Z"
+  "lastUpdated": "2025-09-24T15:35:10.248Z"
 }

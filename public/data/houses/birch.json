@@ -32,6 +32,17 @@
         },
         "markers": [
           {
+            "id": "marker-great room-to-office",
+            "type": "room",
+            "position": {
+              "yaw": 10,
+              "pitch": 0
+            },
+            "targetPanoramaId": "birch-office",
+            "label": "Office",
+            "icon": "🚪"
+          },
+          {
             "id": "marker-great room-to-bedroom",
             "type": "room",
             "position": {
@@ -178,8 +189,8 @@
             "id": "marker-hallaway-to-great room",
             "type": "room",
             "position": {
-              "yaw": 180,
-              "pitch": 0
+              "yaw": 220,
+              "pitch": -10
             },
             "targetPanoramaId": "birch-great room",
             "label": "Great room",
@@ -194,6 +205,17 @@
             },
             "targetPanoramaId": "birch-kitchen",
             "label": "Kitchen",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-hallaway-to-office",
+            "type": "room",
+            "position": {
+              "yaw": 180,
+              "pitch": 0
+            },
+            "targetPanoramaId": "birch-office",
+            "label": "Office",
             "icon": "🚪"
           }
         ]
@@ -219,6 +241,17 @@
         },
         "markers": [
           {
+            "id": "marker-kitchen-to-office",
+            "type": "room",
+            "position": {
+              "yaw": 140,
+              "pitch": 0
+            },
+            "targetPanoramaId": "birch-office",
+            "label": "Office",
+            "icon": "🚪"
+          },
+          {
             "id": "marker-kitchen-to-great room",
             "type": "room",
             "position": {
@@ -241,6 +274,27 @@
             "icon": "🚪"
           }
         ]
+      },
+      {
+        "id": "birch-Office",
+        "room": "Office",
+        "title": "Office",
+        "thumbnail": "assets/skyline/birch/360/Office/thumb.webp",
+        "preview": "assets/skyline/birch/360/Office/preview.webp",
+        "tiles": {
+          "front": "assets/skyline/birch/360/Office/f.webp",
+          "back": "assets/skyline/birch/360/Office/b.webp",
+          "left": "assets/skyline/birch/360/Office/l.webp",
+          "right": "assets/skyline/birch/360/Office/r.webp",
+          "up": "assets/skyline/birch/360/Office/u.webp",
+          "down": "assets/skyline/birch/360/Office/d.webp"
+        },
+        "defaultView": {
+          "yaw": 0,
+          "pitch": 0,
+          "zoom": 50
+        },
+        "markers": []
       }
     ],
     "defaultPanoramaId": "birch-great room"
@@ -499,5 +553,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-23T19:07:25.356Z"
+  "lastUpdated": "2025-09-24T15:35:10.247Z"
 }

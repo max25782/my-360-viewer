@@ -32,11 +32,55 @@
         },
         "markers": [
           {
+            "id": "marker-entry-to-storage",
+            "type": "room",
+            "position": {
+              "yaw": 165,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-storage",
+            "label": "Storage",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-To Office and Laundry",
+            "type": "room",
+            "position": {
+              "yaw": 230,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-To Office and Laundry",
+            "label": "To Office and Laundry",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-bathroom2",
+            "type": "room",
+            "position": {
+              "yaw": 200,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-bathroom2",
+            "label": "Bathroom2",
+            "icon": "🚪"
+          },
+          {
+            "id": "marker-entry-to-closet",
+            "type": "room",
+            "position": {
+              "yaw": 280,
+              "pitch": 0
+            },
+            "targetPanoramaId": "oak-closet",
+            "label": "Closet",
+            "icon": "🚪"
+          },
+          {
             "id": "marker-entry-to-living",
             "type": "room",
             "position": {
-              "yaw": 180,
-              "pitch": 0
+              "yaw": 190,
+              "pitch": 10
             },
             "targetPanoramaId": "oak-living",
             "label": "Living",
@@ -46,8 +90,8 @@
             "id": "marker-entry-to-kitchen",
             "type": "room",
             "position": {
-              "yaw": 165,
-              "pitch": 0
+              "yaw": 175,
+              "pitch": 10
             },
             "targetPanoramaId": "oak-kitchen",
             "label": "Kitchen",
@@ -68,7 +112,7 @@
             "id": "marker-entry-to-full view to entry",
             "type": "room",
             "position": {
-              "yaw": 195,
+              "yaw": 180,
               "pitch": 0
             },
             "targetPanoramaId": "oak-full view to entry",
@@ -592,5 +636,5 @@
   "tags": [
     "compact"
   ],
-  "lastUpdated": "2025-09-23T19:07:25.355Z"
+  "lastUpdated": "2025-09-24T15:35:10.245Z"
 }
