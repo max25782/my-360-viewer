@@ -27,7 +27,13 @@ export default function NeoColorSelector({
       'The HorizonX': 'HorizonX',
       'The Linea': 'Linea',
       'The Lucid': 'Lucid',
-      'The Monarch': 'Monarch'
+      'The Monarch': 'Monarch',
+      // Missing mappings causing 400 with Next Image Optimizer
+      'The Nexa': 'Nexa',
+      'The Prism': 'Prism',
+      'The Strata': 'Strata',
+      'The Vector': 'Vector',
+      'The Vertex': 'Vertex'
     };
     return folderMap[name] || name;
   };
@@ -94,6 +100,7 @@ export default function NeoColorSelector({
                         : option.thumbnail}
                       alt={option.name}
                       fill
+                    unoptimized
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
