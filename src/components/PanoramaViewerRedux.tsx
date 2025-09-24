@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Bed, Bathtub, Car, Door, ForkKnife, Laptop, MapPin, Monitor, Package, Armchair, Sun, Tree, WashingMachine } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
 import { Viewer } from '@photo-sphere-viewer/core';
 import { CubemapAdapter } from '@photo-sphere-viewer/cubemap-adapter';
@@ -316,53 +318,96 @@ export default function PanoramaViewerRedux({ houseId }: PanoramaViewerProps) {
     });
   }, [houseId, supportsWebP, getActualHouseDirectory]);
 
-  // Helper: build markers for scene links with room icons
-  const buildMarkers = useCallback((links: Array<{ to: string; yaw: number; pitch: number; label: string }> = [], house: string) =>
-    links.map((l, idx) => {
-      const roomLabel = l.label || l.to.split('_').pop() || 'Room';
-      const roomIcon = getRoomIcon(l.to);
-      
+  // Инъекция CSS для Neo-стиля маркеров
+  useEffect(() => {
+    try {
+      if (typeof document !== 'undefined' && !document.querySelector('style[data-universal-marker-styles]')) {
+        const style = document.createElement('style');
+        style.setAttribute('data-universal-marker-styles', 'true');
+        style.textContent = `
+          .psv-room-marker { z-index: 1000 !important; pointer-events: auto !important; }
+          .psv-room-marker .neo-marker { display: inline-flex; align-items: center; pointer-events: auto; }
+          .psv-room-marker .neo-chip { display:inline-flex; align-items:center; height:48px; max-width:48px; background: rgba(0,0,0,0.45); border-radius:9999px; overflow:hidden; transition: max-width .28s ease, padding-right .28s ease; padding-left:10px; padding-right:0; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+          .psv-room-marker:hover .neo-chip { max-width:280px; padding-right:10px; }
+          .psv-room-marker .neo-icon-img { width:26px; height:26px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+          .psv-room-marker .neo-chip-label { margin-left:8px; color:#fff; white-space:nowrap; opacity:0; transform: translateX(-8px); transition: opacity .22s ease, transform .22s ease; }
+          .psv-room-marker:hover .neo-chip-label { opacity:1; transform: translateX(0); }
+        `;
+        document.head.appendChild(style);
+      }
+    } catch {}
+  }, []);
+
+  // Build markers from links (Neo-стиль с Phosphor SVG через data URL)
+  const buildMarkers = useCallback((links: Array<{ to: string; yaw: number; pitch: number; label: string }>, houseId: string) => {
+    const getIconSlugForRoom = (roomName: string): string => {
+      const lowerRoom = roomName.toLowerCase();
+      if (lowerRoom.includes('living')) return 'sofa';
+      if (lowerRoom.includes('bedroom')) return 'bed';
+      if (lowerRoom.includes('bath')) return 'bath';
+      if (lowerRoom.includes('kitchen')) return 'utensils-crossed';
+      if (lowerRoom.includes('dining')) return 'utensils';
+      if (lowerRoom.includes('office')) return 'monitor';
+      if (lowerRoom.includes('garage')) return 'car';
+      if (lowerRoom.includes('balcony') || lowerRoom.includes('outdoor')) return 'trees';
+      if (lowerRoom.includes('hall') || lowerRoom.includes('entry')) return 'door-closed';
+      if (lowerRoom.includes('stair') || lowerRoom.includes('basement')) return 'door-closed';
+      if (lowerRoom.includes('laundry')) return 'washing-machine';
+      if (lowerRoom.includes('closet') || lowerRoom.includes('storage')) return 'package';
+      return 'map-pin';
+    };
+
+    const getPhosphorIconComponent = (slug: string): any => {
+      const map: Record<string, any> = {
+        'sofa': Armchair,
+        'bed': Bed,
+        'bath': Bathtub,
+        'utensils-crossed': ForkKnife,
+        'utensils': ForkKnife,
+        'monitor': Monitor,
+        'laptop': Laptop,
+        'car': Car,
+        'trees': Tree,
+        'sun': Sun,
+        'door-closed': Door,
+        'washing-machine': WashingMachine,
+        'package': Package,
+        'map-pin': MapPin,
+      };
+      return map[slug] || MapPin;
+    };
+
+    return links.map(l => {
+      const roomName = l.to.split('_')[1];
+      const roomLabel = l.label || roomName;
+      const iconSlug = getIconSlugForRoom(roomName);
+      const IconComp = getPhosphorIconComponent(iconSlug);
+
+      const svg = renderToStaticMarkup(
+        React.createElement(IconComp, { size: 28, color: '#fff', weight: 'bold' })
+      );
+      const src = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+
       return {
-        id: `link-${l.to}-${idx}`,
-        position: { yaw: toRad(l.yaw || 0), pitch: toRad(l.pitch || 0) },
-        tooltip: roomLabel,
+        id: `marker-${l.to}`,
+        position: {
+          yaw: toRad(l.yaw),
+          pitch: toRad(l.pitch)
+        },
         html: `
-          <div class="room-marker" style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: auto;
-            min-width: 60px;
-            padding: 8px 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-          ">
-            <div style="
-              font-size: 28px;
-              line-height: 1;
-              margin-bottom: 4px;
-            ">${roomIcon}</div>
-            <div style="
-              font-size: 13px;
-              font-weight: bold;
-              color: white;
-              text-align: center;
-              white-space: nowrap;
-              text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            ">${roomLabel}</div>
+          <div class="neo-marker">
+            <div class="neo-chip">
+              <img class="neo-icon-img" src="${src}" alt="" />
+              <div class="neo-chip-label">${roomLabel}</div>
+            </div>
           </div>
         `,
         anchor: 'center' as const,
         className: 'psv-room-marker',
         data: { to: l.to },
       };
-    }), [toRad, getRoomIcon]);
+    });
+  }, [toRad]);
 
   // Scene change handler with Redux optimization
   const changeScene = useCallback(async (sceneKey: string, viewerInstance?: Viewer, markersInstance?: MarkersPlugin) => {

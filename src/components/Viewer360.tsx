@@ -5,7 +5,9 @@
 
 'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Bed, Bathtub, Car, Door, ForkKnife, Laptop, MapPin, Monitor, Package, Armchair, Sun, Tree, WashingMachine } from '@phosphor-icons/react';
 import type { Panorama } from '../types/houses';
 import { publicUrl } from '../utils/paths';
 
@@ -69,48 +71,107 @@ export default function Viewer360({
   // Получаем активную панораму
   const activePanorama = panoramas.find(p => p.id === activePanoramaId) || panoramas[0];
 
-  // Создание маркеров
+  // Инъекция CSS для Neo-стиля маркеров
+  useEffect(() => {
+    try {
+      if (typeof document !== 'undefined' && !document.querySelector('style[data-sky-premium-marker-styles]')) {
+        const style = document.createElement('style');
+        style.setAttribute('data-sky-premium-marker-styles', 'true');
+        style.textContent = `
+          .psv-room-marker { z-index: 1000 !important; pointer-events: auto !important; }
+          .psv-room-marker .neo-marker { display: inline-flex; align-items: center; pointer-events: auto; }
+          .psv-room-marker .neo-chip { display:inline-flex; align-items:center; height:48px; max-width:48px; background: rgba(0,0,0,0.45); border-radius:9999px; overflow:hidden; transition: max-width .28s ease, padding-right .28s ease; padding-left:10px; padding-right:0; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+          .psv-room-marker:hover .neo-chip { max-width:280px; padding-right:10px; }
+          .psv-room-marker .neo-icon-img { width:26px; height:26px; display:block; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+          .psv-room-marker .neo-chip-label { margin-left:8px; color:#fff; white-space:nowrap; opacity:0; transform: translateX(-8px); transition: opacity .22s ease, transform .22s ease; }
+          .psv-room-marker:hover .neo-chip-label { opacity:1; transform: translateX(0); }
+        `;
+        document.head.appendChild(style);
+      }
+    } catch {}
+  }, []);
+
+  // Создание маркеров (Neo-стиль с Phosphor SVG через data URL)
   const createMarkers = useCallback((panorama: Panorama) => {
     if (!panorama.markers || panorama.markers.length === 0) return [];
 
-    return panorama.markers.map((marker) => ({
-      id: marker.id,
-      position: {
-        yaw: marker.position.yaw,
-        pitch: marker.position.pitch
-      },
-      html: marker.type === 'room' ? `
-        <div class="room-marker" style="
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          cursor: pointer;
-          user-select: none;
-          filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-        ">
+    const mapEmojiToSlug = (icon?: string) => {
+      const emojiMap: Record<string, string> = {
+        '🛋️': 'sofa',
+        '🛏️': 'bed',
+        '🛁': 'bath',
+        '🚪': 'door-closed',
+        '🚶': 'door-closed',
+        '🍽️': 'utensils',
+        '🍳': 'utensils-crossed',
+        '💼': 'monitor',
+        '👔': 'package',
+        '🚗': 'car',
+        '🌳': 'trees',
+      };
+      if (icon && emojiMap[icon]) return emojiMap[icon];
+      return 'map-pin';
+    };
+
+    const getIconComponent = (slug: string) => {
+      const map: Record<string, any> = {
+        'sofa': Armchair,
+        'bed': Bed,
+        'bath': Bathtub,
+        'utensils-crossed': ForkKnife,
+        'utensils': ForkKnife,
+        'monitor': Monitor,
+        'laptop': Laptop,
+        'car': Car,
+        'trees': Tree,
+        'sun': Sun,
+        'door-closed': Door,
+        'washing-machine': WashingMachine,
+        'package': Package,
+        'map-pin': MapPin,
+      };
+      return map[slug] || MapPin;
+    };
+
+    return panorama.markers.map((marker) => {
+      const slug = mapEmojiToSlug(marker.icon);
+      const Icon = getIconComponent(slug);
+      const svg = renderToStaticMarkup(
+        React.createElement(Icon, { size: 28, color: '#fff', weight: 'bold' })
+      );
+      const src = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+
+      return {
+        id: marker.id,
+        position: {
+          yaw: marker.position.yaw,
+          pitch: marker.position.pitch
+        },
+        html: marker.type === 'room' ? `
+          <div class="neo-marker">
+            <div class="neo-chip">
+              <img class="neo-icon-img" src="${src}" alt="" />
+              <div class="neo-chip-label">${marker.label || ''}</div>
+            </div>
+          </div>
+        ` : `
           <div style="
-            font-size: 48px;
-            margin-bottom: 4px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-          ">${marker.icon || '🚪'}</div>
-     
-        </div>
-      ` : `
-        <div style="
-          width: 24px;
-          height: 24px;
-          background: #ff6b35;
-          border: 3px solid white;
-          border-radius: 50%;
-          cursor: pointer;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        "></div>
-      `,
-      data: { 
-        targetPanoramaId: marker.targetPanoramaId,
-        type: marker.type
-      }
-    }));
+            width: 24px;
+            height: 24px;
+            background: #ff6b35;
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          "></div>
+        `,
+        className: 'psv-room-marker',
+        data: { 
+          targetPanoramaId: marker.targetPanoramaId,
+          type: marker.type
+        }
+      };
+    });
   }, []);
 
   // Получение URL тайлов для кубической панорамы
