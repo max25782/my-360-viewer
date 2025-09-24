@@ -64,7 +64,7 @@ export function ProjectManager({
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-[60]">
+    <div className="">
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

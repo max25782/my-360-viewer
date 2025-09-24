@@ -671,7 +671,7 @@ export default function UniversalDesignSelectorRedux({
                     alt={`${type === 'exterior' ? 'Exterior' : 'Interior'} view`}
                     loading="lazy"
                     decoding="async"
-                    className={` relative left-1/2 top-82 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] object-contain transition-all duration-2500 ease-out-quad ${
+                    className={` relative rounded-lg left-1/2 top-82 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] object-contain transition-all duration-2500 ease-out-quad ${
                       imageLoaded && !imageTransitioning 
                         ? 'opacity-100 ' 
                         : 'opacity-0 '
@@ -709,7 +709,7 @@ export default function UniversalDesignSelectorRedux({
                  {/* Previous arrow */}
                  <button
                    onClick={goToPrevWalnutPhoto}
-                   className="absolute left-10 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
+                   className="absolute left-10 bottom-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
                  >
                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -719,7 +719,7 @@ export default function UniversalDesignSelectorRedux({
                  {/* Next arrow */}
                  <button
                    onClick={goToNextWalnutPhoto}
-                   className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
+                   className="absolute right-8 bottom-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all z-10"
                  >
                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

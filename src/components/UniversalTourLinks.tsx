@@ -85,10 +85,10 @@ export default function UniversalTourLinks({
   // Preview Section Style
   if (variant === 'preview') {
     return (
-      <div className="max-w-6xl mx-auto space-y-4">
+      <div className="max-w-6xl rounded-lg mx-auto space-y-4">
         {/* Main 360° Preview */}
         <div 
-          className="aspect-video rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center"
+          className="aspect-video  overflow-hidden shadow-2xl relative group cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center"
         >
           <Link href={`/houses/${houseId}/tour`} className="absolute inset-0 flex items-center justify-center">
             <div className="text-center text-white">

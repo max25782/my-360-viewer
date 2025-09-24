@@ -159,7 +159,7 @@ export default function VirtualTourPreviewUniversal({
   return (
     <div className="w-full h-full">
       <div 
-        className="w-full h-full rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
+        className="w-full h-full object-contain rounded-lg overflow-hidden shadow-2xl relative group cursor-pointer"
         style={{
           backgroundImage: `url('${dynamicPreviewImage}')`,
           backgroundSize: 'cover',
