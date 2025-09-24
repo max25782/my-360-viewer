@@ -2423,12 +2423,20 @@
         "markerPositions": {
           "kitchen": {
             "bathroom": {
-              "yaw": 120,
+              "yaw": 115,
               "pitch": 0
             },
             "bedroom": {
               "yaw": 70,
               "pitch": 0
+            },
+            "laundry": {
+              "yaw": 125,
+              "pitch": 0
+            },
+            "loft above(10'-0 X 10'-0)": {
+              "yaw": 95,
+              "pitch": 45
             }
           },
           "bathroom": {

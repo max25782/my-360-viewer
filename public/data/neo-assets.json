@@ -715,10 +715,10 @@
       "availableRooms": ["living", "kitchen", "bedroom", "bathroom"],
       "tour360": {
         "white": {
-          "rooms": ["living", "kitchen","entry", "bedroom", "bedroom2", "bathroom"]
+          "rooms": ["entry", "living", "kitchen", "bedroom", "bedroom2", "bathroom"]
         },
         "dark": {
-          "rooms": ["living", "kitchen","entry", "bedroom", "bathroom"]
+          "rooms": ["entry","living", "kitchen", "bedroom", "bathroom"]
         }
       },
       "comparison": {

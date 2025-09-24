@@ -260,7 +260,7 @@ export function ModelCard({
               src={heroSrc}
               alt={model.name}
               fill
-              unoptimized={(model.collection || '').toLowerCase() === 'premium'}
+              unoptimized={(model.collection || '').toLowerCase() === 'premium' || (model.collection || '').toLowerCase() === 'neo'}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority={false}
               loading="lazy"

@@ -117,6 +117,7 @@ export default function Neo360Page({ slug: propSlug, name, description }: Neo360
                             src={slug && slug !== 'undefined' ? `/assets/neo/${slug}/360/hero_black.jpg` : '/assets/placeholder-360.jpg'}
                             alt="360° Tour Preview"
                             fill
+                            unoptimized={true}
                             className="object-cover transition-all duration-500 group-hover:scale-105"
                             onError={(e) => {
                                 console.log(`Trying fallback for Neo hero_black image: ${slug}`);

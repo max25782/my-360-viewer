@@ -134,13 +134,13 @@ function getNeoHouseDirectory(houseId: string): string {
   const specialCases: Record<string, string> = {
     'HorizonX': 'HorizonX'
   };
+  if (specialCases[cleanId]) return specialCases[cleanId];
   
-  if (specialCases[cleanId]) {
-    return specialCases[cleanId];
-  }
-  
-  // Для остальных делаем первую букву заглавной, остальные строчные
-  return cleanId.charAt(0).toUpperCase() + cleanId.slice(1).toLowerCase();
+  // Title Case по словам, заменяя '-' и '_' на пробелы (чтобы получить, например, "The Vector")
+  const spaced = cleanId.replace(/[-_]+/g, ' ').trim();
+  const parts = spaced.split(/\s+/);
+  const titleCased = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()).join(' ');
+  return titleCased;
 }
 
 /**
@@ -464,8 +464,10 @@ export function getNeoHeroPath(houseSlug: string, color: 'black' | 'white' = 'bl
   // Нормализуем регистр имени дома
   const normalizedHouseId = getNeoHouseDirectory(cleanHouseId);
   
+  // Используем encodeURIComponent для имен директорий с пробелами для совместимости с Next/Image
+  const encodedHouseId = encodeURIComponent(normalizedHouseId);
   const path = `/assets/neo/${normalizedHouseId}/360/hero_${color}.jpg`;
-  console.log(`Generating Neo hero path: ${path}`);
+  console.log(`Generating Neo hero path: ${path} (encoded: /assets/neo/${encodedHouseId}/360/hero_${color}.jpg)`);
   return path;
 }
 
