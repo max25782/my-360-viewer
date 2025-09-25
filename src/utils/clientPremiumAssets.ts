@@ -24,12 +24,27 @@ export interface PremiumHouse {
   };
 }
 
+function getAssetsVersion(): string {
+  const envVersion = (typeof process !== 'undefined' && process.env && process.env.NEXT_PUBLIC_ASSETS_VERSION) ? process.env.NEXT_PUBLIC_ASSETS_VERSION : '';
+  if (envVersion && envVersion.trim()) return envVersion.trim();
+  if (typeof window !== 'undefined') {
+    const w = window as any;
+    if (!w.__PREMIUM_ASSETS_V) {
+      const day = Math.floor(Date.now() / 86400000);
+      w.__PREMIUM_ASSETS_V = String(day);
+    }
+    return String(w.__PREMIUM_ASSETS_V);
+  }
+  return '1';
+}
+
 /**
  * Проверяет, есть ли у Premium дома 360° тур (клиентская версия)
  */
 export async function hasPremiumTour360Client(houseId: string): Promise<boolean> {
   try {
-    const response = await fetch('/data/premium-assets.json');
+    const v = getAssetsVersion();
+    const response = await fetch(`/data/premium-assets.json?v=${encodeURIComponent(v)}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to load premium-assets.json: ${response.status}`);
     }
@@ -49,7 +64,8 @@ export async function hasPremiumTour360Client(houseId: string): Promise<boolean>
  */
 export async function getPremium360ConfigClient(houseId: string) {
   try {
-    const response = await fetch('/data/premium-assets.json');
+    const v = getAssetsVersion();
+    const response = await fetch(`/data/premium-assets.json?v=${encodeURIComponent(v)}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to load premium-assets.json: ${response.status}`);
     }
@@ -78,7 +94,8 @@ export async function getPremium360ConfigClient(houseId: string) {
  */
 export async function isPremiumHouseClient(houseId: string): Promise<boolean> {
   try {
-    const response = await fetch('/data/premium-assets.json');
+    const v = getAssetsVersion();
+    const response = await fetch(`/data/premium-assets.json?v=${encodeURIComponent(v)}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to load premium-assets.json: ${response.status}`);
     }
@@ -129,7 +146,9 @@ export function getPremiumAssetPath(
   const fileName = tileMap[tileDirection as keyof typeof tileMap];
   const extension = '.jpg';
   
-  const path = `/assets/premium/${houseId}/360/${encodedRoom}/${fileName}${extension}`;
+  let path = `/assets/premium/${houseId}/360/${encodedRoom}/${fileName}${extension}`;
+  const v = getAssetsVersion();
+  path += `?v=${encodeURIComponent(v)}`;
   console.log(`Generated Premium asset path: ${path}`);
   
   return path;
@@ -164,7 +183,8 @@ export function getClientPremiumAssetPath(type: string, houseId: string, options
  */
 export async function getPremiumFilterOptions() {
   try {
-    const response = await fetch('/data/premium-assets.json');
+    const v = getAssetsVersion();
+    const response = await fetch(`/data/premium-assets.json?v=${encodeURIComponent(v)}`, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to load premium-assets.json: ${response.status}`);
     }

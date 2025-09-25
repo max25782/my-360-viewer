@@ -15,20 +15,25 @@ export default function PremiumTourClient({
   slug 
 }: PremiumTourClientProps) {
   const router = useRouter();
-  const handleBackToHouse = () => {
-    // Переход на новую premium-страницу деталей
-    router.push(`/premium/${slug}`);
-  };
-  const handleCloseToCollection = () => {
-    router.push(`/premium`);
+  const hardNavigate = (url: string) => {
+    // Обновление SW и жесткая перезагрузка для обхода старого кэша в PWA
+    try {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          registrations.forEach(r => r.update());
+        });
+      }
+    } catch {}
+    const ts = Date.now();
+    window.location.href = `${url}${url.includes('?') ? '&' : '?'}ts=${ts}`;
   };
   return (
     <div className="w-full h-screen overflow-hidden">
       {/* 360° Panorama Viewer - Full Screen */}
       <PanoramaViewerRedux 
         houseId={houseId}
-        onClose={() => router.push(`/premium/${slug}`)}
-        onBack={() => router.push(`/premium/${slug}`)}
+        onClose={() => hardNavigate(`/premium/${slug}`)}
+        onBack={() => hardNavigate(`/premium/${slug}`)}
       />
     </div>
   );
