@@ -40,7 +40,11 @@ export default function SkylineTourPage() {
   return (
     <div className="w-full h-screen overflow-hidden">
       {/* 360° Panorama Viewer - Full Screen */}
-      <PanoramaViewerRedux houseId={house.id} />
+      <PanoramaViewerRedux 
+        houseId={house.id}
+        onClose={() => router.back()}
+        onBack={() => router.back()}
+      />
     </div>
   );
 }

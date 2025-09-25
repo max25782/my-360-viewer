@@ -602,7 +602,7 @@
     
     },
     "dark": {
-      "entry": {
+     "entry": {
         "markers": [
           { "to": "living", "yaw": 150, "pitch": 0, "label": "Living Room" },
           { "to": "kitchen", "yaw": 240, "pitch": 0, "label": "Kitchen" },
@@ -637,7 +637,7 @@
       },
       "bedroom2": {
         "markers": [
-          { "to": "entry", "yaw": 100, "pitch": 0, "label": "Entry" }
+          
         ]
       }
     
@@ -709,7 +709,8 @@
       "living": {
         "markers": [
           { "to": "office", "yaw": 140, "pitch": 0, "label": "Office" },
-          { "to": "bedroom", "yaw": 320, "pitch": 0, "label": "Bedroom" }
+          { "to": "bedroom", "yaw": 320, "pitch": 0, "label": "Bedroom" },
+          { "to": "bathroom", "yaw": 310, "pitch": 0, "label": "Bathroom" }
         ]
       },
     
@@ -725,27 +726,27 @@
       }
     },
     "dark": {
-      "entry": {
+      "office": {
         "markers": [
-          { "to": "entry", "yaw": 180, "pitch": 0, "label": "Entry" },
-          { "to": "living", "yaw": 180, "pitch": 0, "label": "Living Room" }
+          { "to": "living", "yaw": 15, "pitch": 0, "label": "Living Room" }
         ]
       },
       "living": {
         "markers": [
-          { "to": "entry", "yaw": 0, "pitch": 0, "label": "Entry" },
-          { "to": "bedroom", "yaw": 90, "pitch": 0, "label": "Bedroom" }
+          { "to": "office", "yaw": 140, "pitch": 0, "label": "Office" },
+          { "to": "bedroom", "yaw": 320, "pitch": 0, "label": "Bedroom" },
+           { "to": "bathroom", "yaw": 310, "pitch": 0, "label": "Bathroom" }
         ]
       },
+    
       "bedroom": {
         "markers": [
-          { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" },
-          { "to": "bathroom", "yaw": 180, "pitch": 0, "label": "Bathroom" }
+          { "to": "living", "yaw": 270, "pitch": 0, "label": "Living Room" }
         ]
       },
       "bathroom": {
         "markers": [
-          { "to": "bedroom", "yaw": 0, "pitch": 0, "label": "Bedroom" }
+          { "to": "living", "yaw": 0, "pitch": 0, "label": "Living Room" }
         ]
       }
     }

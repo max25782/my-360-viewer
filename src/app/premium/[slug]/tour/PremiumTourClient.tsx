@@ -25,7 +25,11 @@ export default function PremiumTourClient({
   return (
     <div className="w-full h-screen overflow-hidden">
       {/* 360° Panorama Viewer - Full Screen */}
-      <PanoramaViewerRedux houseId={houseId} />
+      <PanoramaViewerRedux 
+        houseId={houseId}
+        onClose={() => router.push(`/premium/${slug}`)}
+        onBack={() => router.push(`/premium/${slug}`)}
+      />
     </div>
   );
 }

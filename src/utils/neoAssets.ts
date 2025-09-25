@@ -6,6 +6,23 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
 
+function getAssetsVersion(): string {
+  // Prefer explicit env version if provided
+  const envVersion = process.env.NEXT_PUBLIC_ASSETS_VERSION;
+  if (envVersion && envVersion.trim()) return envVersion.trim();
+  // Fallback: stable daily version to avoid infinite cache misses
+  if (typeof window !== 'undefined') {
+    const w = window as any;
+    if (!w.__NEO_ASSETS_V) {
+      const day = Math.floor(Date.now() / 86400000); // changes once per day
+      w.__NEO_ASSETS_V = String(day);
+    }
+    return String(w.__NEO_ASSETS_V);
+  }
+  // Server-side fallback
+  return '1';
+}
+
 interface NeoConfig {
   pathTemplates: {
     hero: string;
@@ -285,7 +302,13 @@ export async function getNeoAssetPath(
       break;
   }
   
-  return replaceNeoPath(template, variables);
+  let url = replaceNeoPath(template, variables);
+  // Add cache-busting only for 360 assets (tiles/thumbnail/preview)
+  if (type === 'tour360') {
+    const v = getAssetsVersion();
+    url += (url.includes('?') ? '&' : '?') + `v=${encodeURIComponent(v)}`;
+  }
+  return url;
 }
 
 /**
@@ -360,7 +383,8 @@ export async function getNeoMarkers(houseId: string, color: 'white' | 'dark', ro
     let markersData;
     
     // Client side - use fetch
-    const response = await fetch('/data/neo-markers.json');
+    const v = getAssetsVersion();
+    const response = await fetch(`/data/neo-markers.json?v=${encodeURIComponent(v)}`, { cache: 'no-store' });
     if (!response.ok) {
       return [];
     }
