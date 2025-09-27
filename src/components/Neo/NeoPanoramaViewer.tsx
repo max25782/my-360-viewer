@@ -16,6 +16,8 @@ import { useServiceWorker } from '../../hooks/useServiceWorker';
 interface NeoPanoramaViewerProps {
   houseId: string;
   selectedColor: 'white' | 'dark';
+  onClose?: () => void;
+  onBack?: () => void;
 }
 
 interface NeoScene {
@@ -49,7 +51,7 @@ let Viewer: any = null;
 let CubemapAdapter: any = null;
 let MarkersPlugin: any = null;
 
-export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoramaViewerProps) {
+export default function NeoPanoramaViewer({ houseId, selectedColor, onClose, onBack }: NeoPanoramaViewerProps) {
   const router = useRouter();
   const [currentRoom, setCurrentRoom] = useState<string>(`entry_${selectedColor}`);
   const [isLoading, setIsLoading] = useState(true);
@@ -823,7 +825,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
         <>
           {/* Back button */}
           <button
-            onClick={() => router.back()}
+            onClick={() => (onBack ? onBack() : router.back())}
             className="absolute top-4 left-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
             title="Go back"
           >
@@ -834,7 +836,7 @@ export default function NeoPanoramaViewer({ houseId, selectedColor }: NeoPanoram
           
           {/* Close button */}
           <button
-            onClick={() => router.back()}
+            onClick={() => (onClose ? onClose() : router.back())}
             className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
             title="Close"
           >

@@ -1,10 +1,11 @@
 'use client'
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import NeoPanoramaViewerRedux from './NeoPanoramaViewerRedux';
 
 export default function Neo360Redux() {
     const params = useParams();
+    const router = useRouter();
     const slug = params.slug as string;
     
     // Проверяем, что slug определен и не является строкой "undefined" или "null"
@@ -42,6 +43,8 @@ export default function Neo360Redux() {
             <NeoPanoramaViewerRedux 
                 houseId={cleanSlug} 
                 selectedColor="dark" 
+                onBack={() => router.back()}
+                onClose={() => router.back()}
             />
         </div>
     );

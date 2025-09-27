@@ -64,6 +64,7 @@ export default function CategorySpecific360Viewer({
   // Если мы на странице тура, показываем полный 360 просмотр
   if (isTourPage || fullView) {
     if (normalizedCategory === 'premium') {
+      // Use router.back() like Skyline for consistent behavior
       return <PanoramaViewerRedux houseId={slug} />;
     } else if (normalizedCategory === 'neo') {
       return <Neo360Redux />;

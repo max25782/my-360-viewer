@@ -29,11 +29,21 @@ export function useNeoRooms(houseId: string): UseNeoRoomsResult {
         // Убираем префикс "neo-" если он есть
         const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
 
-        // Используем существующий API endpoint
-        const response = await fetch(`/api/neo/${cleanHouseId}/packages`);
+        // Используем существующий API endpoint с таймаутом
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+        const response = await fetch(`/api/neo/${cleanHouseId}/packages`, {
+          signal: controller.signal,
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
+        
+        clearTimeout(timeoutId);
         
         if (!response.ok) {
-          throw new Error(`Failed to fetch Neo rooms: ${response.status}`);
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
@@ -58,12 +68,26 @@ export function useNeoRooms(houseId: string): UseNeoRoomsResult {
         }
       } catch (err) {
         const cleanHouseId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
-        console.error(`Error fetching Neo rooms for ${cleanHouseId} (${houseId}):`, err);
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        
+        // Более детальная обработка ошибок
+        let errorMessage = 'Unknown error';
+        if (err instanceof Error) {
+          if (err.name === 'AbortError') {
+            errorMessage = 'Request timeout';
+          } else if (err.message.includes('Failed to fetch')) {
+            errorMessage = 'Network error - server may be down';
+          } else {
+            errorMessage = err.message;
+          }
+        }
+        
+        console.warn(`⚠️ Error fetching Neo rooms for ${cleanHouseId} (${houseId}):`, errorMessage);
+        setError(errorMessage);
         
         // Fallback к дефолтным комнатам при ошибке
         const defaultRooms = ['living', 'kitchen', 'bedroom', 'bathroom'];
         setAvailableRooms(defaultRooms);
+        console.log(`📦 Using fallback rooms for ${cleanHouseId}:`, defaultRooms);
       } finally {
         setIsLoading(false);
       }

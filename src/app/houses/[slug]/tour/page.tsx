@@ -84,7 +84,11 @@ export default function TourPage() {
   return (
     <div className="w-full h-screen overflow-hidden">
       {/* 360° Panorama Viewer - Full Screen */}
-      <PanoramaViewerRedux houseId={house.id} />
+      <PanoramaViewerRedux 
+        houseId={house.id}
+        onBack={handleBackToHouse}
+        onClose={handleBackToHouse}
+      />
     </div>
   );
 }

@@ -85,6 +85,39 @@ export default function PanoramaViewerRedux({ houseId, onClose, onBack }: Panora
   const { measure360Scene, markRoomPreloaded, logPerformanceReport } = usePerformanceMetrics();
   const { getTilePreview } = usePreviews();
 
+  // Global fallback navigation to new design pages
+  const globalNavigateBack = useCallback(() => {
+    try {
+      // Update service worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.update()));
+      }
+    } catch {}
+    
+    const ts = Date.now();
+    
+    // Detect house category and navigate to new page
+    const knownPremium = ['Aspen', 'Canyon', 'Redwood', 'Willow', 'Sequoia', 'Everest'];
+    const knownNeo = ['Apex', 'Arcos', 'Halo', 'HorizonX', 'Nexa', 'Prism', 'Strata', 'Vector', 'Vertex'];
+    
+    console.log(`🔄 GlobalNavigateBack: houseId="${houseId}", isPremium=${knownPremium.includes(houseId)}, isNeo=${knownNeo.includes(houseId)}`);
+    
+    if (knownPremium.includes(houseId)) {
+      const targetUrl = `/premium/${houseId}?ts=${ts}`;
+      console.log(`🏠 Navigating to Premium page: ${targetUrl}`);
+      window.location.href = targetUrl;
+    } else if (knownNeo.includes(houseId) || houseId.toLowerCase().includes('neo')) {
+      const cleanId = houseId.startsWith('neo-') ? houseId.substring(4) : houseId;
+      const targetUrl = `/neo/${cleanId}?ts=${ts}`;
+      console.log(`🏠 Navigating to Neo page: ${targetUrl}`);
+      window.location.href = targetUrl;
+    } else {
+      // Skyline or unknown - use router.back()
+      console.log(`🏠 Using router.back() for houseId: ${houseId}`);
+      router.back();
+    }
+  }, [houseId, router]);
+
   // Helper: degrees -> radians if needed
   const toRad = useCallback((val: number) => (Math.abs(val) > Math.PI * 2 ? (val * Math.PI) / 180 : val), []);
 
@@ -687,7 +720,7 @@ export default function PanoramaViewerRedux({ houseId, onClose, onBack }: Panora
         <>
           {/* Back button */}
           <button
-            onClick={() => (onBack ? onBack() : router.back())}
+            onClick={() => (onBack ? onBack() : globalNavigateBack())}
             className="absolute top-4 left-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
             title="Go back"
           >
@@ -698,7 +731,7 @@ export default function PanoramaViewerRedux({ houseId, onClose, onBack }: Panora
           
           {/* Close button */}
           <button
-            onClick={() => (onClose ? onClose() : router.back())}
+            onClick={() => (onClose ? onClose() : globalNavigateBack())}
             className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-200 backdrop-blur-sm"
             title="Close"
           >

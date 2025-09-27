@@ -119,6 +119,8 @@ export default function NeoTourPage() {
       <NeoPanoramaViewer 
         houseId={house.id}
         selectedColor={selectedColor!}
+        onBack={() => router.back()}
+        onClose={() => router.back()}
       />
     </div>
   );
