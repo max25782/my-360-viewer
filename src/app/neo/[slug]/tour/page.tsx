@@ -37,9 +37,8 @@ export default function NeoTourPage() {
   };
 
   const handleBackToHouse = () => {
-    const clean = (slug || '').toLowerCase().startsWith('neo-') ? (slug as string).substring(4) : (slug as string);
-    // Навигация на новую neo-страницу деталей
-    router.push(`/neo/${clean}`);
+    const id = slug as string;
+    router.push(`/house/${encodeURIComponent(id)}`);
   };
 
   // Если slug недействителен, показываем ошибку
@@ -119,8 +118,8 @@ export default function NeoTourPage() {
       <NeoPanoramaViewer 
         houseId={house.id}
         selectedColor={selectedColor!}
-        onBack={() => router.back()}
-        onClose={() => router.back()}
+        onBack={handleBackToHouse}
+        onClose={handleBackToHouse}
       />
     </div>
   );

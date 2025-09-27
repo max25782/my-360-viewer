@@ -20,8 +20,8 @@ export default function PremiumTourClient({
       {/* 360° Panorama Viewer - Full Screen */}
       <PanoramaViewerRedux 
         houseId={houseId}
-        onClose={() => router.back()}
-        onBack={() => router.back()}
+        onClose={() => router.push(`/house/${encodeURIComponent(slug)}`)}
+        onBack={() => router.push(`/house/${encodeURIComponent(slug)}`)}
       />
     </div>
   );
