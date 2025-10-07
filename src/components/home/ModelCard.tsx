@@ -153,6 +153,19 @@ export function ModelCard({
     return `/assets/premium/${clean}/hero.pdf`;
   }, [model.id, model.collection]);
 
+  // Neo PDF URL (match naming normalization used for Neo assets)
+  const neoPdfUrl = React.useMemo(() => {
+    const coll = (model.collection || '').toLowerCase();
+    if (coll !== 'neo') return '';
+    let clean = String(model.id || '');
+    const lower = clean.toLowerCase();
+    if (lower.startsWith('neo-')) clean = clean.slice(4);
+    const normalized = lower === 'horizonx'
+      ? 'HorizonX'
+      : clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase();
+    return `/assets/neo/${normalized}/hero.pdf`;
+  }, [model.id, model.collection]);
+
   // Derive a robust sqft display string from specs.area or model.area
   const displaySqft: string = React.useMemo(() => {
     const source = (specs?.area || model.area || '').toString();
@@ -389,7 +402,7 @@ export function ModelCard({
               </div>
             </div>
 
-            {model.collection === 'premium' && premiumPdfUrl && (
+            {(model.collection === 'premium' && premiumPdfUrl) && (
               <div className="mt-2">
                 <a
                   href={premiumPdfUrl}
@@ -404,6 +417,22 @@ export function ModelCard({
                       ? 'bg-gradient-to-r from-purple-600/85 to-pink-500/85 hover:from-purple-500/95 hover:to-pink-400/95'
                       : 'bg-gradient-to-r from-blue-600/85 to-indigo-500/85 hover:from-blue-500/95 hover:to-indigo-400/95'
                   }`}
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download plan</span>
+                </a>
+              </div>
+            )}
+
+            {(model.collection === 'neo' && neoPdfUrl) && (
+              <div className="mt-2">
+                <a
+                  href={neoPdfUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-colors bg-gradient-to-r from-purple-600/85 to-pink-500/85 hover:from-purple-500/95 hover:to-pink-400/95"
                 >
                   <Download className="w-4 h-4" />
                   <span>Download plan</span>

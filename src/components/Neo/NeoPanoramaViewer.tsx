@@ -69,6 +69,39 @@ export default function NeoPanoramaViewer({ houseId, selectedColor, onClose, onB
 
   // Utility function to convert degrees to radians
   const toRad = (deg: number) => (deg * Math.PI) / 180;
+
+  // Rotate image by 180 degrees and return data URL (used for Halo dark top/bottom faces)
+  const rotateImage180 = useCallback(async (src: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              reject(new Error('Failed to get 2D context'));
+              return;
+            }
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(Math.PI);
+            ctx.drawImage(img, -img.width / 2, -img.height / 2);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+            resolve(dataUrl);
+          } catch (e) {
+            reject(e);
+          }
+        };
+        img.onerror = (e) => reject(e);
+        img.src = src;
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }, []);
   
   // Get room display name
   const getRoomDisplayName = (roomName: string): string => {
@@ -319,6 +352,20 @@ export default function NeoPanoramaViewer({ houseId, selectedColor, onClose, onB
       if (invalidPaths.length > 0) {
         console.error('Invalid asset paths generated:', invalidPaths);
         throw new Error(`Failed to generate valid paths for room ${baseRoomName}`);
+      }
+
+      // Apply 180° rotation for Halo dark top/bottom cube faces
+      if ((houseId === 'Halo' || houseId === 'neo-Halo') && selectedColor === 'dark') {
+        try {
+          const [rotTop, rotBottom] = await Promise.all([
+            rotateImage180(tiles.top),
+            rotateImage180(tiles.bottom)
+          ]);
+          tiles.top = rotTop;
+          tiles.bottom = rotBottom;
+        } catch (e) {
+          console.warn('Failed to rotate Halo dark top/bottom faces by 180°:', e);
+        }
       }
 
       const scene: NeoScene = {
