@@ -28,6 +28,27 @@ export function useHomeState() {
 
   // Load initial data
   useEffect(() => {
+    // Load favorites (new key)
+    try {
+      const savedFavorites = localStorage.getItem('favorites');
+      if (savedFavorites) {
+        const ids = JSON.parse(savedFavorites);
+        if (Array.isArray(ids)) setFavorites(ids.filter((id: unknown) => typeof id === 'string'));
+      } else {
+        // Legacy migrate from adu-liked-models [{ modelId }]
+        const legacy = localStorage.getItem('adu-liked-models');
+        if (legacy) {
+          const parsed = JSON.parse(legacy);
+          if (Array.isArray(parsed)) {
+            const ids = parsed
+              .map((x: any) => x && typeof x.modelId === 'string' ? x.modelId : null)
+              .filter((x: string | null): x is string => !!x);
+            if (ids.length > 0) setFavorites(Array.from(new Set(ids)));
+          }
+        }
+      }
+    } catch {}
+
     // Load user profile from localStorage
     const savedProfile = localStorage.getItem('userProfile');
     if (savedProfile) {
@@ -68,6 +89,13 @@ export function useHomeState() {
 
     loadModels();
   }, []);
+
+  // Persist favorites when they change
+  useEffect(() => {
+    try {
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    } catch {}
+  }, [favorites]);
 
   const state: HomeState = {
     isDark,

@@ -51,18 +51,24 @@ export default function PremiumExteriorCarousel({ houseId, maxDP }: PremiumExter
       
       for (let dp = 1; dp <= maxDP; dp++) {
         const checkDPImage = async () => {
-          // Используем обработанный capitalizedHouseId для правильного пути
-          const path = `/assets/premium/${capitalizedHouseId}/exterior/dp${dp}.jpg`;
-          console.log(`🖼️ PREMIUM EXTERIOR: Checking path for ${houseId} → ${capitalizedHouseId}: ${path}`);
+          // Формируем пути для WebP и JPG, предпочитаем WebP
+          const webpPath = `/assets/premium/${capitalizedHouseId}/exterior/dp${dp}.webp`;
+          const jpgPath = `/assets/premium/${capitalizedHouseId}/exterior/dp${dp}.jpg`;
+          console.log(`🖼️ PREMIUM EXTERIOR: Checking paths for ${houseId} → ${capitalizedHouseId}:`, webpPath, jpgPath);
           try {
-            const exists = await checkImageExists(path);
-            if (exists) {
-              images.push(path);
-            } else if (dp === 1) { // Только для dp1 добавляем заглушку, если файл не найден
+            const [webpExists, jpgExists] = await Promise.all([
+              checkImageExists(webpPath),
+              checkImageExists(jpgPath)
+            ]);
+            if (webpExists) {
+              images.push(webpPath);
+            } else if (jpgExists) {
+              images.push(jpgPath);
+            } else if (dp === 1) {
               images.push(placeholderPath);
             }
           } catch (error) {
-            if (dp === 1) { // Только для dp1 добавляем заглушку при ошибке
+            if (dp === 1) {
               images.push(placeholderPath);
             }
           }

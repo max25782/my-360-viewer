@@ -86,20 +86,21 @@ export default function PremiumFeatures({ features, houseName, houseId }: Premiu
           setAvailableImages([]);
         } else {
           // Фильтруем только JPG и WebP изображения, начинающиеся с "plan"
-          const plans = houseData.comparison.plans
+          const rawPlans = houseData.comparison.plans
             .filter((plan: ManifestPlan) => 
               (plan.type === 'jpg' || plan.type === 'webp') && 
               plan.filename.startsWith('plan')
-            )
-            .map((plan: ManifestPlan) => ({
-              filename: plan.filename.split('.')[0], // Убираем расширение
-              path: plan.path
-            }));
-          
-          // Удаляем дубликаты (если есть и jpg, и webp)
-          const uniquePlans = Array.from(new Map(
-            plans.map((plan: {filename: string, path: string}) => [plan.filename, plan])
-          ).values());
+            );
+
+          // Группируем по базовому имени и предпочитаем webp
+          const grouped = new Map<string, { filename: string; path: string }>();
+          for (const p of rawPlans) {
+            const base = p.filename.replace(/\.(webp|jpg|jpeg|png)$/i, '');
+            const candidate = { filename: base, path: p.path };
+            if (!grouped.has(base)) grouped.set(base, candidate);
+            else if (p.type === 'webp') grouped.set(base, candidate);
+          }
+          const uniquePlans = Array.from(grouped.values());
           
           console.log(`Найдено ${uniquePlans.length} планов для дома ${houseId}`);
           setAvailableImages(uniquePlans);

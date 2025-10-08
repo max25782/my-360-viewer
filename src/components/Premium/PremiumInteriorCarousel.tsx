@@ -86,15 +86,21 @@ export default function PremiumInteriorCarousel({
           for (const room of roomsToUse) {
             const roomData = houseData.rooms[room];
             if (!roomData) continue;
-            
+
             // Фильтруем только фотографии типа 'photo' (pk*)
             const photos = roomData.photos.filter(photo => photo.type === 'photo');
-            
+
             if (photos.length > 0) {
-              // Добавляем все найденные фотографии для комнаты
-              photos.forEach(photo => {
-                images.push({ path: photo.path, room });
-              });
+              // Группируем по базовому имени (без расширения) и предпочитаем webp
+              const byBase = new Map<string, { path: string; room: string }>();
+              for (const p of photos) {
+                const base = p.filename.replace(/\.(webp|jpg|jpeg|png)$/i, '');
+                const isWebp = /\.webp$/i.test(p.path);
+                const existing = byBase.get(base);
+                if (!existing) byBase.set(base, { path: p.path, room });
+                else if (isWebp) byBase.set(base, { path: p.path, room });
+              }
+              byBase.forEach((val) => images.push(val));
             } else {
               // Если фотографий нет, добавляем плейсхолдер для комнаты
               images.push({ path: placeholderPath, room });

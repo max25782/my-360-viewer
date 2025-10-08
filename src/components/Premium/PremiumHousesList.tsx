@@ -106,7 +106,8 @@ export default function PremiumHousesList({ houses: initialHouses }: PremiumHous
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
       {houses.length > 0 ? (
         houses.map((house) => {
-          const heroPath = getClientPremiumAssetPath('hero', house.id, { format: 'jpg' });
+          const heroWebp = getClientPremiumAssetPath('hero', house.id, { format: 'webp' });
+          const heroJpg = getClientPremiumAssetPath('hero', house.id, { format: 'jpg' });
           
           // Extract bedroom and bathroom counts
           let bedroomCount = "N/A";
@@ -164,12 +165,16 @@ export default function PremiumHousesList({ houses: initialHouses }: PremiumHous
               <Link href={`/premium/${house.id.toLowerCase()}`}>
                 <div className="relative h-48">
                   <Image
-                    src={heroPath}
+                    src={heroWebp}
                     alt={house.name}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover"
                     priority={false}
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (target && target.src && target.src.endsWith('.webp')) target.src = heroJpg;
+                    }}
                   />
                 </div>
                 <div className="p-4">
