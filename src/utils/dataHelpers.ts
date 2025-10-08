@@ -468,9 +468,10 @@ export function filterModels(
     return model;
   });
 
+  const favoriteIdSet = new Set((favorites || []).map((id) => String(id).toLowerCase()));
   let filteredModels = fixedModels.filter(model => {
     if (selectedCollection === 'favorites') {
-      return favorites.includes(model.id);
+      return favoriteIdSet.has(String(model.id || '').toLowerCase());
     }
     if (selectedCollection === 'coupons') {
       // For coupons, we don't filter models - we'll show the OffersSection instead
@@ -479,8 +480,8 @@ export function filterModels(
     return model.collection === selectedCollection;
   });
 
-  // Apply configurator filters if provided
-  if (configuratorFilters) {
+  // Apply configurator filters if provided (skip when viewing favorites)
+  if (configuratorFilters && selectedCollection !== 'favorites') {
     // Filter by bedrooms (inclusive: >= selected)
     if (configuratorFilters.bedrooms && configuratorFilters.bedrooms !== 'any') {
       const bedroomCount = parseInt(configuratorFilters.bedrooms);
