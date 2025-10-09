@@ -18,11 +18,30 @@ export default function OnboardingPage() {
     }
   }, []);
 
-  function handleComplete(recs?: any, profile?: UserProfile) {
+  async function handleComplete(recs?: any, profile?: UserProfile) {
     try {
+      // Save to localStorage
       if (recs) localStorage.setItem("onboardingRecommendations", JSON.stringify(recs));
       if (profile) localStorage.setItem("userProfile", JSON.stringify(profile));
       localStorage.setItem("onboardingCompleted", "true");
+
+      // Send email with onboarding results
+      const answers = JSON.parse(localStorage.getItem("onboardingAnswers") || "{}");
+      
+      await fetch('/api/send-onboarding', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          answers,
+          recommendations: recs,
+          profile,
+        }),
+      }).catch(err => {
+        console.error('Failed to send onboarding email:', err);
+        // Don't block user navigation if email fails
+      });
     } catch {}
     window.location.href = "/";
   }

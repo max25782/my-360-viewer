@@ -559,6 +559,13 @@ export function SmartOnboarding({
         setIsAnimating(false);
       }, 300);
     } else {
+      // Save answers to localStorage for email
+      try {
+        localStorage.setItem('onboardingAnswers', JSON.stringify(answers));
+      } catch (e) {
+        console.error('Failed to save onboarding answers:', e);
+      }
+      
       // Direct navigation to collections
       const recs = calculateRecommendations();
       const userProfile = {

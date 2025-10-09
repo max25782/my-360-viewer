@@ -199,15 +199,23 @@ export async function getAllServerHouses(): Promise<ServerHouse[]> {
       console.log('🔍 First Premium house keys:', Object.keys(premiumHouses[0] || {}));
     }
     
-    // Вспомогательный парсер площади: учитывает запятые и выбирает наибольшее число
+    // Вспомогательный парсер площади: ищет число рядом с "sq ft" или "SF"
     const parseSqft = (text?: string): number | null => {
       if (!text || typeof text !== 'string') return null;
       const cleaned = text.replace(/,/g, '');
-      // Найти все числа от 3 до 6 цифр и взять наибольшее
-      const matches = cleaned.match(/\d{3,6}/g);
+      
+      // Ищем паттерн "число sq ft" или "число SF"
+      const sqftMatch = cleaned.match(/(\d{3,4})\s*(sq\s*ft|SF)/i);
+      if (sqftMatch) {
+        return parseInt(sqftMatch[1], 10);
+      }
+      
+      // Если не нашли с "sq ft", берём первое разумное число (300-9999)
+      const matches = cleaned.match(/\d{3,4}/g);
       if (!matches) return null;
-      const numbers = matches.map(m => parseInt(m, 10));
-      return Math.max(...numbers);
+      const numbers = matches.map(m => parseInt(m, 10))
+        .filter(n => n >= 300 && n <= 9999);
+      return numbers.length > 0 ? numbers[0] : null; // Берём первое, а не максимум
     };
 
     // Добавляем Skyline дома

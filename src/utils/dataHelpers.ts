@@ -293,15 +293,24 @@ export async function loadModelsFromAPI(): Promise<ModelData[]> {
     console.log('🔍 Premium data:', data.premium);
     const allModels: ModelData[] = [];
     
-    // Утилита: надёжно привести площадь к числу (берём максимум из всех 3-6значных групп)
+    // Утилита: надёжно привести площадь к числу
     function toNumericSqft(input: unknown, fallback: number): number {
       if (typeof input === 'number' && Number.isFinite(input)) return input;
       if (typeof input === 'string') {
         const cleaned = input.replace(/,/g, '');
-        const matches = cleaned.match(/\d{3,6}/g);
+        
+        // Ищем паттерн "число sq ft" или "число SF"
+        const sqftMatch = cleaned.match(/(\d{3,4})\s*(sq\s*ft|SF)/i);
+        if (sqftMatch) {
+          return parseInt(sqftMatch[1], 10);
+        }
+        
+        // Если не нашли с "sq ft", берём первое разумное число (300-9999)
+        const matches = cleaned.match(/\d{3,4}/g);
         if (matches && matches.length > 0) {
-          const nums = matches.map((m: string) => parseInt(m, 10)).filter(n => Number.isFinite(n));
-          if (nums.length > 0) return Math.max(...nums);
+          const nums = matches.map((m: string) => parseInt(m, 10))
+            .filter(n => Number.isFinite(n) && n >= 300 && n <= 9999);
+          if (nums.length > 0) return nums[0]; // Берём первое, а не максимум
         }
       }
       return fallback;

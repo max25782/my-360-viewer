@@ -61,6 +61,49 @@ export function ComparisonView({ isDark, compareList, models, onBack, onClearAll
             {compareList.slice(0, 3).map((modelId) => {
               const model = models.find((m) => m.id === modelId);
               if (!model) return null;
+              
+              // Извлекаем правильную площадь из Living Space в comparison.features
+              let correctSqft = model.sqft;
+              let sqftWasCorrected = false;
+              if (model.comparison?.features?.['Living Space']) {
+                const livingSpace = model.comparison.features['Living Space'];
+                const lsText = livingSpace.best || livingSpace.better || livingSpace.good || '';
+                const match = lsText.match(/(\d+)\s*SF/i);
+                if (match) {
+                  const extracted = parseInt(match[1], 10);
+                  if (extracted !== model.sqft) {
+                    correctSqft = extracted;
+                    sqftWasCorrected = true;
+                    console.log(`✅ ${model.name}: Исправлена площадь с ${model.sqft} на ${correctSqft} SF`);
+                  }
+                }
+              }
+              
+              const displaySqft = correctSqft || model.sqft;
+              
+              // Функция для округления цены до красивого числа
+              const roundToNicePrice = (price: number): number => {
+                if (price >= 500000) {
+                  // Округляем до $10,000 для больших цен
+                  return Math.round(price / 10000) * 10000;
+                } else if (price >= 100000) {
+                  // Округляем до $5,000 для средних цен
+                  return Math.round(price / 5000) * 5000;
+                } else {
+                  // Округляем до $1,000 для малых цен
+                  return Math.round(price / 1000) * 1000;
+                }
+              };
+              
+              // Если площадь была исправлена, пересчитываем цену, иначе используем basePrice
+              let displayPrice;
+              if (sqftWasCorrected) {
+                const calculatedPrice = displaySqft * 340;
+                displayPrice = roundToNicePrice(calculatedPrice);
+              } else {
+                displayPrice = model.basePrice || roundToNicePrice(displaySqft * 340);
+              }
+              
               return (
                 <div
                   key={modelId}
@@ -69,7 +112,7 @@ export function ComparisonView({ isDark, compareList, models, onBack, onClearAll
                   <img src={model.heroImage} alt={model.name} className="w-full h-32 object-cover rounded mb-2" />
                   <h4 className="font-semibold">{model.name}</h4>
                   <p className="text-sm opacity-70">
-                    {model.area} • ${ (model.basePrice || 0).toLocaleString() }
+                    {displaySqft} sq ft • ${displayPrice.toLocaleString()}
                   </p>
                   <div className="mt-2 space-y-1 max-h-48 overflow-y-auto">
                     {(() => {
