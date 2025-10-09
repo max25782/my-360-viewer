@@ -18,14 +18,33 @@ Add the following to your `.env.local` file:
 RESEND_API_KEY=re_your_actual_api_key_here
 ```
 
-### 3. Verify Domain (Optional but Recommended)
-To send emails from `onboarding@adu-seattle.com`, you need to verify the domain:
-1. In Resend dashboard, go to Domains
-2. Add `adu-seattle.com`
-3. Follow the DNS setup instructions
-4. Wait for verification (usually takes a few minutes)
+### 3. Verify Domain (Required for Production)
+To send emails from `onboarding@adu-seattle.com`, you **must** verify the domain:
 
-**Note:** Until domain is verified, emails will be sent from Resend's test domain.
+1. In Resend dashboard, go to https://resend.com/domains
+2. Click "Add Domain"
+3. Enter `adu-seattle.com`
+4. Copy the DNS records provided:
+   ```
+   Type: TXT | Name: _resend | Value: [verification code]
+   Type: TXT | Name: @ | Value: v=spf1 include:resend.io ~all
+   Type: CNAME | Name: resend._domainkey | Value: resend._domainkey.resend.com
+   ```
+5. Add these records to your domain's DNS settings (where domain is registered)
+6. Click "Verify" in Resend dashboard
+7. Wait for verification (usually 5-10 minutes)
+
+**Current Status:**
+- ✅ Development: Using `onboarding@resend.dev` (works immediately)
+- ⚠️ Production: Need to verify domain and update code
+
+**After verification, update the code:**
+```typescript
+// In src/app/api/send-onboarding/route.ts, change:
+from: 'ADU Seattle Onboarding <onboarding@resend.dev>'
+// to:
+from: 'ADU Seattle Onboarding <onboarding@adu-seattle.com>'
+```
 
 ## What Gets Sent
 

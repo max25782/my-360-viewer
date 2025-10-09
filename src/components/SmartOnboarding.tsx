@@ -308,6 +308,7 @@ export function SmartOnboarding({
   const [isAnimating, setIsAnimating] = useState(false);
   const [expertDialogOpen, setExpertDialogOpen] = useState(false);
   const [selectedModelForExpert, setSelectedModelForExpert] = useState<ModelData | null>(null);
+  const completedRef = React.useRef(false); // Защита от двойного вызова onComplete
 
 
 
@@ -559,6 +560,13 @@ export function SmartOnboarding({
         setIsAnimating(false);
       }, 300);
     } else {
+      // Защита от двойного вызова
+      if (completedRef.current) {
+        console.log('⚠️ onComplete already called, skipping');
+        return;
+      }
+      completedRef.current = true;
+      
       // Save answers to localStorage for email
       try {
         localStorage.setItem('onboardingAnswers', JSON.stringify(answers));

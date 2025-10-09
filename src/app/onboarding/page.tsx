@@ -7,6 +7,7 @@ import type { ModelData } from "../../data/realModelsData";
 export default function OnboardingPage() {
   const [isDark, setIsDark] = useState(true);
   const [models, setModels] = useState<ModelData[]>([]);
+  const emailSentRef = React.useRef(false); // Защита от двойной отправки
 
   useEffect(() => {
     const cached = localStorage.getItem("cachedModels");
@@ -25,23 +26,26 @@ export default function OnboardingPage() {
       if (profile) localStorage.setItem("userProfile", JSON.stringify(profile));
       localStorage.setItem("onboardingCompleted", "true");
 
-      // Send email with onboarding results
-      const answers = JSON.parse(localStorage.getItem("onboardingAnswers") || "{}");
-      
-      await fetch('/api/send-onboarding', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          answers,
-          recommendations: recs,
-          profile,
-        }),
-      }).catch(err => {
-        console.error('Failed to send onboarding email:', err);
-        // Don't block user navigation if email fails
-      });
+      // Send email with onboarding results (только один раз)
+      if (!emailSentRef.current) {
+        emailSentRef.current = true;
+        const answers = JSON.parse(localStorage.getItem("onboardingAnswers") || "{}");
+        
+        await fetch('/api/send-onboarding', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            answers,
+            recommendations: recs,
+            profile,
+          }),
+        }).catch(err => {
+          console.error('Failed to send onboarding email:', err);
+          // Don't block user navigation if email fails
+        });
+      }
     } catch {}
     window.location.href = "/";
   }

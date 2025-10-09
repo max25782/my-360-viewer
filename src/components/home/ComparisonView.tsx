@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { ArrowLeft, GitCompare } from 'lucide-react';
+import { roundToStep } from '../../utils/formatters';
 
 interface ComparisonViewProps {
   isDark: boolean;
@@ -81,28 +82,19 @@ export function ComparisonView({ isDark, compareList, models, onBack, onClearAll
               
               const displaySqft = correctSqft || model.sqft;
               
-              // Функция для округления цены до красивого числа
-              const roundToNicePrice = (price: number): number => {
-                if (price >= 500000) {
-                  // Округляем до $10,000 для больших цен
-                  return Math.round(price / 10000) * 10000;
-                } else if (price >= 100000) {
-                  // Округляем до $5,000 для средних цен
-                  return Math.round(price / 5000) * 5000;
-                } else {
-                  // Округляем до $1,000 для малых цен
-                  return Math.round(price / 1000) * 1000;
-                }
+              // Округление цены ВВЕРХ до ближайших $10,000 (как на главной странице)
+              const roundPriceCeil = (price: number): number => {
+                return roundToStep(price, 10000, 'ceil');
               };
               
-              // Если площадь была исправлена, пересчитываем цену, иначе используем basePrice
-              let displayPrice;
+              // ВСЕГДА округляем цену вверх, независимо от источника
+              let basePrice;
               if (sqftWasCorrected) {
-                const calculatedPrice = displaySqft * 340;
-                displayPrice = roundToNicePrice(calculatedPrice);
+                basePrice = displaySqft * 340;
               } else {
-                displayPrice = model.basePrice || roundToNicePrice(displaySqft * 340);
+                basePrice = model.basePrice || (displaySqft * 340);
               }
+              const displayPrice = roundPriceCeil(basePrice);
               
               return (
                 <div
@@ -130,9 +122,11 @@ export function ComparisonView({ isDark, compareList, models, onBack, onClearAll
                           }
                         });
                       }
-                      return all.map((feature: string, idx: number) => (
+                      // Удаляем дубликаты
+                      const uniqueFeatures = Array.from(new Set(all));
+                      return uniqueFeatures.map((feature: string, idx: number) => (
                         <div
-                          key={`${model.id}-feature-${idx}`}
+                          key={`${model.id}-${idx}-${feature}`}
                           className={`text-xs px-2 py-1 rounded border ${
                             isDark
                               ? 'border-slate-600/50 text-slate-300 bg-slate-700/30'
