@@ -97,14 +97,30 @@ function HomeContent() {
   const homeActions = useHomeActions({ actions, state });
   const router = useRouter();
   
-  // Force showing onboarding on each fresh PWA session launch
+  // Always show onboarding on browser refresh; also on first PWA launch per session
   React.useEffect(() => {
     try {
-      const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || (window as any).navigator?.standalone === true;
-      if (isStandalone && !sessionStorage.getItem('onboardingShown')) {
-        sessionStorage.setItem('onboardingShown', '1');
-        const ts = Date.now();
-        router.replace(`/onboarding?ts=${ts}`);
+      const pathname = window.location.pathname;
+      if (pathname !== '/onboarding') {
+        // Detect refresh (modern and legacy Safari)
+        const navEntries = (performance && performance.getEntriesByType) ? (performance.getEntriesByType('navigation') as any) : [];
+        const isReloadModern = Array.isArray(navEntries) && navEntries[0]?.type === 'reload';
+        const isReloadLegacy = (performance as any)?.navigation?.type === 1; // Deprecated API, still used on iOS
+        const isReload = Boolean(isReloadModern || isReloadLegacy);
+
+        if (isReload) {
+          const ts = Date.now();
+          router.replace(`/onboarding?ts=${ts}`);
+          return;
+        }
+
+        // First open in standalone PWA this session
+        const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || (window as any).navigator?.standalone === true;
+        if (isStandalone && !sessionStorage.getItem('onboardingShown')) {
+          sessionStorage.setItem('onboardingShown', '1');
+          const ts = Date.now();
+          router.replace(`/onboarding?ts=${ts}`);
+        }
       }
     } catch {}
   }, [router]);
