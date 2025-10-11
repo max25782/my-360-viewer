@@ -2,7 +2,7 @@
   "name": "360 House Viewer - ADU Collection",
   "short_name": "360 Houses",
   "description": "Interactive 360-degree viewer for virtual tours of Accessory Dwelling Units",
-  "start_url": "/",
+  "start_url": "/?ts=%DATE%",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",

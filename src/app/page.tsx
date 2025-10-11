@@ -97,6 +97,18 @@ function HomeContent() {
   const homeActions = useHomeActions({ actions, state });
   const router = useRouter();
   
+  // Force showing onboarding on each fresh PWA session launch
+  React.useEffect(() => {
+    try {
+      const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || (window as any).navigator?.standalone === true;
+      if (isStandalone && !sessionStorage.getItem('onboardingShown')) {
+        sessionStorage.setItem('onboardingShown', '1');
+        const ts = Date.now();
+        router.replace(`/onboarding?ts=${ts}`);
+      }
+    } catch {}
+  }, [router]);
+  
   // Deep link handler (?model, ?tab)
   useDeepLink({
     models: state.models,
