@@ -62,12 +62,10 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'ADU Seattle Onboarding <onboarding@resend.dev>',
-        // ВАЖНО: В режиме разработки Resend отправляет только на ваш email
-        // После верификации домена, замените на: ['office@adu-seattle.com']
-        to: ['max25782@gmail.com'], // Ваш email для тестирования
-        reply_to: 'office@adu-seattle.com',
-        subject: `🏠 New Onboarding Submission - ${profile?.fullName || 'Guest User'}`,
+        from: 'ADU Seattle <onboarding@adu-seattle.com>',
+        to: ['Office@seattle-adu.com'],
+        reply_to: 'Office@seattle-adu.com',
+        subject: `New Onboarding Submission - ${profile?.fullName || 'Guest User'}`,
         text: emailContent,
       }),
     });
