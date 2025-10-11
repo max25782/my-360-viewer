@@ -8,16 +8,20 @@ export default function OnboardingPage() {
   const [isDark, setIsDark] = useState(true);
   const [models, setModels] = useState<ModelData[]>([]);
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const emailSentRef = React.useRef(false); // Защита от двойной отправки
+  const emailSentRef = React.useRef(false);
 
   useEffect(() => {
+    // Reset ref on every mount
+    emailSentRef.current = false;
+    
     // Force clear ALL onboarding data - including Service Worker cache
     const clearOnboardingData = async () => {
       try {
-        // Clear localStorage
+        // Clear ALL onboarding-related localStorage
         localStorage.removeItem("onboardingCompleted");
         localStorage.removeItem("onboardingAnswers");
         localStorage.removeItem("onboardingRecommendations");
+        localStorage.removeItem("userProfile");
         
         // Clear Service Worker cache for onboarding
         if ('caches' in window) {
@@ -56,9 +60,7 @@ export default function OnboardingPage() {
 
   async function handleComplete(recs?: any, profile?: UserProfile) {
     try {
-      // Save to localStorage (but NOT onboardingCompleted - we want to show it every time)
-      if (recs) localStorage.setItem("onboardingRecommendations", JSON.stringify(recs));
-      if (profile) localStorage.setItem("userProfile", JSON.stringify(profile));
+      // DON'T save anything to localStorage - we want onboarding to show every time
 
       // Send email with onboarding results (только один раз)
       if (!emailSentRef.current) {
@@ -81,6 +83,8 @@ export default function OnboardingPage() {
         });
       }
     } catch {}
+    // Set flag to prevent immediate redirect back to onboarding
+    sessionStorage.setItem('justReturnedFromOnboarding', 'true');
     window.location.href = "/";
   }
 
@@ -88,7 +92,10 @@ export default function OnboardingPage() {
     <SmartOnboarding
       models={models}
       onComplete={handleComplete}
-      onSkip={() => (window.location.href = "/")}
+      onSkip={() => {
+        sessionStorage.setItem('justReturnedFromOnboarding', 'true');
+        window.location.href = "/";
+      }}
       onModelSelect={() => {}}
       isDark={isDark}
       onToggleTheme={() => setIsDark((v) => !v)}

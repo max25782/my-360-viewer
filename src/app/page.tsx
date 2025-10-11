@@ -97,33 +97,33 @@ function HomeContent() {
   const homeActions = useHomeActions({ actions, state });
   const router = useRouter();
   
-  // Always show onboarding on browser refresh; also on first PWA launch per session
+  // ALWAYS redirect to onboarding (PWA iPad compatible)
   React.useEffect(() => {
     try {
       const pathname = window.location.pathname;
-      if (pathname !== '/onboarding') {
-        // Detect refresh (modern and legacy Safari)
-        const navEntries = (performance && performance.getEntriesByType) ? (performance.getEntriesByType('navigation') as any) : [];
-        const isReloadModern = Array.isArray(navEntries) && navEntries[0]?.type === 'reload';
-        const isReloadLegacy = (performance as any)?.navigation?.type === 1; // Deprecated API, still used on iOS
-        const isReload = Boolean(isReloadModern || isReloadLegacy);
-
-        if (isReload) {
+      
+      // Only on root path
+      if (pathname === '/') {
+        // Check if we just returned from onboarding (session flag)
+        const justReturned = sessionStorage.getItem('justReturnedFromOnboarding');
+        
+        console.log('🔍 Main page loaded:', { pathname, justReturned });
+        
+        if (justReturned) {
+          // Clear flag and allow viewing main page
+          console.log('🧹 Clearing return flag');
+          sessionStorage.removeItem('justReturnedFromOnboarding');
+        } else {
+          // Redirect to onboarding using window.location (better for PWA)
           const ts = Date.now();
-          router.replace(`/onboarding?ts=${ts}`);
-          return;
-        }
-
-        // First open in standalone PWA this session
-        const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || (window as any).navigator?.standalone === true;
-        if (isStandalone && !sessionStorage.getItem('onboardingShown')) {
-          sessionStorage.setItem('onboardingShown', '1');
-          const ts = Date.now();
-          router.replace(`/onboarding?ts=${ts}`);
+          console.log('✅ Redirecting to onboarding with ts:', ts);
+          window.location.href = `/onboarding?ts=${ts}`;
         }
       }
-    } catch {}
-  }, [router]);
+    } catch (e) {
+      console.error('❌ Failed to redirect to onboarding:', e);
+    }
+  }, []);
   
   // Deep link handler (?model, ?tab)
   useDeepLink({

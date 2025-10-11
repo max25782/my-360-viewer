@@ -567,7 +567,7 @@ export function SmartOnboarding({
       }
       completedRef.current = true;
       
-      // Save answers to localStorage for email
+      // Temporarily save answers ONLY for email (will be cleared on next onboarding load)
       try {
         localStorage.setItem('onboardingAnswers', JSON.stringify(answers));
       } catch (e) {
