@@ -62,7 +62,7 @@ Submitted: ${new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'ADU Seattle <onboarding@adu-seattle.com>',
+        from: 'ADU Seattle <onboarding@seattle-adu.com>',
         to: ['Office@seattle-adu.com'],
         reply_to: 'Office@seattle-adu.com',
         subject: `New Onboarding Submission - ${profile?.fullName || 'Guest User'}`,
