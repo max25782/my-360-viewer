@@ -34,8 +34,12 @@ export default function LoginPage() {
     // Сохраняем токен аутентификации
     localStorage.setItem('authToken', 'demo-token-' + Date.now());
     
-    // Redirect to onboarding page
-    window.location.href = '/onboarding';
+    // Mark that user is logged in (skip onboarding redirect)
+    localStorage.setItem('hasSeenOnboarding', 'true');
+    sessionStorage.setItem('justReturnedFromOnboarding', 'true');
+    
+    // Redirect to main page
+    window.location.href = '/';
   };
 
   return (

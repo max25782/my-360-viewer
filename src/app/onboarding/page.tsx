@@ -84,11 +84,12 @@ export default function OnboardingPage() {
       }
     } catch {}
     
-    // Set flag to prevent immediate redirect back to onboarding
+    // Set flags to mark onboarding as completed
     sessionStorage.setItem('justReturnedFromOnboarding', 'true');
-    console.log('✅ Set justReturnedFromOnboarding flag, redirecting to main page');
+    localStorage.setItem('hasSeenOnboarding', 'true');
+    console.log('✅ Set onboarding completion flags, redirecting to main page');
     
-    // Small delay to ensure sessionStorage is written
+    // Small delay to ensure storage is written
     setTimeout(() => {
       window.location.href = "/";
     }, 50);
@@ -100,7 +101,8 @@ export default function OnboardingPage() {
       onComplete={handleComplete}
       onSkip={() => {
         sessionStorage.setItem('justReturnedFromOnboarding', 'true');
-        console.log('✅ Set justReturnedFromOnboarding flag (skip), redirecting to main page');
+        localStorage.setItem('hasSeenOnboarding', 'true');
+        console.log('✅ Set onboarding completion flags (skip), redirecting to main page');
         setTimeout(() => {
           window.location.href = "/";
         }, 50);

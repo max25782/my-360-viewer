@@ -97,36 +97,47 @@ function HomeContent() {
   const homeActions = useHomeActions({ actions, state });
   const router = useRouter();
   
-  // ALWAYS redirect to onboarding (PWA iPad compatible)
+  // Check if this is the first visit (redirect to onboarding once)
   React.useEffect(() => {
     try {
       const pathname = window.location.pathname;
       
       // Only on root path
       if (pathname === '/') {
+        // FIRST: Check authentication - if no token, AuthGuard will redirect to login
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          console.log('🔐 No auth token - AuthGuard will redirect to login');
+          return; // Let AuthGuard handle the redirect
+        }
+        
         // Check if we just returned from onboarding (session flag)
         const justReturned = sessionStorage.getItem('justReturnedFromOnboarding');
         
-        console.log('🔍 Main page loaded:', { pathname, justReturned });
+        // Check if user has ever completed onboarding (localStorage flag)
+        const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+        
+        console.log('🔍 Main page loaded:', { pathname, justReturned, hasSeenOnboarding, authToken: !!authToken });
         
         if (justReturned) {
           // Clear flag and allow viewing main page
           console.log('🧹 Clearing return flag - showing main page');
           sessionStorage.removeItem('justReturnedFromOnboarding');
           // Don't redirect - just stay on main page
-        } else {
-          // Small delay to ensure page is fully loaded before redirect
+        } else if (!hasSeenOnboarding) {
+          // First time visitor (but authenticated) - redirect to onboarding
           const timer = setTimeout(() => {
             const ts = Date.now();
-            console.log('✅ Redirecting to onboarding with ts:', ts);
+            console.log('✅ First visit (authenticated) - redirecting to onboarding with ts:', ts);
             window.location.href = `/onboarding?ts=${ts}`;
           }, 100);
           
           return () => clearTimeout(timer);
         }
+        // If hasSeenOnboarding exists, just show main page (user can click button to restart)
       }
     } catch (e) {
-      console.error('❌ Failed to redirect to onboarding:', e);
+      console.error('❌ Failed to check onboarding status:', e);
     }
   }, []);
   
