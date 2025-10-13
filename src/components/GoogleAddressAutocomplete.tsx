@@ -46,7 +46,7 @@ export function GoogleAddressAutocomplete({
       const existingScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
       if (existingScript) {
         // Script is already loading, wait for it
-        if (window.initGooglePlaces) {
+        if (typeof window.initGooglePlaces !== 'undefined') {
           // Another instance already defined the callback, just wait
           const checkInterval = setInterval(() => {
             if (window.google && window.google.maps && window.google.maps.places) {
