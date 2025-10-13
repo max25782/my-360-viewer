@@ -83,9 +83,15 @@ export default function OnboardingPage() {
         });
       }
     } catch {}
+    
     // Set flag to prevent immediate redirect back to onboarding
     sessionStorage.setItem('justReturnedFromOnboarding', 'true');
-    window.location.href = "/";
+    console.log('✅ Set justReturnedFromOnboarding flag, redirecting to main page');
+    
+    // Small delay to ensure sessionStorage is written
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 50);
   }
 
   return (
@@ -94,7 +100,10 @@ export default function OnboardingPage() {
       onComplete={handleComplete}
       onSkip={() => {
         sessionStorage.setItem('justReturnedFromOnboarding', 'true');
-        window.location.href = "/";
+        console.log('✅ Set justReturnedFromOnboarding flag (skip), redirecting to main page');
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 50);
       }}
       onModelSelect={() => {}}
       isDark={isDark}

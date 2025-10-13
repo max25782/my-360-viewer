@@ -111,13 +111,18 @@ function HomeContent() {
         
         if (justReturned) {
           // Clear flag and allow viewing main page
-          console.log('🧹 Clearing return flag');
+          console.log('🧹 Clearing return flag - showing main page');
           sessionStorage.removeItem('justReturnedFromOnboarding');
+          // Don't redirect - just stay on main page
         } else {
-          // Redirect to onboarding using window.location (better for PWA)
-          const ts = Date.now();
-          console.log('✅ Redirecting to onboarding with ts:', ts);
-          window.location.href = `/onboarding?ts=${ts}`;
+          // Small delay to ensure page is fully loaded before redirect
+          const timer = setTimeout(() => {
+            const ts = Date.now();
+            console.log('✅ Redirecting to onboarding with ts:', ts);
+            window.location.href = `/onboarding?ts=${ts}`;
+          }, 100);
+          
+          return () => clearTimeout(timer);
         }
       }
     } catch (e) {

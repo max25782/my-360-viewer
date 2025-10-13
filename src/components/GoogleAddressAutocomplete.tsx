@@ -42,7 +42,30 @@ export function GoogleAddressAutocomplete({
         return;
       }
 
-      // Create script element
+      // Check if script is already being loaded
+      const existingScript = document.querySelector('script[src*="maps.googleapis.com/maps/api/js"]');
+      if (existingScript) {
+        // Script is already loading, wait for it
+        if (window.initGooglePlaces) {
+          // Another instance already defined the callback, just wait
+          const checkInterval = setInterval(() => {
+            if (window.google && window.google.maps && window.google.maps.places) {
+              setIsLoaded(true);
+              clearInterval(checkInterval);
+            }
+          }, 100);
+          
+          return () => clearInterval(checkInterval);
+        } else {
+          // Define callback and wait
+          window.initGooglePlaces = () => {
+            setIsLoaded(true);
+          };
+          return;
+        }
+      }
+
+      // Create script element only if it doesn't exist
       const script = document.createElement('script');
       script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&callback=initGooglePlaces`;
       script.async = true;
@@ -56,8 +79,11 @@ export function GoogleAddressAutocomplete({
       document.head.appendChild(script);
 
       return () => {
-        document.head.removeChild(script);
-        delete (window as any).initGooglePlaces;
+        // Don't remove script on unmount - it's shared across components
+        // Just clean up the callback reference if no other instances need it
+        if (!document.querySelector('input[data-google-autocomplete]')) {
+          delete (window as any).initGooglePlaces;
+        }
       };
     };
 
@@ -159,6 +185,7 @@ export function GoogleAddressAutocomplete({
         disabled={disabled}
         className={cn(className)}
         autoComplete="off"
+        data-google-autocomplete="true"
       />
       
       {/* Loading indicator */}
