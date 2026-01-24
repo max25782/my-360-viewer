@@ -115,7 +115,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
                 className="w-20 h-20 rounded-full p-1"
                 style={{
                   background: (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com')
-                    ? '#ffffff' // Белый фон для Alpha ADU
+                    ? '#000000' // Черный фон для Alpha ADU
                     : (isDark 
                       ? 'conic-gradient(from 0deg, #06b6d4, #3b82f6, #9333ea, #06b6d4)'
                       : 'conic-gradient(from 0deg, #0891b2, #2563eb, #7c3aed, #0891b2)')
@@ -123,7 +123,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
               >
                 <div className={`w-full h-full rounded-full flex items-center justify-center ${
                   (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com')
-                    ? 'bg-white' // Белый фон для Alpha ADU
+                    ? 'bg-black' // Черный фон для Alpha ADU
                     : (isDark ? 'bg-slate-900' : 'bg-white')
                 }`}>
                   <DomainLogoImg 
