@@ -16,18 +16,20 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
   const [companyName, setCompanyName] = useState('Seattle ADU');
   const [tagline, setTagline] = useState('Premium Accessory Dwelling Units');
   const [locationText, setLocationText] = useState("Seattle's #1 ADU Builder | 200+ Happy Clients");
+  const [hostname, setHostname] = useState('');
 
   useEffect(() => {
-    const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+    const currentHostname = typeof window !== 'undefined' ? window.location.hostname : '';
+    setHostname(currentHostname);
     
     // Determine logo and text based on domain
-    if (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com') {
+    if (currentHostname === 'alpha-adu.com' || currentHostname === 'www.alpha-adu.com') {
       setLogoPath('/logo2.jpeg');
       setLogoAlt('Alpha Dream Construction Logo');
       setCompanyName('Alpha Dream Construction');
       setTagline('Premium Accessory Dwelling Units');
       setLocationText("Alpha Dream Construction | Quality ADU Solutions");
-    } else if (hostname === 'seattle-catalog.com' || hostname === 'www.seattle-catalog.com') {
+    } else if (currentHostname === 'seattle-catalog.com' || currentHostname === 'www.seattle-catalog.com') {
       setLogoPath('/logo.png');
       setLogoAlt('Seattle ADU Logo');
       setCompanyName('Seattle ADU');
@@ -112,16 +114,30 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
               <div 
                 className="w-20 h-20 rounded-full p-1"
                 style={{
-                  background: isDark 
-                    ? 'conic-gradient(from 0deg, #06b6d4, #3b82f6, #9333ea, #06b6d4)'
-                    : 'conic-gradient(from 0deg, #0891b2, #2563eb, #7c3aed, #0891b2)'
+                  background: (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com')
+                    ? '#ffffff' // Белый фон для Alpha ADU
+                    : (isDark 
+                      ? 'conic-gradient(from 0deg, #06b6d4, #3b82f6, #9333ea, #06b6d4)'
+                      : 'conic-gradient(from 0deg, #0891b2, #2563eb, #7c3aed, #0891b2)')
                 }}
               >
                 <div className={`w-full h-full rounded-full flex items-center justify-center ${
-                  isDark ? 'bg-slate-900' : 'bg-white'
+                  (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com')
+                    ? 'bg-white' // Белый фон для Alpha ADU
+                    : (isDark ? 'bg-slate-900' : 'bg-white')
                 }`}>
                   <DomainLogoImg 
-                    className="w-12 h-12 object-contain"
+                    className={`w-12 h-12 object-contain ${
+                      (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com')
+                        ? 'mix-blend-mode-multiply' // Убирает белый фон у логотипа для Alpha ADU
+                        : ''
+                    }`}
+                    style={{
+                      ...((hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com') && {
+                        filter: 'contrast(1.1) brightness(0.95)',
+                        mixBlendMode: 'multiply'
+                      })
+                    }}
                     alt={logoAlt}
                   />
                 </div>
