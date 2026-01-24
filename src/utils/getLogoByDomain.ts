@@ -10,7 +10,7 @@
 const DOMAIN_LOGO_MAP: Record<string, string> = {
   'seattle-catalog.com': '/logo.png', // Seattle ADU logo
   'la-catalog.com': '/logos/logo-la.svg',
-  'alpha-adu.com': '/logo2.jpeg', // ALPHA DREAM CONSTRUCTION logo
+  'alpha-adu.com': '/logo2.png', // ALPHA DREAM CONSTRUCTION logo (PNG with transparent background)
   // Add more domains as needed:
   // 'portland-catalog.com': '/logos/logo-portland.svg',
 };

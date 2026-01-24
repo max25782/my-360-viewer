@@ -24,7 +24,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
     
     // Determine logo and text based on domain
     if (currentHostname === 'alpha-adu.com' || currentHostname === 'www.alpha-adu.com') {
-      setLogoPath('/logo2.jpeg');
+      setLogoPath('/logo2.png');
       setLogoAlt('Alpha Dream Construction Logo');
       setCompanyName('Alpha Dream Construction');
       setTagline('Premium Accessory Dwelling Units');
@@ -127,17 +127,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
                     : (isDark ? 'bg-slate-900' : 'bg-white')
                 }`}>
                   <DomainLogoImg 
-                    className={`w-12 h-12 object-contain ${
-                      (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com')
-                        ? 'mix-blend-mode-multiply' // Убирает белый фон у логотипа для Alpha ADU
-                        : ''
-                    }`}
-                    style={{
-                      ...((hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com') && {
-                        filter: 'contrast(1.1) brightness(0.95)',
-                        mixBlendMode: 'multiply'
-                      })
-                    }}
+                    className="w-12 h-12 object-contain"
                     alt={logoAlt}
                   />
                 </div>
