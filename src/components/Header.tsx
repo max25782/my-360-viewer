@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useState } from 'react';
+import { DomainLogo } from './DomainLogo';
 
 interface HeaderProps {
   variant?: 'default' | 'transparent';
@@ -22,9 +22,7 @@ export default function Header({ variant = 'default', className = '' }: HeaderPr
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <Image 
-                src="/Website.png" 
-                alt="Seattle ADU Logo" 
+              <DomainLogo 
                 width={250} 
                 height={150}
                 className="h-30 w-auto"
