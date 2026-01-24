@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import type { CSSProperties } from 'react';
 import { getLogoByDomain, getLogoAltByDomain } from '../utils/getLogoByDomain';
 
 interface DomainLogoProps {
@@ -49,8 +50,13 @@ export function DomainLogo({
  */
 export function DomainLogoImg({ 
   className = 'w-full h-full object-contain',
-  alt
-}: { className?: string; alt?: string }) {
+  alt,
+  style
+}: { 
+  className?: string; 
+  alt?: string;
+  style?: CSSProperties;
+}) {
   const [logoPath, setLogoPath] = useState('/Website.png');
   const [logoAlt, setLogoAlt] = useState('Logo');
 
@@ -64,6 +70,7 @@ export function DomainLogoImg({
       src={logoPath} 
       alt={logoAlt} 
       className={className}
+      style={style}
     />
   );
 }
