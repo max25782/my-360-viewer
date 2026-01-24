@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../ui/button';
 import { MessageCircle } from 'lucide-react';
-import { SEATTLE_ADU_LOGO } from '../../constants/home';
+import { DomainLogoImg } from '../DomainLogo';
+import { getLogoByDomain, getLogoAltByDomain } from '../../utils/getLogoByDomain';
 
 interface HeroAdvertisementBannerProps {
   isDark: boolean;
@@ -10,6 +11,37 @@ interface HeroAdvertisementBannerProps {
 }
 
 export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisementBannerProps) {
+  const [logoPath, setLogoPath] = useState('/Website.png');
+  const [logoAlt, setLogoAlt] = useState('Logo');
+  const [companyName, setCompanyName] = useState('Seattle ADU');
+  const [tagline, setTagline] = useState('Premium Accessory Dwelling Units');
+  const [locationText, setLocationText] = useState("Seattle's #1 ADU Builder | 200+ Happy Clients");
+
+  useEffect(() => {
+    const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+    
+    // Determine logo and text based on domain
+    if (hostname === 'alpha-adu.com' || hostname === 'www.alpha-adu.com') {
+      setLogoPath('/logo2.jpeg');
+      setLogoAlt('Alpha Dream Construction Logo');
+      setCompanyName('Alpha Dream Construction');
+      setTagline('Premium Accessory Dwelling Units');
+      setLocationText("Alpha Dream Construction | Quality ADU Solutions");
+    } else if (hostname === 'seattle-catalog.com' || hostname === 'www.seattle-catalog.com') {
+      setLogoPath('/logo.png');
+      setLogoAlt('Seattle ADU Logo');
+      setCompanyName('Seattle ADU');
+      setTagline('Premium Accessory Dwelling Units');
+      setLocationText("Seattle's #1 ADU Builder | 200+ Happy Clients");
+    } else {
+      setLogoPath(getLogoByDomain());
+      setLogoAlt(getLogoAltByDomain());
+      setCompanyName('ADU Collection');
+      setTagline('Premium Accessory Dwelling Units');
+      setLocationText('Premium ADU Solutions');
+    }
+  }, []);
+
   return (
     <div className="relative w-full overflow-hidden">
       <motion.div 
@@ -88,10 +120,9 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
                 <div className={`w-full h-full rounded-full flex items-center justify-center ${
                   isDark ? 'bg-slate-900' : 'bg-white'
                 }`}>
-                  <img 
-                    src={SEATTLE_ADU_LOGO} 
-                    alt="Seattle ADU" 
+                  <DomainLogoImg 
                     className="w-12 h-12 object-contain"
+                    alt={logoAlt}
                   />
                 </div>
               </div>
@@ -110,7 +141,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                Seattle ADU
+                {companyName}
               </motion.h1>
               <motion.p 
                 className={`text-lg ${isDark ? 'text-cyan-200' : 'text-cyan-700'}`}
@@ -118,7 +149,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                Premium Accessory Dwelling Units
+                {tagline}
               </motion.p>
             </div>
           </motion.div>
@@ -141,7 +172,7 @@ export function HeroAdvertisementBanner({ isDark, onOpenChat }: HeroAdvertisemen
               🏡 Transform Your Property Today
             </motion.div>
             <div className={`text-sm ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-              Seattle's #1 ADU Builder | 200+ Happy Clients
+              {locationText}
             </div>
           </motion.div>
 
