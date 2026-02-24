@@ -8,7 +8,7 @@ const CACHE_NAME = 'house-viewer-simple-v4';
 const STATIC_CACHE_URLS = [
   '/',
   '/login',
-  '/manifest.json'
+  '/manifest.webmanifest'
 ];
 
 // Установка Service Worker

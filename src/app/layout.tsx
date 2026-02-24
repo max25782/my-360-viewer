@@ -1,28 +1,38 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
 import ReduxProvider from "../providers/ReduxProvider";
 import WebPDetector from "../components/WebPDetector";
 import PWAStatus from "../components/PWAStatus";
 import { Toaster } from "../components/Toaster";
 import DndProvider from "../providers/DndProvider";
+import { getBrandingFromHost } from "@/lib/domain-branding";
 
-export const metadata: Metadata = {
-  title: "360 House Viewer - ADU Collection",
-  description: "Explore our comprehensive collection of Accessory Dwelling Units with immersive 360° tours",
-  manifest: "/manifest.json",
-  // themeColor перенесен в viewport
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "360 Houses"
-  },
-  openGraph: {
-    title: "360 House Viewer - ADU Collection",
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers();
+  const host = headersList.get("x-forwarded-host") ?? headersList.get("host") ?? "";
+  const branding = getBrandingFromHost(host);
+
+  return {
+    title: branding.name,
     description: "Explore our comprehensive collection of Accessory Dwelling Units with immersive 360° tours",
-    type: "website",
-    siteName: "360 House Viewer"
-  }
-};
+    manifest: "/manifest.webmanifest",
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: branding.shortName,
+    },
+    icons: {
+      apple: branding.appleTouchIcons,
+    },
+    openGraph: {
+      title: branding.name,
+      description: "Explore our comprehensive collection of Accessory Dwelling Units with immersive 360° tours",
+      type: "website",
+      siteName: branding.name,
+    },
+  };
+}
 
 export const viewport = {
   width: "device-width",
@@ -40,16 +50,7 @@ export default function RootLayout({
       <head>
         <link rel="preload" href="/fonts/LeagueSpartan-Regular.ttf" as="font" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/LeagueSpartan-Bold.ttf" as="font" crossOrigin="anonymous" />
-        
-        
-        {/* iOS/iPadOS icons (avoid broken 144x144) */}
-        <link rel="apple-touch-icon" href="/icons/icon-180x180.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
-        <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76x76.png" />
-        
+        {/* apple-touch-icon via generateMetadata (domain-based) */}
         {/* Preload critical data for LCP optimization */}
         <link rel="preload" href="/data/index.json" as="fetch" crossOrigin="anonymous" />
         <link rel="preload" href="/Website.png" as="image" />

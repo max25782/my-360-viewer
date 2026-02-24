@@ -14,7 +14,7 @@ const PANORAMA_CACHE = `panorama-cache-${CACHE_VERSION}`;
 // Файлы для кэширования при установке
 const STATIC_CACHE_URLS = [
   '/',
-  '/manifest.json'
+  '/manifest.webmanifest'
 ];
 
 // Паттерны
