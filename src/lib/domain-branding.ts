@@ -25,7 +25,7 @@ const LA_DOMAINS = (
   process.env.NEXT_PUBLIC_LA_DOMAINS ?? 'alpha-adu.com,www.alpha-adu.com'
 ).split(',').map((d) => d.trim().toLowerCase());
 
-const ICON_VERSION = process.env.NEXT_PUBLIC_ICON_VERSION ?? '2';
+const ICON_VERSION = process.env.NEXT_PUBLIC_ICON_VERSION ?? '3';
 
 function withCacheBust(url: string): string {
   const sep = url.includes('?') ? '&' : '?';
