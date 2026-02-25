@@ -2,7 +2,7 @@
  * Простой Service Worker для исправления PWA проблем
  */
 
-const CACHE_NAME = 'house-viewer-simple-v4';
+const CACHE_NAME = 'house-viewer-simple-v5';
 
 // Файлы для кэширования (только критически важные)
 const STATIC_CACHE_URLS = [

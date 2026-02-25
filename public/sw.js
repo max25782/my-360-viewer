@@ -6,7 +6,7 @@
  * - Navigation Preload включен
  */
 
-const CACHE_VERSION = 'v4'; // 🚀 увеличивай при каждом деплое
+const CACHE_VERSION = 'v5'; // bump to force manifest re-fetch after domain branding fix
 const CACHE_NAME = `house-viewer-${CACHE_VERSION}`;
 const DATA_CACHE = `house-data-${CACHE_VERSION}`;
 const PANORAMA_CACHE = `panorama-cache-${CACHE_VERSION}`;

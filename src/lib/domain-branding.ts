@@ -1,6 +1,6 @@
 /**
  * Domain-based branding config for multi-domain PWA.
- * Seattle and LA domains get different app names and icons.
+ * Seattle (seattle-catalog.com) and Alpha (alpha-adu.com) get different app names and icons.
  */
 
 export type BrandingVariant = 'seattle' | 'la';
@@ -18,12 +18,19 @@ export interface BrandingConfig {
 }
 
 const SEATTLE_DOMAINS = (
-  process.env.NEXT_PUBLIC_SEATTLE_DOMAINS ?? 'seattle-domain.com,www.seattle-domain.com'
+  process.env.NEXT_PUBLIC_SEATTLE_DOMAINS ?? 'seattle-catalog.com,www.seattle-catalog.com'
 ).split(',').map((d) => d.trim().toLowerCase());
 
 const LA_DOMAINS = (
-  process.env.NEXT_PUBLIC_LA_DOMAINS ?? 'la-domain.com,www.la-domain.com'
+  process.env.NEXT_PUBLIC_LA_DOMAINS ?? 'alpha-adu.com,www.alpha-adu.com'
 ).split(',').map((d) => d.trim().toLowerCase());
+
+const ICON_VERSION = process.env.NEXT_PUBLIC_ICON_VERSION ?? '2';
+
+function withCacheBust(url: string): string {
+  const sep = url.includes('?') ? '&' : '?';
+  return `${url}${sep}v=${ICON_VERSION}`;
+}
 
 export function getBrandingFromHost(host: string): BrandingConfig {
   const hostLower = host.split(':')[0].toLowerCase();
@@ -43,26 +50,26 @@ const SEATTLE_BRANDING: BrandingConfig = {
   name: '360 House Viewer - Seattle',
   shortName: '360 Seattle',
   icons: {
-    '180': '/icons/sea-180.png',
-    '192': '/icons/sea-192.png',
-    '512': '/icons/sea-512.png',
+    '180': withCacheBust('/icons/sea-180.png'),
+    '192': withCacheBust('/icons/sea-192.png'),
+    '512': withCacheBust('/icons/sea-512.png'),
   },
   appleTouchIcons: [
-    { url: '/icons/sea-180.png', sizes: '180x180' },
+    { url: withCacheBust('/icons/sea-180.png'), sizes: '180x180' },
   ],
 };
 
 const LA_BRANDING: BrandingConfig = {
   variant: 'la',
-  name: '360 House Viewer - LA',
-  shortName: '360 LA',
+  name: '360 House Viewer - Alpha',
+  shortName: '360 Alpha',
   icons: {
-    '180': '/icons/la-180.png',
-    '192': '/icons/la-192.png',
-    '512': '/icons/la-512.png',
+    '180': withCacheBust('/icons/la-180.png'),
+    '192': withCacheBust('/icons/la-192.png'),
+    '512': withCacheBust('/icons/la-512.png'),
   },
   appleTouchIcons: [
-    { url: '/icons/la-180.png', sizes: '180x180' },
+    { url: withCacheBust('/icons/la-180.png'), sizes: '180x180' },
   ],
 };
 
